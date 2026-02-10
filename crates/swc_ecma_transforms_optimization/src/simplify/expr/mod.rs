@@ -1142,9 +1142,7 @@ pub fn optimize_bin_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool)
                     Expr::Ident(Ident { sym, .. }) if &**sym == "NaN" => true,
 
                     Expr::Unary(UnaryExpr {
-                        op: op!("!"),
-                        arg,
-                        ..
+                        op: op!("!"), arg, ..
                     })
                     | Expr::Unary(UnaryExpr {
                         op: op!(unary, "-"),

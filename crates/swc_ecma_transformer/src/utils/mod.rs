@@ -4,7 +4,7 @@ use swc_atoms::Atom;
 use swc_common::{DUMMY_SP, Mark, SyntaxContext};
 use swc_ecma_ast::*;
 
-pub(crate) fn normalize_module_export_name(module_export_name: &ModuleExportName) -> Cow<Atom> {
+pub(crate) fn normalize_module_export_name(module_export_name: &ModuleExportName) -> Cow<'_, Atom> {
     match module_export_name {
         ModuleExportName::Ident(Ident { sym: name, .. }) => Cow::Borrowed(name),
         ModuleExportName::Str(Str { value: name, .. }) => {

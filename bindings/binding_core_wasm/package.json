@@ -1,2 +1,4 @@
 {
+    "name": "@swc/binding-core-wasm",
+    "private": true
 }

@@ -96,6 +96,7 @@ fn create_matrix(entry: &Path) -> Vec<Options> {
                     allow_comments: true,
                     allow_trailing_commas: true,
                     allow_loose_object_property_names: false,
+                    ..Default::default()
                 },
             )
             .ok()?

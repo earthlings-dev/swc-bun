@@ -1,6 +1,4 @@
-use std::path::PathBuf;
-
-use std::rc::Rc;
+use std::{path::PathBuf, rc::Rc};
 
 use swc_common::{Mark, comments::SingleThreadedComments, pass::Repeat};
 use swc_ecma_ast::Pass;
@@ -11,9 +9,7 @@ use swc_ecma_transforms_testing::test_fixture;
 use swc_ecma_visit::visit_mut_pass;
 
 fn remover(comments: Rc<SingleThreadedComments>) -> impl Pass {
-    visit_mut_pass(paren_remover(Some(
-        Box::leak(Box::new(comments)) as _
-    )))
+    visit_mut_pass(paren_remover(Some(Box::leak(Box::new(comments)) as _)))
 }
 
 #[testing::fixture("tests/dce/**/input.js")]
@@ -28,7 +24,10 @@ fn dce_single_pass(input: PathBuf) {
         &|t| {
             let unresolved_mark = Mark::new();
 
-            (remover(t.comments.clone()), dce(Default::default(), unresolved_mark))
+            (
+                remover(t.comments.clone()),
+                dce(Default::default(), unresolved_mark),
+            )
         },
         &input,
         &output,
@@ -67,7 +66,12 @@ fn dce_jsx(input: PathBuf) {
             jsx: true,
             ..Default::default()
         }),
-        &|t| (remover(t.comments.clone()), dce(Default::default(), Mark::new())),
+        &|t| {
+            (
+                remover(t.comments.clone()),
+                dce(Default::default(), Mark::new()),
+            )
+        },
         &input,
         &output,
         Default::default(),

@@ -612,7 +612,7 @@ impl Pure<'_> {
     }
 }
 
-pub(super) fn convert_str_value_to_tpl_raw(value: &Wtf8) -> Cow<str> {
+pub(super) fn convert_str_value_to_tpl_raw(value: &Wtf8) -> Cow<'_, str> {
     let mut result = String::default();
 
     let iter = value.code_points();

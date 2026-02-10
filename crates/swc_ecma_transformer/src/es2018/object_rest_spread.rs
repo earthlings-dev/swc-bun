@@ -322,10 +322,10 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
                             }
                             .into(),
                         );
-                        arrow.body = Box::new(BlockStmtOrExpr::BlockStmt(BlockStmt {
+                        *arrow.body = BlockStmtOrExpr::BlockStmt(BlockStmt {
                             stmts: body_stmts,
                             ..Default::default()
-                        }));
+                        });
                     }
                     #[cfg(swc_ast_unknown)]
                     _ => panic!("unable to access unknown nodes"),
@@ -579,13 +579,11 @@ impl ObjectRestSpreadPass {
                 match &mut **body {
                     Stmt::Block(block) => block.stmts.insert(0, stmt),
                     _ => {
-                        *body = Box::new(
-                            BlockStmt {
-                                stmts: vec![stmt, (**body).take()],
-                                ..Default::default()
-                            }
-                            .into(),
-                        );
+                        **body = BlockStmt {
+                            stmts: vec![stmt, (**body).take()],
+                            ..Default::default()
+                        }
+                        .into();
                     }
                 }
             }
@@ -617,13 +615,11 @@ impl ObjectRestSpreadPass {
                 match &mut **body {
                     Stmt::Block(block) => block.stmts.insert(0, assign_stmt),
                     _ => {
-                        *body = Box::new(
-                            BlockStmt {
-                                stmts: vec![assign_stmt, (**body).take()],
-                                ..Default::default()
-                            }
-                            .into(),
-                        );
+                        **body = BlockStmt {
+                            stmts: vec![assign_stmt, (**body).take()],
+                            ..Default::default()
+                        }
+                        .into();
                     }
                 }
             }
@@ -744,7 +740,7 @@ impl<O: RestOutput> RestLowerer<O> {
                 if !is_pure_expr(&computed.expr) {
                     let temp = self.out.declare_temp("_key");
                     self.out.assign(temp.clone().into(), computed.expr.take());
-                    computed.expr = Box::new(temp.into());
+                    *computed.expr = temp.into();
                 }
             }
         }
@@ -801,12 +797,12 @@ impl<O: RestOutput> RestLowerer<O> {
             ObjectPatProp::KeyValue(kv) => match kv.value.as_mut() {
                 Pat::Assign(assign) => {
                     let nested = assign.left.take();
-                    assign.left = Box::new(split_ref.clone().into());
+                    *assign.left = split_ref.clone().into();
                     *nested
                 }
                 pat => {
                     let nested = pat.take();
-                    kv.value = Box::new(split_ref.clone().into());
+                    *kv.value = split_ref.clone().into();
                     nested
                 }
             },
@@ -888,7 +884,7 @@ impl<O: RestOutput> RestLowerer<O> {
         let nested_pat: Pat = match arr.elems[split_idx].as_mut() {
             Some(Pat::Assign(assign)) => {
                 let nested = assign.left.take();
-                assign.left = Box::new(split_ref.clone().into());
+                *assign.left = split_ref.clone().into();
                 *nested
             }
             Some(pat) => {

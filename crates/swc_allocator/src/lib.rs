@@ -26,7 +26,7 @@
 //! a call to [Allocator::scope].
 
 #![allow(clippy::needless_doctest_main)]
-#![cfg_attr(docsrs, feature(doc_cfg))]
+#![cfg_attr(all(docsrs, swc_nightly), feature(doc_cfg))]
 #![deny(missing_docs)]
 #![allow(clippy::derivable_impls)]
 

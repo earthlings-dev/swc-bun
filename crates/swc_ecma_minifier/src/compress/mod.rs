@@ -2,8 +2,6 @@ use std::borrow::Cow;
 #[cfg(feature = "debug")]
 use std::thread;
 
-#[cfg(feature = "pretty_assertions")]
-use pretty_assertions::assert_eq;
 use swc_common::pass::{CompilerPass, Repeated};
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::marks::Marks;

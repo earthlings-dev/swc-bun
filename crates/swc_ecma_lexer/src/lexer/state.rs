@@ -116,7 +116,10 @@ impl State {
             let c = token_contexts.current();
             let is_jsx_opening = if c == Some(TokenContext::BraceExpr) {
                 let len = token_contexts.len();
-                matches!(token_contexts.0.get(len - 2), Some(TokenContext::JSXOpeningTag))
+                matches!(
+                    token_contexts.0.get(len - 2),
+                    Some(TokenContext::JSXOpeningTag)
+                )
             } else {
                 false
             };

@@ -12,9 +12,9 @@ use swc_ecma_ast::{AssignOp, AssignOp::*};
 #[cfg(all(test, swc_nightly))]
 use test::{Bencher, black_box};
 
-use super::state::{lex, lex_module_errors, lex_tokens};
 #[cfg(all(test, swc_nightly))]
 use super::state::with_lexer;
+use super::state::{lex, lex_module_errors, lex_tokens};
 use crate::{
     common::syntax::EsSyntax,
     error::{Error, SyntaxError},

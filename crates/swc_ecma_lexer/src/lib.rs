@@ -3,7 +3,7 @@
 //! This crate provides a lexer for ECMAScript and TypeScript. It can ensure
 //! these tokens are correctly parsed.
 
-#![cfg_attr(docsrs, feature(doc_cfg))]
+#![cfg_attr(all(docsrs, swc_nightly), feature(doc_cfg))]
 #![cfg_attr(all(test, swc_nightly), feature(test))]
 #![deny(clippy::all)]
 #![deny(unused)]

@@ -12,6 +12,9 @@ version       = "55.0.0"
 [lib]
 bench = false
 
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_nightly)'] }
+
 [features]
 default    = ["swc_v1"]
 serde-impl = ["serde"]

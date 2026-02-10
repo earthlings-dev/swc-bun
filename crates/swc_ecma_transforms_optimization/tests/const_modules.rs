@@ -4,7 +4,10 @@ use swc_ecma_ast::Pass;
 use swc_ecma_transforms_optimization::const_modules;
 use swc_ecma_transforms_testing::{test, test_fixture};
 
-fn tr(cm: swc_common::sync::Lrc<swc_common::SourceMap>, sources: &[(&str, &[(&str, &str)])]) -> impl Pass {
+fn tr(
+    cm: swc_common::sync::Lrc<swc_common::SourceMap>,
+    sources: &[(&str, &[(&str, &str)])],
+) -> impl Pass {
     let mut m = HashMap::default();
 
     for (src, values) in sources {
@@ -21,7 +24,10 @@ fn tr(cm: swc_common::sync::Lrc<swc_common::SourceMap>, sources: &[(&str, &[(&st
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |tester| tr(tester.cm.clone(), &[("@ember/env-flags", &[("DEBUG", "true")])]),
+    |tester| tr(
+        tester.cm.clone(),
+        &[("@ember/env-flags", &[("DEBUG", "true")])]
+    ),
     simple_flags,
     r#"import { DEBUG } from '@ember/env-flags';
         if (DEBUG) {
@@ -31,7 +37,10 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |tester| tr(tester.cm.clone(), &[("@ember/env-flags", &[("DEBUG", "true")])]),
+    |tester| tr(
+        tester.cm.clone(),
+        &[("@ember/env-flags", &[("DEBUG", "true")])]
+    ),
     imports_hoisted,
     r#"
         if (DEBUG) {

@@ -1,2 +1,4 @@
 {
+    "name": "@swc/binding-es-ast-viewer",
+    "private": true
 }

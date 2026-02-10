@@ -75,7 +75,6 @@ mod mode;
 pub mod option;
 mod pass;
 mod program_data;
-mod size_hint;
 pub mod timing;
 mod util;
 

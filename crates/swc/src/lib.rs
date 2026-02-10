@@ -407,7 +407,7 @@ impl Compiler {
             match input_src_map {
                 InputSourceMap::Bool(false) => Ok(None),
                 InputSourceMap::Bool(true) => Ok(read_sourcemap()),
-                InputSourceMap::Str(ref s) => {
+                InputSourceMap::Str(s) => {
                     if s == "inline" {
                         Ok(read_sourcemap())
                     } else {
@@ -479,7 +479,7 @@ impl Compiler {
 
         self.run(|| -> Result<_, Error> {
             let Options {
-                ref root,
+                root,
                 root_mode,
                 swcrc,
                 config_file,
@@ -492,7 +492,7 @@ impl Compiler {
                 Some(ConfigFile::Str(s)) => Some(PathBuf::from(s.clone())),
                 _ => {
                     if *swcrc {
-                        if let FileName::Real(ref path) = name {
+                        if let FileName::Real(path) = name {
                             // Canonicalize relative paths for proper parent traversal
                             let abs_path = if path.is_relative() {
                                 root.join(path).canonicalize().ok()
@@ -613,7 +613,7 @@ impl Compiler {
         self.run(move || {
             let _timer = timer!("Compiler.parse");
 
-            if let FileName::Real(ref path) = name {
+            if let FileName::Real(path) = name {
                 if !opts.config.matches(path)? {
                     return Ok(None);
                 }
@@ -1173,6 +1173,7 @@ fn parse_swcrc(s: &str) -> Result<Rc, Error> {
             allow_comments: true,
             allow_trailing_commas: true,
             allow_loose_object_property_names: false,
+            ..Default::default()
         },
     )?
     .ok_or_else(|| Error::msg("failed to deserialize empty .swcrc (json) file"))?;

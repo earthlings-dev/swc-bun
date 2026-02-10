@@ -57,7 +57,7 @@ impl SwcReportHandler {
     pub fn render_report(
         &self,
         f: &mut impl fmt::Write,
-        diagnostic: &(dyn Diagnostic),
+        diagnostic: &dyn Diagnostic,
     ) -> fmt::Result {
         self.render_report_inner(f, diagnostic, diagnostic.source_code())
     }
@@ -65,7 +65,7 @@ impl SwcReportHandler {
     fn render_report_inner(
         &self,
         f: &mut impl fmt::Write,
-        diagnostic: &(dyn Diagnostic),
+        diagnostic: &dyn Diagnostic,
         parent_src: Option<&dyn SourceCode>,
     ) -> fmt::Result {
         let src = diagnostic.source_code().or(parent_src);
@@ -77,7 +77,7 @@ impl SwcReportHandler {
     fn render_snippets(
         &self,
         f: &mut impl fmt::Write,
-        diagnostic: &(dyn Diagnostic),
+        diagnostic: &dyn Diagnostic,
         opt_source: Option<&dyn SourceCode>,
     ) -> fmt::Result {
         let source = match opt_source {

@@ -1,2 +1,4 @@
 {
+    "name": "@swc/binding-typescript-wasm",
+    "private": true
 }

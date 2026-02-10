@@ -33,12 +33,10 @@ test!(
 test!(
     module,
     syntax(),
-    |_| tr(
-        Config {
-            allow_top_level_this: true,
-            ..Default::default()
-        }
-    ),
+    |_| tr(Config {
+        allow_top_level_this: true,
+        ..Default::default()
+    }),
     allow_top_level_this_true,
     r#"export var v = this;"#
 );
@@ -46,12 +44,10 @@ test!(
 test!(
     module,
     syntax(),
-    |_| tr(
-        Config {
-            allow_top_level_this: false,
-            ..Default::default()
-        }
-    ),
+    |_| tr(Config {
+        allow_top_level_this: false,
+        ..Default::default()
+    }),
     iife,
     r#"
     (function(a) {
@@ -63,12 +59,10 @@ test!(
 test!(
     module,
     syntax(),
-    |_| tr(
-        Config {
-            allow_top_level_this: false,
-            ..Default::default()
-        }
-    ),
+    |_| tr(Config {
+        allow_top_level_this: false,
+        ..Default::default()
+    }),
     top_level_this_false_class,
     r#"
     const a = this;
@@ -85,12 +79,10 @@ test!(
 test!(
     module,
     syntax(),
-    |_| tr(
-        Config {
-            allow_top_level_this: false,
-            ..Default::default()
-        }
-    ),
+    |_| tr(Config {
+        allow_top_level_this: false,
+        ..Default::default()
+    }),
     allow_top_level_this_false,
     r#"export var v = this;
     function a() {

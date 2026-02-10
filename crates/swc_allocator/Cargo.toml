@@ -12,6 +12,9 @@ version       = "4.0.1"
 all-features = true
 rustdoc-args = ["--cfg", "docsrs"]
 
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_nightly)'] }
+
 
 [features]
 hashbrown = ["dep:hashbrown", "hashbrown/allocator-api2"]

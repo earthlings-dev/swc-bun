@@ -1,2 +1,4 @@
 {
+    "name": "@swc/binding-minifier-wasm",
+    "private": true
 }

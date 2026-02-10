@@ -327,7 +327,13 @@ macro_rules! build_transform_sync {
                     .try_into()
                     .expect("Resolver should be a js object");
 
-                swc_core::plugin_runner::cache::init_plugin_module_cache_once();
+                swc_core::base::config::init_plugin_module_cache_once(false, None);
+
+                let mut inner_cache = swc_core::base::config::PLUGIN_MODULE_CACHE
+                    .inner
+                    .get()
+                    .expect("Plugin module cache should be initialized")
+                    .lock();
 
                 let entries = Object::entries(&plugin_bytes_resolver_object);
                 for entry in entries.iter() {
@@ -353,7 +359,7 @@ macro_rules! build_transform_sync {
                     // In here we 'inject' externally loaded bytes into the cache, so
                     // remaining plugin_runner execution path works as much as
                     // similar between embedded runtime.
-                    swc_core::plugin_runner::cache::PLUGIN_MODULE_CACHE.store_once(&name, bytes);
+                    inner_cache.insert_raw_bytes(name, bytes);
                 }
             }
         }

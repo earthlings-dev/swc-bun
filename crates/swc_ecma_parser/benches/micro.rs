@@ -10,12 +10,7 @@ fn bench_expr(b: &mut Bencher, syntax: Syntax, src: &'static str) {
 
         b.iter(|| {
             let _ = black_box({
-                let lexer = Lexer::new(
-                    syntax,
-                    Default::default(),
-                    StringInput::from(&*fm),
-                    None,
-                );
+                let lexer = Lexer::new(syntax, Default::default(), StringInput::from(&*fm), None);
                 let mut parser = Parser::new_from(lexer);
                 parser.parse_expr()
             });
@@ -27,11 +22,7 @@ fn bench_expr(b: &mut Bencher, syntax: Syntax, src: &'static str) {
 
 fn bench_micro(c: &mut Criterion) {
     c.bench_function("es/parser/micro/new_expr_ts", |b| {
-        bench_expr(
-            b,
-            Syntax::Typescript(TsSyntax::default()),
-            "new Foo()",
-        )
+        bench_expr(b, Syntax::Typescript(TsSyntax::default()), "new Foo()")
     });
 
     c.bench_function("es/parser/micro/new_expr_es", |b| {
@@ -39,11 +30,7 @@ fn bench_micro(c: &mut Criterion) {
     });
 
     c.bench_function("es/parser/micro/member_expr_ts", |b| {
-        bench_expr(
-            b,
-            Syntax::Typescript(TsSyntax::default()),
-            "a.b.c.d.e.f",
-        )
+        bench_expr(b, Syntax::Typescript(TsSyntax::default()), "a.b.c.d.e.f")
     });
 
     c.bench_function("es/parser/micro/member_expr_es", |b| {

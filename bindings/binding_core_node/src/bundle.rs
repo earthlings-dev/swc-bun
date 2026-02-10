@@ -1,34 +1,42 @@
-use std::{
-    panic::{catch_unwind, AssertUnwindSafe},
-    sync::Arc,
-};
+#[cfg(all(feature = "swc_v1", not(feature = "swc_v2")))]
+use std::panic::{catch_unwind, AssertUnwindSafe};
+use std::sync::Arc;
 
-use anyhow::{bail, Error};
+#[cfg(all(feature = "swc_v1", not(feature = "swc_v2")))]
+use anyhow::bail;
+use anyhow::Error;
+use napi::{bindgen_prelude::AsyncTask, Env, Task};
+#[cfg(all(feature = "swc_v1", not(feature = "swc_v2")))]
 use napi::{
-    bindgen_prelude::{AbortSignal, AsyncTask, Buffer},
-    Env, Status, Task,
+    bindgen_prelude::{AbortSignal, Buffer},
+    Status,
 };
 use rustc_hash::FxHashMap;
 use serde::Deserialize;
+#[cfg(all(feature = "swc_v1", not(feature = "swc_v2")))]
 use swc_core::{
     atoms::Atom,
     base::{
         config::SourceMapsConfig,
         resolver::{environment_resolver, paths_resolver},
-        Compiler, PrintArgs, TransformOutput,
+        Compiler, PrintArgs,
     },
-    bundler::{BundleKind, Bundler, Load, ModuleRecord, Resolve},
-    common::{Globals, Span, GLOBALS},
-    ecma::{
-        ast::{
-            Bool, Expr, IdentName, KeyValueProp, Lit, MemberExpr, MemberProp, MetaPropExpr,
-            MetaPropKind, PropName, Str,
-        },
-        loader::{TargetEnv, NODE_BUILTINS},
-    },
+    bundler::{BundleKind, Bundler},
+    common::{Globals, GLOBALS},
+    ecma::loader::{TargetEnv, NODE_BUILTINS},
     node::{get_deserialized, MapErr},
 };
+use swc_core::{
+    base::TransformOutput,
+    bundler::{Load, ModuleRecord, Resolve},
+    common::Span,
+    ecma::ast::{
+        Bool, Expr, IdentName, KeyValueProp, Lit, MemberExpr, MemberProp, MetaPropExpr,
+        MetaPropKind, PropName, Str,
+    },
+};
 
+#[cfg(all(feature = "swc_v1", not(feature = "swc_v2")))]
 use crate::get_compiler;
 
 struct ConfigItem {
@@ -50,7 +58,7 @@ pub(crate) struct BundleTask {
     config: ConfigItem,
 }
 
-#[cfg(feature = "swc_v1")]
+#[cfg(all(feature = "swc_v1", not(feature = "swc_v2")))]
 #[napi]
 impl Task for BundleTask {
     type JsValue = FxHashMap<String, TransformOutput>;
@@ -180,12 +188,12 @@ impl Task for BundleTask {
         todo!()
     }
 
-    fn resolve(&mut self, env: Env, output: Self::Output) -> napi::Result<Self::JsValue> {
+    fn resolve(&mut self, _env: Env, _output: Self::Output) -> napi::Result<Self::JsValue> {
         todo!()
     }
 }
 
-#[cfg(feature = "swc_v1")]
+#[cfg(all(feature = "swc_v1", not(feature = "swc_v2")))]
 #[napi(ts_return_type = "Promise<{ [index: string]: { code: string, map?: string } }>")]
 pub(crate) fn bundle(
     conf_items: Buffer,

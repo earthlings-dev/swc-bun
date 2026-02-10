@@ -1,4 +1,6 @@
 {
+    "name": "@swc/binding-core-wasm-example",
+    "private": true,
     "scripts": {
         "copy-files": "copyfiles ../pkg/* ./pkg",
         "dev-server": "webpack-dev-server",

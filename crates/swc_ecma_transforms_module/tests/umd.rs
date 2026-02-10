@@ -16,7 +16,11 @@ fn ts_syntax() -> Syntax {
     Syntax::Typescript(TsSyntax::default())
 }
 
-fn tr(cm: swc_common::sync::Lrc<swc_common::SourceMap>, config: Config, typescript: bool) -> impl Pass {
+fn tr(
+    cm: swc_common::sync::Lrc<swc_common::SourceMap>,
+    config: Config,
+    typescript: bool,
+) -> impl Pass {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
