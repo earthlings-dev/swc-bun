@@ -5,10 +5,10 @@ use swc_css_ast::*;
 use swc_css_visit::{Visit, VisitWith};
 
 use crate::{
+    ConfigError,
     dataset::is_generic_font_keyword,
     pattern::NamePattern,
-    rule::{visitor_rule, LintRule, LintRuleContext},
-    ConfigError,
+    rule::{LintRule, LintRuleContext, visitor_rule},
 };
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]

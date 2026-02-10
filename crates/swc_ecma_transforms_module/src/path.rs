@@ -7,15 +7,15 @@ use std::{
     sync::Arc,
 };
 
-use anyhow::{anyhow, Context, Error};
+use anyhow::{Context, Error, anyhow};
 use path_clean::PathClean;
 use pathdiff::diff_paths;
 use swc_atoms::Atom;
-use swc_common::{FileName, Mark, Span, SyntaxContext, DUMMY_SP};
+use swc_common::{DUMMY_SP, FileName, Mark, Span, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_loader::resolve::{Resolution, Resolve};
-use swc_ecma_utils::{quote_ident, ExprFactory};
-use tracing::{debug, info, warn, Level};
+use swc_ecma_utils::{ExprFactory, quote_ident};
+use tracing::{Level, debug, info, warn};
 
 #[derive(Default)]
 pub enum Resolver {
@@ -53,12 +53,14 @@ impl Resolver {
                 "require"
             )
             .as_callee(),
-            args: vec![Lit::Str(Str {
-                span: src_span,
-                raw: None,
-                value: src.into(),
-            })
-            .as_arg()],
+            args: vec![
+                Lit::Str(Str {
+                    span: src_span,
+                    raw: None,
+                    value: src.into(),
+                })
+                .as_arg(),
+            ],
             ..Default::default()
         }
         .into()

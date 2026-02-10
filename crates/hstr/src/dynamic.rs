@@ -13,9 +13,9 @@ use rustc_hash::FxHasher;
 use triomphe::ThinArc;
 
 use crate::{
-    tagged_value::{TaggedValue, MAX_INLINE_LEN},
+    Atom, INLINE_TAG, INLINE_TAG_INIT, LEN_OFFSET, TAG_MASK, Wtf8Atom,
+    tagged_value::{MAX_INLINE_LEN, TaggedValue},
     wtf8::Wtf8,
-    Atom, Wtf8Atom, INLINE_TAG, INLINE_TAG_INIT, LEN_OFFSET, TAG_MASK,
 };
 
 #[derive(PartialEq, Eq)]
@@ -257,7 +257,7 @@ impl Hasher for EntryHasher {
 
 #[cfg(test)]
 mod tests {
-    use crate::{dynamic::GLOBAL_DATA, global_atom_store_gc, Atom};
+    use crate::{Atom, dynamic::GLOBAL_DATA, global_atom_store_gc};
 
     fn expect_size(expected: usize) {
         // This is a helper function to count the number of bytes in the global store.

@@ -2,14 +2,14 @@ use dashmap::DashMap;
 use regex::Regex;
 use rustc_hash::FxBuildHasher;
 use serde::{Deserialize, Serialize};
-use swc_common::{errors::HANDLER, sync::Lazy, Span};
+use swc_common::{Span, errors::HANDLER, sync::Lazy};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use swc_ecma_visit::{Visit, VisitWith, noop_visit_type};
 
 use crate::{
     config::{LintRuleReaction, RuleConfig},
-    rule::{visitor_rule, Rule},
-    rules::utils::{resolve_string_quote_type, QuotesType},
+    rule::{Rule, visitor_rule},
+    rules::utils::{QuotesType, resolve_string_quote_type},
 };
 
 const INVALID_REGEX_MESSAGE: &str = "dotNotation: invalid regex pattern in allowPattern. Check syntax documentation https://docs.rs/regex/latest/regex/#syntax";

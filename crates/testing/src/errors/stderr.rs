@@ -1,10 +1,10 @@
 use swc_common::{
+    SourceMap,
     errors::{DiagnosticBuilder, Emitter},
     sync::Lrc,
-    SourceMap,
 };
 use swc_error_reporters::{GraphicalReportHandler, ToPrettyDiagnostic};
-use tracing::{info, metadata::LevelFilter, Level};
+use tracing::{Level, info, metadata::LevelFilter};
 
 /// This emitter is controlled by the env var `RUST_LOG`.
 ///

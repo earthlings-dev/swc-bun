@@ -1,12 +1,13 @@
 use std::mem;
 
-use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{DUMMY_SP, Spanned, SyntaxContext, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_transforms_base::{helper, helper_expr};
 use swc_ecma_utils::{
-    function::{init_this, FnEnvHoister},
-    prepend_stmt, private_ident, quote_ident, ExprFactory,
+    ExprFactory,
+    function::{FnEnvHoister, init_this},
+    prepend_stmt, private_ident, quote_ident,
 };
 use swc_ecma_visit::VisitMutWith;
 
@@ -199,11 +200,13 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
         let body = match *arrow_expr.body.take() {
             BlockStmtOrExpr::BlockStmt(block_stmt) => block_stmt,
             BlockStmtOrExpr::Expr(expr) => BlockStmt {
-                stmts: vec![ReturnStmt {
-                    arg: Some(expr),
-                    ..Default::default()
-                }
-                .into()],
+                stmts: vec![
+                    ReturnStmt {
+                        arg: Some(expr),
+                        ..Default::default()
+                    }
+                    .into(),
+                ],
                 ..Default::default()
             },
             #[cfg(swc_ast_unknown)]
@@ -463,7 +466,7 @@ fn could_potentially_throw(param: &[Param], unresolved_ctxt: SyntaxContext) -> b
                 Expr::Ident(Ident { ctxt, sym, .. })
                     if sym == "undefined" && *ctxt == unresolved_ctxt =>
                 {
-                    continue
+                    continue;
                 }
                 Expr::Lit(
                     Lit::Null(..) | Lit::Bool(..) | Lit::Num(..) | Lit::BigInt(..) | Lit::Str(..),

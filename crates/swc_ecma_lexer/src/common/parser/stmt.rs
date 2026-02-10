@@ -2,19 +2,20 @@ use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::*;
 
 use super::{
+    PResult, Parser,
     buffer::Buffer,
     class_and_fn::parse_fn_decl,
     expr::parse_assignment_expr,
     is_directive::IsDirective,
     pat::parse_binding_pat_or_ident,
     typescript::{try_parse_ts_type_ann, ts_look_ahead},
-    PResult, Parser,
 };
 use crate::{
     common::{
         context::Context,
         lexer::token::TokenFactory,
         parser::{
+            TokenAndSpan,
             class_and_fn::{parse_async_fn_decl, parse_class_decl, parse_decorators},
             eof_error,
             expr::{parse_await_expr, parse_bin_op_recursively, parse_for_head_prefix},
@@ -25,7 +26,6 @@ use crate::{
                 parse_ts_enum_decl, parse_ts_expr_stmt, parse_ts_interface_decl, parse_ts_type,
                 parse_ts_type_alias_decl,
             },
-            TokenAndSpan,
         },
     },
     error::{Error, SyntaxError},

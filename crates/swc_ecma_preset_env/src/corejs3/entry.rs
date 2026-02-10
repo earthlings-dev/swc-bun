@@ -2,8 +2,8 @@ use std::{ops::Range, sync::Arc};
 
 use indexmap::IndexSet;
 use preset_env_base::{
-    version::{should_enable, Version},
     Versions,
+    version::{Version, should_enable},
 };
 use rustc_hash::FxBuildHasher;
 use swc_atoms::atom;

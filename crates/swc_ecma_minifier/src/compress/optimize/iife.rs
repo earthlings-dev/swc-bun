@@ -1,12 +1,12 @@
 use std::{collections::HashMap, mem::swap};
 
 use rustc_hash::FxHashMap;
-use swc_common::{util::take::Take, Span, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{DUMMY_SP, Span, Spanned, SyntaxContext, util::take::Take};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{contains_arguments, contains_this_expr, find_pat_ids, ExprFactory};
-use swc_ecma_visit::{noop_visit_type, Visit, VisitMutWith, VisitWith};
+use swc_ecma_utils::{ExprFactory, contains_arguments, contains_this_expr, find_pat_ids};
+use swc_ecma_visit::{Visit, VisitMutWith, VisitWith, noop_visit_type};
 
-use super::{util::NormalMultiReplacer, BitCtx, Optimizer};
+use super::{BitCtx, Optimizer, util::NormalMultiReplacer};
 #[cfg(feature = "debug")]
 use crate::debug::dump;
 use crate::{

@@ -6,29 +6,29 @@ use ansi_term::Color;
 use anyhow::Error;
 use serde::Deserialize;
 use swc_common::{
-    comments::SingleThreadedComments,
-    errors::{Handler, HANDLER},
-    sync::Lrc,
     FileName, Mark, SourceMap,
+    comments::SingleThreadedComments,
+    errors::{HANDLER, Handler},
+    sync::Lrc,
 };
 use swc_ecma_ast::Program;
 use swc_ecma_codegen::{
-    text_writer::{omit_trailing_semi, JsWriter, WriteJs},
     Emitter,
+    text_writer::{JsWriter, WriteJs, omit_trailing_semi},
 };
 use swc_ecma_minifier::{
     optimize,
     option::{
-        terser::TerserCompressorOptions, CompressOptions, ExtraOptions, MangleOptions,
-        MinifyOptions,
+        CompressOptions, ExtraOptions, MangleOptions, MinifyOptions,
+        terser::TerserCompressorOptions,
     },
 };
-use swc_ecma_parser::{parse_file_as_module, EsSyntax, Syntax};
-use swc_ecma_testing::{exec_node_js, JsExecOptions};
+use swc_ecma_parser::{EsSyntax, Syntax, parse_file_as_module};
+use swc_ecma_testing::{JsExecOptions, exec_node_js};
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver};
 use swc_ecma_visit::VisitMutWith;
 use testing::DebugUsingDisplay;
-use tracing::{info, span, Level};
+use tracing::{Level, info, span};
 
 #[derive(Debug, Clone, Deserialize)]
 struct TestOptions {

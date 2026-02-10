@@ -1,7 +1,7 @@
 #![cfg(feature = "nightly")]
 
 use criterion::black_box;
-use swc_allocator::{boxed::Box, Allocator, FastAlloc};
+use swc_allocator::{Allocator, FastAlloc, boxed::Box};
 
 #[test]
 fn direct_alloc_std() {

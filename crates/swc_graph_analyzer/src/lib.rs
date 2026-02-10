@@ -1,7 +1,7 @@
 use std::{fmt::Debug, hash::Hash, marker::PhantomData};
 
 use auto_impl::auto_impl;
-use petgraph::{prelude::GraphMap, Directed};
+use petgraph::{Directed, prelude::GraphMap};
 use rustc_hash::{FxBuildHasher, FxHashSet};
 
 #[auto_impl(&, Box, Rc, Arc)]

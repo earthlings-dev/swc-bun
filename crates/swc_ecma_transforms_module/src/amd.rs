@@ -3,31 +3,31 @@ use std::borrow::Cow;
 use anyhow::Context;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
-use swc_atoms::{atom, Atom};
+use swc_atoms::{Atom, atom};
 use swc_common::{
+    DUMMY_SP, Mark, Span, Spanned, SyntaxContext,
     comments::{CommentKind, Comments},
     source_map::PURE_SP,
     util::take::Take,
-    Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper_expr;
 use swc_ecma_utils::{
-    member_expr, private_ident, quote_ident, quote_str, ExprFactory, FunctionFactory, IsDirective,
+    ExprFactory, FunctionFactory, IsDirective, member_expr, private_ident, quote_ident, quote_str,
 };
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
+use swc_ecma_visit::{VisitMut, VisitMutWith, noop_visit_mut_type, visit_mut_pass};
 
 pub use super::util::Config as InnerConfig;
 use crate::{
+    SpanCtx,
     module_decl_strip::{Export, Link, LinkFlag, LinkItem, LinkSpecifierReducer, ModuleDeclStrip},
-    module_ref_rewriter::{rewrite_import_bindings, ImportMap},
+    module_ref_rewriter::{ImportMap, rewrite_import_bindings},
     path::Resolver,
     top_level_this::top_level_this,
     util::{
-        define_es_module, emit_export_stmts, local_name_for_src, use_strict, ImportInterop,
-        VecStmtLike,
+        ImportInterop, VecStmtLike, define_es_module, emit_export_stmts, local_name_for_src,
+        use_strict,
     },
-    SpanCtx,
 };
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
@@ -239,13 +239,15 @@ where
             .as_arg(),
         );
 
-        n.body = vec![quote_ident!(
-            SyntaxContext::empty().apply_mark(self.unresolved_mark),
-            "define"
-        )
-        .as_call(DUMMY_SP, amd_call_args)
-        .into_stmt()
-        .into()];
+        n.body = vec![
+            quote_ident!(
+                SyntaxContext::empty().apply_mark(self.unresolved_mark),
+                "define"
+            )
+            .as_call(DUMMY_SP, amd_call_args)
+            .into_stmt()
+            .into(),
+        ];
     }
 
     fn visit_mut_script(&mut self, _: &mut Script) {

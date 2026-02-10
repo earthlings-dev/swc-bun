@@ -1,10 +1,10 @@
 use serde::Deserialize;
-use swc_common::{Mark, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{DUMMY_SP, Mark, Spanned, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
-use swc_ecma_utils::{quote_ident, ExprFactory, StmtLike};
+use swc_ecma_utils::{ExprFactory, StmtLike, quote_ident};
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
+    Visit, VisitMut, VisitMutWith, VisitWith, noop_visit_mut_type, noop_visit_type, visit_mut_pass,
 };
 use swc_trace_macro::swc_trace;
 

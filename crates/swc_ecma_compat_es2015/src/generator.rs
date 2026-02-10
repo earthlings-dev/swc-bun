@@ -8,16 +8,16 @@ use std::{
 use is_macro::Is;
 use swc_atoms::Atom;
 use swc_common::{
-    comments::Comments, util::take::Take, BytePos, EqIgnoreSpan, Mark, Span, Spanned,
-    SyntaxContext, DUMMY_SP,
+    BytePos, DUMMY_SP, EqIgnoreSpan, Mark, Span, Spanned, SyntaxContext, comments::Comments,
+    util::take::Take,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
-    function::FnEnvHoister, private_ident, prop_name_to_expr_value, quote_ident, ExprFactory,
+    ExprFactory, function::FnEnvHoister, private_ident, prop_name_to_expr_value, quote_ident,
 };
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
+    Visit, VisitMut, VisitMutWith, VisitWith, noop_visit_mut_type, noop_visit_type, visit_mut_pass,
 };
 use tracing::debug;
 
@@ -1227,21 +1227,23 @@ impl Generator {
                             .unwrap()
                             .make_member(quote_ident!("concat"))
                             .as_callee(),
-                        args: vec![Box::new(Expr::Array(ArrayLit {
-                            span: DUMMY_SP,
-                            elems: expressions
-                                .take()
-                                .into_iter()
-                                .map(|expr| match expr {
-                                    Some(expr_or_spread) => match &*expr_or_spread.expr {
-                                        Expr::Invalid(_) => None,
-                                        _ => Some(expr_or_spread),
-                                    },
-                                    None => None,
-                                })
-                                .collect(),
-                        }))
-                        .as_arg()],
+                        args: vec![
+                            Box::new(Expr::Array(ArrayLit {
+                                span: DUMMY_SP,
+                                elems: expressions
+                                    .take()
+                                    .into_iter()
+                                    .map(|expr| match expr {
+                                        Some(expr_or_spread) => match &*expr_or_spread.expr {
+                                            Expr::Invalid(_) => None,
+                                            _ => Some(expr_or_spread),
+                                        },
+                                        None => None,
+                                    })
+                                    .collect(),
+                            }))
+                            .as_arg(),
+                        ],
                         ..Default::default()
                     }
                     .into()
@@ -2090,9 +2092,10 @@ impl Generator {
                         pending_clauses.push(SwitchCase {
                             span: DUMMY_SP,
                             test: clause.test.take(),
-                            cons: vec![self
-                                .create_inline_break(clause_labels[i], Some(span))
-                                .into()],
+                            cons: vec![
+                                self.create_inline_break(clause_labels[i], Some(span))
+                                    .into(),
+                            ],
                         })
                     } else {
                         default_clauses_skipped += 1;
@@ -3137,16 +3140,18 @@ impl Generator {
                                 .make_member(quote_ident!("trys"))
                                 .make_member(quote_ident!("push"))
                                 .as_callee(),
-                            args: vec![ArrayLit {
-                                span: DUMMY_SP,
-                                elems: vec![
-                                    Some(start_label.as_arg()),
-                                    Some(catch_label.as_arg()),
-                                    Some(finally_label.as_arg()),
-                                    Some(end_label.as_arg()),
-                                ],
-                            }
-                            .as_arg()],
+                            args: vec![
+                                ArrayLit {
+                                    span: DUMMY_SP,
+                                    elems: vec![
+                                        Some(start_label.as_arg()),
+                                        Some(catch_label.as_arg()),
+                                        Some(finally_label.as_arg()),
+                                        Some(end_label.as_arg()),
+                                    ],
+                                }
+                                .as_arg(),
+                            ],
                             ..Default::default()
                         }
                         .into(),

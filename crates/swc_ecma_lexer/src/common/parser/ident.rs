@@ -3,7 +3,7 @@ use swc_atoms::atom;
 use swc_common::BytePos;
 use swc_ecma_ast::*;
 
-use super::{buffer::Buffer, expr::parse_str_lit, PResult, Parser};
+use super::{PResult, Parser, buffer::Buffer, expr::parse_str_lit};
 use crate::{
     common::{context::Context, lexer::token::TokenFactory, parser::token_and_span::TokenAndSpan},
     error::SyntaxError,

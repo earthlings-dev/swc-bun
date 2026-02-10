@@ -1,6 +1,6 @@
 use std::{
     env, fmt,
-    fs::{self, create_dir_all, File},
+    fs::{self, File, create_dir_all},
     io::Read,
     ops::Deref,
     path::Path,

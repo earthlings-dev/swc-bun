@@ -2,7 +2,7 @@ use std::sync::Arc;
 
 use anyhow::Context;
 use swc::try_with_handler;
-use swc_common::{errors::ColorConfig, FileName, SourceMap, GLOBALS};
+use swc_common::{FileName, GLOBALS, SourceMap, errors::ColorConfig};
 
 fn main() {
     let cm = Arc::<SourceMap>::default();

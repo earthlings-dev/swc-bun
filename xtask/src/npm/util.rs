@@ -7,7 +7,7 @@ use crate::util::{repository_root, wrap};
 
 pub fn set_version(version: &Version) -> Result<()> {
     wrap(|| {
-        let mut c = Command::new("npm");
+        let mut c = Command::new("bun");
         c.current_dir(repository_root()?).stderr(Stdio::inherit());
         c.arg("version")
             .arg(version.to_string())
@@ -21,7 +21,7 @@ pub fn set_version(version: &Version) -> Result<()> {
     .with_context(|| format!("failed to set version of @swc/core to v{version}"))?;
 
     wrap(|| {
-        let mut c = Command::new("npm");
+        let mut c = Command::new("bun");
         c.current_dir(repository_root()?.join("packages").join("minifier"))
             .stderr(Stdio::inherit());
         c.arg("version")

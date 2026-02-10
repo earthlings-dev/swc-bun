@@ -4,7 +4,7 @@ use swc_common::Mark;
 use swc_ecma_parser::{EsSyntax, Syntax};
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_proposal::explicit_resource_management::explicit_resource_management;
-use swc_ecma_transforms_testing::{exec_tr, test_fixture, FixtureTestConfig};
+use swc_ecma_transforms_testing::{FixtureTestConfig, exec_tr, test_fixture};
 
 #[testing::fixture("tests/explicit-resource-management/exec-sync/**/*.js")]
 #[testing::fixture("tests/explicit-resource-management/exec-async/**/*.js")]

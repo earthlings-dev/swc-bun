@@ -7,8 +7,8 @@ use anyhow::{Context, Result};
 use clap::Args;
 use par_iter::prelude::*;
 use swc_common::{
-    errors::{ColorConfig, Handler, HANDLER},
-    SourceFile, SourceMap, GLOBALS,
+    GLOBALS, SourceFile, SourceMap,
+    errors::{ColorConfig, HANDLER, Handler},
 };
 use tracing::info;
 

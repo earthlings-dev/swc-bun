@@ -11,10 +11,10 @@ use quote::quote;
 use regex::Regex;
 use relative_path::RelativePath;
 use syn::{
+    Ident, LitStr, Meta, Token,
     parse::{Parse, ParseStream},
     parse2,
     punctuated::Punctuated,
-    Ident, LitStr, Meta, Token,
 };
 
 pub struct Config {
@@ -34,9 +34,7 @@ impl Parse for Config {
                 {
                     //
                     macro_rules! fail {
-                        () => {{
-                            fail!("invalid input to the attribute")
-                        }};
+                        () => {{ fail!("invalid input to the attribute") }};
                         ($inner:expr) => {{
                             panic!(
                                 "{}\nnote: exclude() expects one or more comma-separated regular \

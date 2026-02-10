@@ -7,10 +7,10 @@ use anyhow::Context;
 use serde_json::{Number, Value};
 use swc::SwcComments;
 use swc_ecma_ast::EsVersion;
-use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
+use swc_ecma_parser::{Parser, StringInput, Syntax, lexer::Lexer};
 use swc_estree_ast::flavor::Flavor;
 use swc_estree_compat::babelify::Babelify;
-use testing::{assert_eq, json::diff_json_value, DebugUsingDisplay, NormalizedOutput};
+use testing::{DebugUsingDisplay, NormalizedOutput, assert_eq, json::diff_json_value};
 
 fn assert_flavor(flavor: Flavor, input: &Path, output_json_path: &Path) {
     testing::run_test(false, |cm, _handler| {
@@ -39,7 +39,7 @@ fn assert_flavor(flavor: Flavor, input: &Path, output_json_path: &Path) {
 
         println!("----- swc output -----\n{actual_str}");
         let output = {
-            let mut cmd = Command::new("node");
+            let mut cmd = Command::new("bun");
             cmd.arg("-e")
                 .arg(include_str!("../scripts/test-acorn.js"))
                 .arg(&*fm.src)

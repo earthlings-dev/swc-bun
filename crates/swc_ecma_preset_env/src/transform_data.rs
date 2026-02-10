@@ -1,7 +1,7 @@
 use once_cell::sync::Lazy;
 use preset_env_base::{
-    version::{should_enable, Version},
     BrowserData, Versions,
+    version::{Version, should_enable},
 };
 use rustc_hash::FxHashMap;
 use string_enum::StringEnum;

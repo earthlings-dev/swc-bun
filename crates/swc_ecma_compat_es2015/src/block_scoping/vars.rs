@@ -4,7 +4,7 @@ use swc_atoms::Atom;
 use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{rename::rename_with_config, scope::ScopeKind};
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{VisitMut, VisitMutWith, noop_visit_mut_type};
 use swc_trace_macro::swc_trace;
 
 pub(super) fn block_scoped_vars() -> impl VisitMut {

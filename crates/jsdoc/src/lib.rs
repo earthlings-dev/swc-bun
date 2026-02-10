@@ -1,7 +1,7 @@
 use nom::{
+    IResult, InputIter, Slice,
     bytes::complete::{tag, take_while},
     error::ErrorKind,
-    IResult, InputIter, Slice,
 };
 use swc_common::{Span, Spanned};
 

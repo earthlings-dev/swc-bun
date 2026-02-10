@@ -1,4 +1,4 @@
-use swc_common::{util::take::Take, Spanned, DUMMY_SP};
+use swc_common::{DUMMY_SP, Spanned, util::take::Take};
 use swc_css_ast::{
     AbsoluteColorBase, AtRule, ComponentValue, CompoundSelector, MediaAnd, MediaCondition,
     MediaConditionAllType, MediaConditionWithoutOr, MediaInParens, MediaQuery, Rule,

@@ -13,7 +13,7 @@ use swc_ecma_transforms_compat::{
     es2022::class_properties,
 };
 use swc_ecma_transforms_testing::{compare_stdout, test, test_exec};
-use swc_ecma_visit::{fold_pass, Fold, FoldWith};
+use swc_ecma_visit::{Fold, FoldWith, fold_pass};
 
 struct ParenRemover;
 impl Fold for ParenRemover {

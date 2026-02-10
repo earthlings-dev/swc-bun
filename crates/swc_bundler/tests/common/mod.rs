@@ -5,22 +5,22 @@ use std::{
     path::{Path, PathBuf},
 };
 
-use anyhow::{bail, Context, Error};
+use anyhow::{Context, Error, bail};
 use path_clean::PathClean;
 use reqwest::Url;
 use sha1::{Digest, Sha1};
 use swc_bundler::{Load, ModuleData, Resolve};
 use swc_common::{
+    FileName, Mark, SourceMap,
     comments::SingleThreadedComments,
     errors::{ColorConfig, Handler},
     sync::Lrc,
-    FileName, Mark, SourceMap,
 };
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_loader::resolve::Resolution;
-use swc_ecma_parser::{parse_file_as_module, Syntax, TsSyntax};
+use swc_ecma_parser::{Syntax, TsSyntax, parse_file_as_module};
 use swc_ecma_transforms_base::{
-    helpers::{inject_helpers, Helpers, HELPERS},
+    helpers::{HELPERS, Helpers, inject_helpers},
     resolver,
 };
 use swc_ecma_transforms_proposal::decorators;

@@ -1,7 +1,7 @@
 use swc_ecma_ast::*;
 use swc_ecma_parser::{EsSyntax, Syntax};
 use swc_ecma_transforms_testing::test_transform;
-use swc_ecma_visit::{fold_pass, Fold};
+use swc_ecma_visit::{Fold, fold_pass};
 
 struct Panicking;
 

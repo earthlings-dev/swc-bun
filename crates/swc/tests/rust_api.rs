@@ -1,11 +1,11 @@
 use swc::{
-    config::{Config, InputSourceMap, JscConfig, ModuleConfig, Options, SourceMapsConfig},
     Compiler,
+    config::{Config, InputSourceMap, JscConfig, ModuleConfig, Options, SourceMapsConfig},
 };
-use swc_common::{comments::SingleThreadedComments, FileName};
+use swc_common::{FileName, comments::SingleThreadedComments};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{EsSyntax, Syntax, TsSyntax};
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut};
+use swc_ecma_visit::{VisitMut, noop_visit_mut_type, visit_mut_pass};
 
 struct PanicOnVisit;
 

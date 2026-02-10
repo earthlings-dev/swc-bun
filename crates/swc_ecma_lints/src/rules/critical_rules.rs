@@ -1,11 +1,11 @@
 use std::collections::hash_map::Entry;
 
 use rustc_hash::{FxHashMap, FxHashSet};
-use swc_atoms::{atom, Atom};
-use swc_common::{errors::HANDLER, Span, SyntaxContext};
+use swc_atoms::{Atom, atom};
+use swc_common::{Span, SyntaxContext, errors::HANDLER};
 use swc_ecma_ast::*;
 use swc_ecma_utils::for_each_binding_ident;
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use swc_ecma_visit::{Visit, VisitWith, noop_visit_type};
 
 use crate::rule::Rule;
 

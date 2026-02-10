@@ -7,17 +7,17 @@ use bytes_str::BytesStr;
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
 use rustc_hash::{FxBuildHasher, FxHashMap};
-use swc_atoms::{atom, Atom, Wtf8Atom};
+use swc_atoms::{Atom, Wtf8Atom, atom};
 use swc_common::{
+    FileName, SourceMap,
     errors::HANDLER,
     sync::Lrc,
     util::{move_map::MoveMap, take::Take},
-    FileName, SourceMap,
 };
 use swc_ecma_ast::*;
 use swc_ecma_parser::parse_file_as_expr;
 use swc_ecma_utils::drop_span;
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
+use swc_ecma_visit::{VisitMut, VisitMutWith, noop_visit_mut_type, visit_mut_pass};
 
 pub fn const_modules(
     cm: Lrc<SourceMap>,

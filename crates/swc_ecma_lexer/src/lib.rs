@@ -24,7 +24,7 @@ pub mod error;
 pub mod input;
 mod utils;
 
-use common::parser::{buffer::Buffer, Parser as ParserTrait};
+use common::parser::{Parser as ParserTrait, buffer::Buffer};
 pub use swc_common::input::StringInput;
 
 use self::common::{context::Context, parser::PResult};

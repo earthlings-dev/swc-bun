@@ -1,4 +1,4 @@
-use swc_common::{util::take::Take, EqIgnoreSpan, Span, Spanned, DUMMY_SP};
+use swc_common::{DUMMY_SP, EqIgnoreSpan, Span, Spanned, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Type, Value};
 

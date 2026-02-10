@@ -3,14 +3,14 @@
 
 use std::{collections::HashMap, path::PathBuf, sync::Arc};
 
-use anyhow::{anyhow, Context, Error};
+use anyhow::{Context, Error, anyhow};
 use dashmap::DashMap;
 use from_variant::FromVariant;
 use once_cell::sync::Lazy;
 use rustc_hash::FxBuildHasher;
 use serde::Deserialize;
 
-use crate::{version::Version, BrowserData, Versions};
+use crate::{BrowserData, Versions, version::Version};
 
 /// Result of resolving browser targets.
 #[derive(Debug, Clone)]

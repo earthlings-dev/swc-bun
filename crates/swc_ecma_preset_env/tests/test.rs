@@ -14,15 +14,15 @@ use rustc_hash::FxHashMap;
 use serde::Deserialize;
 use serde_json::Value;
 use swc_common::{
-    comments::SingleThreadedComments, errors::HANDLER, input::StringInput, FromVariant, Mark,
+    FromVariant, Mark, comments::SingleThreadedComments, errors::HANDLER, input::StringInput,
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{Parser, Syntax};
-use swc_ecma_preset_env::{transform_from_env, Config, FeatureOrModule, Mode, Targets, Version};
+use swc_ecma_preset_env::{Config, FeatureOrModule, Mode, Targets, Version, transform_from_env};
 use swc_ecma_transforms::{fixer, helpers};
 use swc_ecma_utils::drop_span;
-use swc_ecma_visit::{visit_mut_pass, VisitMut};
+use swc_ecma_visit::{VisitMut, visit_mut_pass};
 use testing::{NormalizedOutput, Tester};
 
 /// options.json file

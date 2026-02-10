@@ -10,12 +10,12 @@ use anyhow::{Context, Result};
 use clap::{ArgEnum, Args};
 use par_iter::prelude::*;
 use sha1::{Digest, Sha1};
-use swc_common::{SourceMap, GLOBALS};
+use swc_common::{GLOBALS, SourceMap};
 use tempfile::TempDir;
 
 use crate::{
-    util::{all_js_files, parse_js, print_js, ChildGuard},
     CREDUCE_INPUT_ENV_VAR, CREDUCE_MODE_ENV_VAR,
+    util::{ChildGuard, all_js_files, parse_js, print_js},
 };
 
 /// Reduce input files to minimal reproduction cases

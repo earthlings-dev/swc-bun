@@ -1,5 +1,5 @@
 use is_macro::Is;
-use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, SyntaxContext, DUMMY_SP};
+use swc_common::{DUMMY_SP, EqIgnoreSpan, Span, SyntaxContext, ast_node, util::take::Take};
 
 use crate::{
     class::Decorator,

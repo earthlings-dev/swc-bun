@@ -1,9 +1,9 @@
-use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
-use swc_common::{comments::SingleThreadedComments, FileName, Mark};
+use codspeed_criterion_compat::{Bencher, Criterion, black_box, criterion_group, criterion_main};
+use swc_common::{FileName, Mark, comments::SingleThreadedComments};
 use swc_ecma_ast::Program;
 use swc_ecma_parser::{Parser, StringInput, Syntax};
-use swc_ecma_preset_env::{transform_from_env, Config};
-use swc_ecma_transforms::helpers::{Helpers, HELPERS};
+use swc_ecma_preset_env::{Config, transform_from_env};
+use swc_ecma_transforms::helpers::{HELPERS, Helpers};
 
 fn run(b: &mut Bencher, src: &str, config: Config) {
     let _ = ::testing::run_test(false, |cm, handler| {

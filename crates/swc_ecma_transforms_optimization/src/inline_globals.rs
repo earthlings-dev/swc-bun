@@ -3,8 +3,8 @@ use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::sync::Lrc;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{ParVisitMut, Parallel};
-use swc_ecma_utils::{collect_decls, parallel::cpu_count, NodeIgnoringSpan};
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
+use swc_ecma_utils::{NodeIgnoringSpan, collect_decls, parallel::cpu_count};
+use swc_ecma_visit::{VisitMut, VisitMutWith, noop_visit_mut_type, visit_mut_pass};
 
 /// The key will be compared using [EqIgnoreSpan::eq_ignore_span], and matched
 /// expressions will be replaced with the value.
@@ -198,7 +198,7 @@ impl VisitMut for InlineGlobals {
 #[cfg(test)]
 mod tests {
     use swc_common::Mark;
-    use swc_ecma_transforms_testing::{test, Tester};
+    use swc_ecma_transforms_testing::{Tester, test};
     use swc_ecma_transforms_typescript::typescript;
     use swc_ecma_utils::{DropSpan, StmtOrModuleItem};
 

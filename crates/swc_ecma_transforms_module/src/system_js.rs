@@ -2,12 +2,12 @@ use anyhow::Context;
 use rustc_hash::FxHashMap;
 use serde::{Deserialize, Serialize};
 use swc_atoms::Atom;
-use swc_common::{Mark, Span, SyntaxContext, DUMMY_SP};
+use swc_common::{DUMMY_SP, Mark, Span, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    member_expr, private_ident, quote_ident, quote_str, var::VarCollector, ExprFactory,
+    ExprFactory, member_expr, private_ident, quote_ident, quote_str, var::VarCollector,
 };
-use swc_ecma_visit::{fold_pass, standard_only_fold, Fold, FoldWith, VisitWith};
+use swc_ecma_visit::{Fold, FoldWith, VisitWith, fold_pass, standard_only_fold};
 
 pub use super::util::Config as InnerConfig;
 use crate::{
@@ -210,9 +210,10 @@ impl SystemJs {
     ) -> Vec<Stmt> {
         match export_names.len() {
             0 => Vec::new(),
-            1 => vec![self
-                .export_call(export_names.remove(0), DUMMY_SP, *export_values.remove(0))
-                .into_stmt()],
+            1 => vec![
+                self.export_call(export_names.remove(0), DUMMY_SP, *export_values.remove(0))
+                    .into_stmt(),
+            ],
             _ => {
                 let mut props = Vec::new();
                 for (sym, value) in export_names.drain(..).zip(export_values.drain(..)) {
@@ -224,17 +225,21 @@ impl SystemJs {
                         value,
                     }))));
                 }
-                vec![CallExpr {
-                    span: DUMMY_SP,
-                    callee: self.export_ident.clone().as_callee(),
-                    args: vec![ObjectLit {
+                vec![
+                    CallExpr {
                         span: DUMMY_SP,
-                        props,
+                        callee: self.export_ident.clone().as_callee(),
+                        args: vec![
+                            ObjectLit {
+                                span: DUMMY_SP,
+                                props,
+                            }
+                            .as_arg(),
+                        ],
+                        ..Default::default()
                     }
-                    .as_arg()],
-                    ..Default::default()
-                }
-                .into_stmt()]
+                    .into_stmt(),
+                ]
             }
         }
     }
@@ -299,16 +304,18 @@ impl SystemJs {
                                 ),
                             })),
                             cons: Box::new(Stmt::Block(BlockStmt {
-                                stmts: vec![AssignExpr {
-                                    span: DUMMY_SP,
-                                    op: op!("="),
-                                    left: export_obj
-                                        .clone()
-                                        .computed_member(key_ident.clone())
-                                        .into(),
-                                    right: target.computed_member(key_ident).into(),
-                                }
-                                .into_stmt()],
+                                stmts: vec![
+                                    AssignExpr {
+                                        span: DUMMY_SP,
+                                        op: op!("="),
+                                        left: export_obj
+                                            .clone()
+                                            .computed_member(key_ident.clone())
+                                            .into(),
+                                        right: target.computed_member(key_ident).into(),
+                                    }
+                                    .into_stmt(),
+                                ],
                                 ..Default::default()
                             })),
                             alt: None,
@@ -1124,22 +1131,24 @@ impl Fold for SystemJs {
         });
 
         Module {
-            body: vec![CallExpr {
-                span: DUMMY_SP,
-                callee: member_expr!(Default::default(), Default::default(), System.register)
-                    .as_callee(),
-                args: vec![
-                    dep_module_names.as_arg(),
-                    FnExpr {
-                        ident: None,
-                        function,
-                    }
-                    .as_arg(),
-                ],
-                ..Default::default()
-            }
-            .into_stmt()
-            .into()],
+            body: vec![
+                CallExpr {
+                    span: DUMMY_SP,
+                    callee: member_expr!(Default::default(), Default::default(), System.register)
+                        .as_callee(),
+                    args: vec![
+                        dep_module_names.as_arg(),
+                        FnExpr {
+                            ident: None,
+                            function,
+                        }
+                        .as_arg(),
+                    ],
+                    ..Default::default()
+                }
+                .into_stmt()
+                .into(),
+            ],
             ..module
         }
     }

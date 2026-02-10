@@ -36,11 +36,11 @@ use std::mem::take;
 
 use rustc_hash::FxHashSet;
 use swc_atoms::Atom;
-use swc_common::{util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{DUMMY_SP, Mark, Spanned, SyntaxContext, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
-use swc_ecma_utils::{default_constructor_with_span, private_ident, quote_ident, ExprFactory};
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use swc_ecma_utils::{ExprFactory, default_constructor_with_span, private_ident, quote_ident};
+use swc_ecma_visit::{Visit, VisitWith, noop_visit_type};
 
 use crate::TraverseCtx;
 

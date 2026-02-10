@@ -8,12 +8,12 @@ use std::{
 use anyhow::Error;
 use swc_atoms::atom;
 use swc_bundler::{BundleKind, Bundler, Config, ModuleRecord};
-use swc_common::{errors::HANDLER, FileName, Globals, Span};
+use swc_common::{FileName, Globals, Span, errors::HANDLER};
 use swc_ecma_ast::{
     Bool, Expr, IdentName, KeyValueProp, Lit, MemberExpr, MemberProp, MetaPropExpr, MetaPropKind,
     Program, PropName, Str,
 };
-use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
+use swc_ecma_codegen::{Emitter, text_writer::JsWriter};
 use swc_ecma_loader::NODE_BUILTINS;
 use swc_ecma_transforms_base::fixer::fixer;
 use testing::NormalizedOutput;

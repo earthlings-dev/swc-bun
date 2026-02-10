@@ -3,8 +3,8 @@ extern crate swc_malloc;
 
 use std::{path::PathBuf, sync::Arc};
 
-use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
-use swc::{config::JsMinifyOptions, try_with_handler, BoolOrDataConfig};
+use codspeed_criterion_compat::{Bencher, Criterion, black_box, criterion_group, criterion_main};
+use swc::{BoolOrDataConfig, config::JsMinifyOptions, try_with_handler};
 use swc_common::{FilePathMapping, SourceMap};
 use swc_ecma_utils::swc_common::GLOBALS;
 

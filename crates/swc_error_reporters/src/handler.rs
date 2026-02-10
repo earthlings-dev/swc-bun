@@ -8,12 +8,12 @@ use std::{
 use miette::{GraphicalReportHandler, GraphicalTheme};
 use once_cell::sync::Lazy;
 use swc_common::{
-    errors::{ColorConfig, Diagnostic, Emitter, Handler, HANDLER},
-    sync::Lrc,
     SourceMap,
+    errors::{ColorConfig, Diagnostic, Emitter, HANDLER, Handler},
+    sync::Lrc,
 };
 
-use crate::{diagnostic::ToPrettyDiagnostic, ErrorEmitter, TWithDiagnosticArray};
+use crate::{ErrorEmitter, TWithDiagnosticArray, diagnostic::ToPrettyDiagnostic};
 
 #[derive(Default, Clone)]
 /// A thread-safe container for managing a collection of diagnostics.

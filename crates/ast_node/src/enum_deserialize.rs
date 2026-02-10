@@ -31,7 +31,7 @@ pub fn expand(
 
     let mut has_wildcard = false;
 
-    let deserialize = {
+    {
         let mut all_tags: Punctuated<_, token::Comma> = Default::default();
         let tag_match_arms = data
             .variants
@@ -394,7 +394,5 @@ pub fn expand(
         );
 
         item.with_generics(generics)
-    };
-
-    deserialize
+    }
 }

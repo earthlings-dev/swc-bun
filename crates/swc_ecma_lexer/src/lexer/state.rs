@@ -1,6 +1,6 @@
 use std::mem::take;
 
-use smallvec::{smallvec, SmallVec};
+use smallvec::{SmallVec, smallvec};
 use swc_common::{BytePos, Span};
 use swc_ecma_ast::EsVersion;
 use tracing::trace;

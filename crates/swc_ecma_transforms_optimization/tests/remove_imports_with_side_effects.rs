@@ -1,8 +1,8 @@
-use swc_common::{pass::Repeat, Mark};
+use swc_common::{Mark, pass::Repeat};
 use swc_ecma_ast::Pass;
 use swc_ecma_parser::{EsSyntax, Syntax};
 use swc_ecma_transforms_base::resolver;
-use swc_ecma_transforms_optimization::simplify::dce::{dce, Config};
+use swc_ecma_transforms_optimization::simplify::dce::{Config, dce};
 use swc_ecma_transforms_testing::test;
 
 fn tr() -> impl Pass {

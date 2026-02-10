@@ -4,14 +4,14 @@ use std::{
     sync::Arc,
 };
 
-use anyhow::{bail, Context, Result};
+use anyhow::{Context, Result, bail};
 use swc_common::{FileName, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_minifier::option::{CompressOptions, MangleOptions, MinifyOptions};
 use swc_ecma_transforms_base::fixer::fixer;
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{VisitMut, VisitMutWith, noop_visit_mut_type};
 
-use super::{parse_js, print_js, wrap_task, ModuleRecord};
+use super::{ModuleRecord, parse_js, print_js, wrap_task};
 
 pub fn get_minified(
     cm: Arc<SourceMap>,
@@ -73,7 +73,7 @@ pub fn get_minified_with_opts(
 
 pub fn get_terser_output(file: &Path, compress: bool, mangle: bool) -> Result<String> {
     wrap_task(|| {
-        let mut cmd = Command::new("npx");
+        let mut cmd = Command::new("bunx");
         cmd.arg("terser");
         cmd.stderr(Stdio::inherit());
 

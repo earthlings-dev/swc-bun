@@ -1,12 +1,12 @@
 use std::{fmt::Write, mem};
 
-use base64::prelude::{Engine, BASE64_STANDARD};
+use base64::prelude::{BASE64_STANDARD, Engine};
 use sha1::{Digest, Sha1};
-use swc_common::{util::take::Take, SourceMap, SourceMapper, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{DUMMY_SP, SourceMap, SourceMapper, Spanned, SyntaxContext, util::take::Take};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{private_ident, quote_ident, ExprFactory};
+use swc_ecma_utils::{ExprFactory, private_ident, quote_ident};
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
+    Visit, VisitMut, VisitMutWith, VisitWith, noop_visit_mut_type, noop_visit_type,
 };
 
 use super::util::{is_builtin_hook, make_call_expr, make_call_stmt};

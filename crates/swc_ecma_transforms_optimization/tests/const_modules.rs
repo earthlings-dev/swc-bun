@@ -2,7 +2,7 @@ use std::{collections::HashMap, fs::read_to_string, path::PathBuf};
 
 use swc_ecma_ast::Pass;
 use swc_ecma_transforms_optimization::const_modules;
-use swc_ecma_transforms_testing::{test, test_fixture, Tester};
+use swc_ecma_transforms_testing::{Tester, test, test_fixture};
 
 fn tr(t: &mut Tester<'_>, sources: &[(&str, &[(&str, &str)])]) -> impl Pass {
     let mut m = HashMap::default();

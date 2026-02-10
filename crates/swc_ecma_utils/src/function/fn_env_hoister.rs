@@ -2,10 +2,10 @@ use std::mem;
 
 use indexmap::IndexMap;
 use rustc_hash::FxBuildHasher;
-use swc_atoms::{atom, Atom};
-use swc_common::{util::take::Take, Span, Spanned, SyntaxContext, DUMMY_SP};
+use swc_atoms::{Atom, atom};
+use swc_common::{DUMMY_SP, Span, Spanned, SyntaxContext, util::take::Take};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{VisitMut, VisitMutWith, noop_visit_mut_type};
 
 use crate::ExprFactory;
 
@@ -446,20 +446,22 @@ impl VisitMut for FnEnvHoister {
                                 let callee = self.super_set(&id.sym, left_span);
                                 *e = CallExpr {
                                     span: *span,
-                                    args: vec![(if let Some(op) = op.to_update() {
-                                        Box::new(Expr::Bin(BinExpr {
-                                            span: DUMMY_SP,
-                                            left: Box::new(
-                                                self.super_get(&id.sym, id.span)
-                                                    .as_call(id.span, Vec::new()),
-                                            ),
-                                            op,
-                                            right: right.take(),
-                                        }))
-                                    } else {
-                                        right.take()
-                                    })
-                                    .as_arg()],
+                                    args: vec![
+                                        (if let Some(op) = op.to_update() {
+                                            Box::new(Expr::Bin(BinExpr {
+                                                span: DUMMY_SP,
+                                                left: Box::new(
+                                                    self.super_get(&id.sym, id.span)
+                                                        .as_call(id.span, Vec::new()),
+                                                ),
+                                                op,
+                                                right: right.take(),
+                                            }))
+                                        } else {
+                                            right.take()
+                                        })
+                                        .as_arg(),
+                                    ],
                                     callee: callee.as_callee(),
                                     ..Default::default()
                                 }
@@ -672,16 +674,18 @@ fn extend_super(
                             key: PropName::Ident(atom!("_").into()),
                             type_ann: None,
                             body: Some(BlockStmt {
-                                stmts: vec![Expr::Ident(
-                                    get.ident
-                                        .get(&key)
-                                        .cloned()
-                                        .expect("getter not found")
-                                        .without_loc(),
-                                )
-                                .as_call(DUMMY_SP, Default::default())
-                                .into_return_stmt()
-                                .into()],
+                                stmts: vec![
+                                    Expr::Ident(
+                                        get.ident
+                                            .get(&key)
+                                            .cloned()
+                                            .expect("getter not found")
+                                            .without_loc(),
+                                    )
+                                    .as_call(DUMMY_SP, Default::default())
+                                    .into_return_stmt()
+                                    .into(),
+                                ],
                                 ..Default::default()
                             }),
                         }),
@@ -691,15 +695,17 @@ fn extend_super(
                             this_param: None,
                             param: value.clone().into(),
                             body: Some(BlockStmt {
-                                stmts: vec![Expr::Ident(
-                                    set.ident
-                                        .get(&key)
-                                        .cloned()
-                                        .expect("setter not found")
-                                        .without_loc(),
-                                )
-                                .as_call(DUMMY_SP, vec![value.as_arg()])
-                                .into_stmt()],
+                                stmts: vec![
+                                    Expr::Ident(
+                                        set.ident
+                                            .get(&key)
+                                            .cloned()
+                                            .expect("setter not found")
+                                            .without_loc(),
+                                    )
+                                    .as_call(DUMMY_SP, vec![value.as_arg()])
+                                    .into_stmt(),
+                                ],
                                 ..Default::default()
                             }),
                         }),
@@ -734,15 +740,17 @@ fn extend_super(
                                     key: PropName::Ident(atom!("_").into()),
                                     type_ann: None,
                                     body: Some(BlockStmt {
-                                        stmts: vec![Expr::Ident(
-                                            get.computed
-                                                .clone()
-                                                .expect("getter computed not found")
-                                                .without_loc(),
-                                        )
-                                        .as_call(DUMMY_SP, vec![prop.clone().as_arg()])
-                                        .into_return_stmt()
-                                        .into()],
+                                        stmts: vec![
+                                            Expr::Ident(
+                                                get.computed
+                                                    .clone()
+                                                    .expect("getter computed not found")
+                                                    .without_loc(),
+                                            )
+                                            .as_call(DUMMY_SP, vec![prop.clone().as_arg()])
+                                            .into_return_stmt()
+                                            .into(),
+                                        ],
                                         ..Default::default()
                                     }),
                                 }),
@@ -752,15 +760,17 @@ fn extend_super(
                                     this_param: None,
                                     param: value.clone().into(),
                                     body: Some(BlockStmt {
-                                        stmts: vec![Expr::Ident(
-                                            set.computed
-                                                .clone()
-                                                .expect("setter computed not found")
-                                                .without_loc(),
-                                        )
-                                        .as_call(DUMMY_SP, vec![prop.as_arg(), value.as_arg()])
-                                        .into_return_stmt()
-                                        .into()],
+                                        stmts: vec![
+                                            Expr::Ident(
+                                                set.computed
+                                                    .clone()
+                                                    .expect("setter computed not found")
+                                                    .without_loc(),
+                                            )
+                                            .as_call(DUMMY_SP, vec![prop.as_arg(), value.as_arg()])
+                                            .into_return_stmt()
+                                            .into(),
+                                        ],
                                         ..Default::default()
                                     }),
                                 }),

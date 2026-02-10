@@ -1,6 +1,6 @@
 #![allow(clippy::unit_arg)]
 
-use swc_common::{comments::NoopComments, Mark};
+use swc_common::{Mark, comments::NoopComments};
 use swc_ecma_ast::Pass;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver;

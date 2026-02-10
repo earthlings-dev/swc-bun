@@ -1,7 +1,7 @@
 use bitflags::bitflags;
 use is_macro::Is;
 use swc_atoms::Atom;
-use swc_common::{ast_node, EqIgnoreSpan, Span};
+use swc_common::{EqIgnoreSpan, Span, ast_node};
 
 mod display;
 

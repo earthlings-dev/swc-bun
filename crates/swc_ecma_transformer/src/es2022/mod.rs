@@ -1,8 +1,8 @@
 use swc_ecma_hooks::VisitMutHook;
 
 use crate::{
-    hook_utils::{HookBuilder, NoopHook},
     TraverseCtx,
+    hook_utils::{HookBuilder, NoopHook},
 };
 
 mod class_properties;

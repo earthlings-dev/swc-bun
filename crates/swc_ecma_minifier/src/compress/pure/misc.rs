@@ -2,11 +2,10 @@ use std::{borrow::Cow, fmt::Write, num::FpCategory};
 
 use rustc_hash::FxHashSet;
 use swc_atoms::{
-    atom,
+    Atom, Wtf8Atom, atom,
     wtf8::{Wtf8, Wtf8Buf},
-    Atom, Wtf8Atom,
 };
-use swc_common::{iter::IdentifyLast, util::take::Take, Span, DUMMY_SP};
+use swc_common::{DUMMY_SP, Span, iter::IdentifyLast, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_usage_analyzer::util::is_global_var_with_pure_property_access;
@@ -14,7 +13,7 @@ use swc_ecma_utils::{ExprCtx, ExprExt, ExprFactory, IdentUsageFinder, Type, Valu
 
 use super::Pure;
 use crate::compress::{
-    pure::{strings::convert_str_value_to_tpl_raw, Ctx},
+    pure::{Ctx, strings::convert_str_value_to_tpl_raw},
     util::is_pure_undefined,
 };
 
@@ -1010,13 +1009,16 @@ impl Pure<'_> {
 
         let (pattern, flag) = match args.as_slice() {
             [ExprOrSpread { spread: None, expr }] => (valid_pattern(expr)?, atom!("")),
-            [ExprOrSpread {
-                spread: None,
-                expr: pattern,
-            }, ExprOrSpread {
-                spread: None,
-                expr: flag,
-            }] => (
+            [
+                ExprOrSpread {
+                    spread: None,
+                    expr: pattern,
+                },
+                ExprOrSpread {
+                    spread: None,
+                    expr: flag,
+                },
+            ] => (
                 valid_pattern(pattern)?,
                 valid_flag(flag, self.options.ecma)?,
             ),

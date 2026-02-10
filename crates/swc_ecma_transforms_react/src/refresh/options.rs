@@ -1,5 +1,5 @@
 use serde::{Deserialize, Deserializer, Serialize};
-use swc_atoms::{atom, Atom};
+use swc_atoms::{Atom, atom};
 #[derive(Debug, Clone, Serialize, Deserialize, Eq, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(deny_unknown_fields)]

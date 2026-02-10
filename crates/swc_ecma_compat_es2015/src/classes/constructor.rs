@@ -1,11 +1,11 @@
 use std::mem;
 
-use swc_common::{util::take::Take, Span, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{DUMMY_SP, Span, Spanned, SyntaxContext, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, helper_expr};
 use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
-use swc_ecma_utils::{default_constructor_with_span, private_ident, quote_ident, ExprFactory};
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_utils::{ExprFactory, default_constructor_with_span, private_ident, quote_ident};
+use swc_ecma_visit::{VisitMut, VisitMutWith, noop_visit_mut_type};
 use swc_trace_macro::swc_trace;
 use tracing::debug;
 

@@ -2,12 +2,13 @@
 #![deny(non_snake_case)]
 
 use swc_atoms::Atom;
-use swc_common::{comments::Comments, input::StringInput, BytePos, Span, Spanned};
+use swc_common::{BytePos, Span, Spanned, comments::Comments, input::StringInput};
 use swc_ecma_ast::*;
 
 #[cfg(feature = "typescript")]
 use crate::lexer::TokenAndSpan;
 use crate::{
+    Context, Syntax,
     error::SyntaxError,
     input::Buffer,
     lexer::Token,
@@ -17,7 +18,6 @@ use crate::{
         util::ExprExt,
     },
     syntax::SyntaxFlags,
-    Context, Syntax,
 };
 #[cfg(test)]
 extern crate test;

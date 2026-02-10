@@ -13,10 +13,10 @@ use swc_ecma_visit::VisitWith;
 use swc_timer::timer;
 use tracing::debug;
 
-pub(crate) use self::pure::{pure_optimizer, PureOptimizerConfig};
+pub(crate) use self::pure::{PureOptimizerConfig, pure_optimizer};
 use self::{
     hoist_decls::DeclHoisterConfig,
-    optimize::{optimizer, StaticAliasState},
+    optimize::{StaticAliasState, optimizer},
 };
 #[cfg(debug_assertions)]
 use crate::debug::AssertValid;

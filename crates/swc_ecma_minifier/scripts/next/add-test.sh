@@ -11,10 +11,10 @@ export NEXT_DEBUG_MINIFY=1
 rm -rf .next
 
 # Install latest canary
-# yarn add next@canary
+# bun add next@canary
 
 # This is not useful data, as this is a script used only by me (@kdy1)
-npx next telemetry disable
+bunx next telemetry disable
 
-npx next build | node "$SCRIPT_DIR/evaluate.js"
+bunx next build | bun "$SCRIPT_DIR/evaluate.js"
 touch "$SCRIPT_DIR/../../tests/compress.rs"

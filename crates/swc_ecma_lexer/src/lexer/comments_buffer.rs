@@ -1,6 +1,6 @@
 use std::{iter::Rev, rc::Rc, vec::IntoIter};
 
-use swc_common::{comments::Comment, BytePos};
+use swc_common::{BytePos, comments::Comment};
 
 use crate::common::lexer::comments_buffer::{
     BufferedComment, BufferedCommentKind, CommentsBufferTrait,

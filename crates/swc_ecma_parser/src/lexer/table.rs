@@ -7,7 +7,7 @@
 use either::Either;
 use swc_common::input::Input;
 
-use super::{pos_span, LexResult, Lexer};
+use super::{LexResult, Lexer, pos_span};
 use crate::{
     error::SyntaxError,
     lexer::{

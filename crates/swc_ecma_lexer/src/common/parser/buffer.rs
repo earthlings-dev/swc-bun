@@ -6,7 +6,7 @@ use super::token_and_span::TokenAndSpan as TokenAndSpanTrait;
 use crate::common::{
     context::Context,
     input::Tokens,
-    lexer::{token::TokenFactory, LexResult},
+    lexer::{LexResult, token::TokenFactory},
     syntax::SyntaxFlags,
 };
 

@@ -10,7 +10,7 @@
 
 use std::fmt;
 
-use super::{snippet::Style, Applicability, CodeSuggestion, Level, Substitution, SubstitutionPart};
+use super::{Applicability, CodeSuggestion, Level, Substitution, SubstitutionPart, snippet::Style};
 use crate::syntax_pos::{MultiSpan, Span};
 
 #[derive(Clone, Debug, PartialEq, Eq, Hash)]

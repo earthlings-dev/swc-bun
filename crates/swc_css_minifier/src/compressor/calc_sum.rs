@@ -1,5 +1,5 @@
 use rustc_hash::FxHashMap;
-use swc_atoms::{atom, Atom};
+use swc_atoms::{Atom, atom};
 use swc_common::Span;
 use swc_css_ast::*;
 

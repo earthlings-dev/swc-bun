@@ -3,13 +3,13 @@ use swc_common::Span;
 use swc_ecma_ast::*;
 
 use super::{
+    PResult, Parser,
     buffer::Buffer,
     class_and_fn::{parse_default_async_fn, parse_default_fn, parse_fn_decl},
     expr::parse_assignment_expr,
     ident::{parse_ident, parse_ident_name, parse_module_export_name},
     stmt::{parse_block_body, parse_stmt_like, parse_var_stmt},
     typescript::{parse_ts_import_equals_decl, try_parse_ts_declare, try_parse_ts_export_decl},
-    PResult, Parser,
 };
 use crate::{
     common::{

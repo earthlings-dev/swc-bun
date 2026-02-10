@@ -1,11 +1,11 @@
 use std::collections::HashMap;
 
 use rustc_hash::FxHashSet;
-use swc_atoms::{atom, Atom};
+use swc_atoms::{Atom, atom};
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::hygiene::rename;
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
+use swc_ecma_visit::{VisitMut, VisitMutWith, noop_visit_mut_type, visit_mut_pass};
 use swc_trace_macro::swc_trace;
 
 pub fn safari_id_destructuring_collision_in_function_expression() -> impl Pass {
@@ -111,7 +111,7 @@ mod tests {
     use swc_common::Mark;
     use swc_ecma_parser::Syntax;
     use swc_ecma_transforms_base::resolver;
-    use swc_ecma_transforms_testing::{test, HygieneTester};
+    use swc_ecma_transforms_testing::{HygieneTester, test};
     use swc_ecma_visit::fold_pass;
 
     use super::*;

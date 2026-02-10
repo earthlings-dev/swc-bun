@@ -37,7 +37,7 @@ swc_ecma_ast   = { version = "20.0.1", path = "../swc_ecma_ast" }
 swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit" }
 
 [target.'cfg(not(any(target_arch = "wasm32", target_arch = "arm")))'.dependencies]
-stacker = { version = "0.1.15", optional = true }
+stacker = { version = "0.1.23", optional = true }
 
 [dev-dependencies]
 par-core        = { workspace = true, features = ["chili"] }

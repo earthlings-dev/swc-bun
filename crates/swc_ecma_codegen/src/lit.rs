@@ -3,13 +3,13 @@ use std::{fmt::Write, io, str};
 use ascii::AsciiChar;
 use compact_str::CompactString;
 use swc_atoms::wtf8::{CodePoint, Wtf8};
-use swc_common::{Spanned, DUMMY_SP};
+use swc_common::{DUMMY_SP, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::node_impl;
 
 #[cfg(swc_ast_unknown)]
 use crate::unknown_error;
-use crate::{text_writer::WriteJs, CowStr, Emitter, SourceMapperExt};
+use crate::{CowStr, Emitter, SourceMapperExt, text_writer::WriteJs};
 
 #[node_impl]
 impl MacroNode for Lit {

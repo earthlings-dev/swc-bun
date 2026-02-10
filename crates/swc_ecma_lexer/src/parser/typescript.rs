@@ -3,9 +3,9 @@ mod tests {
     use swc_ecma_ast::*;
 
     use crate::{
+        Capturing, Lexer, Parser, Syntax,
         common::parser::Parser as ParserTrait,
         token::{BinOpToken, Token, TokenAndSpan},
-        Capturing, Lexer, Parser, Syntax,
     };
 
     #[test]

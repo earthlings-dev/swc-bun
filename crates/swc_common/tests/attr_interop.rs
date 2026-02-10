@@ -2,7 +2,7 @@
 #![allow(unexpected_cfgs)]
 
 use serde::{Deserialize, Serialize};
-use swc_common::{ast_node, Span, Spanned};
+use swc_common::{Span, Spanned, ast_node};
 
 #[ast_node("Class")]
 // See https://github.com/rust-lang/rust/issues/44925

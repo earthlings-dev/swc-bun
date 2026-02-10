@@ -1,6 +1,6 @@
 use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
+use swc_ecma_visit::{VisitMut, VisitMutWith, noop_visit_mut_type, visit_mut_pass};
 
 pub fn strip_node_colon_prefix(unresolved_mark: Mark) -> impl Pass {
     visit_mut_pass(NodeColonPrefixStrip {

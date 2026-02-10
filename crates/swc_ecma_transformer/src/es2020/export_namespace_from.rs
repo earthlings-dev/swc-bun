@@ -2,7 +2,7 @@ use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_utils::private_ident;
 
-use crate::{utils::normalize_module_export_name, TraverseCtx};
+use crate::{TraverseCtx, utils::normalize_module_export_name};
 
 pub fn hook() -> impl VisitMutHook<TraverseCtx> {
     ExportNamespaceFromPass

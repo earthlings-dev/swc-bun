@@ -1,10 +1,10 @@
 use std::sync::Arc;
 
-use anyhow::{anyhow, Error};
+use anyhow::{Error, anyhow};
 use swc_atoms::atom;
-use swc_common::{SourceFile, DUMMY_SP};
+use swc_common::{DUMMY_SP, SourceFile};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{parse_file_as_expr, Syntax};
+use swc_ecma_parser::{Syntax, parse_file_as_expr};
 
 pub(super) fn load_json_as_module(fm: &Arc<SourceFile>) -> Result<Module, Error> {
     let expr = parse_file_as_expr(

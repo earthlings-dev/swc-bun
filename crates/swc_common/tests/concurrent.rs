@@ -3,7 +3,7 @@
 use std::{env, path::PathBuf, sync::Arc};
 
 use par_iter::prelude::*;
-use swc_common::{sync::Lrc, FilePathMapping, SourceFile, SourceMap};
+use swc_common::{FilePathMapping, SourceFile, SourceMap, sync::Lrc};
 
 #[test]
 fn no_overlap() {

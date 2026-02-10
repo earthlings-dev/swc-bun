@@ -1,9 +1,9 @@
 use std::{borrow::Cow, rc::Rc, sync::Arc};
 
 pub use crate::syntax_pos::{
-    hygiene, BytePos, CharPos, FileName, Globals, Loc, LocWithOpt, Mark, MultiSpan, SourceFile,
-    SourceFileAndBytePos, SourceFileAndLine, Span, SpanLinesError, SyntaxContext, DUMMY_SP,
-    GLOBALS, NO_EXPANSION,
+    BytePos, CharPos, DUMMY_SP, FileName, GLOBALS, Globals, Loc, LocWithOpt, Mark, MultiSpan,
+    NO_EXPANSION, SourceFile, SourceFileAndBytePos, SourceFileAndLine, Span, SpanLinesError,
+    SyntaxContext, hygiene,
 };
 
 ///

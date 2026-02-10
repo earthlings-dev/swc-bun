@@ -5,8 +5,8 @@
 use std::{fmt, marker::PhantomData};
 
 use serde::{
-    de::{self, IntoDeserializer, VariantAccess},
     Deserializer,
+    de::{self, IntoDeserializer, VariantAccess},
 };
 
 /// Content holds a buffered representation of any serde data type.

@@ -1,11 +1,11 @@
 use serde::{Deserialize, Serialize};
-use swc_common::{errors::HANDLER, Span};
+use swc_common::{Span, errors::HANDLER};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Visit, VisitWith};
 
 use crate::{
     config::{LintRuleReaction, RuleConfig},
-    rule::{visitor_rule, Rule},
+    rule::{Rule, visitor_rule},
 };
 
 const MESSAGE: &str = "Invalid typeof comparison value";

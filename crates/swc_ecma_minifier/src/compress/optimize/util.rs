@@ -6,11 +6,11 @@ use std::{
 
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::{Atom, Wtf8Atom};
-use swc_common::{util::take::Take, Mark, SyntaxContext, DUMMY_SP};
+use swc_common::{DUMMY_SP, Mark, SyntaxContext, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{Parallel, ParallelExt};
-use swc_ecma_utils::{collect_decls, contains_this_expr, ExprCtx, ExprExt, Remapper};
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_utils::{ExprCtx, ExprExt, Remapper, collect_decls, contains_this_expr};
+use swc_ecma_visit::{VisitMut, VisitMutWith, noop_visit_mut_type};
 use tracing::debug;
 
 use super::{Ctx, Optimizer};

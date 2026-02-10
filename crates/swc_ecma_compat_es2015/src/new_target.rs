@@ -1,11 +1,11 @@
 use std::{borrow::Cow, mem};
 
-use swc_common::{pass::CompilerPass, DUMMY_SP};
+use swc_common::{DUMMY_SP, pass::CompilerPass};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::perf::{should_work, Check};
-use swc_ecma_utils::{private_ident, quote_ident, ExprFactory};
+use swc_ecma_transforms_base::perf::{Check, should_work};
+use swc_ecma_utils::{ExprFactory, private_ident, quote_ident};
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith,
+    Visit, VisitMut, VisitMutWith, noop_visit_mut_type, noop_visit_type, visit_mut_pass,
 };
 use swc_trace_macro::swc_trace;
 

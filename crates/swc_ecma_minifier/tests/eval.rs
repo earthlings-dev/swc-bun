@@ -1,17 +1,17 @@
 #![deny(warnings)]
 
-use swc_atoms::{wtf8::Wtf8, Atom};
-use swc_common::{sync::Lrc, FileName, Mark, SourceMap};
+use swc_atoms::{Atom, wtf8::Wtf8};
+use swc_common::{FileName, Mark, SourceMap, sync::Lrc};
 use swc_ecma_ast::*;
-use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
+use swc_ecma_codegen::{Emitter, text_writer::JsWriter};
 use swc_ecma_minifier::{
     eval::{EvalResult, Evaluator},
     marks::Marks,
 };
-use swc_ecma_parser::{parse_file_as_expr, parse_file_as_module, EsSyntax, Syntax};
+use swc_ecma_parser::{EsSyntax, Syntax, parse_file_as_expr, parse_file_as_module};
 use swc_ecma_transforms_base::resolver;
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
-use testing::{assert_eq, DebugUsingDisplay};
+use swc_ecma_visit::{VisitMut, VisitMutWith, noop_visit_mut_type};
+use testing::{DebugUsingDisplay, assert_eq};
 
 fn convert_wtf8_to_raw(s: &Wtf8) -> String {
     let mut result = String::new();

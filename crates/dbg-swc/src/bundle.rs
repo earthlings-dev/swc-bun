@@ -3,11 +3,11 @@ use std::{
     sync::Arc,
 };
 
-use anyhow::{bail, Context, Result};
+use anyhow::{Context, Result, bail};
 use swc_common::{FileName, SourceMap};
 use swc_timer::timer;
 
-use crate::util::{parse_js, wrap_task, ModuleRecord};
+use crate::util::{ModuleRecord, parse_js, wrap_task};
 
 pub fn bundle(cm: Arc<SourceMap>, entry_url: &str) -> Result<ModuleRecord> {
     wrap_task(|| {

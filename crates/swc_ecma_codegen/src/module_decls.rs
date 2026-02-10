@@ -4,7 +4,7 @@ use swc_ecma_codegen_macros::node_impl;
 
 #[cfg(swc_ast_unknown)]
 use crate::unknown_error;
-use crate::{util::StartsWithAlphaNum, ListFormat};
+use crate::{ListFormat, util::StartsWithAlphaNum};
 
 #[node_impl]
 impl MacroNode for ModuleDecl {

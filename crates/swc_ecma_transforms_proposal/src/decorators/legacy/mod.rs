@@ -3,10 +3,10 @@ use std::{iter, mem};
 use metadata::remove_span;
 use rustc_hash::FxHashMap;
 use swc_atoms::Atom;
-use swc_common::{util::take::Take, BytePos, DUMMY_SP};
+use swc_common::{BytePos, DUMMY_SP, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
-use swc_ecma_utils::{private_ident, prop_name_to_expr_value, quote_ident, ExprFactory, StmtLike};
+use swc_ecma_utils::{ExprFactory, StmtLike, private_ident, prop_name_to_expr_value, quote_ident};
 use swc_ecma_visit::{Visit, VisitMut, VisitMutWith, VisitWith};
 
 use self::metadata::{Metadata, ParamMetadata};
@@ -150,7 +150,7 @@ impl TscDecorator {
                     raw: None,
                     value: i.sym.clone().into(),
                 })
-                .into()
+                .into();
             }
             _ => {}
         }

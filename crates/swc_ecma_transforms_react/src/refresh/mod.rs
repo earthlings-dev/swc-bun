@@ -1,12 +1,12 @@
 use rustc_hash::FxHashSet;
 use swc_atoms::atom;
 use swc_common::{
-    comments::Comments, sync::Lrc, util::take::Take, BytePos, Mark, SourceMap, SourceMapper, Span,
-    Spanned, SyntaxContext, DUMMY_SP,
+    BytePos, DUMMY_SP, Mark, SourceMap, SourceMapper, Span, Spanned, SyntaxContext,
+    comments::Comments, sync::Lrc, util::take::Take,
 };
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
-use swc_ecma_utils::{private_ident, quote_ident, quote_str, ExprFactory};
+use swc_ecma_utils::{ExprFactory, private_ident, quote_ident, quote_str};
 use swc_ecma_visit::{Visit, VisitMutWith, VisitWith};
 
 use self::{
@@ -101,17 +101,19 @@ impl<C: Comments> Refresh<C> {
         hook_reg: &mut HookRegister,
     ) -> Persist {
         // We only handle the case when a single variable is declared
-        if let [VarDeclarator {
-            name: Pat::Ident(binding),
-            init: Some(init_expr),
-            ..
-        }] = var_decl.decls.as_mut_slice()
+        if let [
+            VarDeclarator {
+                name: Pat::Ident(binding),
+                init: Some(init_expr),
+                ..
+            },
+        ] = var_decl.decls.as_mut_slice()
         {
             if used_in_jsx.contains(&binding.to_id()) && !is_import_or_require(init_expr) {
                 match init_expr.as_ref() {
                     // TaggedTpl is for something like styled.div`...`
                     Expr::Arrow(_) | Expr::Fn(_) | Expr::TaggedTpl(_) | Expr::Call(_) => {
-                        return Persist::Component(Ident::from(&*binding))
+                        return Persist::Component(Ident::from(&*binding));
                     }
                     _ => (),
                 }
@@ -181,7 +183,7 @@ impl<C: Comments> Refresh<C> {
             _ => return Persist::None,
         };
         let reg_str = (
-            format!("{}${}", reg.last().unwrap().1 .0, &hoc_name).into(),
+            format!("{}${}", reg.last().unwrap().1.0, &hoc_name).into(),
             SyntaxContext::empty(),
         );
         match first_arg.as_mut() {

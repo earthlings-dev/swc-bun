@@ -1,6 +1,6 @@
 use rustc_hash::FxHashMap;
 use swc_atoms::atom;
-use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{DUMMY_SP, Spanned, SyntaxContext, util::take::Take};
 use swc_ecma_ast::{
     Accessibility, BindingIdent, Class, ClassMember, ClassProp, Expr, Key, Lit, MethodKind, Param,
     ParamOrTsParamProp, Pat, PrivateName, PrivateProp, PropName, TsParamProp, TsParamPropParam,
@@ -8,9 +8,8 @@ use swc_ecma_ast::{
 };
 
 use super::{
-    type_ann,
+    FastDts, type_ann,
     util::ast_ext::{ExprExit, PatExt, PropNameExit, StaticProp},
-    FastDts,
 };
 
 impl FastDts {
@@ -369,7 +368,7 @@ impl FastDts {
                         Pat::Array(array_pat) => &mut array_pat.type_ann,
                         Pat::Object(object_pat) => &mut object_pat.type_ann,
                         Pat::Assign(_) | Pat::Rest(_) | Pat::Invalid(_) | Pat::Expr(_) => {
-                            return None
+                            return None;
                         }
                         #[cfg(swc_ast_unknown)]
                         _ => panic!("unable to access unknown nodes"),

@@ -1,7 +1,7 @@
-use swc_common::{Span, DUMMY_SP};
+use swc_common::{DUMMY_SP, Span};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
-use swc_ecma_utils::{prop_name_to_expr, prop_name_to_expr_value, quote_ident, ExprFactory};
+use swc_ecma_utils::{ExprFactory, prop_name_to_expr, prop_name_to_expr_value, quote_ident};
 use swc_trace_macro::swc_trace;
 
 use super::Config;

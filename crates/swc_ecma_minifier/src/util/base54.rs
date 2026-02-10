@@ -3,10 +3,10 @@ use std::{cmp::Reverse, io, ops::AddAssign};
 use arrayvec::ArrayVec;
 use swc_atoms::Atom;
 use swc_common::{
-    sync::Lrc, BytePos, FileLines, FileName, Loc, SourceMapper, Span, SpanLinesError,
+    BytePos, FileLines, FileName, Loc, SourceMapper, Span, SpanLinesError, sync::Lrc,
 };
 use swc_ecma_ast::*;
-use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
+use swc_ecma_codegen::{Emitter, text_writer::WriteJs};
 
 #[derive(Clone, Copy)]
 

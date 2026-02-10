@@ -1,12 +1,12 @@
 use std::iter;
 
-use swc_common::{util::take::Take, Span, DUMMY_SP};
+use swc_common::{DUMMY_SP, Span, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
-    alias_ident_for, is_rest_arguments, prepend_stmt, private_ident, quote_ident, ExprFactory,
+    ExprFactory, alias_ident_for, is_rest_arguments, prepend_stmt, private_ident, quote_ident,
 };
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
+use swc_ecma_visit::{VisitMut, VisitMutWith, noop_visit_mut_type, visit_mut_pass};
 use swc_trace_macro::swc_trace;
 
 struct ObjectSuper {

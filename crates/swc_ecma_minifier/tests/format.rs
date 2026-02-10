@@ -1,11 +1,11 @@
-use swc_common::{sync::Lrc, FileName, Mark, SourceMap};
+use swc_common::{FileName, Mark, SourceMap, sync::Lrc};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{
-    text_writer::{omit_trailing_semi, JsWriter, WriteJs},
     Config, Emitter,
+    text_writer::{JsWriter, WriteJs, omit_trailing_semi},
 };
 use swc_ecma_minifier::{optimize, option::ExtraOptions};
-use swc_ecma_parser::{parse_file_as_module, Syntax};
+use swc_ecma_parser::{Syntax, parse_file_as_module};
 use testing::NormalizedOutput;
 
 fn print(cm: Lrc<SourceMap>, m: &Module, config: Config) -> String {

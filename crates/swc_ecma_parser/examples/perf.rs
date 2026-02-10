@@ -3,8 +3,8 @@ extern crate swc_malloc;
 use std::{collections::hash_map::DefaultHasher, hash::Hash};
 
 use codspeed_criterion_compat::black_box;
-use swc_common::{sync::Lrc, SourceMap};
-use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsSyntax};
+use swc_common::{SourceMap, sync::Lrc};
+use swc_ecma_parser::{Parser, StringInput, Syntax, TsSyntax, lexer::Lexer};
 
 fn main() {
     let mut cnt = 0;

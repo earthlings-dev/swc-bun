@@ -1,13 +1,13 @@
 use std::{borrow::Cow, iter::zip, mem::take};
 
+use Value::Known;
 use swc_atoms::{
-    wtf8::{Wtf8, Wtf8Buf},
     Atom, Wtf8Atom,
+    wtf8::{Wtf8, Wtf8Buf},
 };
-use swc_common::{util::take::Take, DUMMY_SP};
+use swc_common::{DUMMY_SP, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Type, Value};
-use Value::Known;
 
 use super::Pure;
 
@@ -653,16 +653,16 @@ mod tests {
     use swc_common::{FileName, Mark, SyntaxContext};
     use swc_ecma_ast::*;
     use swc_ecma_codegen::{
-        text_writer::{omit_trailing_semi, JsWriter, WriteJs},
         Config, Emitter,
+        text_writer::{JsWriter, WriteJs, omit_trailing_semi},
     };
-    use swc_ecma_parser::{parse_file_as_module, EsSyntax, Syntax};
+    use swc_ecma_parser::{EsSyntax, Syntax, parse_file_as_module};
     use swc_ecma_transforms_base::{fixer::fixer, resolver};
     use swc_ecma_usage_analyzer::marks::Marks;
     use swc_ecma_visit::VisitMutWith;
 
     use crate::{
-        compress::pure::{pure_optimizer, PureOptimizerConfig},
+        compress::pure::{PureOptimizerConfig, pure_optimizer},
         option::CompressOptions,
     };
 

@@ -31,11 +31,11 @@
 //! * Exponentiation operator TC39 proposal: <https://github.com/tc39/proposal-exponentiation-operator>
 //! * Exponentiation operator specification: <https://tc39.es/ecma262/#sec-exp-operator>
 
-use swc_common::{util::take::Take, SyntaxContext, DUMMY_SP};
+use swc_common::{DUMMY_SP, SyntaxContext, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 
-use crate::{utils, TraverseCtx};
+use crate::{TraverseCtx, utils};
 
 pub fn hook() -> impl VisitMutHook<TraverseCtx> {
     ExponentiationOperatorPass

@@ -1,17 +1,17 @@
 use std::{env, sync::Arc};
 
-use anyhow::{anyhow, Context, Error};
+use anyhow::{Context, Error, anyhow};
 use parking_lot::Mutex;
-#[cfg(feature = "encoding-impl")]
-use swc_common::plugin::serialized::{PluginError, PluginSerializedBytes};
 #[cfg(any(
     feature = "plugin_transform_schema_v1",
     feature = "plugin_transform_schema_vtest"
 ))]
 use swc_common::plugin::PLUGIN_TRANSFORM_AST_SCHEMA_VERSION;
+#[cfg(feature = "encoding-impl")]
+use swc_common::plugin::serialized::{PluginError, PluginSerializedBytes};
 use swc_common::{
-    plugin::{diagnostics::PluginCorePkgDiagnostics, metadata::TransformPluginMetadataContext},
     SourceMap,
+    plugin::{diagnostics::PluginCorePkgDiagnostics, metadata::TransformPluginMetadataContext},
 };
 
 #[cfg(feature = "encoding-impl")]

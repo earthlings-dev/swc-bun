@@ -47,15 +47,16 @@ use crate::{
     host_environment::BaseHostEnvironment,
     imported_fn::{
         comments::{
-            add_leading_comment_proxy, add_leading_comments_proxy, add_pure_comment_proxy,
-            add_trailing_comment_proxy, add_trailing_comments_proxy, copy_comment_to_host_env,
-            get_leading_comments_proxy, get_trailing_comments_proxy, has_leading_comments_proxy,
-            has_trailing_comments_proxy, move_leading_comments_proxy, move_trailing_comments_proxy,
-            take_leading_comments_proxy, take_trailing_comments_proxy, CommentHostEnvironment,
+            CommentHostEnvironment, add_leading_comment_proxy, add_leading_comments_proxy,
+            add_pure_comment_proxy, add_trailing_comment_proxy, add_trailing_comments_proxy,
+            copy_comment_to_host_env, get_leading_comments_proxy, get_trailing_comments_proxy,
+            has_leading_comments_proxy, has_trailing_comments_proxy, move_leading_comments_proxy,
+            move_trailing_comments_proxy, take_leading_comments_proxy,
+            take_trailing_comments_proxy,
         },
-        diagnostics::{set_plugin_core_pkg_diagnostics, DiagnosticContextHostEnvironment},
+        diagnostics::{DiagnosticContextHostEnvironment, set_plugin_core_pkg_diagnostics},
         metadata_context::get_raw_experiemtal_transform_context,
-        set_transform_result::{set_transform_result, TransformResultHostEnvironment},
+        set_transform_result::{TransformResultHostEnvironment, set_transform_result},
         source_map::span_to_source_proxy,
         span::span_dummy_with_cmt_proxy,
     },
@@ -76,13 +77,13 @@ use hygiene::*;
 
 use self::{
     metadata_context::{
-        copy_context_key_to_host_env, get_experimental_transform_context, get_transform_context,
-        get_transform_plugin_config, MetadataContextHostEnvironment,
+        MetadataContextHostEnvironment, copy_context_key_to_host_env,
+        get_experimental_transform_context, get_transform_context, get_transform_plugin_config,
     },
     source_map::{
-        doctest_offset_line_proxy, lookup_byte_offset_proxy, lookup_char_pos_proxy,
-        merge_spans_proxy, span_to_filename_proxy, span_to_lines_proxy, span_to_string_proxy,
-        SourceMapHostEnvironment,
+        SourceMapHostEnvironment, doctest_offset_line_proxy, lookup_byte_offset_proxy,
+        lookup_char_pos_proxy, merge_spans_proxy, span_to_filename_proxy, span_to_lines_proxy,
+        span_to_string_proxy,
     },
 };
 

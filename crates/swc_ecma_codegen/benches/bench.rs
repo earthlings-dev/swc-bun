@@ -1,7 +1,7 @@
 extern crate swc_malloc;
 
-use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
-use swc_common::{source_map::DefaultSourceMapGenConfig, FileName};
+use codspeed_criterion_compat::{Bencher, Criterion, black_box, criterion_group, criterion_main};
+use swc_common::{FileName, source_map::DefaultSourceMapGenConfig};
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{Parser, StringInput, Syntax};
 

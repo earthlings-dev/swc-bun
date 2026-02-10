@@ -5,7 +5,7 @@ use std::{
     sync::Arc,
 };
 
-use anyhow::{bail, Context, Result};
+use anyhow::{Context, Result, bail};
 use clap::{Args, Subcommand};
 use swc_common::SourceMap;
 use swc_ecma_minifier::option::MinifyOptions;

@@ -1,17 +1,17 @@
 use std::{iter, mem};
 
 use serde::Deserialize;
-use swc_common::{util::take::Take, Span, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{DUMMY_SP, Span, Spanned, SyntaxContext, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_compat_common::impl_visit_mut_fn;
 use swc_ecma_transforms_base::{helper, helper_expr, perf::Check};
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
-    alias_ident_for, alias_if_required, has_rest_pat, is_literal, member_expr, private_ident,
-    prop_name_to_expr, quote_ident, ExprFactory, StmtLike,
+    ExprFactory, StmtLike, alias_ident_for, alias_if_required, has_rest_pat, is_literal,
+    member_expr, private_ident, prop_name_to_expr, quote_ident,
 };
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
+    Visit, VisitMut, VisitMutWith, VisitWith, noop_visit_mut_type, noop_visit_type, visit_mut_pass,
 };
 use swc_trace_macro::swc_trace;
 
@@ -263,12 +263,14 @@ impl AssignFolder {
                                         .clone()
                                         .make_member(quote_ident!("slice"))
                                         .as_callee(),
-                                    args: vec![Number {
-                                        value: i as f64,
-                                        span: dot3_token,
-                                        raw: None,
-                                    }
-                                    .as_arg()],
+                                    args: vec![
+                                        Number {
+                                            value: i as f64,
+                                            span: dot3_token,
+                                            raw: None,
+                                        }
+                                        .as_arg(),
+                                    ],
                                     ..Default::default()
                                 }
                                 .into(),
@@ -303,10 +305,11 @@ impl AssignFolder {
 
                 let expr = helper_expr!(object_destructuring_empty).as_call(
                     DUMMY_SP,
-                    vec![decl
-                        .init
-                        .expect("destructuring must be initialized")
-                        .as_arg()],
+                    vec![
+                        decl.init
+                            .expect("destructuring must be initialized")
+                            .as_arg(),
+                    ],
                 );
 
                 let var_decl = VarDeclarator {

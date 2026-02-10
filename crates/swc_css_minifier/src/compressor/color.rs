@@ -1,7 +1,7 @@
-use swc_atoms::{atom, Atom};
+use swc_atoms::{Atom, atom};
 use swc_common::DUMMY_SP;
 use swc_css_ast::*;
-use swc_css_utils::{angle_to_deg, hsl_to_rgb, hwb_to_rgb, to_rgb255, NAMED_COLORS};
+use swc_css_utils::{NAMED_COLORS, angle_to_deg, hsl_to_rgb, hwb_to_rgb, to_rgb255};
 
 use super::Compressor;
 use crate::compressor::alpha_value::compress_alpha_value;

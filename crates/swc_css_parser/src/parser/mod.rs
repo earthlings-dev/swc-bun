@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 use swc_css_ast::*;
 
 use self::input::{Buffer, ParserInput};
-use crate::{error::Error, Parse};
+use crate::{Parse, error::Error};
 
 #[macro_use]
 mod macros;

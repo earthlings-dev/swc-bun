@@ -2,10 +2,10 @@ use rustc_hash::{FxHashMap, FxHashSet};
 use swc_common::{Mark, Span, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, stack_size::maybe_grow_default};
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use swc_ecma_visit::{Visit, VisitWith, noop_visit_type};
 
 use crate::{
-    retain::{should_retain_decl, IsConcrete},
+    retain::{IsConcrete, should_retain_decl},
     shared::{enum_member_id_atom, get_module_ident},
     ts_enum::{EnumValueComputer, TsEnumRecord, TsEnumRecordKey, TsEnumRecordValue},
 };

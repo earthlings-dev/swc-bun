@@ -5,14 +5,14 @@
 #![allow(clippy::nonminimal_bool)]
 #![allow(clippy::wrong_self_convention)]
 
-use swc_common::{comments::Comments, input::StringInput, SourceFile};
+use swc_common::{SourceFile, comments::Comments, input::StringInput};
 
 use crate::{
     error::Error,
     lexer::Lexer,
     parser::{
-        input::{Input, InputType},
         PResult, Parser, ParserConfig,
+        input::{Input, InputType},
     },
 };
 

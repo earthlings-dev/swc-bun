@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "engines": {
-    "node": ">=18"
+    "bun": ">=1.3.8"
   },
   "repository": {
     "type": "git",
@@ -18,9 +18,9 @@
   "keywords": [],
   "author": "",
   "scripts": {
-    "test": "tsx ecosystem-ci.ts run-suites",
-    "enable": "tsx ecosystem-ci.ts enable",
-    "bisect": "tsx ecosystem-ci.ts bisect"
+    "test": "bun ecosystem-ci.ts run-suites",
+    "enable": "bun ecosystem-ci.ts enable",
+    "bisect": "bun ecosystem-ci.ts bisect"
   },
   "devDependencies": {
     "@types/node": "^20.8.3",
@@ -29,10 +29,8 @@
     "eslint": "^8.51.0",
     "eslint-define-config": "^1.23.0",
     "eslint-plugin-n": "^16.1.0",
-    "husky": "^8.0.3",
     "lint-staged": "^14.0.1",
     "prettier": "^3.0.3",
-    "tsx": "^3.13.0",
     "typescript": "^5.2.2"
   },
   "lint-staged": {

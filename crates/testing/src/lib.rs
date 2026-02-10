@@ -1,7 +1,7 @@
 use std::{
     env,
     fmt::{self, Debug, Display, Formatter},
-    fs::{create_dir_all, rename, File},
+    fs::{File, create_dir_all, rename},
     io::Write,
     path::{Component, Path, PathBuf},
     process::Command,
@@ -16,9 +16,9 @@ pub use pretty_assertions::{assert_eq, assert_ne};
 use regex::Regex;
 use rustc_hash::FxHashMap;
 use swc_common::{
-    errors::{Diagnostic, Handler, HANDLER},
-    sync::Lrc,
     FilePathMapping, SourceMap,
+    errors::{Diagnostic, HANDLER, Handler},
+    sync::Lrc,
 };
 pub use testing_macros::fixture;
 use tracing_subscriber::EnvFilter;
@@ -75,9 +75,10 @@ pub fn find_executable(name: &str) -> Option<PathBuf> {
     });
 
     if path.is_none() {
-        // Run yarn bin $name
+        // Run bun pm bin $name
 
-        path = Command::new("yarn")
+        path = Command::new("bun")
+            .arg("pm")
             .arg("bin")
             .arg(name)
             .output()

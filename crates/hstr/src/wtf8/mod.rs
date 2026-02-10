@@ -765,7 +765,7 @@ impl Wtf8 {
             } else if b == 0xed {
                 match (iter.next(), iter.next()) {
                     (Some(&b2), Some(&b3)) if b2 >= 0xa0 => {
-                        return Some((pos, decode_surrogate(b2, b3)))
+                        return Some((pos, decode_surrogate(b2, b3)));
                     }
                     _ => pos += 3,
                 }

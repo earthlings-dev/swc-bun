@@ -1,6 +1,6 @@
-use swc_common::{comments::Comments, sync::Lrc, util::take::Take, Mark, SourceMap};
+use swc_common::{Mark, SourceMap, comments::Comments, sync::Lrc, util::take::Take};
 use swc_ecma_ast::{Pass, Program};
-use swc_ecma_minifier::option::{terser::TerserTopLevelOptions, MinifyOptions};
+use swc_ecma_minifier::option::{MinifyOptions, terser::TerserTopLevelOptions};
 use swc_ecma_transforms::{hygiene::hygiene_with_config, resolver};
 use swc_ecma_visit::VisitMutWith;
 

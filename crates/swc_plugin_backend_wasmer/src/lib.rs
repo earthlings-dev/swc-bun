@@ -7,7 +7,7 @@ use parking_lot::Mutex;
 use swc_common::sync::Lazy;
 use swc_plugin_runner::runtime;
 use wasmer::{AsStoreMut, Store};
-use wasmer_wasix::{default_fs_backing, Runtime};
+use wasmer_wasix::{Runtime, default_fs_backing};
 
 /// Identifier for bytecode cache stored in local filesystem.
 ///
@@ -50,13 +50,14 @@ static ENGINE: Lazy<Mutex<wasmer::Engine>> = Lazy::new(|| {
 /// instead of using default runtime it'll try to use shared one.
 fn build_wasi_runtime(_fs_cache_path: Option<PathBuf>) -> Option<Arc<dyn Runtime + Send + Sync>> {
     use wasmer_wasix::{
+        PluggableRuntime,
         runtime::{
             module_cache::{ModuleCache, SharedCache},
             package_loader::UnsupportedPackageLoader,
             resolver::MultiSource,
             task_manager::tokio::TokioTaskManager,
         },
-        virtual_net, PluggableRuntime,
+        virtual_net,
     };
 
     let cache =

@@ -44,7 +44,7 @@ swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit", optional = tr
 tracing        = { workspace = true }
 
 [target.'cfg(not(any(target_arch = "wasm32", target_arch = "arm")))'.dependencies]
-stacker = { version = "0.1.15", optional = true }
+stacker = { version = "0.1.23", optional = true }
 
 [dev-dependencies]
 pathdiff          = { workspace = true }

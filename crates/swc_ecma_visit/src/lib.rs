@@ -8,7 +8,7 @@ pub extern crate swc_ecma_ast;
 
 use std::{borrow::Cow, fmt::Debug};
 
-use swc_common::{pass::CompilerPass, util::take::Take, Span, DUMMY_SP};
+use swc_common::{DUMMY_SP, Span, pass::CompilerPass, util::take::Take};
 use swc_ecma_ast::*;
 use swc_visit::{Repeat, Repeated};
 

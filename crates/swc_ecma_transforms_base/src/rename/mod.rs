@@ -6,7 +6,7 @@ use swc_atoms::Atom;
 use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::stack_size::maybe_grow_default;
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_visit::{VisitMut, VisitMutWith, VisitWith, noop_visit_mut_type, visit_mut_pass};
 
 pub use self::eval::contains_eval;
 #[cfg(feature = "concurrent-renamer")]

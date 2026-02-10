@@ -1,11 +1,11 @@
 use radix_fmt::Radix;
 use swc_atoms::atom;
-use swc_common::{util::take::Take, Spanned, SyntaxContext};
+use swc_common::{Spanned, SyntaxContext, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
+    ExprExt, IsEmpty, Type, Value,
     number::ToJsString,
     unicode::{is_high_surrogate, is_low_surrogate},
-    ExprExt, IsEmpty, Type, Value,
 };
 
 use super::Pure;

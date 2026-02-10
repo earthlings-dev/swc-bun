@@ -1,7 +1,7 @@
 use std::fmt::{Debug, Display};
 
 use anyhow::anyhow;
-use handler::{to_pretty_handler, HandlerOpts, ThreadSafetyDiagnostics};
+use handler::{HandlerOpts, ThreadSafetyDiagnostics, to_pretty_handler};
 pub use miette::{GraphicalReportHandler, GraphicalTheme};
 use swc_common::{
     errors::{Diagnostic, DiagnosticBuilder, Emitter},
@@ -10,7 +10,7 @@ use swc_common::{
 
 mod diagnostic;
 pub mod handler;
-pub use diagnostic::{convert_span, to_pretty_source_code, ToPrettyDiagnostic};
+pub use diagnostic::{ToPrettyDiagnostic, convert_span, to_pretty_source_code};
 
 pub struct ErrorEmitter {
     pub diagnostics: ThreadSafetyDiagnostics,

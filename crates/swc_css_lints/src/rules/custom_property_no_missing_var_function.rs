@@ -1,7 +1,7 @@
 use swc_css_ast::*;
 use swc_css_visit::{Visit, VisitWith};
 
-use crate::rule::{visitor_rule, LintRule, LintRuleContext};
+use crate::rule::{LintRule, LintRuleContext, visitor_rule};
 
 pub fn custom_property_no_missing_var_function(ctx: LintRuleContext<()>) -> Box<dyn LintRule> {
     visitor_rule(

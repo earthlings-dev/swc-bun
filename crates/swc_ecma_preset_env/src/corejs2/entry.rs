@@ -1,12 +1,12 @@
 use std::sync::Arc;
 
 use indexmap::IndexSet;
-use preset_env_base::{version::should_enable, Versions};
+use preset_env_base::{Versions, version::should_enable};
 use rustc_hash::FxBuildHasher;
 use swc_atoms::atom;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{VisitMut, VisitMutWith, noop_visit_mut_type};
 
 use super::builtin::BUILTINS;
 

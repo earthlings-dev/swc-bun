@@ -7,8 +7,8 @@ use swc_config::{
 };
 
 use crate::option::{
-    terser::{TerserCompressorOptions, TerserEcmaVersion},
     MangleOptions,
+    terser::{TerserCompressorOptions, TerserEcmaVersion},
 };
 
 /// Second argument of `minify`.

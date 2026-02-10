@@ -1,18 +1,18 @@
 use std::{borrow::Cow, iter::once, mem::take};
 
 use swc_common::{
+    DUMMY_SP, Mark, Spanned, SyntaxContext,
     pass::{CompilerPass, Repeated},
     util::{move_map::MoveMap, take::Take},
-    Mark, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::perf::{cpu_count, Parallel, ParallelExt};
+use swc_ecma_transforms_base::perf::{Parallel, ParallelExt, cpu_count};
 use swc_ecma_utils::{
-    extract_var_ids, is_literal, prepend_stmt, ExprCtx, ExprExt, ExprFactory, Hoister, IsEmpty,
-    StmtExt, StmtLike, Value::Known,
+    ExprCtx, ExprExt, ExprFactory, Hoister, IsEmpty, StmtExt, StmtLike, Value::Known,
+    extract_var_ids, is_literal, prepend_stmt,
 };
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
+    Visit, VisitMut, VisitMutWith, VisitWith, noop_visit_mut_type, noop_visit_type, visit_mut_pass,
 };
 use tracing::{debug, trace};
 
@@ -1285,7 +1285,7 @@ impl Remover {
                                 _ => false,
                             } && is_block_stmt =>
                         {
-                            continue
+                            continue;
                         }
 
                         // Control flow
@@ -1508,11 +1508,7 @@ fn ignore_result(e: Box<Expr>, drop_str_lit: bool, ctx: ExprCtx) -> Option<Box<E
                 let l = left.as_pure_bool(ctx);
 
                 if let Known(l) = l {
-                    if l {
-                        Some(right)
-                    } else {
-                        None
-                    }
+                    if l { Some(right) } else { None }
                 } else {
                     Some(
                         BinExpr {

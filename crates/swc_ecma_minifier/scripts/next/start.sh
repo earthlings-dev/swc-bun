@@ -9,10 +9,10 @@
 # This script will
 #
 #  - build native binary (`next-swc`)
-#  - install dependnecies using `yarn``
+#  - install dependencies using `bun install`
 #  - remove some dependencies (`next`, `react`, `react-dom`)
-#  - yarn next build examples/foo
-#  - yarn next start examples/foo
+#  - bunx next build examples/foo
+#  - bunx next start examples/foo
 set -eu
 
 SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
@@ -33,5 +33,5 @@ ls -alh $dir/node_modules/@next/swc-*/
 
 # Build and start
 echo "----- ⚠️  Building the app using next"
-(cd $dir && npx next build)
-(cd $dir && npx next start)
+(cd $dir && bunx next build)
+(cd $dir && bunx next start)

@@ -2,15 +2,15 @@
 #![allow(unused_variables)]
 #[cfg(feature = "__plugin_mode")]
 use swc_common::{
+    BytePos, FileName, Loc, SourceFileAndBytePos, SourceMapper, Span,
     plugin::serialized::ResultValue,
     source_map::{
         DistinctSources, FileLinesResult, MalformedSourceMapPositions, PartialFileLines,
         PartialLoc, SmallPos, SpanLinesError, SpanSnippetError,
     },
     sync::Lrc,
-    BytePos, FileName, Loc, SourceFileAndBytePos, SourceMapper, Span,
 };
-use swc_common::{sync::OnceCell, CharPos, FileLines, SourceFile};
+use swc_common::{CharPos, FileLines, SourceFile, sync::OnceCell};
 #[cfg(feature = "__plugin_mode")]
 use swc_ecma_ast::SourceMapperExt;
 use swc_trace_macro::swc_trace;

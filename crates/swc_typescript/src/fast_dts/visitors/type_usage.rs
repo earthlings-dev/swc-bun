@@ -2,9 +2,9 @@ use std::collections::hash_map::Entry;
 
 use bitflags::bitflags;
 use petgraph::{
+    Graph,
     graph::{DiGraph, NodeIndex},
     visit::Bfs,
-    Graph,
 };
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_common::{BytePos, Spanned, SyntaxContext};

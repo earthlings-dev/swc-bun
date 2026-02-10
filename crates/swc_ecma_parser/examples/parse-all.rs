@@ -5,7 +5,7 @@ extern crate swc_malloc;
 use std::{env, path::PathBuf, time::Instant};
 
 use codspeed_criterion_compat::black_box;
-use swc_common::{errors::HANDLER, GLOBALS};
+use swc_common::{GLOBALS, errors::HANDLER};
 use swc_ecma_parser::parse_file_as_module;
 use walkdir::WalkDir;
 

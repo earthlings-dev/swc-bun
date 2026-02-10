@@ -10,7 +10,7 @@
 
 use std::{
     borrow::Cow,
-    cmp::{min, Reverse},
+    cmp::{Reverse, min},
     collections::HashMap,
     io::{self, prelude::*},
 };
@@ -20,10 +20,10 @@ use termcolor::{Buffer, BufferWriter, Color, ColorChoice, ColorSpec, StandardStr
 
 use self::Destination::*;
 use super::{
+    CodeSuggestion, DiagnosticBuilder, DiagnosticId, Level, SourceMapperDyn, SubDiagnostic,
     diagnostic::Message,
     snippet::{Annotation, AnnotationType, Line, MultilineAnnotation, Style, StyledString},
     styled_buffer::StyledBuffer,
-    CodeSuggestion, DiagnosticBuilder, DiagnosticId, Level, SourceMapperDyn, SubDiagnostic,
 };
 use crate::{
     sync::Lrc,

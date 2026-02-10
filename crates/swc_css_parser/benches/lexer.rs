@@ -1,7 +1,7 @@
 extern crate swc_malloc;
 
-use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
-use swc_common::{input::StringInput, FileName};
+use codspeed_criterion_compat::{Bencher, Criterion, black_box, criterion_group, criterion_main};
+use swc_common::{FileName, input::StringInput};
 use swc_css_parser::lexer::Lexer;
 
 fn bench_stylesheet(b: &mut Bencher, src: &'static str) {

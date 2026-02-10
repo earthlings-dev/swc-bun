@@ -48,7 +48,7 @@
 
 use rustc_hash::FxHashMap;
 use swc_atoms::Atom;
-use swc_common::{SyntaxContext, DUMMY_SP};
+use swc_common::{DUMMY_SP, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::private_ident;
 

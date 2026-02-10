@@ -4,9 +4,9 @@ use std::sync::Arc;
 
 use parking_lot::Mutex;
 use swc_common::{
+    BytePos, SourceMap, SourceMapper, Span,
     plugin::serialized::{PluginSerializedBytes, VersionedSerializable},
     source_map::{PartialFileLines, PartialLoc},
-    BytePos, SourceMap, SourceMapper, Span,
 };
 
 use crate::{

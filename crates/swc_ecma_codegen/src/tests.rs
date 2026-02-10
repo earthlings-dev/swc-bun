@@ -1,9 +1,9 @@
 use std::path::PathBuf;
 
 use ascii::AsciiChar;
-use swc_common::{comments::SingleThreadedComments, FileName, SourceMap};
+use swc_common::{FileName, SourceMap, comments::SingleThreadedComments};
 use swc_ecma_parser;
-use swc_ecma_testing::{exec_node_js, JsExecOptions};
+use swc_ecma_testing::{JsExecOptions, exec_node_js};
 use testing::DebugUsingDisplay;
 
 use self::swc_ecma_parser::{EsSyntax, Parser, StringInput, Syntax};

@@ -5,7 +5,7 @@ use swc_estree_ast::{
     VariableDeclaration, VariableDeclarationKind, VariableDeclarator,
 };
 
-use crate::babelify::{extract_class_body_span, Babelify, Context};
+use crate::babelify::{Babelify, Context, extract_class_body_span};
 
 impl Babelify for Decl {
     type Output = Declaration;

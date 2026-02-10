@@ -1,10 +1,10 @@
 use serde_json::Value;
 use swc_atoms::Wtf8Atom;
-use swc_common::{util::take::Take, Spanned, DUMMY_SP};
+use swc_common::{DUMMY_SP, Spanned, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Parallel;
-use swc_ecma_utils::{calc_literal_cost, member_expr, ExprFactory};
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
+use swc_ecma_utils::{ExprFactory, calc_literal_cost, member_expr};
+use swc_ecma_visit::{VisitMut, VisitMutWith, noop_visit_mut_type, visit_mut_pass};
 
 /// Transform to optimize performance of literals.
 ///
@@ -73,12 +73,14 @@ impl VisitMut for JsonParse {
                     *expr = CallExpr {
                         span: expr.span(),
                         callee: member_expr!(Default::default(), DUMMY_SP, JSON.parse).as_callee(),
-                        args: vec![Lit::Str(Str {
-                            span: DUMMY_SP,
-                            raw: None,
-                            value: value.into(),
-                        })
-                        .as_arg()],
+                        args: vec![
+                            Lit::Str(Str {
+                                span: DUMMY_SP,
+                                raw: None,
+                                value: value.into(),
+                            })
+                            .as_arg(),
+                        ],
                         ..Default::default()
                     }
                     .into();

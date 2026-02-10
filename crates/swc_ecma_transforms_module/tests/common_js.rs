@@ -5,8 +5,8 @@ use swc_ecma_ast::Pass;
 use swc_ecma_parser::{Syntax, TsSyntax};
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::es2015::for_of;
-use swc_ecma_transforms_module::common_js::{self, common_js, FeatureFlag};
-use swc_ecma_transforms_testing::{test, test_fixture, FixtureTestConfig};
+use swc_ecma_transforms_module::common_js::{self, FeatureFlag, common_js};
+use swc_ecma_transforms_testing::{FixtureTestConfig, test, test_fixture};
 use swc_ecma_transforms_typescript::typescript;
 
 fn syntax() -> Syntax {

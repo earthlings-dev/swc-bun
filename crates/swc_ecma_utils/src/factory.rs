@@ -1,7 +1,7 @@
 use std::iter;
 
 use swc_atoms::atom;
-use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
+use swc_common::{DUMMY_SP, Span, Spanned, util::take::Take};
 use swc_ecma_ast::*;
 
 /// Extension methods for [Expr].

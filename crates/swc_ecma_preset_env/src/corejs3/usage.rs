@@ -1,17 +1,17 @@
 use std::sync::Arc;
 
 use indexmap::IndexSet;
-use preset_env_base::version::{should_enable, Version};
+use preset_env_base::version::{Version, should_enable};
 use rustc_hash::FxBuildHasher;
 use swc_atoms::Atom;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use swc_ecma_visit::{Visit, VisitWith, noop_visit_type};
 
 use super::{
     builtin::{self, CoreJSPolyfillDescriptor},
     data,
 };
-use crate::{corejs3::compat::DATA as CORE_JS_COMPAT_DATA, Versions};
+use crate::{Versions, corejs3::compat::DATA as CORE_JS_COMPAT_DATA};
 
 pub(crate) struct UsageVisitor {
     shipped_proposals: bool,

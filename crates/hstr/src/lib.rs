@@ -6,7 +6,7 @@ use std::{
     borrow::Borrow,
     fmt::{Debug, Display},
     hash::Hash,
-    mem::{self, forget, transmute, ManuallyDrop},
+    mem::{self, ManuallyDrop, forget, transmute},
     num::NonZeroU8,
     ops::Deref,
     str::from_utf8_unchecked,
@@ -15,7 +15,7 @@ use std::{
 use debug_unreachable::debug_unreachable;
 use once_cell::sync::Lazy;
 
-pub use crate::dynamic::{global_atom_store_gc, AtomStore};
+pub use crate::dynamic::{AtomStore, global_atom_store_gc};
 use crate::{
     macros::{get_hash, impl_from_alias, partial_eq},
     tagged_value::TaggedValue,

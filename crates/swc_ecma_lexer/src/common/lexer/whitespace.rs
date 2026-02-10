@@ -183,7 +183,7 @@ impl SkipWhitespace<'_> {
                         self.newline = true;
                     } else {
                         self.newline = true; // Treat standalone CR as line
-                                             // break too
+                        // break too
                     }
 
                     if pos >= len {

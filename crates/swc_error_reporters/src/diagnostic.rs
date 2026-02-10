@@ -2,8 +2,8 @@ use std::{fmt, mem::transmute};
 
 use miette::{GraphicalReportHandler, Severity, SourceOffset, SourceSpan};
 use swc_common::{
-    errors::{Diagnostic, DiagnosticId, Level, SubDiagnostic},
     BytePos, FileName, SourceMap, Span,
+    errors::{Diagnostic, DiagnosticId, Level, SubDiagnostic},
 };
 
 pub struct PrettyDiagnostic<'a> {

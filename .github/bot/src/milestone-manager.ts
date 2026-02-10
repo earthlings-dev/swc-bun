@@ -1,4 +1,4 @@
-// npx ts-node .github/bot/src/milestone-manager.ts $version
+// bun .github/bot/src/milestone-manager.ts $version
 // This script creates a milestone for the published version and moves all issues/PRs from "Planned" milestone to it
 
 import { octokit, owner, repo } from "./util/octokit";
@@ -8,7 +8,7 @@ async function main() {
 
   if (!version) {
     console.error(
-      "Usage: npx ts-node .github/bot/src/milestone-manager.ts <version>"
+      "Usage: bun .github/bot/src/milestone-manager.ts <version>"
     );
     process.exit(1);
   }

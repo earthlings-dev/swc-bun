@@ -2,11 +2,11 @@ use std::{collections::HashMap, io::stdout};
 
 use anyhow::Error;
 use swc_bundler::{BundleKind, Bundler, Config, Hook, Load, ModuleData, ModuleRecord, Resolve};
-use swc_common::{sync::Lrc, FileName, FilePathMapping, Globals, SourceMap, Span};
+use swc_common::{FileName, FilePathMapping, Globals, SourceMap, Span, sync::Lrc};
 use swc_ecma_ast::KeyValueProp;
-use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
+use swc_ecma_codegen::{Emitter, text_writer::JsWriter};
 use swc_ecma_loader::resolve::Resolution;
-use swc_ecma_parser::{parse_file_as_module, Syntax};
+use swc_ecma_parser::{Syntax, parse_file_as_module};
 
 fn main() {
     let _log = testing::init();

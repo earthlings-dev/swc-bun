@@ -1,5 +1,5 @@
 use swc_ecma_transforms_base::resolver;
-use swc_ecma_transforms_testing::{test, Tester};
+use swc_ecma_transforms_testing::{Tester, test};
 
 use super::*;
 use crate::jsx;

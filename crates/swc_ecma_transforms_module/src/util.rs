@@ -5,13 +5,13 @@ use swc_common::DUMMY_SP;
 use swc_config::file_pattern::FilePattern;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    is_valid_prop_ident, member_expr, private_ident, quote_ident, quote_str, ExprFactory,
-    FunctionFactory, IsDirective,
+    ExprFactory, FunctionFactory, IsDirective, is_valid_prop_ident, member_expr, private_ident,
+    quote_ident, quote_str,
 };
 
 use crate::{
-    module_decl_strip::{ExportItem, ExportKV},
     SpanCtx,
+    module_decl_strip::{ExportItem, ExportKV},
 };
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

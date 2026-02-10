@@ -15,8 +15,6 @@ env:
   DIFF: 0
   # For faster CI
   RUST_LOG: "off"
-  # https://github.com/actions/setup-node/issues/899#issuecomment-1819151595
-  SKIP_YARN_COREPACK_CHECK: 1
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -123,18 +121,11 @@ jobs:
           # toolchain: stable
           # override: true
 
-      - run: corepack enable
+      - uses: oven-sh/setup-bun@v2
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-          cache: "yarn"
-
-      - name: Install node dependencies
+      - name: Install dependencies
         shell: bash
-        run: |
-          corepack enable
-          yarn
+        run: bun install --frozen-lockfile
 
       # Ensure that all components are compilable.
       - name: Run cargo check for all targets
@@ -156,9 +147,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - shell: bash
-        run: corepack enable
-
       # We explicitly do this to cache properly.
       - uses: actions-rs/toolchain@v1
         with:
@@ -167,16 +155,11 @@ jobs:
       - name: Install wasm-pack
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-          cache: "yarn"
+      - uses: oven-sh/setup-bun@v2
 
-      - name: Install node dependencies
+      - name: Install dependencies
         shell: bash
-        run: |
-          corepack enable
-          yarn
+        run: bun install --frozen-lockfile
 
       - name: Test
         run: |
@@ -192,11 +175,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: ./.github/actions/setup-node
+      - uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
 
       - name: List crates
         id: list-tests
-        run: echo "settings=$(npx zx ./scripts/github/get-test-matrix.mjs)" >> $GITHUB_OUTPUT
+        run: echo "settings=$(bunx zx ./scripts/github/get-test-matrix.mjs)" >> $GITHUB_OUTPUT
 
   cargo-test:
     name: Test - ${{ matrix.settings.crate }} - ${{ matrix.settings.os }}
@@ -219,13 +205,7 @@ jobs:
         with:
           submodules: true
 
-      - run: corepack enable
-
-      # Source map format
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-          cache: "yarn"
+      - uses: oven-sh/setup-bun@v2
 
       # We explicitly do this to cache properly.
       - name: Install Rust
@@ -243,31 +223,9 @@ jobs:
         with:
           deno-version: v1.x
 
-      - name: Install node dependencies
+      - name: Install dependencies
         shell: bash
-        run: |
-          corepack enable
-          yarn
-          # I don't want to think deeply about this
-          yarn global add jest@27 mocha || \
-          yarn global add jest@27 mocha || \
-          yarn global add jest@27 mocha || \
-          yarn global add jest@27 mocha || \
-          yarn global add jest@27 mocha || \
-          yarn global add jest@27 mocha || \
-          yarn global add jest@27 mocha || \
-          yarn global add jest@27 mocha || true
-
-      - name: Configure path (windows)
-        shell: bash
-        if: runner.os == 'Windows'
-        run: |
-          echo $(yarn global bin) >> $GITHUB_PATH
-
-      - name: Verify dependencies
-        shell: bash
-        run: |
-          yarn jest --version && yarn mocha --version
+        run: bun install --frozen-lockfile
 
       - name: Configure execution cache
         shell: bash
@@ -357,8 +315,8 @@ jobs:
         run: |
           env RUSTFLAGS="--cfg swc_ast_unknown" cargo check -p ${{ matrix.settings.crate }} --features typescript,react,proposal,optimization,module,compat
 
-  node-test:
-    name: Test node bindings - ${{ matrix.os }}
+  bun-test:
+    name: Test native bindings - ${{ matrix.os }}
     if: >-
       ${{ !contains(github.event.head_commit.message, 'chore: ') }}
     runs-on: ${{ matrix.os }}
@@ -372,21 +330,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - shell: bash
-        run: corepack enable
-
       # We explicitly do this to cache properly.
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 18
-          cache: "yarn"
+      - uses: oven-sh/setup-bun@v2
 
       - name: Set platform name
         run: |
-          export NODE_PLATFORM_NAME=$(node -e "console.log(require('os').platform())")
+          export NODE_PLATFORM_NAME=$(bun -e "console.log(require('os').platform())")
           echo "PLATFORM_NAME=$NODE_PLATFORM_NAME" >> $GITHUB_ENV
         shell: bash
 
@@ -396,18 +348,17 @@ jobs:
       - name: Prepare
         run: |
           rustup target add wasm32-wasip1
-          corepack enable
-          yarn
+          bun install --frozen-lockfile
 
       - name: Build
         working-directory: packages/core
         run: |
-          yarn build:dev
+          bun run build:dev
 
       - name: Test
         working-directory: packages/core
         run: |
-          yarn test
+          bun test
 
   integration-test:
     name: "Test with @swc/cli"
@@ -417,17 +368,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - shell: bash
-        run: corepack enable
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: "yarn"
+      - uses: oven-sh/setup-bun@v2
 
       - name: Set platform name
         run: |
-          export NODE_PLATFORM_NAME=$(node -e "console.log(require('os').platform())")
+          export NODE_PLATFORM_NAME=$(bun -e "console.log(require('os').platform())")
           echo "PLATFORM_NAME=$NODE_PLATFORM_NAME" >> $GITHUB_ENV
         shell: bash
 
@@ -437,63 +382,25 @@ jobs:
       - name: Prepare
         run: |
           rustup target add wasm32-wasip1
-          corepack enable
-          yarn
+          bun install --frozen-lockfile
 
-          yarn build:dev
+          bun run build:dev
 
           # Avoid no space left on device, copyfile
           cargo clean
           (cd ./bindings && cargo clean)
 
-          npm install -g @swc/cli@0.1.56
-          npm link
-          npm install -g file:$PWD
+          bun install -g @swc/cli@0.1.56
+          bun link
+          bun install -g file:$PWD
 
       - name: Print info
         run: |
-          npm list -g
+          bun pm ls -g
 
-      - name: (swc) three.js
-        run: |
-          # mkdir -p tests/integration/three-js
-          # yarn global add qunit failonlyreporter
-
-          # Download three.js
-          # git clone --depth 1 https://github.com/mrdoob/three.js.git -b r117 tests/integration/three-js/repo
-
-          # TODO
-          # swc -C isModule=unknown -C test=\".*.js$\" -C module.type=commonjs --sync tests/integration/three-js/repo/ -d tests/integration/three-js/build/
-
-          # TODO
-          # (cd tests/integration/three-js/build/test && qunit -r failonlyreporter unit/three.source.unit.js)
-
-        # terser: contains with statement in test
-        # Rome.js: I forgot the cause, but it didn't work.
-        # jQuery: browser only (window.document is required)
-      - name: (swc) redux
-        run: |
-          # mkdir -p tests/integration/redux
-          # yarn global add qunit failonlyreporter
-
-          # Download
-          # git clone --depth 1 https://github.com/reduxjs/redux.git -b v4.1.0 tests/integration/redux/repo
-          # TODO
-          # swc --sync tests/integration/redux/repo/src/ -d tests/integration/redux/repo/lib/
-          # echo "module.exports=require('./index')" > tests/integration/redux/repo/lib/redux.js
-          # TODO
-          # swc --sync tests/integration/redux/repo/src/ -d tests/integration/redux/repo/test/
-          # TODO
-          # swc --sync tests/integration/redux/repo/test/ -d tests/integration/redux/repo/test/
-
-          # TODO
-          # (cd tests/integration/redux/repo && yarn)
-          # TODO
-          # (cd tests/integration/redux/repo && npx jest '.*.js' --modulePathIgnorePatterns 'typescript')
       - name: (swcpack) example react app
         run: |
-          export NODE_OPTIONS="--unhandled-rejections=warn"
-          (cd crates/swc_node_bundler/tests/integration/react && npm install && npx spack)
+          (cd crates/swc_node_bundler/tests/integration/react && bun install && bunx spack)
 
   done:
     needs:
@@ -504,7 +411,7 @@ jobs:
       - cargo-check
       - test-wasm
       - cargo-test
-      - node-test
+      - bun-test
       - integration-test
     if: >-
       ${{ always() && !contains(github.event.head_commit.message, 'chore: ') }}

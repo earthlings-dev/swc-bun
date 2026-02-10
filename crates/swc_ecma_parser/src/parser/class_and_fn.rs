@@ -3,6 +3,7 @@ use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::*;
 
 use crate::{
+    Context, PResult, Parser,
     error::SyntaxError,
     input::Tokens,
     lexer::Token,
@@ -10,7 +11,6 @@ use crate::{
         state::State,
         util::{IsInvalidClassName, IsSimpleParameterList},
     },
-    Context, PResult, Parser,
 };
 
 struct MakeMethodArgs {
@@ -1809,7 +1809,7 @@ mod tests {
     use swc_ecma_ast::*;
     use swc_ecma_visit::assert_eq_ignore_span;
 
-    use crate::{test_parser, Syntax};
+    use crate::{Syntax, test_parser};
 
     fn expr(s: &'static str) -> Box<Expr> {
         test_parser(s, Syntax::default(), |p| p.parse_expr())

@@ -1,4 +1,4 @@
-use swc_common::{BytePos, Span, DUMMY_SP};
+use swc_common::{BytePos, DUMMY_SP, Span};
 
 use super::{Result, WriteJs};
 

@@ -1,8 +1,8 @@
 use std::path::PathBuf;
 
-use swc_common::{comments::SingleThreadedComments, errors::Handler, Spanned};
+use swc_common::{Spanned, comments::SingleThreadedComments, errors::Handler};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, EsSyntax, Parser, Syntax, TsSyntax};
+use swc_ecma_parser::{EsSyntax, Parser, Syntax, TsSyntax, lexer::Lexer};
 use swc_ecma_visit::{Visit, VisitWith};
 
 #[testing::fixture("tests/span/**/*.js")]

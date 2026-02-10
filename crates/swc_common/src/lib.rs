@@ -32,7 +32,7 @@
 
 use std::fmt::Debug;
 
-pub use ast_node::{ast_node, ast_serde, Decode, DeserializeEnum, Encode, Spanned};
+pub use ast_node::{Decode, DeserializeEnum, Encode, Spanned, ast_node, ast_serde};
 pub use from_variant::FromVariant;
 pub use swc_eq_ignore_macros::{EqIgnoreSpan, TypeEq};
 
@@ -40,9 +40,9 @@ pub use self::{
     eq::{EqIgnoreSpan, TypeEq},
     errors::{SourceMapper, SourceMapperDyn},
     pos::{
-        hygiene, BytePos, CharPos, FileName, Globals, Loc, LocWithOpt, Mark, MultiSpan, SourceFile,
-        SourceFileAndBytePos, SourceFileAndLine, Span, SpanLinesError, Spanned, SyntaxContext,
-        DUMMY_SP, GLOBALS, NO_EXPANSION,
+        BytePos, CharPos, DUMMY_SP, FileName, GLOBALS, Globals, Loc, LocWithOpt, Mark, MultiSpan,
+        NO_EXPANSION, SourceFile, SourceFileAndBytePos, SourceFileAndLine, Span, SpanLinesError,
+        Spanned, SyntaxContext, hygiene,
     },
     source_map::{FileLines, FileLoader, FilePathMapping, SourceMap, SpanSnippetError},
     syntax_pos::LineCol,

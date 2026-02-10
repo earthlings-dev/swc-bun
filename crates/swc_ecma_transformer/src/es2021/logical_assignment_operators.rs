@@ -35,7 +35,7 @@
 //! * Babel plugin implementation: <https://github.com/babel/babel/tree/v7.26.2/packages/babel-plugin-transform-logical-assignment-operators>
 //! * Logical Assignment TC39 proposal: <https://github.com/tc39/proposal-logical-assignment>
 
-use swc_common::{util::take::Take, DUMMY_SP};
+use swc_common::{DUMMY_SP, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_utils::alias_ident_for;

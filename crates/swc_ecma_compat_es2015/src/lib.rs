@@ -2,7 +2,7 @@
 #![allow(clippy::boxed_local)]
 
 use serde::Deserialize;
-use swc_common::{comments::Comments, Mark};
+use swc_common::{Mark, comments::Comments};
 use swc_ecma_ast::Pass;
 
 pub use self::{

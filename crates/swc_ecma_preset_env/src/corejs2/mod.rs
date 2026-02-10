@@ -1,11 +1,11 @@
 use std::sync::Arc;
 
 use indexmap::IndexSet;
-use preset_env_base::{version::should_enable, Versions};
+use preset_env_base::{Versions, version::should_enable};
 use rustc_hash::FxBuildHasher;
 use swc_atoms::Atom;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use swc_ecma_visit::{Visit, VisitWith, noop_visit_type};
 
 use self::builtin::BUILTINS;
 pub(crate) use self::entry::Entry;

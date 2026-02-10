@@ -1,13 +1,13 @@
 use std::mem;
 
-use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
+use swc_common::{DUMMY_SP, Span, Spanned, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    constructor::inject_after_super, default_constructor_with_span, is_literal,
-    is_simple_pure_expr, private_ident, prop_name_to_member_prop, ExprFactory, ModuleItemLike,
-    StmtLike,
+    ExprFactory, ModuleItemLike, StmtLike, constructor::inject_after_super,
+    default_constructor_with_span, is_literal, is_simple_pure_expr, private_ident,
+    prop_name_to_member_prop,
 };
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
+use swc_ecma_visit::{VisitMut, VisitMutWith, noop_visit_mut_type, visit_mut_pass};
 
 /// # What does this module do?
 ///

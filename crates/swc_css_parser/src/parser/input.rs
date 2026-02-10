@@ -376,7 +376,7 @@ impl<'a> Input<'a> {
                 let token_and_span = match self.get_component_value(&input.children, 0) {
                     Some(token_or_block) => match token_or_block {
                         TokenOrBlock::Token(token_and_span) => {
-                            return Ok(Cow::Borrowed(token_and_span))
+                            return Ok(Cow::Borrowed(token_and_span));
                         }
                         TokenOrBlock::Function(function) => {
                             let name = match function.1 {

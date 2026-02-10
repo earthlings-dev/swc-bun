@@ -3,9 +3,9 @@
 use std::sync::{Arc, Mutex};
 
 use swc_common::{
+    BytePos, FileName, SourceFile, SourceMap, Span,
     errors::{Diagnostic, Emitter, Handler},
     sync::Lrc,
-    BytePos, FileName, SourceFile, SourceMap, Span,
 };
 use swc_error_reporters::{GraphicalReportHandler, ToPrettyDiagnostic};
 

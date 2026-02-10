@@ -2,10 +2,10 @@ use swc_atoms::Atom;
 use swc_common::{BytePos, Span};
 use swc_css_ast::*;
 
-use super::{input::ParserInput, PResult, Parser};
+use super::{PResult, Parser, input::ParserInput};
 use crate::{
-    error::{Error, ErrorKind},
     Parse,
+    error::{Error, ErrorKind},
 };
 
 impl<I> Parser<I>
@@ -188,7 +188,7 @@ where
         let function_name = match function_name {
             FunctionName::Ident(name) => &name.value,
             FunctionName::DashedIdent(_) => {
-                return Err(Error::new(Default::default(), ErrorKind::Ignore))
+                return Err(Error::new(Default::default(), ErrorKind::Ignore));
             }
         };
 

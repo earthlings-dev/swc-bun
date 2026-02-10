@@ -2,7 +2,7 @@
 
 use std::{cmp, cmp::Ordering, fmt, str::FromStr};
 
-use serde::{de, de::Visitor, Deserialize, Deserializer, Serialize};
+use serde::{Deserialize, Deserializer, Serialize, de, de::Visitor};
 use tracing::warn;
 
 use crate::Versions;

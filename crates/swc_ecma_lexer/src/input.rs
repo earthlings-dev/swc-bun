@@ -5,6 +5,7 @@ use swc_common::{BytePos, Span};
 use swc_ecma_ast::EsVersion;
 
 use crate::{
+    Context,
     common::{
         input::Tokens,
         lexer::token::TokenFactory,
@@ -14,7 +15,6 @@ use crate::{
     error::Error,
     lexer::{self},
     token::*,
-    Context,
 };
 
 #[derive(Clone)]

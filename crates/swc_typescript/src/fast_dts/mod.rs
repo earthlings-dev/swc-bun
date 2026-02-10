@@ -3,8 +3,8 @@ use std::{borrow::Cow, mem::take, sync::Arc};
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
 use swc_common::{
-    comments::SingleThreadedComments, util::take::Take, BytePos, FileName, Mark, Span, Spanned,
-    DUMMY_SP,
+    BytePos, DUMMY_SP, FileName, Mark, Span, Spanned, comments::SingleThreadedComments,
+    util::take::Take,
 };
 use swc_ecma_ast::{
     BindingIdent, Decl, DefaultDecl, ExportDefaultExpr, Ident, ImportSpecifier, ModuleDecl,

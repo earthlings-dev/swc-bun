@@ -108,7 +108,7 @@ impl From<EntryConfig> for HashMap<String, FileName> {
                 }
             }
             EntryConfig::Files(f) => {
-                return f.into_iter().map(|(k, v)| (k, FileName::Real(v))).collect()
+                return f.into_iter().map(|(k, v)| (k, FileName::Real(v))).collect();
             }
         }
 

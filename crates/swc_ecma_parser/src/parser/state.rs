@@ -4,7 +4,7 @@ use rustc_hash::FxHashMap;
 use swc_atoms::Atom;
 use swc_common::{BytePos, Span};
 
-use crate::{input::Tokens, Parser};
+use crate::{Parser, input::Tokens};
 
 #[derive(Clone, Default)]
 pub struct State {

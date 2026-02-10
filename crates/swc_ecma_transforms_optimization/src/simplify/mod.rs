@@ -1,13 +1,13 @@
 //! Ported from closure compiler.
 use swc_common::{
-    pass::{CompilerPass, Repeat, Repeated},
     Mark,
+    pass::{CompilerPass, Repeat, Repeated},
 };
 use swc_ecma_ast::Pass;
 
 pub use self::{
     branch::dead_branch_remover,
-    expr::{expr_simplifier, Config as ExprSimplifierConfig},
+    expr::{Config as ExprSimplifierConfig, expr_simplifier},
 };
 
 mod branch;

@@ -2,8 +2,8 @@ use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_transforms_base::assumptions::Assumptions;
 
 use crate::{
-    hook_utils::{HookBuilder, NoopHook},
     TraverseCtx,
+    hook_utils::{HookBuilder, NoopHook},
 };
 
 mod export_namespace_from;

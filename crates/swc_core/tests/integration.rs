@@ -4,7 +4,7 @@ use std::{
     process::{Command, Stdio},
 };
 
-use anyhow::{anyhow, Error};
+use anyhow::{Error, anyhow};
 
 fn build_fixture_binary(dir: &Path, target: Option<&str>) -> Result<(), Error> {
     let mut args = vec!["build".to_string()];

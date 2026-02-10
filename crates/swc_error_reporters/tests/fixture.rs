@@ -3,9 +3,9 @@ use std::{fs, path::Path};
 
 use anyhow::bail;
 use swc_common::{
+    BytePos, FileName, SourceMap, Span,
     errors::{Handler, Level},
     sync::Lrc,
-    BytePos, FileName, SourceMap, Span,
 };
 use swc_error_reporters::handler::try_with_handler;
 

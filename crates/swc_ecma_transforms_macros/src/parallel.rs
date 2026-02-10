@@ -1,7 +1,7 @@
 #![allow(non_snake_case)]
 
 use proc_macro2::{Span, TokenStream};
-use syn::{parse_quote, Expr, Ident, ImplItem, ImplItemFn, ItemImpl, Meta, Type};
+use syn::{Expr, Ident, ImplItem, ImplItemFn, ItemImpl, Meta, Type, parse_quote};
 
 use crate::common::Mode;
 

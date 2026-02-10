@@ -1,7 +1,6 @@
-import fs from "node:fs/promises";
+import { cp } from "node:fs/promises";
 
-const pkgJsonFile = await fs.readFile("pkg/package.json", "utf8");
-const pkgJson = JSON.parse(pkgJsonFile);
+const pkgJson = await Bun.file("pkg/package.json").json();
 pkgJson.name = "@swc/es-ast-viewer";
 pkgJson.type = "module";
 pkgJson.files.push("es_ast_viewer_node.js");
@@ -12,6 +11,6 @@ pkgJson.exports = {
 };
 
 await Promise.all([
-    fs.cp("src/es_ast_viewer_node.js", "pkg/es_ast_viewer_node.js"),
-    fs.writeFile("pkg/package.json", JSON.stringify(pkgJson, null, 2)),
+    cp("src/es_ast_viewer_node.js", "pkg/es_ast_viewer_node.js"),
+    Bun.write("pkg/package.json", JSON.stringify(pkgJson, null, 2)),
 ]);

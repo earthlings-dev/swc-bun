@@ -1,8 +1,8 @@
 use phf::phf_set;
 use swc_common::util::take::Take;
 use swc_ecma_ast::*;
-use swc_ecma_utils::{prepend_stmts, StmtLike};
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
+use swc_ecma_utils::{StmtLike, prepend_stmts};
+use swc_ecma_visit::{VisitMut, VisitMutWith, noop_visit_mut_type, visit_mut_pass};
 
 static HOIST_METHODS: phf::Set<&str> = phf_set![
     "mock",

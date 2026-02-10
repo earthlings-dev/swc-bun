@@ -10,9 +10,9 @@ use js_sys::Uint8Array;
 use miette::{GraphicalTheme, LabeledSpan, ThemeCharacters, ThemeStyles};
 use serde::Serialize;
 use swc_common::{
-    errors::{DiagnosticBuilder, DiagnosticId, Emitter, Handler, HANDLER},
+    GLOBALS, SourceMap, Span,
+    errors::{DiagnosticBuilder, DiagnosticId, Emitter, HANDLER, Handler},
     sync::Lrc,
-    SourceMap, Span, GLOBALS,
 };
 use swc_error_reporters::{convert_span, to_pretty_source_code};
 use swc_ts_fast_strip::{Options, TransformOutput};

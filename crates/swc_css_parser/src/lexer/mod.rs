@@ -2,18 +2,18 @@ use std::{borrow::Cow, cell::RefCell, char::REPLACEMENT_CHARACTER, rc::Rc};
 
 use swc_atoms::{Atom, AtomStoreCell};
 use swc_common::{
+    BytePos, Span,
     comments::{Comment, CommentKind, Comments},
     input::Input,
     util::take::Take,
-    BytePos, Span,
 };
 use swc_css_ast::{
-    matches_eq_ignore_ascii_case, DimensionToken, NumberType, Token, TokenAndSpan, UrlKeyValue,
+    DimensionToken, NumberType, Token, TokenAndSpan, UrlKeyValue, matches_eq_ignore_ascii_case,
 };
 
 use crate::{
     error::{Error, ErrorKind},
-    parser::{input::ParserInput, ParserConfig},
+    parser::{ParserConfig, input::ParserInput},
 };
 
 pub(crate) type LexResult<T> = Result<T, ErrorKind>;

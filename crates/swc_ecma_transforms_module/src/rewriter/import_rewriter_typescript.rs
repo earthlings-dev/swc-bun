@@ -1,10 +1,10 @@
 use std::path::Path;
 
 use swc_atoms::{Atom, Wtf8Atom};
-use swc_common::{util::take::Take, DUMMY_SP};
+use swc_common::{DUMMY_SP, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
-use swc_ecma_visit::{visit_mut_pass, VisitMut, VisitMutWith};
+use swc_ecma_visit::{VisitMut, VisitMutWith, visit_mut_pass};
 
 /// This is the implementation of rewriteRelativeImportExtensions in TypeScript
 pub fn typescript_import_rewriter() -> impl Pass {

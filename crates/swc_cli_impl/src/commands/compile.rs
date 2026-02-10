@@ -13,13 +13,14 @@ use path_absolutize::Absolutize;
 use relative_path::RelativePath;
 use swc_core::{
     base::{
+        Compiler, HandlerOpts, TransformOutput,
         config::{
-            default_swcrc, Config, ConfigFile, Options, PluginConfig, RootMode, SourceMapsConfig,
+            Config, ConfigFile, Options, PluginConfig, RootMode, SourceMapsConfig, default_swcrc,
         },
-        try_with_handler, Compiler, HandlerOpts, TransformOutput,
+        try_with_handler,
     },
     common::{
-        errors::ColorConfig, sync::Lazy, FileName, FilePathMapping, SourceFile, SourceMap, GLOBALS,
+        FileName, FilePathMapping, GLOBALS, SourceFile, SourceMap, errors::ColorConfig, sync::Lazy,
     },
     trace_macro::swc_trace,
 };

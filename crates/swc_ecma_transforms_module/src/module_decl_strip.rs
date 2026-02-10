@@ -1,12 +1,12 @@
 use indexmap::IndexMap;
 use rustc_hash::{FxHashMap, FxHashSet};
-use swc_atoms::{atom, Atom};
-use swc_common::{util::take::Take, Mark, Span, SyntaxContext};
+use swc_atoms::{Atom, atom};
+use swc_common::{Mark, Span, SyntaxContext, util::take::Take};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_pat_ids, private_ident, quote_ident, ExprFactory};
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_utils::{ExprFactory, find_pat_ids, private_ident, quote_ident};
+use swc_ecma_visit::{VisitMut, VisitMutWith, noop_visit_mut_type};
 
-use crate::{module_ref_rewriter::ImportMap, SpanCtx};
+use crate::{SpanCtx, module_ref_rewriter::ImportMap};
 
 /// key: module path
 pub type Link = IndexMap<Atom, LinkItem>;
@@ -661,8 +661,8 @@ impl Extend<LinkSpecifier> for LinkItem {
 
 impl LinkItem {
     fn mut_dummy_span(&mut self, span: Span) -> &mut Self {
-        if self.0 .0.is_dummy() {
-            self.0 .0 = span;
+        if self.0.0.is_dummy() {
+            self.0.0 = span;
         }
 
         self
@@ -737,7 +737,7 @@ impl LinkSpecifierReducer for FxHashSet<LinkSpecifier> {
 
                 // foo -> mod.foo
                 import_map.insert(
-                    (orig.0.clone(), orig.1 .1),
+                    (orig.0.clone(), orig.1.1),
                     (mod_ident.clone(), Some(orig.0.clone())),
                 );
 
@@ -746,7 +746,7 @@ impl LinkSpecifierReducer for FxHashSet<LinkSpecifier> {
                 // bar -> foo
                 export_obj_prop_list.push((
                     export_name,
-                    ExportItem::new(export_name_span, quote_ident!(orig.1 .1, orig.1 .0, orig.0)),
+                    ExportItem::new(export_name_span, quote_ident!(orig.1.1, orig.1.0, orig.0)),
                 ))
             }
             LinkSpecifier::ExportDefaultAs(_, key, span) => {

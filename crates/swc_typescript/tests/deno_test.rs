@@ -4,7 +4,7 @@
 use swc_common::Mark;
 use swc_ecma_ast::EsVersion;
 use swc_ecma_codegen::to_code;
-use swc_ecma_parser::{parse_file_as_program, Syntax, TsSyntax};
+use swc_ecma_parser::{Syntax, TsSyntax, parse_file_as_program};
 use swc_ecma_transforms_base::resolver;
 use swc_typescript::fast_dts::FastDts;
 

@@ -1,10 +1,11 @@
 use std::path::{Path, PathBuf};
 
 use swc::{
+    Compiler, HandlerOpts,
     config::{Config, IsModule, JscConfig, JscExperimental, Options},
-    try_with_handler, Compiler, HandlerOpts,
+    try_with_handler,
 };
-use swc_common::{errors::ColorConfig, sync::Lrc, FilePathMapping, SourceMap, GLOBALS};
+use swc_common::{FilePathMapping, GLOBALS, SourceMap, errors::ColorConfig, sync::Lrc};
 use testing::{NormalizedOutput, Tester};
 
 fn file(f: impl AsRef<Path>) -> NormalizedOutput {

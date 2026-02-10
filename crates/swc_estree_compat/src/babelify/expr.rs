@@ -10,15 +10,15 @@ use swc_ecma_ast::{
     TaggedTpl, ThisExpr, Tpl, TplElement, UnaryExpr, UpdateExpr, YieldExpr,
 };
 use swc_estree_ast::{
-    flavor::Flavor, ArrayExprEl, ArrayExpression, ArrowFuncExprBody, ArrowFunctionExpression,
-    AssignmentExpression, AwaitExpression, BinaryExprLeft, BinaryExpression, CallExpression,
-    Callee as BabelCallee, ClassExpression, ConditionalExpression, Expression, FunctionExpression,
-    Import as BabelImport, LVal, Literal, LogicalExpression, MemberExprProp, MemberExpression,
-    MetaProperty, NewExpression, ObjectExprProp, ObjectExpression, ObjectKey, ObjectMember,
+    ArrayExprEl, ArrayExpression, ArrowFuncExprBody, ArrowFunctionExpression, AssignmentExpression,
+    AwaitExpression, BinaryExprLeft, BinaryExpression, CallExpression, Callee as BabelCallee,
+    ClassExpression, ConditionalExpression, Expression, FunctionExpression, Import as BabelImport,
+    LVal, Literal, LogicalExpression, MemberExprProp, MemberExpression, MetaProperty,
+    NewExpression, ObjectExprProp, ObjectExpression, ObjectKey, ObjectMember,
     ParenthesizedExpression, PrivateName, SequenceExpression, SpreadElement as BabelSpreadElement,
     Super as BabelSuper, TaggedTemplateExprTypeParams, TaggedTemplateExpression, TemplateElVal,
     TemplateElement, TemplateLiteral, TemplateLiteralExpr, ThisExpression, UnaryExpression,
-    UpdateExpression, YieldExpression,
+    UpdateExpression, YieldExpression, flavor::Flavor,
 };
 
 use crate::babelify::{Babelify, Context};

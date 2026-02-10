@@ -2,11 +2,11 @@ use swc_atoms::Atom;
 use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::*;
 
-use super::{input::Tokens, Parser};
+use super::{Parser, input::Tokens};
 use crate::{
+    Context, PResult,
     error::SyntaxError,
     lexer::{Token, TokenFlags},
-    Context, PResult,
 };
 
 impl<I: Tokens> Parser<I> {

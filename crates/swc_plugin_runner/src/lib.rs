@@ -2,7 +2,7 @@
 
 use std::sync::Arc;
 
-use swc_common::{plugin::metadata::TransformPluginMetadataContext, SourceMap};
+use swc_common::{SourceMap, plugin::metadata::TransformPluginMetadataContext};
 use transform_executor::TransformExecutor;
 
 pub mod cache;

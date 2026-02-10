@@ -1,7 +1,7 @@
 use std::mem;
 
 use swc_atoms::Atom;
-use swc_common::{Span, Spanned, DUMMY_SP};
+use swc_common::{DUMMY_SP, Span, Spanned};
 use swc_ecma_ast::{
     AssignPat, Decl, ExportDecl, Function, ModuleDecl, ModuleItem, Param, Pat, Script, Stmt,
     TsKeywordTypeKind, TsParenthesizedType, TsType, TsTypeAnn, TsUnionOrIntersectionType,
@@ -9,9 +9,8 @@ use swc_ecma_ast::{
 };
 
 use super::{
-    type_ann,
+    FastDts, type_ann,
     util::types::{any_type_ann, ts_keyword_type},
-    FastDts,
 };
 
 impl FastDts {

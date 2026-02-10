@@ -1,6 +1,6 @@
 use swc_common::{Span, SyntaxContext};
 use swc_ecma_ast::*;
-use syn::{parse_quote, ExprBlock};
+use syn::{ExprBlock, parse_quote};
 
 use crate::ctxt::Ctx;
 

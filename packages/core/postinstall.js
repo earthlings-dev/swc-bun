@@ -97,7 +97,7 @@ const validateBinary = () => __awaiter(void 0, void 0, void 0, function* () {
             platform: process.platform,
             arch: process.arch,
             nodeVersion: process.version,
-            libc: process.report ? process.report.getReport().header.glibcVersionRuntime : "unknown"
+            libc: process.report?.getReport?.()?.header?.glibcVersionRuntime ?? "unknown"
         };
         // if error is unsupported architecture, ignore to display.
         if (!((_a = error.message) === null || _a === void 0 ? void 0 : _a.includes("Unsupported architecture"))) {
@@ -138,7 +138,7 @@ const validateBinary = () => __awaiter(void 0, void 0, void 0, function* () {
         fs.writeFileSync(path.join(installDir, "package.json"), "{}");
         // Instead of carrying over own dependencies to download & resolve package which increases installation sizes of `@swc/core`,
         // assume & relies on system's npm installation.
-        child_process.execSync(`npm install --no-save --loglevel=error --prefer-offline --no-audit --progress=false @swc/wasm@${version}`, { cwd: installDir, stdio: "pipe", env });
+        child_process.execSync(`bun install --no-save @swc/wasm@${version}`, { cwd: installDir, stdio: "pipe", env });
         const installedBinPath = path.join(installDir, "node_modules", `@swc/wasm`);
         // INIT_CWD is injected via npm. If it doesn't exists, can't proceed.
         fs.renameSync(installedBinPath, path.resolve(process.env.INIT_CWD, "node_modules", `@swc/wasm`));

@@ -1,4 +1,4 @@
-use swc_common::{comments::Comment, BytePos};
+use swc_common::{BytePos, comments::Comment};
 
 #[derive(Debug, Clone)]
 pub struct BufferedComment {

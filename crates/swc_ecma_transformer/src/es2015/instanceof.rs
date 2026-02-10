@@ -30,7 +30,7 @@
 //!
 //! Implementation based on [@babel/plugin-transform-instanceof](https://babel.dev/docs/babel-plugin-transform-instanceof).
 
-use swc_common::{util::take::Take, Span, Spanned};
+use swc_common::{Span, Spanned, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_transforms_base::helper;

@@ -4,7 +4,7 @@ use is_macro::Is;
 #[cfg(feature = "serde-impl")]
 use serde::{Deserialize, Serialize};
 use swc_atoms::Atom;
-use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span};
+use swc_common::{EqIgnoreSpan, Span, ast_node, util::take::Take};
 
 #[ast_node("PreservedToken")]
 #[derive(Eq, Hash, EqIgnoreSpan)]

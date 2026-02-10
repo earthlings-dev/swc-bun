@@ -1,7 +1,8 @@
 use is_macro::Is;
-use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, SyntaxContext, DUMMY_SP};
+use swc_common::{DUMMY_SP, EqIgnoreSpan, Span, SyntaxContext, ast_node, util::take::Take};
 
 use crate::{
+    BigInt, ComputedPropName, EmptyStmt, Id, Ident, IdentName, Number,
     expr::Expr,
     function::{Function, ParamOrTsParamProp},
     ident::PrivateName,
@@ -11,7 +12,6 @@ use crate::{
         Accessibility, TsExprWithTypeArgs, TsIndexSignature, TsTypeAnn, TsTypeParamDecl,
         TsTypeParamInstantiation,
     },
-    BigInt, ComputedPropName, EmptyStmt, Id, Ident, IdentName, Number,
 };
 
 #[ast_node]

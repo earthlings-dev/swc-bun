@@ -1,11 +1,11 @@
 use std::ops::{Deref, DerefMut};
 
-use swc_common::{Span, Spanned, DUMMY_SP};
+use swc_common::{DUMMY_SP, Span, Spanned};
 use swc_css_ast::*;
 
 use super::{
-    input::{Input, InputType, ParserInput},
     Ctx, Error, PResult, Parse, Parser,
+    input::{Input, InputType, ParserInput},
 };
 use crate::{error::ErrorKind, parser::BlockContentsGrammar};
 

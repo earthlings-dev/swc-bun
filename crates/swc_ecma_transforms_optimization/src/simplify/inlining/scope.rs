@@ -10,7 +10,7 @@ use indexmap::map::{Entry, IndexMap};
 use rustc_hash::{FxBuildHasher, FxHashMap, FxHashSet};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::ExprRefExt;
-use tracing::{span, Level};
+use tracing::{Level, span};
 
 use super::{Inlining, Phase};
 
@@ -492,11 +492,7 @@ impl<'a> Scope<'a> {
     fn idx_val(&self, id: &Id) -> Option<(usize, &VarInfo)> {
         self.bindings.iter().enumerate().find_map(
             |(idx, (k, v))| {
-                if k == id {
-                    Some((idx, v))
-                } else {
-                    None
-                }
+                if k == id { Some((idx, v)) } else { None }
             },
         )
     }

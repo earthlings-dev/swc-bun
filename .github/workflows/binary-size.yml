@@ -9,7 +9,6 @@ env:
   CARGO_INCREMENTAL: 0
   CARGO_TERM_COLOR: "always"
   RUST_LOG: "off"
-  SKIP_YARN_COREPACK_CHECK: 1
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -28,23 +27,17 @@ jobs:
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-          cache: "yarn"
-
-      - name: Enable corepack
-        run: corepack enable
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
 
       - name: Install wasm-pack
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
       - name: Install dependencies
-        run: yarn
+        run: bun install --frozen-lockfile
 
       - name: Build
-        run: yarn build
+        run: bun run build
 
       - name: Measure binary sizes
         id: measure

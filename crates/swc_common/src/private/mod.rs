@@ -13,8 +13,8 @@ pub mod serde {
     // Re-export our custom Content types
     pub mod de {
         pub use super::super::content::{
-            deserialize_content, Content, ContentDeserializer, ContentRefDeserializer,
-            ContentVisitor,
+            Content, ContentDeserializer, ContentRefDeserializer, ContentVisitor,
+            deserialize_content,
         };
     }
 

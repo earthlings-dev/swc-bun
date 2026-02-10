@@ -1,15 +1,15 @@
 use rustc_hash::FxHashMap;
 use swc_common::{
+    DUMMY_SP, Spanned, SyntaxContext,
     util::{move_map::MoveMap, take::Take},
-    Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::stack_size::maybe_grow_default;
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{VisitMut, VisitMutWith, noop_visit_mut_type};
 
 use crate::{
     hygiene::Config,
-    perf::{cpu_count, ParExplode, Parallel, ParallelExt},
+    perf::{ParExplode, Parallel, ParallelExt, cpu_count},
     rename::RenamedVariable,
 };
 

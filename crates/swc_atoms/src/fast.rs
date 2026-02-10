@@ -1,5 +1,5 @@
 use std::{
-    mem::{transmute_copy, ManuallyDrop},
+    mem::{ManuallyDrop, transmute_copy},
     ops::Deref,
 };
 

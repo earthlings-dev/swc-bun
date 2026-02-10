@@ -1,10 +1,10 @@
-use swc_common::{Span, Spanned, DUMMY_SP};
+use swc_common::{DUMMY_SP, Span, Spanned};
 use swc_ecma_ast::*;
 
 use super::{
+    PResult, Parser,
     expr::parse_assignment_expr,
     pat::{parse_binding_element, parse_binding_pat_or_ident},
-    PResult, Parser,
 };
 use crate::{
     common::{

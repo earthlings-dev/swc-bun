@@ -4,7 +4,7 @@ use rustc_hash::FxHashSet;
 use swc_atoms::Atom;
 use swc_common::Mark;
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::rename::{renamer, RenameMap, Renamer};
+use swc_ecma_transforms_base::rename::{RenameMap, Renamer, renamer};
 use swc_ecma_visit::VisitMutWith;
 
 pub(crate) use self::preserver::idents_to_preserve;

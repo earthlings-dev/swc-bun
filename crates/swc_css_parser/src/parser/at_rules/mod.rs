@@ -1,11 +1,11 @@
 use swc_common::{Span, Spanned};
 use swc_css_ast::*;
 
-use super::{input::ParserInput, PResult, Parser};
+use super::{PResult, Parser, input::ParserInput};
 use crate::{
-    error::{Error, ErrorKind},
-    parser::{values_and_units::is_math_function, BlockContentsGrammar, Ctx},
     Parse,
+    error::{Error, ErrorKind},
+    parser::{BlockContentsGrammar, Ctx, values_and_units::is_math_function},
 };
 
 impl<I> Parser<I>
@@ -160,7 +160,7 @@ where
                         return Err(Error::new(
                             span,
                             ErrorKind::Expected("string, url or function token"),
-                        ))
+                        ));
                     }
                 });
 

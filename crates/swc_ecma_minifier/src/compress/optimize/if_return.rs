@@ -1,8 +1,8 @@
-use swc_common::{util::take::Take, DUMMY_SP};
+use swc_common::{DUMMY_SP, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_utils::{ExprCtx, StmtLike};
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use swc_ecma_visit::{Visit, VisitWith, noop_visit_type};
 
 use super::Optimizer;
 #[cfg(feature = "debug")]
@@ -607,11 +607,7 @@ fn can_merge_as_if_return(s: &Stmt) -> bool {
                         sum += c;
                     }
                 }
-                if found {
-                    Some(sum)
-                } else {
-                    None
-                }
+                if found { Some(sum) } else { None }
             }
 
             _ => None,

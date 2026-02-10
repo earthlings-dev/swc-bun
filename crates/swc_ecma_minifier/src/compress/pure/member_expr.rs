@@ -5,7 +5,7 @@ use swc_ecma_ast::{
     ArrayLit, Expr, ExprOrSpread, IdentName, Lit, MemberExpr, MemberProp, ObjectLit, Prop,
     PropOrSpread, SeqExpr, Str,
 };
-use swc_ecma_utils::{prop_name_eq, ExprExt, Known};
+use swc_ecma_utils::{ExprExt, Known, prop_name_eq};
 
 use super::Pure;
 use crate::compress::pure::Ctx;

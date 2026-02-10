@@ -12,7 +12,7 @@ use swc_ecma_transforms_module::{
     path::{ImportResolver, NodeImportResolver},
     rewriter::import_rewriter,
 };
-use swc_ecma_transforms_testing::{test_fixture, FixtureTestConfig};
+use swc_ecma_transforms_testing::{FixtureTestConfig, test_fixture};
 use testing::run_test2;
 
 type TestProvider = NodeImportResolver<NodeModulesResolver>;
@@ -49,25 +49,27 @@ fn issue_4730() {
             let mut paths = IndexMap::new();
             paths.insert(
                 "@print/a".into(),
-                vec![dir
-                    .join("input")
-                    .join("packages")
-                    .join("a")
-                    .join("src")
-                    .join("index.js")
-                    .display()
-                    .to_string()],
+                vec![
+                    dir.join("input")
+                        .join("packages")
+                        .join("a")
+                        .join("src")
+                        .join("index.js")
+                        .display()
+                        .to_string(),
+                ],
             );
             paths.insert(
                 "@print/b".into(),
-                vec![dir
-                    .join("input")
-                    .join("packages")
-                    .join("b")
-                    .join("src")
-                    .join("index.js")
-                    .display()
-                    .to_string()],
+                vec![
+                    dir.join("input")
+                        .join("packages")
+                        .join("b")
+                        .join("src")
+                        .join("index.js")
+                        .display()
+                        .to_string(),
+                ],
             );
 
             let rules = paths.into_iter().collect();

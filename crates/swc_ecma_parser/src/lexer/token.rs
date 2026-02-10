@@ -6,9 +6,9 @@ use swc_ecma_ast::AssignOp;
 
 use super::LexResult;
 use crate::{
+    Context, Lexer,
     error::Error,
     input::{Buffer, Tokens},
-    Context, Lexer,
 };
 
 #[derive(Debug, Clone)]

@@ -1,10 +1,10 @@
 use std::iter;
 
-use swc_common::{util::take::Take, Mark, Span, SyntaxContext, DUMMY_SP};
+use swc_common::{DUMMY_SP, Mark, Span, SyntaxContext, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
-use swc_ecma_utils::{is_rest_arguments, quote_ident, ExprFactory};
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_utils::{ExprFactory, is_rest_arguments, quote_ident};
+use swc_ecma_visit::{VisitMut, VisitMutWith, noop_visit_mut_type};
 
 use super::get_prototype_of;
 

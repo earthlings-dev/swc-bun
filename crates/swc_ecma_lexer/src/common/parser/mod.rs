@@ -56,11 +56,11 @@ pub trait Parser<'a>: Sized + Clone {
     type TokenAndSpan: TokenAndSpan<Token = Self::Token>;
     type I: Tokens<Self::TokenAndSpan>;
     type Buffer: self::buffer::Buffer<
-        'a,
-        Token = Self::Token,
-        TokenAndSpan = Self::TokenAndSpan,
-        I = Self::I,
-    >;
+            'a,
+            Token = Self::Token,
+            TokenAndSpan = Self::TokenAndSpan,
+            I = Self::I,
+        >;
     type Checkpoint;
 
     fn input(&self) -> &Self::Buffer;

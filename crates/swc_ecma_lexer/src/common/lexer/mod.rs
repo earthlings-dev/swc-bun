@@ -6,13 +6,13 @@ use num_bigint::BigInt as BigIntValue;
 use smartstring::{LazyCompact, SmartString};
 use state::State;
 use swc_atoms::{
-    wtf8::{CodePoint, Wtf8, Wtf8Buf},
     Atom,
+    wtf8::{CodePoint, Wtf8, Wtf8Buf},
 };
 use swc_common::{
+    BytePos, Span,
     comments::{Comment, CommentKind},
     input::{Input, StringInput},
-    BytePos, Span,
 };
 use swc_ecma_ast::{EsVersion, Ident};
 
@@ -21,7 +21,7 @@ use super::{context::Context, input::Tokens};
 use crate::{
     common::lexer::{
         comments_buffer::{BufferedComment, BufferedCommentKind, CommentsBufferTrait},
-        number::{parse_integer, LazyInteger},
+        number::{LazyInteger, parse_integer},
     },
     error::SyntaxError,
     lexer::TokenFlags,
@@ -889,9 +889,10 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         debug_assert_eq!(self.cur(), Some(b'0'));
         self.bump();
 
-        debug_assert!(self
-            .cur()
-            .is_some_and(|c| matches!(c, b'b' | b'B' | b'o' | b'O' | b'x' | b'X')));
+        debug_assert!(
+            self.cur()
+                .is_some_and(|c| matches!(c, b'b' | b'B' | b'o' | b'O' | b'x' | b'X'))
+        );
         self.bump();
 
         let lazy_integer = self.read_number_no_dot_as_str::<RADIX>()?;

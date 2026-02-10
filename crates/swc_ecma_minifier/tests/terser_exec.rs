@@ -11,25 +11,25 @@ use std::{
 };
 
 use ansi_term::Color;
-use anyhow::{anyhow, bail, Context, Error};
+use anyhow::{Context, Error, anyhow, bail};
 use serde::Deserialize;
 use swc_common::{
+    Mark, SourceMap,
     comments::SingleThreadedComments,
-    errors::{Handler, HANDLER},
+    errors::{HANDLER, Handler},
     input::SourceFileInput,
     sync::Lrc,
-    Mark, SourceMap,
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{
-    text_writer::{omit_trailing_semi, JsWriter, WriteJs},
     Emitter,
+    text_writer::{JsWriter, WriteJs, omit_trailing_semi},
 };
 use swc_ecma_minifier::{
     optimize,
-    option::{terser::TerserCompressorOptions, CompressOptions, ExtraOptions, MinifyOptions},
+    option::{CompressOptions, ExtraOptions, MinifyOptions, terser::TerserCompressorOptions},
 };
-use swc_ecma_parser::{lexer::Lexer, EsSyntax, Parser, Syntax};
+use swc_ecma_parser::{EsSyntax, Parser, Syntax, lexer::Lexer};
 use swc_ecma_transforms_base::{
     fixer::{fixer, paren_remover},
     hygiene::hygiene,
@@ -268,7 +268,7 @@ fn stdout_of(code: &str, timeout: Duration) -> Result<String, Error> {
 
     let _t = thread::spawn(move || {
         let res = (|| {
-            let actual_output = Command::new("node")
+            let actual_output = Command::new("bun")
                 .arg("-e")
                 .arg(format!(
                     "

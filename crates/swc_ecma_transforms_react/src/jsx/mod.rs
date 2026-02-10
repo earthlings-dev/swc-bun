@@ -8,29 +8,28 @@ use rustc_hash::FxHashMap;
 use serde::{Deserialize, Serialize};
 use string_enum::StringEnum;
 use swc_atoms::{
-    atom,
+    Atom, Wtf8Atom, atom,
     wtf8::{Wtf8, Wtf8Buf},
-    Atom, Wtf8Atom,
 };
 use swc_common::{
+    DUMMY_SP, FileName, Mark, SourceMap, Span, Spanned, SyntaxContext,
     comments::{Comment, CommentKind, Comments},
     errors::HANDLER,
     sync::Lrc,
     util::take::Take,
-    FileName, Mark, SourceMap, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_config::merge::Merge;
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
-use swc_ecma_parser::{parse_file_as_expr, Syntax};
+use swc_ecma_parser::{Syntax, parse_file_as_expr};
 use swc_ecma_utils::{
-    drop_span, prepend_stmt, private_ident, quote_ident, str::is_line_terminator, ExprFactory,
-    StmtLike,
+    ExprFactory, StmtLike, drop_span, prepend_stmt, private_ident, quote_ident,
+    str::is_line_terminator,
 };
 use swc_ecma_visit::VisitMut;
 
 use self::static_check::should_use_create_element;
-use crate::refresh::options::{deserialize_refresh, RefreshOptions};
+use crate::refresh::options::{RefreshOptions, deserialize_refresh};
 
 mod static_check;
 #[cfg(test)]

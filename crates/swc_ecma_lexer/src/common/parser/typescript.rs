@@ -1,11 +1,12 @@
 use std::{fmt::Write, mem};
 
 use either::Either;
-use swc_atoms::{atom, Atom, Wtf8Atom};
+use swc_atoms::{Atom, Wtf8Atom, atom};
 use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::*;
 
 use super::{
+    PResult, Parser,
     class_and_fn::{parse_class_decl, parse_fn_block_or_expr_body, parse_fn_decl},
     eof_error,
     expr::{is_start_of_left_hand_side_expr, parse_new_expr},
@@ -13,7 +14,6 @@ use super::{
     is_simple_param_list::IsSimpleParameterList,
     make_decl_declare,
     stmt::parse_var_stmt,
-    PResult, Parser,
 };
 use crate::{
     common::{

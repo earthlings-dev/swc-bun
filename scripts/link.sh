@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -eu
 
-yarn run build:dev
-yarn link
+bun run build:dev
+bun link
 
-(cd swr && yarn run build)
+(cd swr && bun run build)

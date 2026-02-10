@@ -1,5 +1,5 @@
 use swc_atoms::atom;
-use swc_common::{util::take::Take, Span, DUMMY_SP};
+use swc_common::{DUMMY_SP, Span, util::take::Take};
 use swc_css_ast::*;
 
 use super::Compressor;

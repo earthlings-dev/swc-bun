@@ -1,6 +1,6 @@
 use rustc_hash::FxHashMap;
-use swc_atoms::{atom, Atom, Wtf8Atom};
-use swc_common::{comments::Comments, Span};
+use swc_atoms::{Atom, Wtf8Atom, atom};
+use swc_common::{Span, comments::Comments};
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 

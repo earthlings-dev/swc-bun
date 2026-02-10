@@ -1,12 +1,12 @@
 use serde::{Deserialize, Serialize};
-use swc_common::{errors::HANDLER, Span, SyntaxContext};
+use swc_common::{Span, SyntaxContext, errors::HANDLER};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use swc_ecma_visit::{Visit, VisitWith, noop_visit_type};
 
 use crate::{
     config::{LintRuleReaction, RuleConfig},
-    rule::{visitor_rule, Rule},
-    rules::utils::{extract_arg_val, ArgValue},
+    rule::{Rule, visitor_rule},
+    rules::utils::{ArgValue, extract_arg_val},
 };
 
 const UNEXPECTED_REG_EXP_MESSAGE: &str =

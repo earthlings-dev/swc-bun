@@ -2,7 +2,7 @@
 
 use std::collections::HashMap;
 
-use anyhow::{anyhow, Error};
+use anyhow::{Error, anyhow};
 use rustc_hash::FxHashMap;
 use swc_atoms::atom;
 use swc_common::FileName;

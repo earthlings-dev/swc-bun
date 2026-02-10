@@ -1,4 +1,4 @@
-use swc_common::{sync::Lrc, SourceMap, DUMMY_SP};
+use swc_common::{DUMMY_SP, SourceMap, sync::Lrc};
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_utils::quote_ident;

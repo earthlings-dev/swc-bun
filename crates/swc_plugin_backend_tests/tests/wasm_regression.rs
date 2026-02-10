@@ -1,7 +1,6 @@
 use swc_common::{
-    ast_node,
+    DUMMY_SP, Span, ast_node,
     plugin::serialized::{PluginSerializedBytes, VersionedSerializable},
-    Span, DUMMY_SP,
 };
 
 #[ast_node]

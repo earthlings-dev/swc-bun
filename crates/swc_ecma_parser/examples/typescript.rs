@@ -1,9 +1,9 @@
 use swc_common::{
+    FileName, SourceMap,
     errors::{ColorConfig, Handler},
     sync::Lrc,
-    FileName, SourceMap,
 };
-use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
+use swc_ecma_parser::{Parser, StringInput, Syntax, lexer::Lexer};
 
 fn main() {
     let cm: Lrc<SourceMap> = Default::default();

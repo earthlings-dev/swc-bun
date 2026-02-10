@@ -1,8 +1,8 @@
 use std::{env, path::Path};
 
-use swc_common::{comments::SingleThreadedComments, Mark};
+use swc_common::{Mark, comments::SingleThreadedComments};
 use swc_ecma_codegen::to_code_with_comments;
-use swc_ecma_parser::{parse_file_as_program, Syntax, TsSyntax};
+use swc_ecma_parser::{Syntax, TsSyntax, parse_file_as_program};
 use swc_ecma_transforms_base::{fixer::paren_remover, resolver};
 use swc_typescript::fast_dts::{FastDts, FastDtsOptions};
 

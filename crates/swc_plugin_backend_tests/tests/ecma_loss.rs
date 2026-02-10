@@ -5,13 +5,12 @@ use std::{
     sync::Arc,
 };
 
-use anyhow::{anyhow, Error};
+use anyhow::{Error, anyhow};
 use serde_json::json;
 use swc_common::{
-    ast_node,
+    BytePos, EqIgnoreSpan, FileName, Mark, Span, ast_node,
     plugin::{metadata::TransformPluginMetadataContext, serialized::PluginSerializedBytes},
     sync::Lazy,
-    BytePos, EqIgnoreSpan, FileName, Mark, Span,
 };
 use swc_ecma_ast::{Module, Script};
 use swc_plugin_runner::{plugin_module_bytes::CompiledPluginModuleBytes, runtime::Runtime};

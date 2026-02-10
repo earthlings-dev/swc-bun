@@ -6,11 +6,11 @@ use std::{
 };
 
 use swc_atoms::atom;
-use swc_common::{errors::Handler, sync::Lrc, FileName, Mark, SourceFile, SourceMap};
+use swc_common::{FileName, Mark, SourceFile, SourceMap, errors::Handler, sync::Lrc};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{
-    text_writer::{omit_trailing_semi, JsWriter, WriteJs},
     Emitter,
+    text_writer::{JsWriter, WriteJs, omit_trailing_semi},
 };
 use swc_ecma_minifier::{
     optimize,
@@ -20,7 +20,7 @@ use swc_ecma_parser::parse_file_as_program;
 use swc_ecma_transforms_base::{fixer::paren_remover, resolver};
 use swc_ecma_utils::drop_span;
 use swc_ecma_visit::VisitMutWith;
-use testing::{assert_eq, NormalizedOutput};
+use testing::{NormalizedOutput, assert_eq};
 use tracing::warn;
 
 fn print(cm: Lrc<SourceMap>, p: &Program, minify: bool) -> String {
@@ -72,7 +72,7 @@ fn snapshot_compress_fixture(input: PathBuf) {
         let mut m = parse(&handler, cm.clone(), &input)?;
 
         if option_env!("CI") != Some("1") {
-            let mut c = Command::new("node");
+            let mut c = Command::new("bun");
             c.arg("scripts/mangler/charfreq.js");
             c.arg(&input);
             c.stderr(Stdio::inherit());

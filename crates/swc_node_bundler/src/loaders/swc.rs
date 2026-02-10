@@ -1,6 +1,6 @@
 use std::{collections::HashMap, env, sync::Arc};
 
-use anyhow::{bail, Context, Error};
+use anyhow::{Context, Error, bail};
 use helpers::Helpers;
 use rustc_hash::FxHashMap;
 use swc::{
@@ -10,13 +10,13 @@ use swc::{
 use swc_atoms::Atom;
 use swc_bundler::{Load, ModuleData};
 use swc_common::{
+    DUMMY_SP, FileName, Mark,
     comments::{NoopComments, SingleThreadedComments},
-    errors::{Handler, HANDLER},
+    errors::{HANDLER, Handler},
     sync::Lrc,
-    FileName, Mark, DUMMY_SP,
 };
-use swc_ecma_ast::{noop_pass, EsVersion, Expr, Lit, Module, Program, Str};
-use swc_ecma_parser::{parse_file_as_module, Syntax};
+use swc_ecma_ast::{EsVersion, Expr, Lit, Module, Program, Str, noop_pass};
+use swc_ecma_parser::{Syntax, parse_file_as_module};
 use swc_ecma_transforms::{
     helpers,
     optimization::{

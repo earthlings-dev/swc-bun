@@ -40,7 +40,7 @@ unsafe impl std::alloc::Allocator for &'_ Arena {
 
     #[inline]
     unsafe fn deallocate(&self, ptr: std::ptr::NonNull<u8>, layout: std::alloc::Layout) {
-        std::alloc::Allocator::deallocate(&&self.inner, ptr, layout)
+        unsafe { std::alloc::Allocator::deallocate(&&self.inner, ptr, layout) }
     }
 
     #[inline]
@@ -58,7 +58,7 @@ unsafe impl std::alloc::Allocator for &'_ Arena {
         old_layout: std::alloc::Layout,
         new_layout: std::alloc::Layout,
     ) -> Result<std::ptr::NonNull<[u8]>, std::alloc::AllocError> {
-        std::alloc::Allocator::grow(&&self.inner, ptr, old_layout, new_layout)
+        unsafe { std::alloc::Allocator::grow(&&self.inner, ptr, old_layout, new_layout) }
     }
 
     #[inline]
@@ -68,7 +68,7 @@ unsafe impl std::alloc::Allocator for &'_ Arena {
         old_layout: std::alloc::Layout,
         new_layout: std::alloc::Layout,
     ) -> Result<std::ptr::NonNull<[u8]>, std::alloc::AllocError> {
-        std::alloc::Allocator::grow_zeroed(&&self.inner, ptr, old_layout, new_layout)
+        unsafe { std::alloc::Allocator::grow_zeroed(&&self.inner, ptr, old_layout, new_layout) }
     }
 
     #[inline]
@@ -78,7 +78,7 @@ unsafe impl std::alloc::Allocator for &'_ Arena {
         old_layout: std::alloc::Layout,
         new_layout: std::alloc::Layout,
     ) -> Result<std::ptr::NonNull<[u8]>, std::alloc::AllocError> {
-        std::alloc::Allocator::shrink(&&self.inner, ptr, old_layout, new_layout)
+        unsafe { std::alloc::Allocator::shrink(&&self.inner, ptr, old_layout, new_layout) }
     }
 }
 

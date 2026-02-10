@@ -2,26 +2,26 @@
 
 use std::iter::once;
 
+use Value::Known;
 use bitflags::bitflags;
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::{Atom, Wtf8Atom};
-use swc_common::{pass::Repeated, util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{DUMMY_SP, Spanned, SyntaxContext, pass::Repeated, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::rename::contains_eval;
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_usage_analyzer::{analyzer::UsageAnalyzer, marks::Marks};
 use swc_ecma_utils::{
-    prepend_stmts, ExprCtx, ExprExt, ExprFactory, IdentUsageFinder, IsEmpty, ModuleItemLike,
-    StmtLike, Type, Value,
+    ExprCtx, ExprExt, ExprFactory, IdentUsageFinder, IsEmpty, ModuleItemLike, StmtLike, Type,
+    Value, prepend_stmts,
 };
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_visit::{VisitMut, VisitMutWith, VisitWith, noop_visit_mut_type};
 #[cfg(feature = "debug")]
-use tracing::{span, Level};
-use Value::Known;
+use tracing::{Level, span};
 
 use self::{
     unused::PropertyAccessOpts,
-    util::{extract_class_side_effect, Finalizer, NormalMultiReplacer, SynthesizedStmts},
+    util::{Finalizer, NormalMultiReplacer, SynthesizedStmts, extract_class_side_effect},
 };
 use super::util::{drop_invalid_stmts, is_fine_for_if_cons};
 #[cfg(feature = "debug")]
@@ -33,7 +33,7 @@ use crate::{
     mode::Mode,
     option::{CompressOptions, MangleOptions},
     program_data::{ProgramData, ScopeData, VarUsageInfoFlags},
-    util::{contains_leaping_continue_with_label, make_number, ExprOptExt, ModuleItemExt},
+    util::{ExprOptExt, ModuleItemExt, contains_leaping_continue_with_label, make_number},
 };
 
 mod arguments;

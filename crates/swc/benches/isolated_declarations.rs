@@ -1,8 +1,8 @@
 use std::{path::Path, sync::Arc};
 
-use criterion::{criterion_group, criterion_main, Criterion};
-use swc_common::{comments::SingleThreadedComments, FilePathMapping, Mark, SourceMap, GLOBALS};
-use swc_ecma_parser::{parse_file_as_program, Syntax};
+use criterion::{Criterion, criterion_group, criterion_main};
+use swc_common::{FilePathMapping, GLOBALS, Mark, SourceMap, comments::SingleThreadedComments};
+use swc_ecma_parser::{Syntax, parse_file_as_program};
 use swc_ecma_transforms::{fixer::paren_remover, resolver};
 use swc_typescript::fast_dts::{FastDts, FastDtsOptions};
 

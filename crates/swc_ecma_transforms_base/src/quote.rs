@@ -2,12 +2,10 @@
 #[doc(hidden)]
 #[macro_export]
 macro_rules! helper_expr {
-    (ts, $field_name:ident) => {{
-        $crate::helper_expr!(ts, ::swc_common::DUMMY_SP, $field_name)
-    }};
+    (ts, $field_name:ident) => {{ $crate::helper_expr!(ts, ::swc_common::DUMMY_SP, $field_name) }};
 
     (ts, $span:expr, $field_name:ident) => {{
-        use swc_ecma_utils::{quote_ident, ExprFactory};
+        use swc_ecma_utils::{ExprFactory, quote_ident};
 
         let mark = $crate::enable_helper!($field_name);
         let ctxt = swc_common::SyntaxContext::empty().apply_mark(mark);
@@ -19,12 +17,10 @@ macro_rules! helper_expr {
         ))
     }};
 
-    ($field_name:ident) => {{
-        $crate::helper_expr!(::swc_common::DUMMY_SP, $field_name)
-    }};
+    ($field_name:ident) => {{ $crate::helper_expr!(::swc_common::DUMMY_SP, $field_name) }};
 
     ($span:expr, $field_name:ident) => {{
-        use swc_ecma_utils::{quote_ident, ExprFactory};
+        use swc_ecma_utils::{ExprFactory, quote_ident};
 
         let mark = $crate::enable_helper!($field_name);
         let ctxt = swc_common::SyntaxContext::empty().apply_mark(mark);

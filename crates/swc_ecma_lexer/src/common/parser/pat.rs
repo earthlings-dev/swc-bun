@@ -2,13 +2,13 @@ use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::*;
 
 use super::{
+    PResult, Parser,
     assign_target_or_spread::AssignTargetOrSpread,
     class_and_fn::{parse_access_modifier, parse_decorators},
     pat_type::PatType,
     typescript::{
         eat_any_ts_modifier, parse_ts_modifier, parse_ts_type_ann, try_parse_ts_type_ann,
     },
-    PResult, Parser,
 };
 use crate::{
     common::{

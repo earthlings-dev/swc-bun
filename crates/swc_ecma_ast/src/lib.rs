@@ -12,7 +12,7 @@
 pub use num_bigint::BigInt as BigIntValue;
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
-use swc_common::{ast_node, pass::Either, util::take::Take, EqIgnoreSpan, Span};
+use swc_common::{EqIgnoreSpan, Span, ast_node, pass::Either, util::take::Take};
 
 pub use self::{
     class::{
@@ -23,8 +23,8 @@ pub use self::{
     expr::*,
     function::{Function, Param, ParamOrTsParamProp},
     ident::{
-        unsafe_id, unsafe_id_from_ident, BindingIdent, EsReserved, Id, Ident, IdentName,
-        PrivateName, UnsafeId,
+        BindingIdent, EsReserved, Id, Ident, IdentName, PrivateName, UnsafeId, unsafe_id,
+        unsafe_id_from_ident,
     },
     jsx::{
         JSXAttr, JSXAttrName, JSXAttrOrSpread, JSXAttrValue, JSXClosingElement, JSXClosingFragment,

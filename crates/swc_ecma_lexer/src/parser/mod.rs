@@ -4,9 +4,11 @@
 use swc_ecma_ast::*;
 
 use crate::{
+    Context,
     common::{
         input::Tokens,
         parser::{
+            Parser as ParserTrait,
             buffer::Buffer as BufferTrait,
             expr::{parse_lhs_expr, parse_primary_expr, parse_tagged_tpl, parse_unary_expr},
             jsx::parse_jsx_element,
@@ -14,13 +16,12 @@ use crate::{
             parse_shebang,
             stmt::parse_stmt_block_body,
             typescript::ts_in_no_context,
-            Parser as ParserTrait,
         },
     },
     error::Error,
     input::Buffer,
     token::{Token, TokenAndSpan},
-    Context, *,
+    *,
 };
 
 #[macro_use]

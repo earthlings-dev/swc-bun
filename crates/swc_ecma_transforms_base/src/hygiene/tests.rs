@@ -1,10 +1,10 @@
 use rustc_hash::FxHashMap;
-use swc_atoms::{atom, Atom};
-use swc_common::{hygiene::*, DUMMY_SP};
+use swc_atoms::{Atom, atom};
+use swc_common::{DUMMY_SP, hygiene::*};
 use swc_ecma_parser::Syntax;
 use swc_ecma_utils::quote_ident;
 use swc_ecma_visit::{Fold, FoldWith};
-use testing::{assert_eq, DebugUsingDisplay};
+use testing::{DebugUsingDisplay, assert_eq};
 
 use super::*;
 use crate::{
@@ -479,7 +479,7 @@ fn var_class_decl() {
     test(
         |tester| {
             Ok(vec![
-                tester.parse_stmt("actual1.js", "var Foo = function Foo(){}")?
+                tester.parse_stmt("actual1.js", "var Foo = function Foo(){}")?,
             ])
         },
         "var Foo = function Foo(){}",
@@ -490,20 +490,19 @@ fn var_class_decl() {
 fn var_class_decl_2() {
     test(
         |tester| {
-            Ok(vec![tester
-                .parse_stmt(
-                    "actual1.js",
-                    "
+            Ok(vec![
+                tester
+                    .parse_stmt(
+                        "actual1.js",
+                        "
                 var Foo = (function() {
                     function Foo() {}
                     return Foo;
                 }())
                 ",
-                )?
-                .fold_with(&mut marker(&[(
-                    "Foo",
-                    Mark::fresh(Mark::root()),
-                )]))])
+                    )?
+                    .fold_with(&mut marker(&[("Foo", Mark::fresh(Mark::root()))])),
+            ])
         },
         "
         var Foo = (function(){
@@ -531,17 +530,24 @@ fn fn_args() {
                     is_generator: false,
                     decorators: Vec::new(),
                     body: Some(BlockStmt {
-                        stmts: vec![tester
-                            .parse_stmt("actual1.js", "_define_property(this, 'force', force);")?
-                            .fold_with(&mut marker(&[("force", mark2)]))],
+                        stmts: vec![
+                            tester
+                                .parse_stmt(
+                                    "actual1.js",
+                                    "_define_property(this, 'force', force);",
+                                )?
+                                .fold_with(&mut marker(&[("force", mark2)])),
+                        ],
                         ..Default::default()
                     }),
-                    params: vec![Param {
-                        span: DUMMY_SP,
-                        decorators: Vec::new(),
-                        pat: quote_ident!("force").into(),
-                    }
-                    .fold_with(&mut marker(&[("force", mark1)]))],
+                    params: vec![
+                        Param {
+                            span: DUMMY_SP,
+                            decorators: Vec::new(),
+                            pat: quote_ident!("force").into(),
+                        }
+                        .fold_with(&mut marker(&[("force", mark1)])),
+                    ],
                     ..Default::default()
                 }),
 
@@ -783,12 +789,11 @@ fn fn_param_same_name() {
             let mark1 = Mark::fresh(Mark::root());
             let mark2 = Mark::fresh(Mark::root());
 
-            Ok(vec![tester
-                .parse_stmt("actual1.js", "function foo(param, param){}")?
-                .fold_with(&mut OnceMarker::new(&[(
-                    "param",
-                    &[mark1, mark2],
-                )]))])
+            Ok(vec![
+                tester
+                    .parse_stmt("actual1.js", "function foo(param, param){}")?
+                    .fold_with(&mut OnceMarker::new(&[("param", &[mark1, mark2])])),
+            ])
         },
         "function foo(param, param1){}",
     );
@@ -801,12 +806,11 @@ fn fn_param_same_name_in_arg() {
             let mark1 = Mark::fresh(Mark::root());
             let mark2 = Mark::fresh(Mark::root());
 
-            Ok(vec![tester
-                .parse_stmt("actual1.js", "use(function (param, param){})")?
-                .fold_with(&mut OnceMarker::new(&[(
-                    "param",
-                    &[mark1, mark2],
-                )]))])
+            Ok(vec![
+                tester
+                    .parse_stmt("actual1.js", "use(function (param, param){})")?
+                    .fold_with(&mut OnceMarker::new(&[("param", &[mark1, mark2])])),
+            ])
         },
         "use(function (param, param1){})",
     );
@@ -819,21 +823,20 @@ fn nested_fn_param_with_same_name() {
             let mark1 = Mark::fresh(Mark::root());
             let mark2 = Mark::fresh(Mark::root());
 
-            Ok(vec![tester
-                .parse_stmt(
-                    "actual1.js",
-                    "
+            Ok(vec![
+                tester
+                    .parse_stmt(
+                        "actual1.js",
+                        "
                     function _three() {
                         _three = _async_to_generator(function*(a, param, c, param) {
                         });
                         return _three.apply(this, arguments);
                     }
                     ",
-                )?
-                .fold_with(&mut OnceMarker::new(&[(
-                    "param",
-                    &[mark1, mark2],
-                )]))])
+                    )?
+                    .fold_with(&mut OnceMarker::new(&[("param", &[mark1, mark2])])),
+            ])
         },
         "
         function _three() {
@@ -854,10 +857,11 @@ fn regression_001() {
             let mark3 = Mark::fresh(Mark::root());
             let mark4 = Mark::fresh(Mark::root());
 
-            Ok(vec![tester
-                .parse_stmt(
-                    "actual1.js",
-                    "var Foo = function() {
+            Ok(vec![
+                tester
+                    .parse_stmt(
+                        "actual1.js",
+                        "var Foo = function() {
     function Foo() {
         _class_call_check(this, Foo);
         foo.set(this, {
@@ -868,19 +872,20 @@ fn regression_001() {
              key: 'test', value: function test(other) {
                     var old, _obj, old, _obj;
                      _class_private_field_set(this, foo, (old = +_class_private_field_get(this, \
-                     foo)) + 1), old;
+                         foo)) + 1), old;
                      _class_private_field_set(_obj = other.obj, foo, (old = \
-                     +_class_private_field_get(_obj, foo)) + 1), old;
+                         +_class_private_field_get(_obj, foo)) + 1), old;
                 }
         }]);
     return Foo;
 }();
                     ",
-                )?
-                .fold_with(&mut OnceMarker::new(&[
-                    ("old", &[mark1, mark2, mark1, mark1, mark2, mark2]),
-                    ("_obj", &[mark3, mark4, mark3, mark4]),
-                ]))])
+                    )?
+                    .fold_with(&mut OnceMarker::new(&[
+                        ("old", &[mark1, mark2, mark1, mark1, mark2, mark2]),
+                        ("_obj", &[mark3, mark4, mark3, mark4]),
+                    ])),
+            ])
         },
         "var Foo = function() {
     function Foo() {
@@ -911,23 +916,25 @@ fn regression_002() {
             let mark1 = Mark::fresh(Mark::root());
             let mark2 = Mark::fresh(Mark::root());
 
-            Ok(vec![tester
-                .parse_stmt(
-                    "actual1.js",
-                    "_create_class(Foo, [{
+            Ok(vec![
+                tester
+                    .parse_stmt(
+                        "actual1.js",
+                        "_create_class(Foo, [{
              key: 'test', value: function test(other) {
                     var old, _obj, old, _obj;
                      _class_private_field_set(this, foo, (old = +_class_private_field_get(this, \
-                     foo)) + 1), old;
+                         foo)) + 1), old;
                      _class_private_field_set(_obj = other.obj, foo, (old = \
-                     +_class_private_field_get(_obj, foo)) + 1), old;
+                         +_class_private_field_get(_obj, foo)) + 1), old;
                 }
         }])",
-                )?
-                .fold_with(&mut OnceMarker::new(&[(
-                    "old",
-                    &[mark1, mark2, mark1, mark1, mark2, mark2],
-                )]))])
+                    )?
+                    .fold_with(&mut OnceMarker::new(&[(
+                        "old",
+                        &[mark1, mark2, mark1, mark1, mark2, mark2],
+                    )])),
+            ])
         },
         "_create_class(Foo, [{
              key: 'test', value: function test(other) {

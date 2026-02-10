@@ -1,8 +1,8 @@
 use std::f64::consts::PI;
 
 use swc_css_ast::{
-    matches_eq_ignore_ascii_case, AbsoluteColorBase, AlphaValue, Angle, ComponentValue, Number,
-    Percentage,
+    AbsoluteColorBase, AlphaValue, Angle, ComponentValue, Number, Percentage,
+    matches_eq_ignore_ascii_case,
 };
 use swc_css_utils::{clamp_unit_f64, round_alpha};
 

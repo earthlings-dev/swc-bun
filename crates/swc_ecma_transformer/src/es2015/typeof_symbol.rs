@@ -22,11 +22,11 @@
 //!
 //! Implementation based on [@babel/plugin-transform-typeof-symbol](https://babel.dev/docs/babel-plugin-transform-typeof-symbol).
 
-use swc_common::{util::take::Take, DUMMY_SP};
+use swc_common::{DUMMY_SP, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_transforms_base::helper;
-use swc_ecma_utils::{quote_str, ExprFactory};
+use swc_ecma_utils::{ExprFactory, quote_str};
 
 use crate::TraverseCtx;
 

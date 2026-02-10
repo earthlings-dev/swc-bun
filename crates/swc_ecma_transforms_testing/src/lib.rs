@@ -5,7 +5,7 @@
 
 use std::{
     env,
-    fs::{self, create_dir_all, read_to_string, OpenOptions},
+    fs::{self, OpenOptions, create_dir_all, read_to_string},
     io::Write,
     mem::{take, transmute},
     panic,
@@ -16,31 +16,29 @@ use std::{
 
 use ansi_term::Color;
 use anyhow::Error;
-use base64::prelude::{Engine, BASE64_STANDARD};
+use base64::prelude::{BASE64_STANDARD, Engine};
 use serde::de::DeserializeOwned;
 use sha2::{Digest, Sha256};
 use swc_common::{
+    DUMMY_SP, FileName, Mark, SourceMap,
     comments::{Comments, SingleThreadedComments},
-    errors::{Handler, HANDLER},
+    errors::{HANDLER, Handler},
     source_map::SourceMapGenConfig,
     sync::Lrc,
-    FileName, Mark, SourceMap, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_codegen::{to_code_default, Emitter};
-use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
-use swc_ecma_testing::{exec_node_js, JsExecOptions};
+use swc_ecma_codegen::{Emitter, to_code_default};
+use swc_ecma_parser::{Parser, StringInput, Syntax, lexer::Lexer};
+use swc_ecma_testing::{JsExecOptions, exec_node_js};
 use swc_ecma_transforms_base::{
     fixer,
-    helpers::{inject_helpers, HELPERS},
+    helpers::{HELPERS, inject_helpers},
     hygiene,
 };
-use swc_ecma_utils::{quote_ident, quote_str, ExprFactory};
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, Fold, FoldWith, VisitMut};
+use swc_ecma_utils::{ExprFactory, quote_ident, quote_str};
+use swc_ecma_visit::{Fold, FoldWith, VisitMut, noop_visit_mut_type, visit_mut_pass};
 use tempfile::tempdir_in;
-use testing::{
-    assert_eq, find_executable, NormalizedOutput, CARGO_TARGET_DIR, CARGO_WORKSPACE_ROOT,
-};
+use testing::{CARGO_TARGET_DIR, CARGO_WORKSPACE_ROOT, NormalizedOutput, assert_eq};
 
 pub mod babel_like;
 
@@ -431,9 +429,7 @@ pub fn test_inlined_transform<F, P>(
 #[doc(hidden)]
 #[macro_export]
 macro_rules! test_location {
-    () => {{
-        $crate::TestLocation {}
-    }};
+    () => {{ $crate::TestLocation {} }};
 }
 
 #[macro_export]
@@ -665,22 +661,14 @@ fn exec_with_node_test_runner(src: &str) -> Result<(), ()> {
     write!(tmp, "{src}").expect("failed to write to temp file");
     tmp.flush().unwrap();
 
-    let test_runner_path = find_executable("mocha").expect("failed to find `mocha` from path");
-
-    let mut base_cmd = if cfg!(target_os = "windows") {
-        let mut c = Command::new("cmd");
-        c.arg("/C").arg(&test_runner_path);
-        c
-    } else {
-        Command::new(&test_runner_path)
-    };
+    let mut base_cmd = Command::new("bun");
+    base_cmd.arg("test");
 
     let output = base_cmd
         .arg(format!("{}", path.display()))
-        .arg("--color")
         .current_dir(root)
         .output()
-        .expect("failed to run mocha");
+        .expect("failed to run bun test");
 
     println!(">>>>> {} <<<<<", Color::Red.paint("Stdout"));
     println!("{}", String::from_utf8_lossy(&output.stdout));

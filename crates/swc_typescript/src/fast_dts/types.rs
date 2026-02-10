@@ -1,5 +1,5 @@
 use rustc_hash::{FxHashMap, FxHashSet};
-use swc_common::{BytePos, Span, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{BytePos, DUMMY_SP, Span, Spanned, SyntaxContext};
 use swc_ecma_ast::{
     ArrayLit, ArrowExpr, Expr, Function, GetterProp, Lit, MemberExpr, ObjectLit, Param, Pat, Prop,
     PropName, PropOrSpread, Str, Tpl, TsFnOrConstructorType, TsFnParam, TsFnType,
@@ -9,13 +9,13 @@ use swc_ecma_ast::{
 use swc_ecma_utils::quote_ident;
 
 use super::{
+    FastDts,
     inferrer::ReturnTypeInferrer,
     type_ann,
     util::{
         ast_ext::{ExprExit, PatExt, StaticProp},
         types::{ts_keyword_type, ts_lit_type},
     },
-    FastDts,
 };
 use crate::fast_dts::util::ast_ext::PropNameExit;
 

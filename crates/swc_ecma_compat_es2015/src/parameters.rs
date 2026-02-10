@@ -3,15 +3,16 @@ use std::mem;
 use arrayvec::ArrayVec;
 use serde::Deserialize;
 use swc_atoms::atom;
-use swc_common::{util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{DUMMY_SP, Mark, Spanned, SyntaxContext, util::take::Take};
 use swc_ecma_ast::*;
 // use swc_ecma_transforms_base::perf::Parallel;
 // use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::{
-    function::{init_this, FnEnvHoister},
-    member_expr, prepend_stmt, prepend_stmts, private_ident, quote_ident, ExprFactory,
+    ExprFactory,
+    function::{FnEnvHoister, init_this},
+    member_expr, prepend_stmt, prepend_stmts, private_ident, quote_ident,
 };
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
+use swc_ecma_visit::{VisitMut, VisitMutWith, noop_visit_mut_type, visit_mut_pass};
 use swc_trace_macro::swc_trace;
 use tracing::trace;
 

@@ -4,4 +4,4 @@ set -eu
 
 ./scripts/build.sh
 
-npx rstest $@
+bun test $@

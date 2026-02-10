@@ -1,5 +1,5 @@
 use swc_ecma_ast::{ExportAll, ImportDecl, NamedExport, Pass};
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut};
+use swc_ecma_visit::{VisitMut, noop_visit_mut_type, visit_mut_pass};
 
 pub fn import_attributes() -> impl Pass {
     visit_mut_pass(ImportAssertions)

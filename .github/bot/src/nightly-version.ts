@@ -1,4 +1,4 @@
-// npx ts-node .github/bot/src/nightly-version.ts $version
+// bun .github/bot/src/nightly-version.ts $version
 
 import { octokit, owner, repo } from "./util/octokit";
 

@@ -16,7 +16,7 @@
 //! var x = _abstract + 1;
 //! ```
 
-use swc_common::{util::take::Take, DUMMY_SP};
+use swc_common::{DUMMY_SP, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 

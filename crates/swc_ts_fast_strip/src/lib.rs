@@ -4,11 +4,11 @@ use anyhow::Context;
 use bytes_str::BytesStr;
 use serde::{Deserialize, Serialize};
 use swc_common::{
+    BytePos, FileName, Mark, SourceMap, Span, Spanned,
     comments::SingleThreadedComments,
-    errors::{DiagnosticId, Handler, HANDLER},
+    errors::{DiagnosticId, HANDLER, Handler},
     source_map::DefaultSourceMapGenConfig,
     sync::Lrc,
-    BytePos, FileName, Mark, SourceMap, Span, Spanned,
 };
 use swc_ecma_ast::{
     ArrayPat, ArrowExpr, AutoAccessor, BindingIdent, Class, ClassDecl, ClassMethod, ClassProp,
@@ -22,13 +22,13 @@ use swc_ecma_ast::{
     TsTypeParamInstantiation, VarDeclarator, WhileStmt, YieldExpr,
 };
 use swc_ecma_parser::{
+    Parser, StringInput, Syntax, TsSyntax,
     lexer::Lexer,
     unstable::{Capturing, Token, TokenAndSpan},
-    Parser, StringInput, Syntax, TsSyntax,
 };
 use swc_ecma_transforms_base::{
     fixer::fixer,
-    helpers::{inject_helpers, Helpers, HELPERS},
+    helpers::{HELPERS, Helpers, inject_helpers},
     hygiene::hygiene,
     resolver,
 };
@@ -340,7 +340,7 @@ pub fn operate(
             let mut code = fm.src.to_string().into_bytes();
 
             for r in replacements {
-                let (start, end) = (r.0 .0 as usize - 1, r.1 .0 as usize - 1);
+                let (start, end) = (r.0.0 as usize - 1, r.1.0 as usize - 1);
 
                 for (i, c) in source[start..end].char_indices() {
                     let i = start + i;

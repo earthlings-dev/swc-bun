@@ -5,9 +5,9 @@ use std::{
 };
 
 use swc_common::{
+    SourceMap,
     errors::{Emitter, Handler, HandlerFlags},
     sync::Lrc,
-    SourceMap,
 };
 use swc_error_reporters::{GraphicalReportHandler, GraphicalTheme, ToPrettyDiagnostic};
 

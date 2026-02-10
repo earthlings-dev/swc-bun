@@ -1,4 +1,4 @@
-use swc_common::{errors::HANDLER, Mark, SyntaxContext};
+use swc_common::{Mark, SyntaxContext, errors::HANDLER};
 use swc_ecma_ast::*;
 use swc_ecma_lints::{rule::Rule, rules::LintParams};
 use swc_ecma_parser::Syntax;

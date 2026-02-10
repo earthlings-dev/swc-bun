@@ -1,6 +1,6 @@
 use std::path::PathBuf;
 
-use swc_common::{comments::NoopComments, pass::Optional, Mark};
+use swc_common::{Mark, comments::NoopComments, pass::Optional};
 use swc_ecma_ast::Pass;
 use swc_ecma_parser::{Syntax, TsSyntax};
 use swc_ecma_transforms_base::resolver;
@@ -13,9 +13,9 @@ use swc_ecma_transforms_compat::{
 };
 use swc_ecma_transforms_proposal::decorators;
 use swc_ecma_transforms_react::jsx;
-use swc_ecma_transforms_testing::{test, test_exec, test_fixture, Tester};
+use swc_ecma_transforms_testing::{Tester, test, test_exec, test_fixture};
 use swc_ecma_transforms_typescript::{
-    tsx, typescript, ImportsNotUsedAsValues, TsImportExportAssignConfig, TsxConfig,
+    ImportsNotUsedAsValues, TsImportExportAssignConfig, TsxConfig, tsx, typescript,
 };
 
 fn tr(t: &mut Tester) -> impl Pass {

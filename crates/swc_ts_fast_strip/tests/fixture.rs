@@ -1,13 +1,13 @@
 use std::path::PathBuf;
 
 use swc_common::{
-    comments::SingleThreadedComments, errors::Handler, sync::Lrc, FileName, SourceMap,
+    FileName, SourceMap, comments::SingleThreadedComments, errors::Handler, sync::Lrc,
 };
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::{
-    lexer::Lexer, unstable::Capturing, EsSyntax, Parser, StringInput, Syntax, TsSyntax,
+    EsSyntax, Parser, StringInput, Syntax, TsSyntax, lexer::Lexer, unstable::Capturing,
 };
-use swc_ts_fast_strip::{operate, Mode, Options, TransformConfig};
+use swc_ts_fast_strip::{Mode, Options, TransformConfig, operate};
 use testing::NormalizedOutput;
 
 #[testing::fixture("tests/fixture/**/*.ts")]

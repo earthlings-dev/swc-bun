@@ -1,20 +1,20 @@
 use rustc_hash::FxHashMap;
-use swc_atoms::{atom, Atom};
+use swc_atoms::{Atom, atom};
 use swc_common::{
-    errors::HANDLER, source_map::PURE_SP, util::take::Take, Mark, Span, Spanned, SyntaxContext,
-    DUMMY_SP,
+    DUMMY_SP, Mark, Span, Spanned, SyntaxContext, errors::HANDLER, source_map::PURE_SP,
+    util::take::Take,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, perf::Check};
 use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
-    alias_ident_for, alias_if_required, constructor::inject_after_super,
-    default_constructor_with_span, is_literal, prepend_stmt, private_ident, quote_ident,
-    replace_ident, ExprFactory, ModuleItemLike, StmtLike,
+    ExprFactory, ModuleItemLike, StmtLike, alias_ident_for, alias_if_required,
+    constructor::inject_after_super, default_constructor_with_span, is_literal, prepend_stmt,
+    private_ident, quote_ident, replace_ident,
 };
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
+    Visit, VisitMut, VisitMutWith, VisitWith, noop_visit_mut_type, noop_visit_type, visit_mut_pass,
 };
 use swc_trace_macro::swc_trace;
 
@@ -22,8 +22,8 @@ use self::{
     class_name_tdz::ClassNameTdzFolder,
     member_init::{MemberInit, MemberInitRecord, PrivAccessor, PrivMethod, PrivProp, PubProp},
     private_field::{
-        dup_private_method, visit_private_in_expr, BrandCheckHandler, Private,
-        PrivateAccessVisitor, PrivateKind, PrivateRecord,
+        BrandCheckHandler, Private, PrivateAccessVisitor, PrivateKind, PrivateRecord,
+        dup_private_method, visit_private_in_expr,
     },
     this_in_static::{NewTargetInProp, ThisInStaticFolder},
     used_name::UsedNameCollector,
@@ -193,10 +193,12 @@ impl VisitMut for ClassProperties {
             class,
         }) = expr
         {
-            let ident = private_ident!(orig_ident
-                .clone()
-                .map(|id| Atom::from(format!("_{}", id.sym)))
-                .unwrap_or(atom!("_class")));
+            let ident = private_ident!(
+                orig_ident
+                    .clone()
+                    .map(|id| Atom::from(format!("_{}", id.sym)))
+                    .unwrap_or(atom!("_class"))
+            );
             let (decl, ClassExtra { lets, vars, stmts }) =
                 self.visit_mut_class_as_decl(ident.clone(), class.take());
 
@@ -339,15 +341,17 @@ impl ClassProperties {
                                     match T::try_from_module_decl(
                                         NamedExport {
                                             span,
-                                            specifiers: vec![ExportNamedSpecifier {
-                                                span: DUMMY_SP,
-                                                orig: ModuleExportName::Ident(ident),
-                                                exported: Some(ModuleExportName::Ident(
-                                                    private_ident!("default"),
-                                                )),
-                                                is_type_only: false,
-                                            }
-                                            .into()],
+                                            specifiers: vec![
+                                                ExportNamedSpecifier {
+                                                    span: DUMMY_SP,
+                                                    orig: ModuleExportName::Ident(ident),
+                                                    exported: Some(ModuleExportName::Ident(
+                                                        private_ident!("default"),
+                                                    )),
+                                                    is_type_only: false,
+                                                }
+                                                .into(),
+                                            ],
                                             src: None,
                                             type_only: false,
                                             with: None,

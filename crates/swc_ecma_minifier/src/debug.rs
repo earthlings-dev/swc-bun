@@ -1,9 +1,9 @@
-use swc_common::{sync::Lrc, SourceMap, SyntaxContext};
+use swc_common::{SourceMap, SyntaxContext, sync::Lrc};
 use swc_ecma_ast::*;
-use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
+use swc_ecma_codegen::{Emitter, text_writer::JsWriter};
 pub use swc_ecma_transforms_optimization::AssertValid;
-use swc_ecma_utils::{drop_span, DropSpan};
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_utils::{DropSpan, drop_span};
+use swc_ecma_visit::{VisitMut, VisitMutWith, noop_visit_mut_type};
 
 pub(crate) struct Debugger {}
 

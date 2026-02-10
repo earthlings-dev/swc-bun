@@ -2,7 +2,7 @@ use std::{path::Path, sync::Arc};
 
 use anyhow::Context;
 use swc::try_with_handler;
-use swc_common::{SourceMap, GLOBALS};
+use swc_common::{GLOBALS, SourceMap};
 
 fn main() {
     let cm = Arc::<SourceMap>::default();

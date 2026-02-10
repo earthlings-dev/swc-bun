@@ -1,17 +1,17 @@
 use std::{
     fmt::Debug,
     hash::Hash,
-    mem::{forget, transmute, ManuallyDrop},
+    mem::{ManuallyDrop, forget, transmute},
     ops::Deref,
 };
 
 use debug_unreachable::debug_unreachable;
 
 use crate::{
+    Atom, DYNAMIC_TAG, INLINE_TAG, LEN_MASK, LEN_OFFSET, TAG_MASK,
     macros::{get_hash, impl_from_alias, partial_eq},
     tagged_value::TaggedValue,
     wtf8::Wtf8,
-    Atom, DYNAMIC_TAG, INLINE_TAG, LEN_MASK, LEN_OFFSET, TAG_MASK,
 };
 
 /// A WTF-8 encoded atom. This is like [Atom], but can contain unpaired

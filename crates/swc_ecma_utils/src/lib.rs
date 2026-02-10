@@ -22,16 +22,17 @@ use swc_atoms::{
     atom,
     wtf8::{Wtf8, Wtf8Buf},
 };
-use swc_common::{util::take::Take, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{DUMMY_SP, Mark, Span, Spanned, SyntaxContext, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, visit_mut_obj_and_computed, visit_obj_and_computed,
-    Visit, VisitMut, VisitMutWith, VisitWith,
+    Visit, VisitMut, VisitMutWith, VisitWith, noop_visit_mut_type, noop_visit_type,
+    visit_mut_obj_and_computed, visit_obj_and_computed,
 };
 use tracing::trace;
 
 #[allow(deprecated)]
 pub use self::{
+    Purity::{MayBeImpure, Pure},
     factory::{ExprFactory, FunctionFactory, IntoIndirectCall},
     value::{
         Merge,
@@ -41,7 +42,6 @@ pub use self::{
         },
         Value::{self, Known, Unknown},
     },
-    Purity::{MayBeImpure, Pure},
 };
 use crate::ident::IdentLike;
 
@@ -924,7 +924,7 @@ pub fn num_from_str(s: &str) -> Value<f64> {
                 return match u64::from_str_radix(&s[2..], 16) {
                     Ok(n) => Known(n as f64),
                     Err(_) => Known(f64::NAN),
-                }
+                };
             }
             b"0o" | b"0O" => {
                 return match u64::from_str_radix(&s[2..], 8) {
@@ -1515,16 +1515,18 @@ pub fn default_constructor_with_span(has_super: bool, super_call_span: Span) -> 
         },
         body: Some(BlockStmt {
             stmts: if has_super {
-                vec![CallExpr {
-                    span: super_call_span,
-                    callee: Callee::Super(Super { span: DUMMY_SP }),
-                    args: vec![ExprOrSpread {
-                        spread: Some(DUMMY_SP),
-                        expr: Box::new(Expr::Ident(quote_ident!("args").into())),
-                    }],
-                    ..Default::default()
-                }
-                .into_stmt()]
+                vec![
+                    CallExpr {
+                        span: super_call_span,
+                        callee: Callee::Super(Super { span: DUMMY_SP }),
+                        args: vec![ExprOrSpread {
+                            spread: Some(DUMMY_SP),
+                            expr: Box::new(Expr::Ident(quote_ident!("args").into())),
+                        }],
+                        ..Default::default()
+                    }
+                    .into_stmt(),
+                ]
             } else {
                 Vec::new()
             },
@@ -3763,7 +3765,7 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
 
 #[cfg(test)]
 mod tests {
-    use swc_common::{input::StringInput, BytePos};
+    use swc_common::{BytePos, input::StringInput};
     use swc_ecma_parser::{Parser, Syntax};
 
     use super::*;

@@ -2,7 +2,7 @@
 
 use std::{
     env::temp_dir,
-    fs::{self, canonicalize, create_dir_all, File},
+    fs::{self, File, canonicalize, create_dir_all},
     io::Write,
     path::{Path, PathBuf},
     process::{Command, Output},
@@ -11,13 +11,13 @@ use std::{
 
 use anyhow::{Context, Error};
 use swc::{
+    Compiler,
     config::{
         Config, InputSourceMap, IsModule, JscConfig, ModuleConfig, Options, SourceMapsConfig,
     },
-    Compiler,
 };
 use swc_ecma_parser::Syntax;
-use testing::{assert_eq, NormalizedOutput, StdErr, Tester};
+use testing::{NormalizedOutput, StdErr, Tester, assert_eq};
 use walkdir::WalkDir;
 
 fn file(f: &str, config: Config) -> Result<(), StdErr> {
@@ -49,7 +49,7 @@ fn file(f: &str, config: Config) -> Result<(), StdErr> {
         let map_path = path.parent().unwrap().join("index.js.map");
         std::fs::write(&map_path, s.map.unwrap().as_bytes()).unwrap();
 
-        let output = Command::new("node")
+        let output = Command::new("bun")
             .arg("-e")
             .arg(include_str!("source_map.js"))
             .arg(js_path)
@@ -122,7 +122,7 @@ fn inline(f: &str) -> Result<(), StdErr> {
         let js_path = path.parent().unwrap().join("index.g.js");
         std::fs::write(&js_path, s.code.as_bytes()).unwrap();
 
-        let output = Command::new("node")
+        let output = Command::new("bun")
             .arg("-e")
             .arg(include_str!("source_map_inline.js"))
             .arg(js_path)
@@ -230,8 +230,7 @@ fn node_stack_trace(file: &Path, code: &str) -> Result<NormalizedOutput, Error> 
         f.sync_all()?;
     }
 
-    let stack = Command::new("node")
-        .arg("--enable-source-maps")
+    let stack = Command::new("bun")
         .arg(&test_file)
         .output()
         .map(extract_node_stack_trace)?;
@@ -239,7 +238,7 @@ fn node_stack_trace(file: &Path, code: &str) -> Result<NormalizedOutput, Error> 
     Ok(stack)
 }
 
-/// Extract stack trace from output of `node -e 'code'`.
+/// Extract stack trace from output of `bun -e 'code'`.
 ///
 /// TODO: Use better type.
 fn extract_node_stack_trace(output: Output) -> NormalizedOutput {

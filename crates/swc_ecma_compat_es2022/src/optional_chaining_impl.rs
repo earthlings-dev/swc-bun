@@ -1,9 +1,9 @@
 use std::mem;
 
-use swc_common::{util::take::Take, Mark, SyntaxContext, DUMMY_SP};
+use swc_common::{DUMMY_SP, Mark, SyntaxContext, util::take::Take};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{alias_ident_for, prepend_stmt, quote_ident, ExprFactory, StmtLike};
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_utils::{ExprFactory, StmtLike, alias_ident_for, prepend_stmt, quote_ident};
+use swc_ecma_visit::{VisitMut, VisitMutWith, noop_visit_mut_type};
 
 /// Not a public API and may break any time. Don't use it directly.
 pub fn optional_chaining_impl(c: Config, unresolved_mark: Mark) -> OptionalChaining {

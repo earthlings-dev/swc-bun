@@ -1,6 +1,6 @@
 use std::mem::take;
 
-use swc_common::{util::take::Take, DUMMY_SP};
+use swc_common::{DUMMY_SP, util::take::Take};
 use swc_css_ast::{
     AtRule, AtRuleName, AtRulePrelude, CustomMediaQuery, CustomMediaQueryMediaType, Ident,
     MediaCondition, MediaConditionAllType, MediaConditionType, MediaConditionWithoutOr,

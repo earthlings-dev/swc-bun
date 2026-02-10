@@ -1,13 +1,13 @@
 use rustc_hash::FxHashSet;
 use swc_common::{
-    comments::{Comment, CommentKind, Comments},
     Span, Spanned,
+    comments::{Comment, CommentKind, Comments},
 };
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::marks::Marks;
 use swc_ecma_utils::NodeIgnoringSpan;
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
+    Visit, VisitMut, VisitMutWith, VisitWith, noop_visit_mut_type, noop_visit_type,
 };
 
 use crate::option::CompressOptions;

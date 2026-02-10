@@ -1,9 +1,9 @@
 use std::{io::stderr, sync::Arc};
 
-use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
+use codspeed_criterion_compat::{Bencher, Criterion, black_box, criterion_group, criterion_main};
 use swc::config::IsModule;
 use swc_common::{
-    errors::Handler, FileName, FilePathMapping, Mark, SourceFile, SourceMap, GLOBALS,
+    FileName, FilePathMapping, GLOBALS, Mark, SourceFile, SourceMap, errors::Handler,
 };
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_parser::Syntax;

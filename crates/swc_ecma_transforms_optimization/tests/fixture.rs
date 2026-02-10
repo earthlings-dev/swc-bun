@@ -1,11 +1,11 @@
 use std::path::PathBuf;
 
-use swc_common::{pass::Repeat, Mark};
+use swc_common::{Mark, pass::Repeat};
 use swc_ecma_ast::Pass;
 use swc_ecma_parser::{EsSyntax, Syntax};
 use swc_ecma_transforms_base::fixer::paren_remover;
 use swc_ecma_transforms_optimization::simplify::{dce::dce, expr_simplifier};
-use swc_ecma_transforms_testing::{test_fixture, Tester};
+use swc_ecma_transforms_testing::{Tester, test_fixture};
 use swc_ecma_visit::visit_mut_pass;
 
 fn remover(t: &Tester) -> impl Pass {

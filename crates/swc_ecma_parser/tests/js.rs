@@ -6,9 +6,9 @@ use std::{
     path::{Path, PathBuf},
 };
 
-use swc_common::{comments::SingleThreadedComments, FileName};
+use swc_common::{FileName, comments::SingleThreadedComments};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, EsSyntax, PResult, Parser, Syntax};
+use swc_ecma_parser::{EsSyntax, PResult, Parser, Syntax, lexer::Lexer};
 use swc_ecma_visit::FoldWith;
 use testing::StdErr;
 

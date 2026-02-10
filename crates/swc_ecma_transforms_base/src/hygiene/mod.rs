@@ -2,10 +2,10 @@ use swc_atoms::Atom;
 use swc_common::Mark;
 use swc_ecma_ast::*;
 use swc_ecma_utils::stack_size::maybe_grow_default;
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
+use swc_ecma_visit::{VisitMut, VisitMutWith, noop_visit_mut_type, visit_mut_pass};
 
 pub use crate::rename::rename;
-use crate::rename::{renamer, Renamer};
+use crate::rename::{Renamer, renamer};
 
 #[cfg(test)]
 mod tests;

@@ -1,6 +1,6 @@
 use swc_ecma_ast::*;
 use swc_ecma_utils::stack_size::maybe_grow_default;
-use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitWith};
+use swc_ecma_visit::{Visit, VisitWith, noop_visit_type, visit_obj_and_computed};
 
 pub fn contains_eval<N>(node: &N, include_with: bool) -> bool
 where

@@ -7,20 +7,20 @@ use std::fmt;
 use is_macro::Is;
 #[cfg(feature = "serde-impl")]
 use serde::{
-    de::{self, Unexpected, Visitor},
     Deserialize, Deserializer, Serialize,
+    de::{self, Unexpected, Visitor},
 };
 use string_enum::StringEnum;
-use swc_common::{ast_node, EqIgnoreSpan, Span};
+use swc_common::{EqIgnoreSpan, Span, ast_node};
 
 use crate::{
+    BigInt, BindingIdent, IdentName, TplElement,
     class::Decorator,
     expr::{Expr, ObjectLit},
     ident::Ident,
     lit::{Bool, Number, Str},
     module::ModuleItem,
     pat::{ArrayPat, AssignPat, ObjectPat, Pat, RestPat},
-    BigInt, BindingIdent, IdentName, TplElement,
 };
 
 #[ast_node("TsTypeAnnotation")]

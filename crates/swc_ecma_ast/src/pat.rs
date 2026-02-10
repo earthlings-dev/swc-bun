@@ -1,12 +1,12 @@
 use is_macro::Is;
-use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
+use swc_common::{DUMMY_SP, EqIgnoreSpan, Span, ast_node, util::take::Take};
 
 use crate::{
+    Id, IdentName, Invalid,
     expr::Expr,
     ident::{BindingIdent, Ident},
     prop::PropName,
     typescript::TsTypeAnn,
-    Id, IdentName, Invalid,
 };
 
 #[ast_node(no_clone)]

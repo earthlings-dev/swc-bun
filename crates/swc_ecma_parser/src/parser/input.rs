@@ -3,10 +3,10 @@ use swc_common::{BytePos, Span};
 use swc_ecma_ast::EsVersion;
 
 use crate::{
+    Context,
     error::Error,
     lexer::{LexResult, NextTokenAndSpan, Token, TokenAndSpan, TokenFlags, TokenValue},
     syntax::SyntaxFlags,
-    Context,
 };
 
 /// Clone should be cheap if you are parsing typescript because typescript
@@ -80,7 +80,7 @@ pub trait Tokens: Clone {
     fn scan_jsx_identifier(&mut self, start: BytePos) -> TokenAndSpan;
     fn scan_jsx_attribute_value(&mut self) -> TokenAndSpan;
     fn rescan_template_token(&mut self, start: BytePos, start_with_back_tick: bool)
-        -> TokenAndSpan;
+    -> TokenAndSpan;
 }
 
 /// This struct is responsible for managing current token and peeked token.

@@ -1,7 +1,7 @@
 extern crate swc_malloc;
 
-use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
-use swc_common::{comments::SingleThreadedComments, input::StringInput, FileName, Span, DUMMY_SP};
+use codspeed_criterion_compat::{Bencher, Criterion, black_box, criterion_group, criterion_main};
+use swc_common::{DUMMY_SP, FileName, Span, comments::SingleThreadedComments, input::StringInput};
 use swc_css_ast::Stylesheet;
 use swc_css_parser::{lexer::Lexer, parser::Parser};
 use swc_css_visit::{Fold, FoldWith, VisitMut, VisitMutWith};

@@ -3,14 +3,14 @@ use std::{fs::read_to_string, path::Path};
 use ansi_term::Color;
 use serde::Deserialize;
 use serde_json::Value;
-use swc_common::{comments::SingleThreadedComments, sync::Lrc, Mark, SourceMap};
+use swc_common::{Mark, SourceMap, comments::SingleThreadedComments, sync::Lrc};
 use swc_ecma_ast::{EsVersion, Pass, Program};
 use swc_ecma_codegen::Emitter;
-use swc_ecma_parser::{parse_file_as_program, Syntax};
+use swc_ecma_parser::{Syntax, parse_file_as_program};
 use swc_ecma_transforms_base::{
     assumptions::Assumptions,
     fixer::fixer,
-    helpers::{inject_helpers, Helpers, HELPERS},
+    helpers::{HELPERS, Helpers, inject_helpers},
     hygiene::hygiene,
     resolver,
 };

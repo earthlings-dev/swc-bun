@@ -1,7 +1,7 @@
 extern crate proc_macro;
 
 use quote::ToTokens;
-use syn::{parse_quote, AttrStyle, Attribute, ImplItem, ItemImpl};
+use syn::{AttrStyle, Attribute, ImplItem, ItemImpl, parse_quote};
 
 /// Utility proc macro to add `#[tracing::instrument(level = "info",
 /// skip_all)]` to all methods in an impl block.

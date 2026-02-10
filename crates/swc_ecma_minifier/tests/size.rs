@@ -3,11 +3,11 @@ use std::{
     path::{Path, PathBuf},
 };
 
-use flate2::{write::GzEncoder, Compression};
+use flate2::{Compression, write::GzEncoder};
 use humansize::format_size;
 use indexmap::IndexMap;
 use rustc_hash::FxBuildHasher;
-use swc_common::{comments::SingleThreadedComments, sync::Lrc, FileName, Mark, SourceMap, GLOBALS};
+use swc_common::{FileName, GLOBALS, Mark, SourceMap, comments::SingleThreadedComments, sync::Lrc};
 use swc_ecma_codegen::text_writer::JsWriter;
 use swc_ecma_minifier::{
     optimize,

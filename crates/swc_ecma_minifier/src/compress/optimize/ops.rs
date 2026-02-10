@@ -1,7 +1,7 @@
-use swc_common::{util::take::Take, EqIgnoreSpan, Spanned};
+use Value::Known;
+use swc_common::{EqIgnoreSpan, Spanned, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Type, Value};
-use Value::Known;
 
 use super::{BitCtx, Optimizer};
 use crate::{compress::util::negate, util::make_bool};

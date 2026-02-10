@@ -3,9 +3,9 @@ use swc_css_ast::*;
 use swc_css_visit::{Visit, VisitWith};
 
 use crate::{
-    pattern::NamePattern,
-    rule::{visitor_rule, LintRule, LintRuleContext},
     ConfigError,
+    pattern::NamePattern,
+    rule::{LintRule, LintRuleContext, visitor_rule},
 };
 
 const MESSAGE: &str = "Unexpected invalid position '@import' rule.";
@@ -67,7 +67,7 @@ impl Visit for NoInvalidPositionAtImportRule {
             if let Some(prelude) = prelude {
                 match &**prelude {
                     AtRulePrelude::CharsetPrelude(_) | AtRulePrelude::ImportPrelude(_) => {
-                        return seen
+                        return seen;
                     }
                     AtRulePrelude::LayerPrelude(_) => match block {
                         Some(block) if block.value.is_empty() => return seen,

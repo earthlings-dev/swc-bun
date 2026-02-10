@@ -1,26 +1,25 @@
 use std::{borrow::Cow, iter, iter::once};
 
+use Value::{Known, Unknown};
 use swc_atoms::{
-    atom,
+    Atom, atom,
     wtf8::{CodePoint, Wtf8, Wtf8Buf},
-    Atom,
 };
 use swc_common::{
+    DUMMY_SP, Mark, Span, Spanned, SyntaxContext,
     pass::{CompilerPass, Repeated},
     util::take::Take,
-    Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{
     ext::ExprRefExt,
-    perf::{cpu_count, Parallel, ParallelExt},
+    perf::{Parallel, ParallelExt, cpu_count},
 };
 use swc_ecma_utils::{
-    is_literal, number::JsNumber, prop_name_eq, to_int32, BoolType, ExprCtx, ExprExt, NullType,
-    NumberType, ObjectType, StringType, SymbolType, UndefinedType, Value,
+    BoolType, ExprCtx, ExprExt, NullType, NumberType, ObjectType, StringType, SymbolType,
+    UndefinedType, Value, is_literal, number::JsNumber, prop_name_eq, to_int32,
 };
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
-use Value::{Known, Unknown};
+use swc_ecma_visit::{VisitMut, VisitMutWith, noop_visit_mut_type, visit_mut_pass};
 
 use crate::debug::debug_assert_valid;
 
@@ -1615,7 +1614,7 @@ fn perform_abstract_rel_cmp(
         ) if la.as_ident().is_some()
             && la.as_ident().map(|i| i.to_id()) == ra.as_ident().map(|i| i.to_id()) =>
         {
-            return Known(false)
+            return Known(false);
         }
         _ => {}
     }
@@ -1730,7 +1729,7 @@ fn perform_strict_eq_cmp(expr_ctx: ExprCtx, left: &Expr, right: &Expr) -> Value<
         ) if la.as_ident().is_some()
             && la.as_ident().map(|i| i.to_id()) == ra.as_ident().map(|i| i.to_id()) =>
         {
-            return Known(true)
+            return Known(true);
         }
         _ => {}
     }

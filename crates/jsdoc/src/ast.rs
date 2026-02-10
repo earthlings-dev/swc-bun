@@ -1,7 +1,7 @@
 #![allow(unexpected_cfgs)]
 
 use swc_atoms::Atom;
-use swc_common::{ast_node, Span};
+use swc_common::{Span, ast_node};
 
 /// Spanned text
 #[ast_node]

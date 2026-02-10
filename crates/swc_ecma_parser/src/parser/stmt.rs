@@ -1,7 +1,7 @@
 use swc_common::Spanned;
 
 use super::*;
-use crate::parser::{pat::PatType, Parser};
+use crate::parser::{Parser, pat::PatType};
 
 #[allow(clippy::enum_variant_names)]
 enum TempForHead {
@@ -1397,7 +1397,7 @@ fn handle_import_export<I: Tokens>(p: &mut Parser<I>, _: Vec<Decorator>) -> PRes
 #[cfg(test)]
 mod tests {
     use swc_atoms::atom;
-    use swc_common::{comments::SingleThreadedComments, DUMMY_SP as span};
+    use swc_common::{DUMMY_SP as span, comments::SingleThreadedComments};
     use swc_ecma_visit::assert_eq_ignore_span;
 
     use super::*;

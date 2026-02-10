@@ -1,14 +1,14 @@
 use par_iter::prelude::*;
-use swc_common::{util::take::Take, EqIgnoreSpan, Spanned, DUMMY_SP};
+use swc_common::{DUMMY_SP, EqIgnoreSpan, Spanned, util::take::Take};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{extract_var_ids, ExprCtx, ExprExt, StmtExt, StmtLike, Value};
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use swc_ecma_utils::{ExprCtx, ExprExt, StmtExt, StmtLike, Value, extract_var_ids};
+use swc_ecma_visit::{Visit, VisitWith, noop_visit_type};
 
 use super::Pure;
 use crate::{
     compress::util::is_fine_for_if_cons,
     maybe_par,
-    util::{make_bool, ModuleItemExt},
+    util::{ModuleItemExt, make_bool},
 };
 
 /// Methods related to option `dead_code`.

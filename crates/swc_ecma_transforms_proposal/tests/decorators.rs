@@ -6,12 +6,12 @@ use std::{
 };
 
 use serde::Deserialize;
-use swc_common::{comments::SingleThreadedComments, Mark};
+use swc_common::{Mark, comments::SingleThreadedComments};
 use swc_ecma_ast::Pass;
 use swc_ecma_parser::{EsSyntax, Syntax, TsSyntax};
 use swc_ecma_transforms_base::{assumptions::Assumptions, resolver};
-use swc_ecma_transforms_proposal::{decorator_2022_03::decorator_2022_03, DecoratorVersion};
-use swc_ecma_transforms_testing::{test_fixture, FixtureTestConfig};
+use swc_ecma_transforms_proposal::{DecoratorVersion, decorator_2022_03::decorator_2022_03};
+use swc_ecma_transforms_testing::{FixtureTestConfig, test_fixture};
 use swc_ecma_visit::Fold;
 
 fn syntax_default() -> Syntax {

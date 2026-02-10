@@ -14,23 +14,23 @@ use anyhow::Error;
 use swc_atoms::atom;
 use swc_bundler::{Bundle, Bundler, Load, ModuleData, ModuleRecord};
 use swc_common::{
+    FileName, GLOBALS, Mark, SourceMap, Span,
     errors::{ColorConfig, Handler},
     sync::Lrc,
-    FileName, Mark, SourceMap, Span, GLOBALS,
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{
-    text_writer::{omit_trailing_semi, JsWriter, WriteJs},
     Emitter,
+    text_writer::{JsWriter, WriteJs, omit_trailing_semi},
 };
 use swc_ecma_loader::{
-    resolvers::{lru::CachingResolver, node::NodeModulesResolver},
     TargetEnv,
+    resolvers::{lru::CachingResolver, node::NodeModulesResolver},
 };
 use swc_ecma_minifier::option::{
     CompressOptions, ExtraOptions, MangleOptions, MinifyOptions, TopLevelOptions,
 };
-use swc_ecma_parser::{parse_file_as_module, Syntax};
+use swc_ecma_parser::{Syntax, parse_file_as_module};
 use swc_ecma_transforms_base::fixer::fixer;
 use swc_ecma_visit::VisitMutWith;
 

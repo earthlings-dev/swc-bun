@@ -4,7 +4,7 @@ use swc_atoms::atom;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{VisitMut, VisitMutWith, noop_visit_mut_type};
 
 #[cfg(test)]
 mod tests;

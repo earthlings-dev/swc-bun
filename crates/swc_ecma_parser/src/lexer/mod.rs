@@ -6,32 +6,31 @@ use either::Either::{self, Left, Right};
 use rustc_hash::FxHashMap;
 use smartstring::{LazyCompact, SmartString};
 use swc_atoms::{
-    wtf8::{CodePoint, Wtf8, Wtf8Buf},
     Atom, AtomStoreCell,
+    wtf8::{CodePoint, Wtf8, Wtf8Buf},
 };
 use swc_common::{
+    BytePos, Span,
     comments::{Comment, CommentKind, Comments},
     input::{Input, StringInput},
-    BytePos, Span,
 };
 use swc_ecma_ast::{EsVersion, Ident};
 
-use self::table::{ByteHandler, BYTE_HANDLERS};
+use self::table::{BYTE_HANDLERS, ByteHandler};
 use crate::{
-    byte_search,
+    BigIntValue, Context, Syntax, byte_search,
     error::{Error, SyntaxError},
     input::Tokens,
     lexer::{
         char_ext::CharExt,
         comments_buffer::{BufferedComment, BufferedCommentKind, CommentsBuffer},
         jsx::xhtml,
-        number::{parse_integer, LazyInteger},
+        number::{LazyInteger, parse_integer},
         search::SafeByteMatchTable,
         state::State,
     },
     safe_byte_match_table,
     syntax::SyntaxFlags,
-    BigIntValue, Context, Syntax,
 };
 
 #[cfg(feature = "unstable")]
@@ -1147,9 +1146,10 @@ impl<'a> Lexer<'a> {
         debug_assert_eq!(self.cur(), Some(b'0'));
         self.bump(1); // `0`
 
-        debug_assert!(self
-            .cur()
-            .is_some_and(|c| matches!(c, b'b' | b'B' | b'o' | b'O' | b'x' | b'X')));
+        debug_assert!(
+            self.cur()
+                .is_some_and(|c| matches!(c, b'b' | b'B' | b'o' | b'O' | b'x' | b'X'))
+        );
         self.bump(1); // `cur` matches one of the bytes above
 
         let lazy_integer = self.read_number_no_dot_as_str::<RADIX>()?;

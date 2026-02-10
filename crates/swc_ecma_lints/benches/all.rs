@@ -2,16 +2,16 @@ extern crate swc_malloc;
 
 use std::fs::read_to_string;
 
-use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Criterion};
+use codspeed_criterion_compat::{Criterion, black_box, criterion_group, criterion_main};
 use swc_common::{
-    errors::{Handler, HANDLER},
+    FileName, GLOBALS, Globals, Mark, SourceMap, SyntaxContext,
+    errors::{HANDLER, Handler},
     sync::Lrc,
-    FileName, Globals, Mark, SourceMap, SyntaxContext, GLOBALS,
 };
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_lints::{
     config::LintConfig,
-    rules::{lint_pass, LintParams},
+    rules::{LintParams, lint_pass},
 };
 use swc_ecma_parser::parse_file_as_module;
 use swc_ecma_transforms_base::resolver;

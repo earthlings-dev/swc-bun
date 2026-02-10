@@ -3,16 +3,17 @@ use std::{iter, mem::take};
 use either::Either;
 use serde::Deserialize;
 use swc_atoms::Atom;
-use swc_common::{Spanned, DUMMY_SP};
+use swc_common::{DUMMY_SP, Spanned};
 use swc_ecma_ast::{Pass, *};
 use swc_ecma_transforms_base::helper;
 use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
 use swc_ecma_utils::{
-    alias_ident_for, constructor::inject_after_super, default_constructor_with_span, prepend_stmt,
-    private_ident, prop_name_to_expr, prop_name_to_expr_value, quote_ident, quote_str, ExprFactory,
+    ExprFactory, alias_ident_for, constructor::inject_after_super, default_constructor_with_span,
+    prepend_stmt, private_ident, prop_name_to_expr, prop_name_to_expr_value, quote_ident,
+    quote_str,
 };
 use swc_ecma_visit::{
-    fold_pass, noop_fold_type, visit_mut_pass, Fold, FoldWith, Visit, VisitMutWith, VisitWith,
+    Fold, FoldWith, Visit, VisitMutWith, VisitWith, fold_pass, noop_fold_type, visit_mut_pass,
 };
 
 mod legacy;
@@ -211,15 +212,17 @@ impl Fold for Decorators {
                     buf.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                         NamedExport {
                             span: DUMMY_SP,
-                            specifiers: vec![ExportNamedSpecifier {
-                                span: DUMMY_SP,
-                                orig: ModuleExportName::Ident(ident),
-                                exported: Some(ModuleExportName::Ident(
-                                    quote_ident!("default").into(),
-                                )),
-                                is_type_only: false,
-                            }
-                            .into()],
+                            specifiers: vec![
+                                ExportNamedSpecifier {
+                                    span: DUMMY_SP,
+                                    orig: ModuleExportName::Ident(ident),
+                                    exported: Some(ModuleExportName::Ident(
+                                        quote_ident!("default").into(),
+                                    )),
+                                    is_type_only: false,
+                                }
+                                .into(),
+                            ],
                             src: None,
                             type_only: false,
                             with: None,

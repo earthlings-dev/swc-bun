@@ -1,12 +1,12 @@
 use std::path::{Path, PathBuf};
 
-use swc_common::{sync::Lrc, Mark, SourceMap, SyntaxContext};
+use swc_common::{Mark, SourceMap, SyntaxContext, sync::Lrc};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
-use swc_ecma_parser::{lexer::Lexer, EsSyntax, Parser, StringInput, Syntax, TsSyntax};
+use swc_ecma_parser::{EsSyntax, Parser, StringInput, Syntax, TsSyntax, lexer::Lexer};
 use swc_ecma_transforms_base::{fixer::fixer, resolver};
-use swc_ecma_visit::{visit_mut_obj_and_computed, visit_mut_pass, VisitMut, VisitMutWith};
-use testing::{fixture, run_test2, NormalizedOutput};
+use swc_ecma_visit::{VisitMut, VisitMutWith, visit_mut_obj_and_computed, visit_mut_pass};
+use testing::{NormalizedOutput, fixture, run_test2};
 
 pub fn print(cm: Lrc<SourceMap>, program: &Program) -> String {
     let mut buf = Vec::new();

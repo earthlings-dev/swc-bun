@@ -146,7 +146,7 @@ pub mod unstable {
 }
 
 use error::Error;
-use swc_common::{comments::Comments, input::SourceFileInput, SourceFile};
+use swc_common::{SourceFile, comments::Comments, input::SourceFileInput};
 use swc_ecma_ast::*;
 
 mod context;

@@ -2,26 +2,26 @@ use std::borrow::Cow;
 
 use rustc_hash::FxHashSet;
 use swc_common::{
-    source_map::PURE_SP, util::take::Take, Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
+    DUMMY_SP, Mark, Span, Spanned, SyntaxContext, source_map::PURE_SP, util::take::Take,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper_expr;
 use swc_ecma_utils::{
-    member_expr, private_ident, quote_expr, quote_ident, ExprFactory, FunctionFactory, IsDirective,
+    ExprFactory, FunctionFactory, IsDirective, member_expr, private_ident, quote_expr, quote_ident,
 };
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
+use swc_ecma_visit::{VisitMut, VisitMutWith, noop_visit_mut_type, visit_mut_pass};
 
 pub use super::util::Config;
 use crate::{
     module_decl_strip::{
         Export, ExportKV, Link, LinkFlag, LinkItem, LinkSpecifierReducer, ModuleDeclStrip,
     },
-    module_ref_rewriter::{rewrite_import_bindings, ImportMap},
+    module_ref_rewriter::{ImportMap, rewrite_import_bindings},
     path::Resolver,
     top_level_this::top_level_this,
     util::{
-        define_es_module, emit_export_stmts, local_name_for_src, prop_name, use_strict,
-        ImportInterop, VecStmtLike,
+        ImportInterop, VecStmtLike, define_es_module, emit_export_stmts, local_name_for_src,
+        prop_name, use_strict,
     },
 };
 
@@ -631,9 +631,11 @@ pub(crate) fn cjs_dynamic_import(
 
     then.as_call(
         span,
-        vec![import_expr
-            .into_lazy_auto(callback_params, support_arrow)
-            .as_arg()],
+        vec![
+            import_expr
+                .into_lazy_auto(callback_params, support_arrow)
+                .as_arg(),
+        ],
     )
 }
 
@@ -644,11 +646,13 @@ fn cjs_import_meta_url(span: Span, require: Ident, unresolved_mark: Mark) -> Exp
         .make_member(quote_ident!("pathToFileURL"))
         .as_call(
             DUMMY_SP,
-            vec![quote_ident!(
-                SyntaxContext::empty().apply_mark(unresolved_mark),
-                "__filename"
-            )
-            .as_arg()],
+            vec![
+                quote_ident!(
+                    SyntaxContext::empty().apply_mark(unresolved_mark),
+                    "__filename"
+                )
+                .as_arg(),
+            ],
         )
         .make_member(quote_ident!("toString"))
         .as_call(span, Default::default())

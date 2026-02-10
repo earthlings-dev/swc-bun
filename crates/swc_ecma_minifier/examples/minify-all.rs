@@ -10,7 +10,7 @@ use std::{
 
 use anyhow::Result;
 use par_iter::prelude::*;
-use swc_common::{comments::SingleThreadedComments, sync::Lrc, Mark, SourceMap, GLOBALS};
+use swc_common::{GLOBALS, Mark, SourceMap, comments::SingleThreadedComments, sync::Lrc};
 use swc_ecma_ast::Program;
 use swc_ecma_codegen::text_writer::JsWriter;
 use swc_ecma_minifier::{

@@ -2,17 +2,17 @@ use std::borrow::Borrow;
 
 use rustc_hash::FxHashSet;
 use swc_atoms::Atom;
-use swc_common::{util::take::Take, DUMMY_SP};
+use swc_common::{DUMMY_SP, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::util::is_global_var_with_pure_property_access;
-use swc_ecma_utils::{contains_ident_ref, contains_this_expr, ExprExt};
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use swc_ecma_utils::{ExprExt, contains_ident_ref, contains_this_expr};
+use swc_ecma_visit::{Visit, VisitWith, noop_visit_type};
 
 use super::Optimizer;
 #[cfg(feature = "debug")]
 use crate::debug::dump;
 use crate::{
-    compress::optimize::{util::extract_class_side_effect, BitCtx},
+    compress::optimize::{BitCtx, util::extract_class_side_effect},
     option::PureGetterOption,
     program_data::{ScopeData, VarUsageInfoFlags},
 };

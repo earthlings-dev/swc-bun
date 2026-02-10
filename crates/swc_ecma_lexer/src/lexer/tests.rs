@@ -3,13 +3,12 @@ extern crate test;
 use std::{ops::Range, str};
 
 use swc_atoms::{
-    atom,
+    Atom, atom,
     wtf8::{CodePoint, Wtf8Buf},
-    Atom,
 };
 use swc_common::{BytePos, Span};
 use swc_ecma_ast::{AssignOp, AssignOp::*};
-use test::{black_box, Bencher};
+use test::{Bencher, black_box};
 
 use super::state::{lex, lex_module_errors, lex_tokens, with_lexer};
 use crate::{
@@ -377,12 +376,14 @@ fn str_escape_3() {
 fn str_escape_hex() {
     assert_eq!(
         lex(Syntax::default(), r"'\x61'"),
-        vec![Token::Str {
-            value: atom!("a").into(),
-            raw: atom!("'\\x61'"),
-        }
-        .span(0..6)
-        .lb(),]
+        vec![
+            Token::Str {
+                value: atom!("a").into(),
+                raw: atom!("'\\x61'"),
+            }
+            .span(0..6)
+            .lb(),
+        ]
     );
 }
 
@@ -390,12 +391,14 @@ fn str_escape_hex() {
 fn str_escape_octal() {
     assert_eq!(
         lex(Syntax::default(), r"'Hello\012World'"),
-        vec![Token::Str {
-            value: atom!("Hello\nWorld").into(),
-            raw: atom!("'Hello\\012World'"),
-        }
-        .span(0..16)
-        .lb(),]
+        vec![
+            Token::Str {
+                value: atom!("Hello\nWorld").into(),
+                raw: atom!("'Hello\\012World'"),
+            }
+            .span(0..16)
+            .lb(),
+        ]
     )
 }
 
@@ -403,12 +406,14 @@ fn str_escape_octal() {
 fn str_escape_unicode_long() {
     assert_eq!(
         lex(Syntax::default(), r"'\u{00000000034}'"),
-        vec![Token::Str {
-            value: atom!("4").into(),
-            raw: atom!("'\\u{00000000034}'"),
-        }
-        .span(0..17)
-        .lb(),]
+        vec![
+            Token::Str {
+                value: atom!("4").into(),
+                raw: atom!("'\\u{00000000034}'"),
+            }
+            .span(0..17)
+            .lb(),
+        ]
     );
 }
 

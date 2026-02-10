@@ -16,7 +16,7 @@ runs:
         fetch-depth: 0
         ref: "main"
 
-    - uses: ./.github/actions/setup-node
+    - uses: ./.github/actions/setup-bun
 
     - name: Install git-cliff
       uses: taiki-e/install-action@v2

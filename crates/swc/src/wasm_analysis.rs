@@ -4,10 +4,10 @@ use std::sync::Arc;
 
 use anyhow::{Context, Result};
 use common::{
+    GLOBALS, Mark, SourceFile,
     comments::SingleThreadedComments,
     errors::Handler,
     plugin::{metadata::TransformPluginMetadataContext, serialized::PluginSerializedBytes},
-    Mark, SourceFile, GLOBALS,
 };
 use rustc_hash::FxHashMap;
 use serde::Deserialize;
@@ -18,9 +18,9 @@ use swc_ecma_transforms::resolver;
 use swc_plugin_proxy::HostCommentsStorage;
 
 use crate::{
-    config::{ErrorFormat, RuntimeOptions},
-    plugin::{compile_wasm_plugins, PluginConfig},
     Compiler,
+    config::{ErrorFormat, RuntimeOptions},
+    plugin::{PluginConfig, compile_wasm_plugins},
 };
 
 impl Compiler {

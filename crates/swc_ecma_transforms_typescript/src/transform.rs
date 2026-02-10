@@ -3,16 +3,16 @@ use std::{iter, mem};
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
 use swc_common::{
-    errors::HANDLER, source_map::PURE_SP, util::take::Take, Mark, Span, Spanned, SyntaxContext,
-    DUMMY_SP,
+    DUMMY_SP, Mark, Span, Spanned, SyntaxContext, errors::HANDLER, source_map::PURE_SP,
+    util::take::Take,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    alias_ident_for, constructor::inject_after_super, ident::IdentLike, is_literal, member_expr,
-    private_ident, quote_ident, quote_str, stack_size::maybe_grow_default, ExprFactory, QueryRef,
-    RefRewriter, StmtLikeInjector,
+    ExprFactory, QueryRef, RefRewriter, StmtLikeInjector, alias_ident_for,
+    constructor::inject_after_super, ident::IdentLike, is_literal, member_expr, private_ident,
+    quote_ident, quote_str, stack_size::maybe_grow_default,
 };
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
+use swc_ecma_visit::{VisitMut, VisitMutWith, noop_visit_mut_type, visit_mut_pass};
 
 use crate::{
     config::TsImportExportAssignConfig,
@@ -20,7 +20,7 @@ use crate::{
     semantic::SemanticInfo,
     shared::enum_member_id_atom,
     ts_enum::{TsEnumRecordKey, TsEnumRecordValue},
-    utils::{assign_value_to_this_private_prop, assign_value_to_this_prop, Factory},
+    utils::{Factory, assign_value_to_this_private_prop, assign_value_to_this_prop},
 };
 
 /// ## This Module will transform all TypeScript specific synatx
@@ -1589,13 +1589,15 @@ impl Transform {
                 // import { createRequire } from "module";
                 ImportDecl {
                     span: DUMMY_SP,
-                    specifiers: vec![ImportNamedSpecifier {
-                        span: DUMMY_SP,
-                        local: create_require.clone(),
-                        imported: Some(quote_ident!("createRequire").into()),
-                        is_type_only: false,
-                    }
-                    .into()],
+                    specifiers: vec![
+                        ImportNamedSpecifier {
+                            span: DUMMY_SP,
+                            local: create_require.clone(),
+                            imported: Some(quote_ident!("createRequire").into()),
+                            is_type_only: false,
+                        }
+                        .into(),
+                    ],
                     src: Box::new(quote_str!("module")),
                     type_only: false,
                     with: None,
@@ -1606,12 +1608,14 @@ impl Transform {
                 create_require
                     .as_call(
                         DUMMY_SP,
-                        vec![MetaPropExpr {
-                            span: DUMMY_SP,
-                            kind: MetaPropKind::ImportMeta,
-                        }
-                        .make_member(quote_ident!("url"))
-                        .as_arg()],
+                        vec![
+                            MetaPropExpr {
+                                span: DUMMY_SP,
+                                kind: MetaPropKind::ImportMeta,
+                            }
+                            .make_member(quote_ident!("url"))
+                            .as_arg(),
+                        ],
                     )
                     .into_var_decl(VarDeclKind::Const, require.clone().into())
                     .into(),

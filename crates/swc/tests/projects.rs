@@ -7,17 +7,18 @@ use std::{
 use anyhow::Context;
 use par_iter::prelude::*;
 use swc::{
+    BoolOrDataConfig, Compiler, TransformOutput,
     config::{
         Config, FileMatcher, JsMinifyOptions, JscConfig, ModuleConfig, Options, Paths,
         SourceMapsConfig, TransformConfig,
     },
-    try_with_handler, BoolOrDataConfig, Compiler, TransformOutput,
+    try_with_handler,
 };
 use swc_common::{
+    BytePos, FileName, GLOBALS, Globals, SourceMap,
     comments::{Comment, SingleThreadedComments},
-    errors::{EmitterWriter, Handler, HANDLER},
+    errors::{EmitterWriter, HANDLER, Handler},
     sync::Lrc,
-    BytePos, FileName, Globals, SourceMap, GLOBALS,
 };
 use swc_compiler_base::PrintArgs;
 use swc_config::{file_pattern::FilePattern, is_module::IsModule};
@@ -25,7 +26,7 @@ use swc_ecma_ast::*;
 use swc_ecma_minifier::option::MangleOptions;
 use swc_ecma_parser::{EsSyntax, Syntax, TsSyntax};
 use swc_ecma_transforms::helpers::{self, Helpers};
-use swc_ecma_visit::{fold_pass, Fold};
+use swc_ecma_visit::{Fold, fold_pass};
 use testing::{NormalizedOutput, StdErr, Tester};
 use walkdir::WalkDir;
 

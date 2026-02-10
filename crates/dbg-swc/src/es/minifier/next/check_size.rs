@@ -7,15 +7,15 @@ use std::{
     sync::Arc,
 };
 
-use anyhow::{bail, Context, Result};
+use anyhow::{Context, Result, bail};
 use clap::Args;
-use dialoguer::{console::Term, theme::ColorfulTheme, Select};
+use dialoguer::{Select, console::Term, theme::ColorfulTheme};
 use rayon::{
     prelude::{IntoParallelIterator, ParallelBridge, ParallelIterator},
     str::ParallelString,
 };
-use serde::{de::DeserializeOwned, Deserialize};
-use swc_common::{errors::HANDLER, SourceMap, GLOBALS};
+use serde::{Deserialize, de::DeserializeOwned};
+use swc_common::{GLOBALS, SourceMap, errors::HANDLER};
 use tracing::info;
 
 use crate::util::{
@@ -177,12 +177,12 @@ impl CheckSizeCommand {
     /// Invokes `npm run build` and extacts the inputs for the swc minifier.
     fn build_app(&self, app_dir: &Path) -> Result<Vec<InputFile>> {
         wrap_task(|| {
-            info!("Running `npm run build`");
+            info!("Running `bun run build`");
 
             // Remove cache
             let _ = remove_dir_all(app_dir.join(".next"));
 
-            let mut c = Command::new("npm");
+            let mut c = Command::new("bun");
             c.current_dir(app_dir);
             c.env("FORCE_COLOR", "3");
             c.env("NEXT_DEBUG_MINIFY", "1");
@@ -246,7 +246,7 @@ where
     T: DeserializeOwned,
 {
     wrap_task(|| {
-        let mut c = Command::new("node");
+        let mut c = Command::new("bun");
 
         c.arg("-e");
         c.arg(

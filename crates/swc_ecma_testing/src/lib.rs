@@ -1,6 +1,6 @@
 use std::{env, fs, path::PathBuf, process::Command};
 
-use anyhow::{bail, Context, Result};
+use anyhow::{Context, Result, bail};
 use sha2::{Digest, Sha256};
 use testing::CARGO_TARGET_DIR;
 use tracing::debug;
@@ -20,10 +20,13 @@ pub struct JsExecOptions {
     /// `SWC_ECMA_TESTING_CACHE_DIR`
     pub cache: bool,
 
-    /// If true, `--input-type=module` will be added.
+    /// If true, the code is treated as an ES module.
+    ///
+    /// Note: Bun auto-detects ESM vs CJS from syntax, so this flag is
+    /// currently unused but retained for API compatibility.
     pub module: bool,
 
-    /// The arguments passed to the node.js process.
+    /// The arguments passed to the JS runtime process.
     pub args: Vec<String>,
 }
 
@@ -33,11 +36,19 @@ fn cargo_cache_root() -> PathBuf {
         .unwrap_or_else(|_| CARGO_TARGET_DIR.clone())
 }
 
-/// Executes `js_code` and capture thw output.
+/// Returns the JS runtime binary name.
+///
+/// Defaults to `"bun"`. Can be overridden via the `SWC_JS_RUNTIME` env var.
+fn js_runtime() -> &'static str {
+    static RUNTIME: std::sync::OnceLock<String> = std::sync::OnceLock::new();
+    RUNTIME.get_or_init(|| env::var("SWC_JS_RUNTIME").unwrap_or_else(|_| "bun".to_string()))
+}
+
+/// Executes `js_code` with the configured JS runtime and captures the output.
 pub fn exec_node_js(js_code: &str, opts: JsExecOptions) -> Result<String> {
     if opts.cache {
         let hash = calc_hash(&format!("{:?}:{}", opts.args, js_code));
-        let cache_dir = cargo_cache_root().join(".swc-node-exec-cache");
+        let cache_dir = cargo_cache_root().join(".swc-js-exec-cache");
         let cache_path = cache_dir.join(format!("{hash}.stdout"));
 
         if let Ok(s) = fs::read_to_string(&cache_path) {
@@ -59,15 +70,9 @@ pub fn exec_node_js(js_code: &str, opts: JsExecOptions) -> Result<String> {
         return Ok(output);
     }
 
-    debug!("Executing nodejs:\n{}", js_code);
+    debug!("Executing js runtime ({}):\n{}", js_runtime(), js_code);
 
-    let mut c = Command::new("node");
-
-    if opts.module {
-        c.arg("--input-type=module");
-    } else {
-        c.arg("--input-type=commonjs");
-    }
+    let mut c = Command::new(js_runtime());
 
     c.arg("-e").arg(js_code);
 

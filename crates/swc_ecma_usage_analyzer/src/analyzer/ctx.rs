@@ -6,7 +6,7 @@ use bitflags::bitflags;
 use swc_ecma_ast::VarDeclKind;
 use swc_ecma_utils::{Type, Value};
 
-use super::{storage::Storage, UsageAnalyzer};
+use super::{UsageAnalyzer, storage::Storage};
 
 impl<S> UsageAnalyzer<S>
 where

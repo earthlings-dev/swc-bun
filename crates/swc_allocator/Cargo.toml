@@ -17,7 +17,6 @@ rustdoc-args = ["--cfg", "docsrs"]
 hashbrown = ["dep:hashbrown", "hashbrown/allocator-api2"]
 nightly = [
   "skip-warning",
-  "allocator-api2/nightly",
   "bumpalo/allocator_api",
   "hashbrown/nightly",
 ]

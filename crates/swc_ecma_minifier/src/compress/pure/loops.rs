@@ -1,6 +1,6 @@
 use std::mem::take;
 
-use swc_common::{util::take::Take, Spanned};
+use swc_common::{Spanned, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, StmtExt, Value};
 

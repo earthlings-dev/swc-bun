@@ -3,9 +3,9 @@ use swc_css_ast::*;
 use swc_css_visit::{Visit, VisitWith};
 
 use crate::{
-    pattern::NamePattern,
-    rule::{visitor_rule, LintRule, LintRuleContext},
     ConfigError,
+    pattern::NamePattern,
+    rule::{LintRule, LintRuleContext, visitor_rule},
 };
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]

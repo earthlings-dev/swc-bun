@@ -3,8 +3,8 @@ mod logical_assignment_operators;
 use swc_ecma_hooks::VisitMutHook;
 
 use crate::{
-    hook_utils::{HookBuilder, NoopHook},
     TraverseCtx,
+    hook_utils::{HookBuilder, NoopHook},
 };
 
 #[derive(Debug, Default)]

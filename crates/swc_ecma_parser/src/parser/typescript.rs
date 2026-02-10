@@ -1,13 +1,13 @@
 use std::{fmt::Write, mem};
 
 use either::Either;
-use swc_atoms::{atom, Atom, Wtf8Atom};
+use swc_atoms::{Atom, Wtf8Atom, atom};
 use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::*;
 
 use crate::{
-    error::SyntaxError, input::Tokens, lexer::Token, parser::util::IsSimpleParameterList, Context,
-    PResult, Parser,
+    Context, PResult, Parser, error::SyntaxError, input::Tokens, lexer::Token,
+    parser::util::IsSimpleParameterList,
 };
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -2989,7 +2989,7 @@ mod tests {
     use swc_ecma_ast::*;
     use swc_ecma_visit::assert_eq_ignore_span;
 
-    use crate::{test_parser, Syntax};
+    use crate::{Syntax, test_parser};
 
     #[test]
     fn issue_708_1() {

@@ -2,9 +2,9 @@ use std::sync::Arc;
 
 use parking_lot::Mutex;
 use swc_common::{
+    BytePos,
     comments::{Comments, SingleThreadedComments},
     plugin::serialized::{PluginSerializedBytes, VersionedSerializable},
-    BytePos,
 };
 use swc_plugin_proxy::COMMENTS;
 

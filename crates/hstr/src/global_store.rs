@@ -1,12 +1,12 @@
 use std::{
     borrow::Cow,
-    mem::{forget, ManuallyDrop},
+    mem::{ManuallyDrop, forget},
 };
 
 use crate::{
+    Atom, Wtf8Atom,
     dynamic::{global_atom, global_wtf8_atom},
     wtf8::{Wtf8, Wtf8Buf},
-    Atom, Wtf8Atom,
 };
 
 macro_rules! direct_from_impl {

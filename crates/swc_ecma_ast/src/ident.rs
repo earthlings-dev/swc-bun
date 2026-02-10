@@ -7,12 +7,12 @@ use std::{
 use once_cell::sync::Lazy;
 use phf::phf_set;
 use rustc_hash::FxHashSet;
-use swc_atoms::{atom, Atom, UnsafeAtom};
+use swc_atoms::{Atom, UnsafeAtom, atom};
 use swc_common::{
-    ast_node, util::take::Take, BytePos, EqIgnoreSpan, Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
+    BytePos, DUMMY_SP, EqIgnoreSpan, Mark, Span, Spanned, SyntaxContext, ast_node, util::take::Take,
 };
 
-use crate::{typescript::TsTypeAnn, Expr};
+use crate::{Expr, typescript::TsTypeAnn};
 
 /// Identifier used as a pattern.
 #[derive(Clone, Debug, PartialEq, Eq, Hash, EqIgnoreSpan, Default)]

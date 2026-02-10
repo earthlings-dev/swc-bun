@@ -7,7 +7,7 @@ use swc_ecma_ast::{
     JSXOpeningFragment, JSXSpreadChild, JSXText,
 };
 use swc_estree_ast::{
-    flavor::Flavor, JSXAttrName as BabelJSXAttrName, JSXAttrVal, JSXAttribute,
+    JSXAttrName as BabelJSXAttrName, JSXAttrVal, JSXAttribute,
     JSXClosingElement as BabelJSXClosingElement, JSXClosingFragment as BabelJSXClosingFragment,
     JSXElement as BabelJSXElement, JSXElementChild as BabelJSXElementChild,
     JSXElementName as BabelJSXElementName, JSXEmptyExpression, JSXExprContainerExpr,
@@ -15,6 +15,7 @@ use swc_estree_ast::{
     JSXMemberExpression, JSXNamespacedName as BabelJSXNamespacedName, JSXOpeningElAttr,
     JSXOpeningElement as BabelJSXOpeningElement, JSXOpeningFragment as BabelJSXOpeningFragment,
     JSXSpreadAttribute, JSXSpreadChild as BabelJSXSpreadChild, JSXText as BabelJSXText,
+    flavor::Flavor,
 };
 
 use crate::babelify::{Babelify, Context};

@@ -2,10 +2,10 @@ use std::path::PathBuf;
 
 use dashmap::DashMap;
 use swc_common::{
-    comments::{Comment, CommentKind, Comments},
     BytePos, DUMMY_SP,
+    comments::{Comment, CommentKind, Comments},
 };
-use swc_ecma_parser::{parse_file_as_module, EsSyntax, Syntax};
+use swc_ecma_parser::{EsSyntax, Syntax, parse_file_as_module};
 use testing::NormalizedOutput;
 
 #[testing::fixture("tests/fixtures/**/*.js")]

@@ -4,13 +4,13 @@ use rustc_hash::FxHashMap;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use swc_atoms::Atom;
-use swc_common::{sync::Lrc, FileName, SourceMap, DUMMY_SP};
+use swc_common::{DUMMY_SP, FileName, SourceMap, sync::Lrc};
 use swc_ecma_ast::*;
 use swc_ecma_parser::parse_file_as_expr;
 use swc_ecma_utils::drop_span;
 
 use super::{
-    default_passes, true_by_default, CompressExperimentalOptions, CompressOptions, TopLevelOptions,
+    CompressExperimentalOptions, CompressOptions, TopLevelOptions, default_passes, true_by_default,
 };
 use crate::option::PureGetterOption;
 

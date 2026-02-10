@@ -285,13 +285,13 @@ impl Bump<'_> {
 }
 
 fn update_changelog() -> Result<()> {
-    // Run `yarn changelog`
-    let mut cmd = Command::new("yarn");
-    cmd.arg("changelog");
+    // Run `bun run changelog`
+    let mut cmd = Command::new("bun");
+    cmd.arg("run").arg("changelog");
 
     eprintln!("Running {cmd:?}");
 
-    cmd.status().context("failed to run yarn changelog")?;
+    cmd.status().context("failed to run bun run changelog")?;
 
     Ok(())
 }

@@ -1,13 +1,13 @@
 use std::path::PathBuf;
 
-use swc_common::{errors::HANDLER, input::SourceFileInput, Mark, SyntaxContext};
+use swc_common::{Mark, SyntaxContext, errors::HANDLER, input::SourceFileInput};
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_lints::{
     config::LintConfig,
     rule::Rule,
-    rules::{all, LintParams},
+    rules::{LintParams, all},
 };
-use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
+use swc_ecma_parser::{Parser, Syntax, lexer::Lexer};
 use swc_ecma_transforms_base::resolver;
 
 #[testing::fixture("tests/pass/**/input.js")]

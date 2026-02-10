@@ -11,7 +11,7 @@ pub use serde_wasm_bindgen;
 use serde_wasm_bindgen::Serializer;
 #[doc(hidden)]
 pub use swc::PrintArgs;
-use swc::{config::ErrorFormat, Compiler, HandlerOpts};
+use swc::{Compiler, HandlerOpts, config::ErrorFormat};
 #[doc(hidden)]
 pub use swc::{
     config::{Options, ParseOptions, SourceMapsConfig},
@@ -19,11 +19,11 @@ pub use swc::{
 };
 #[doc(hidden)]
 pub use swc_common::{
+    FileName, GLOBALS, Mark,
     comments::{self, SingleThreadedComments},
     errors::Handler,
-    FileName, Mark, GLOBALS,
 };
-use swc_common::{sync::Lrc, FilePathMapping, SourceMap};
+use swc_common::{FilePathMapping, SourceMap, sync::Lrc};
 #[doc(hidden)]
 pub use swc_ecma_ast::noop_pass;
 #[doc(hidden)]

@@ -1,0 +1,12 @@
+name: "Configure Bun"
+description: "Sets Bun up for CI"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install Bun
+      uses: oven-sh/setup-bun@v2
+
+    - name: Install dependencies
+      shell: bash
+      run: bun install --frozen-lockfile

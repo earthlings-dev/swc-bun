@@ -3,9 +3,9 @@ extern crate swc_malloc;
 use std::{fs, io::stderr, sync::Arc};
 
 use bytes_str::BytesStr;
-use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
+use codspeed_criterion_compat::{Bencher, Criterion, black_box, criterion_group, criterion_main};
 use swc::config::{Config, JscConfig, Options, TransformConfig};
-use swc_common::{errors::Handler, FileName, FilePathMapping, SourceMap, GLOBALS};
+use swc_common::{FileName, FilePathMapping, GLOBALS, SourceMap, errors::Handler};
 use swc_compiler_base::SourceMapsConfig;
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::{Syntax, TsSyntax};

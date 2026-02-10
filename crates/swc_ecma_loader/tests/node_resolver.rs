@@ -10,7 +10,7 @@ use std::{
 use lazy_static::lazy_static;
 use swc_common::FileName;
 extern crate swc_ecma_loader;
-use swc_ecma_loader::{resolve::Resolve, resolvers::node::NodeModulesResolver, TargetEnv};
+use swc_ecma_loader::{TargetEnv, resolve::Resolve, resolvers::node::NodeModulesResolver};
 
 lazy_static! {
     static ref UPDATE_DIR_MUTEX: Arc<Mutex<()>> = Arc::new(Mutex::new(()));

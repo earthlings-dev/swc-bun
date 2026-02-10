@@ -7,14 +7,14 @@
 
 use std::{borrow::Cow, fmt::Write, io, ops::Deref, str};
 
-use compact_str::{format_compact, CompactString};
+use compact_str::{CompactString, format_compact};
 use memchr::memmem::Finder;
 use once_cell::sync::Lazy;
 use swc_atoms::Atom;
 use swc_common::{
+    BytePos, DUMMY_SP, SourceMap, SourceMapper, Span, Spanned,
     comments::{CommentKind, Comments},
     sync::Lrc,
-    BytePos, SourceMap, SourceMapper, Span, Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::node_impl;
@@ -1155,13 +1155,13 @@ fn get_template_element_from_raw(
                 if !ascii_only || c.is_ascii() {
                     buf.push(c);
                 } else {
-                    buf.extend(c.escape_unicode().map(|c| {
-                        if c == 'u' {
-                            c
-                        } else {
-                            c.to_ascii_uppercase()
-                        }
-                    }));
+                    buf.extend(
+                        c.escape_unicode().map(
+                            |c| {
+                                if c == 'u' { c } else { c.to_ascii_uppercase() }
+                            },
+                        ),
+                    );
                 }
             }
             None => {}

@@ -6,7 +6,7 @@ use std::{
 use nom::{
     Compare, CompareResult, InputIter, InputLength, InputTake, Needed, Slice, UnspecializedInput,
 };
-use swc_common::{comments::Comment, BytePos, Span};
+use swc_common::{BytePos, Span, comments::Comment};
 
 use crate::ast::Text;
 

@@ -4,17 +4,17 @@ extern crate test;
 
 use std::{
     env,
-    fs::{read_dir, File},
+    fs::{File, read_dir},
     io::{self, Read},
     path::Path,
 };
 
 use common::Normalizer;
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, PResult, Parser, Syntax};
+use swc_ecma_parser::{PResult, Parser, Syntax, lexer::Lexer};
 use swc_ecma_visit::FoldWith;
 use test::{
-    test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
+    DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType, test_main,
 };
 use testing::{NormalizedOutput, StdErr};
 

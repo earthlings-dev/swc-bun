@@ -1,6 +1,6 @@
 use std::process::{Command, Stdio};
 
-use anyhow::{ensure, Context, Result};
+use anyhow::{Context, Result, ensure};
 use chrono::Utc;
 use clap::Args;
 use semver::{Prerelease, Version};

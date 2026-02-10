@@ -1,4 +1,4 @@
-use swc_common::{Spanned, DUMMY_SP};
+use swc_common::{DUMMY_SP, Spanned};
 use swc_ecma_ast::{
     ArrowExpr, BindingIdent, BlockStmtOrExpr, Class, Expr, Function, Ident, Lit, ReturnStmt, Stmt,
     TsKeywordTypeKind, TsParenthesizedType, TsType, TsTypeAliasDecl, TsTypeAnn,
@@ -7,8 +7,8 @@ use swc_ecma_ast::{
 use swc_ecma_visit::{Visit, VisitWith};
 
 use super::{
-    util::types::{ts_keyword_type, type_ann},
     FastDts,
+    util::types::{ts_keyword_type, type_ann},
 };
 
 impl FastDts {

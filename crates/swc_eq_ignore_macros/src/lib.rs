@@ -1,9 +1,9 @@
 use proc_macro2::Span;
 use quote::quote;
 use syn::{
-    parse, parse_quote, punctuated::Punctuated, spanned::Spanned, Arm, BinOp, Block, Data,
-    DeriveInput, Expr, ExprBinary, ExprBlock, Field, FieldPat, Fields, Ident, Index, Member, Pat,
-    PatIdent, PatRest, PatStruct, PatTuple, Path, Stmt, Token,
+    Arm, BinOp, Block, Data, DeriveInput, Expr, ExprBinary, ExprBlock, Field, FieldPat, Fields,
+    Ident, Index, Member, Pat, PatIdent, PatRest, PatStruct, PatTuple, Path, Stmt, Token, parse,
+    parse_quote, punctuated::Punctuated, spanned::Spanned,
 };
 
 /// Derives `swc_common::TypeEq`.

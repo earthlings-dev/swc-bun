@@ -2,26 +2,26 @@
 
 use std::{cell::RefCell, char, iter::FusedIterator, rc::Rc};
 
-use swc_atoms::{wtf8::Wtf8, AtomStoreCell};
+use swc_atoms::{AtomStoreCell, wtf8::Wtf8};
 use swc_common::{
+    BytePos, Span,
     comments::Comments,
     input::{Input, StringInput},
-    BytePos, Span,
 };
 use swc_ecma_ast::{AssignOp, EsVersion};
 
 pub use self::state::{TokenContext, TokenContexts, TokenFlags, TokenType};
-use self::table::{ByteHandler, BYTE_HANDLERS};
+use self::table::{BYTE_HANDLERS, ByteHandler};
 use crate::{
+    Context,
     common::{
-        lexer::{char::CharExt, fixed_len_span, pos_span, LexResult, Lexer as LexerTrait},
+        lexer::{LexResult, Lexer as LexerTrait, char::CharExt, fixed_len_span, pos_span},
         syntax::{Syntax, SyntaxFlags},
     },
     error::{Error, SyntaxError},
     lexer::comments_buffer::CommentsBuffer,
     tok,
     token::{BinOpToken, Token, TokenAndSpan},
-    Context,
 };
 
 mod comments_buffer;

@@ -1,10 +1,10 @@
-use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
-use swc_common::{comments::SingleThreadedComments, sync::Lrc, FileName, Mark, SourceMap};
+use codspeed_criterion_compat::{Bencher, Criterion, black_box, criterion_group, criterion_main};
+use swc_common::{FileName, Mark, SourceMap, comments::SingleThreadedComments, sync::Lrc};
 use swc_ecma_ast::{Module, Pass, Program};
-use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
+use swc_ecma_parser::{Parser, StringInput, Syntax, lexer::Lexer};
 use swc_ecma_transforms_base::{helpers, resolver};
 use swc_ecma_transforms_typescript::strip;
-use swc_ecma_visit::{fold_pass, Fold};
+use swc_ecma_visit::{Fold, fold_pass};
 
 static SOURCE: &str = include_str!("assets/AjaxObservable.ts");
 

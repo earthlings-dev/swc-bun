@@ -1,4 +1,4 @@
-use crate::{wtf8::Wtf8, Atom, AtomStore, Wtf8Atom};
+use crate::{Atom, AtomStore, Wtf8Atom, wtf8::Wtf8};
 
 fn store_with_atoms(texts: Vec<&str>) -> (AtomStore, Vec<Atom>) {
     let mut store = AtomStore::default();

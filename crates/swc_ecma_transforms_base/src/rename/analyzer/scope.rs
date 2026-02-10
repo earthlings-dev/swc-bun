@@ -6,7 +6,7 @@ use indexmap::IndexSet;
 #[cfg(feature = "concurrent-renamer")]
 use par_iter::prelude::*;
 use rustc_hash::{FxHashMap, FxHashSet, FxHasher};
-use swc_atoms::{atom, Atom};
+use swc_atoms::{Atom, atom};
 use swc_common::Mark;
 use swc_ecma_ast::*;
 use tracing::debug;

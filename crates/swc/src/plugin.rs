@@ -22,7 +22,7 @@ use swc_ecma_loader::{
     resolve::Resolve,
     resolvers::{lru::CachingResolver, node::NodeModulesResolver},
 };
-use swc_ecma_visit::{fold_pass, noop_fold_type, Fold};
+use swc_ecma_visit::{Fold, fold_pass, noop_fold_type};
 #[cfg(feature = "plugin")]
 use swc_plugin_runner::runtime::Runtime as PluginRuntime;
 

@@ -8,9 +8,8 @@ use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::{
     alias::{Access, AccessKind},
     analyzer::{
-        analyze_with_custom_storage,
+        Ctx, ScopeKind, UsageAnalyzer, analyze_with_custom_storage,
         storage::{ScopeDataLike, Storage, VarDataLike},
-        Ctx, ScopeKind, UsageAnalyzer,
     },
     marks::Marks,
     util::is_global_var_with_pure_property_access,

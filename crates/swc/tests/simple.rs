@@ -1,6 +1,6 @@
 use swc::{
-    config::{Config, IsModule, JscConfig, Options},
     Compiler,
+    config::{Config, IsModule, JscConfig, Options},
 };
 use swc_common::FileName;
 use swc_ecma_ast::EsVersion;

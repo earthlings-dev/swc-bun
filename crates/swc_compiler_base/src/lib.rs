@@ -4,7 +4,7 @@ use std::{
 };
 
 use anyhow::{Context, Error};
-use base64::prelude::{Engine, BASE64_STANDARD};
+use base64::prelude::{BASE64_STANDARD, Engine};
 use bytes_str::BytesStr;
 use once_cell::sync::Lazy;
 use rustc_hash::FxHashMap;
@@ -12,21 +12,21 @@ use rustc_hash::FxHashMap;
 use serde::{Deserialize, Serialize};
 use swc_atoms::Atom;
 use swc_common::{
+    BytePos, FileName, SourceFile, SourceMap,
     comments::{Comment, CommentKind, Comments, SingleThreadedComments},
     errors::Handler,
     source_map::SourceMapGenConfig,
     sync::Lrc,
-    BytePos, FileName, SourceFile, SourceMap,
 };
 use swc_config::{file_pattern::FilePattern, is_module::IsModule, types::BoolOr};
 use swc_ecma_ast::{EsVersion, Ident, IdentName, Program};
-use swc_ecma_codegen::{text_writer::WriteJs, Emitter, Node};
+use swc_ecma_codegen::{Emitter, Node, text_writer::WriteJs};
 use swc_ecma_minifier::js::JsMinifyCommentOption;
 use swc_ecma_parser::{
-    parse_file_as_commonjs, parse_file_as_module, parse_file_as_program, parse_file_as_script,
-    Syntax,
+    Syntax, parse_file_as_commonjs, parse_file_as_module, parse_file_as_program,
+    parse_file_as_script,
 };
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use swc_ecma_visit::{Visit, VisitWith, noop_visit_type};
 use swc_timer::timer;
 
 #[cfg(feature = "node")]

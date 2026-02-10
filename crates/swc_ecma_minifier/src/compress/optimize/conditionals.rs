@@ -1,6 +1,6 @@
 use std::mem::swap;
 
-use swc_common::{util::take::Take, EqIgnoreSpan, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{DUMMY_SP, EqIgnoreSpan, Spanned, SyntaxContext, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::ExprRefExt;
 use swc_ecma_transforms_optimization::debug_assert_valid;
@@ -8,12 +8,12 @@ use swc_ecma_utils::{ExprExt, ExprFactory, IdentUsageFinder, StmtExt, StmtLike};
 
 use super::Optimizer;
 use crate::{
+    DISABLE_BUGGY_PASSES,
     compress::{
         optimize::BitCtx,
         util::{negate, negate_cost},
     },
     program_data::VarUsageInfoFlags,
-    DISABLE_BUGGY_PASSES,
 };
 
 /// Methods related to the option `conditionals`. All methods are noop if
@@ -493,13 +493,15 @@ impl Optimizer<'_> {
                     // do_something(some_condition ? x : y);
                     //
 
-                    let args = vec![CondExpr {
-                        span: DUMMY_SP,
-                        test: test.take(),
-                        cons: cons.args[0].expr.take(),
-                        alt: alt.args[0].expr.take(),
-                    }
-                    .as_arg()];
+                    let args = vec![
+                        CondExpr {
+                            span: DUMMY_SP,
+                            test: test.take(),
+                            cons: cons.args[0].expr.take(),
+                            alt: alt.args[0].expr.take(),
+                        }
+                        .as_arg(),
+                    ];
 
                     report_change!(
                         "Compressing if into cond as there's no side effect and the number of \

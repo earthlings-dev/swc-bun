@@ -317,7 +317,7 @@ pub trait Input<'a>: Clone {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::{sync::Lrc, FileName, FilePathMapping, SourceMap};
+    use crate::{FileName, FilePathMapping, SourceMap, sync::Lrc};
 
     fn with_test_sess<F>(src: &'static str, f: F)
     where

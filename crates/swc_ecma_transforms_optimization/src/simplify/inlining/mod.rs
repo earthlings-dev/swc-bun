@@ -8,10 +8,10 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::scope::IdentType;
 use swc_ecma_utils::{contains_this_expr, find_pat_ids};
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, visit_mut_pass, visit_obj_and_computed, Visit, VisitMut,
-    VisitMutWith, VisitWith,
+    Visit, VisitMut, VisitMutWith, VisitWith, noop_visit_mut_type, noop_visit_type, visit_mut_pass,
+    visit_obj_and_computed,
 };
-use tracing::{span, Level};
+use tracing::{Level, span};
 
 use self::scope::{Scope, ScopeKind, VarType};
 

@@ -1,10 +1,10 @@
 use std::{cmp::Ordering, f64};
 
-use swc_common::{util::take::Take, DUMMY_SP};
+use swc_common::{DUMMY_SP, util::take::Take};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{number::JsNumber, ExprCtx, ExprExt, IdentUsageFinder, Type, Value};
+use swc_ecma_utils::{ExprCtx, ExprExt, IdentUsageFinder, Type, Value, number::JsNumber};
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
+    Visit, VisitMut, VisitMutWith, VisitWith, noop_visit_mut_type, noop_visit_type,
 };
 
 #[cfg(feature = "debug")]

@@ -16,27 +16,27 @@ use anyhow::Error;
 use once_cell::sync::Lazy;
 use serde::Deserialize;
 use swc_common::{
+    EqIgnoreSpan, FileName, Mark, SourceMap,
     comments::{Comments, SingleThreadedComments},
-    errors::{Handler, HANDLER},
+    errors::{HANDLER, Handler},
     input::SourceFileInput,
     sync::Lrc,
     util::take::Take,
-    EqIgnoreSpan, FileName, Mark, SourceMap,
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{
-    text_writer::{omit_trailing_semi, JsWriter, WriteJs},
     Emitter,
+    text_writer::{JsWriter, WriteJs, omit_trailing_semi},
 };
 use swc_ecma_minifier::{
     optimize,
     option::{
-        terser::TerserCompressorOptions, CompressOptions, ExtraOptions, MangleOptions,
-        MinifyOptions, TopLevelOptions,
+        CompressOptions, ExtraOptions, MangleOptions, MinifyOptions, TopLevelOptions,
+        terser::TerserCompressorOptions,
     },
 };
-use swc_ecma_parser::{lexer::Lexer, EsSyntax, Parser, Syntax};
-use swc_ecma_testing::{exec_node_js, JsExecOptions};
+use swc_ecma_parser::{EsSyntax, Parser, Syntax, lexer::Lexer};
+use swc_ecma_testing::{JsExecOptions, exec_node_js};
 use swc_ecma_transforms_base::{
     fixer::{fixer, paren_remover},
     hygiene::hygiene,
@@ -44,7 +44,7 @@ use swc_ecma_transforms_base::{
 };
 use swc_ecma_utils::drop_span;
 use swc_ecma_visit::{VisitMut, VisitMutWith};
-use testing::{assert_eq, unignore_fixture, DebugUsingDisplay, NormalizedOutput};
+use testing::{DebugUsingDisplay, NormalizedOutput, assert_eq, unignore_fixture};
 
 fn load_txt(filename: &str) -> Vec<String> {
     let lines = read_to_string(filename).unwrap();

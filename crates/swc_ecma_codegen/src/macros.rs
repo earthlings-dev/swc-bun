@@ -15,9 +15,7 @@ macro_rules! opt {
             emit!($emitter, expr);
         }
     }};
-    ($emitter:expr, $e:expr,) => {{
-        opt!($emitter, $e)
-    }};
+    ($emitter:expr, $e:expr,) => {{ opt!($emitter, $e) }};
 }
 
 macro_rules! emit {

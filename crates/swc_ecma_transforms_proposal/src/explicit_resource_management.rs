@@ -1,11 +1,11 @@
-use swc_common::{util::take::Take, DUMMY_SP};
+use swc_common::{DUMMY_SP, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
-    private_ident, quote_ident, stack_size::maybe_grow_default, ExprFactory, ModuleItemLike,
-    StmtLike,
+    ExprFactory, ModuleItemLike, StmtLike, private_ident, quote_ident,
+    stack_size::maybe_grow_default,
 };
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
+use swc_ecma_visit::{VisitMut, VisitMutWith, noop_visit_mut_type, visit_mut_pass};
 
 pub fn explicit_resource_management() -> impl Pass {
     visit_mut_pass(ExplicitResourceManagement::default())
@@ -177,13 +177,15 @@ impl ExplicitResourceManagement {
                         // export { C };
                         extras.push(
                             T::try_from_module_decl(ModuleDecl::ExportNamed(NamedExport {
-                                specifiers: vec![ExportNamedSpecifier {
-                                    span: DUMMY_SP,
-                                    orig: ident.clone().into(),
-                                    exported: None,
-                                    is_type_only: false,
-                                }
-                                .into()],
+                                specifiers: vec![
+                                    ExportNamedSpecifier {
+                                        span: DUMMY_SP,
+                                        orig: ident.clone().into(),
+                                        exported: None,
+                                        is_type_only: false,
+                                    }
+                                    .into(),
+                                ],
                                 ..NamedExport::dummy()
                             }))
                             .unwrap(),
@@ -220,13 +222,15 @@ impl ExplicitResourceManagement {
                         // export { C as default };
                         extras.push(
                             T::try_from_module_decl(ModuleDecl::ExportNamed(NamedExport {
-                                specifiers: vec![ExportNamedSpecifier {
-                                    span: DUMMY_SP,
-                                    orig: ident.clone().into(),
-                                    exported: Some(quote_ident!("default").into()),
-                                    is_type_only: false,
-                                }
-                                .into()],
+                                specifiers: vec![
+                                    ExportNamedSpecifier {
+                                        span: DUMMY_SP,
+                                        orig: ident.clone().into(),
+                                        exported: Some(quote_ident!("default").into()),
+                                        is_type_only: false,
+                                    }
+                                    .into(),
+                                ],
                                 ..NamedExport::dummy()
                             }))
                             .unwrap(),
@@ -338,12 +342,14 @@ impl ExplicitResourceManagement {
         } else {
             // Code:
             // _ts_dispose_resources(env_1);
-            vec![CallExpr {
-                callee: helper!(ts, ts_dispose_resources),
-                args: vec![env.clone().as_arg()],
-                ..Default::default()
-            }
-            .into_stmt()]
+            vec![
+                CallExpr {
+                    callee: helper!(ts, ts_dispose_resources),
+                    args: vec![env.clone().as_arg()],
+                    ..Default::default()
+                }
+                .into_stmt(),
+            ]
         };
 
         let try_stmt = TryStmt {

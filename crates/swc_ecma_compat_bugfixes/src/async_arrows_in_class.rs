@@ -1,8 +1,8 @@
-use swc_common::{util::take::Take, Mark, DUMMY_SP};
+use swc_common::{DUMMY_SP, Mark, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_compat_es2015::arrow;
 use swc_ecma_utils::prepend_stmt;
-use swc_ecma_visit::{fold_pass, standard_only_fold, Fold, FoldWith, InjectVars, VisitMutWith};
+use swc_ecma_visit::{Fold, FoldWith, InjectVars, VisitMutWith, fold_pass, standard_only_fold};
 use swc_trace_macro::swc_trace;
 
 /// A bugfix pass for Safari 10.3.

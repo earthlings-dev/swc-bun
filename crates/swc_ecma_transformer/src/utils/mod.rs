@@ -1,7 +1,7 @@
 use std::borrow::Cow;
 
 use swc_atoms::Atom;
-use swc_common::{Mark, SyntaxContext, DUMMY_SP};
+use swc_common::{DUMMY_SP, Mark, SyntaxContext};
 use swc_ecma_ast::*;
 
 pub(crate) fn normalize_module_export_name(module_export_name: &ModuleExportName) -> Cow<Atom> {

@@ -2,7 +2,7 @@ use std::mem::take;
 
 use serde::Deserialize;
 use swc_atoms::atom;
-use swc_common::{util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{DUMMY_SP, Mark, Spanned, SyntaxContext, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{
     helper,
@@ -10,9 +10,9 @@ use swc_ecma_transforms_base::{
 };
 use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::{
-    alias_if_required, member_expr, prepend_stmt, private_ident, quote_ident, ExprFactory,
+    ExprFactory, alias_if_required, member_expr, prepend_stmt, private_ident, quote_ident,
 };
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
+use swc_ecma_visit::{VisitMut, VisitMutWith, noop_visit_mut_type, visit_mut_pass};
 use swc_trace_macro::swc_trace;
 
 /// `@babel/plugin-transform-for-of`
@@ -604,13 +604,15 @@ fn make_finally_block(
                     })),
                     cons: Box::new(Stmt::Block(BlockStmt {
                         span: DUMMY_SP,
-                        stmts: vec![CallExpr {
-                            span: DUMMY_SP,
-                            callee: iterator_return.as_callee(),
-                            args: Vec::new(),
-                            ..Default::default()
-                        }
-                        .into_stmt()],
+                        stmts: vec![
+                            CallExpr {
+                                span: DUMMY_SP,
+                                callee: iterator_return.as_callee(),
+                                args: Vec::new(),
+                                ..Default::default()
+                            }
+                            .into_stmt(),
+                        ],
                         ..Default::default()
                     })),
                     alt: None,

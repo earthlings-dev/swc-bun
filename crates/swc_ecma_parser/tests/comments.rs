@@ -1,15 +1,15 @@
 use std::path::PathBuf;
 
 use swc_common::{
+    BytePos, Span,
     comments::SingleThreadedComments,
     errors::{DiagnosticBuilder, Handler},
     input::SourceFileInput,
-    BytePos, Span,
 };
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, EsSyntax, Parser, Syntax, TsSyntax};
+use swc_ecma_parser::{EsSyntax, Parser, Syntax, TsSyntax, lexer::Lexer};
 use swc_ecma_visit::{Visit, VisitWith};
-use testing::{fixture, Tester};
+use testing::{Tester, fixture};
 
 #[fixture("tests/comments/**/input.js")]
 fn test(input: PathBuf) {

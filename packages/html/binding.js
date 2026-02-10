@@ -33,7 +33,7 @@ const isMuslFromFilesystem = () => {
 
 const isMuslFromReport = () => {
     const report =
-        typeof process.report.getReport === "function"
+        typeof process.report?.getReport === "function"
             ? process.report.getReport()
             : null;
     if (!report) {

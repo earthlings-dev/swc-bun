@@ -1,5 +1,5 @@
 use swc_atoms::atom;
-use swc_common::{Span, DUMMY_SP};
+use swc_common::{DUMMY_SP, Span};
 use swc_ecma_ast::*;
 use swc_ecma_hooks::{CompositeHook, VisitMutHook, VisitMutWithHook};
 use swc_ecma_visit::VisitMutWith;

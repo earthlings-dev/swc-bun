@@ -1,28 +1,28 @@
 use anyhow::Context;
 use swc_atoms::Atom;
 use swc_common::{
-    source_map::PURE_SP, sync::Lrc, util::take::Take, Mark, SourceMap, Span, SyntaxContext,
-    DUMMY_SP,
+    DUMMY_SP, Mark, SourceMap, Span, SyntaxContext, source_map::PURE_SP, sync::Lrc,
+    util::take::Take,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper_expr;
 use swc_ecma_utils::{
-    is_valid_prop_ident, private_ident, quote_ident, quote_str, ExprFactory, IsDirective,
+    ExprFactory, IsDirective, is_valid_prop_ident, private_ident, quote_ident, quote_str,
 };
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
+use swc_ecma_visit::{VisitMut, VisitMutWith, noop_visit_mut_type, visit_mut_pass};
 
 use self::config::BuiltConfig;
 pub use self::config::Config;
 use crate::{
+    SpanCtx,
     module_decl_strip::{Export, Link, LinkFlag, LinkItem, LinkSpecifierReducer, ModuleDeclStrip},
-    module_ref_rewriter::{rewrite_import_bindings, ImportMap},
+    module_ref_rewriter::{ImportMap, rewrite_import_bindings},
     path::Resolver,
     top_level_this::top_level_this,
     util::{
-        define_es_module, emit_export_stmts, local_name_for_src, use_strict, ImportInterop,
-        VecStmtLike,
+        ImportInterop, VecStmtLike, define_es_module, emit_export_stmts, local_name_for_src,
+        use_strict,
     },
-    SpanCtx,
 };
 
 mod config;
@@ -155,16 +155,18 @@ impl VisitMut for Umd {
         }
         .into();
 
-        *module_items = vec![adapter_fn_expr
-            .as_call(
-                DUMMY_SP,
-                vec![
-                    ThisExpr { span: DUMMY_SP }.as_arg(),
-                    factory_fn_expr.as_arg(),
-                ],
-            )
-            .into_stmt()
-            .into()]
+        *module_items = vec![
+            adapter_fn_expr
+                .as_call(
+                    DUMMY_SP,
+                    vec![
+                        ThisExpr { span: DUMMY_SP }.as_arg(),
+                        factory_fn_expr.as_arg(),
+                    ],
+                )
+                .into_stmt()
+                .into(),
+        ]
     }
 }
 
@@ -452,29 +454,31 @@ impl Umd {
 
         let adapter_body = BlockStmt {
             span: DUMMY_SP,
-            stmts: vec![IfStmt {
-                span: DUMMY_SP,
-                test: Box::new(cjs_if_test),
-                cons: Box::new(cjs_if_body.into_stmt()),
-                alt: Some(Box::new(
-                    IfStmt {
-                        span: DUMMY_SP,
-                        test: Box::new(amd_if_test),
-                        cons: Box::new(amd_if_body.into_stmt()),
-                        alt: Some(Box::new(
-                            IfStmt {
-                                span: DUMMY_SP,
-                                test: Box::new(browser_if_test),
-                                cons: Box::new(browser_if_body.into_stmt()),
-                                alt: None,
-                            }
-                            .into(),
-                        )),
-                    }
-                    .into(),
-                )),
-            }
-            .into()],
+            stmts: vec![
+                IfStmt {
+                    span: DUMMY_SP,
+                    test: Box::new(cjs_if_test),
+                    cons: Box::new(cjs_if_body.into_stmt()),
+                    alt: Some(Box::new(
+                        IfStmt {
+                            span: DUMMY_SP,
+                            test: Box::new(amd_if_test),
+                            cons: Box::new(amd_if_body.into_stmt()),
+                            alt: Some(Box::new(
+                                IfStmt {
+                                    span: DUMMY_SP,
+                                    test: Box::new(browser_if_test),
+                                    cons: Box::new(browser_if_body.into_stmt()),
+                                    alt: None,
+                                }
+                                .into(),
+                            )),
+                        }
+                        .into(),
+                    )),
+                }
+                .into(),
+            ],
             ..Default::default()
         };
 

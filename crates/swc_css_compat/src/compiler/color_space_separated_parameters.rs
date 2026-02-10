@@ -2,7 +2,7 @@ use std::mem::take;
 
 use swc_common::DUMMY_SP;
 use swc_css_ast::{
-    matches_eq_ignore_ascii_case, AbsoluteColorBase, ComponentValue, Delimiter, DelimiterValue,
+    AbsoluteColorBase, ComponentValue, Delimiter, DelimiterValue, matches_eq_ignore_ascii_case,
 };
 
 use crate::compiler::Compiler;

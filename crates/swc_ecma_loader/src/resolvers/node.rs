@@ -9,7 +9,7 @@ use std::{
     path::{Component, Path, PathBuf},
 };
 
-use anyhow::{bail, Context, Error};
+use anyhow::{Context, Error, bail};
 use dashmap::DashMap;
 #[cfg(windows)]
 use normpath::BasePath;
@@ -19,11 +19,11 @@ use pathdiff::diff_paths;
 use rustc_hash::{FxBuildHasher, FxHashMap, FxHashSet};
 use serde::Deserialize;
 use swc_common::FileName;
-use tracing::{debug, trace, Level};
+use tracing::{Level, debug, trace};
 
 use crate::{
+    NODE_BUILTINS, TargetEnv,
     resolve::{Resolution, Resolve},
-    TargetEnv, NODE_BUILTINS,
 };
 
 static PACKAGE: &str = "package.json";

@@ -8,8 +8,8 @@ use std::{
     process::Command,
 };
 
-use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Criterion};
-use swc_common::{sync::Lrc, FileName, Mark, SourceMap, GLOBALS};
+use codspeed_criterion_compat::{Criterion, black_box, criterion_group, criterion_main};
+use swc_common::{FileName, GLOBALS, Mark, SourceMap, sync::Lrc};
 use swc_ecma_codegen::text_writer::JsWriter;
 use swc_ecma_minifier::{
     optimize,

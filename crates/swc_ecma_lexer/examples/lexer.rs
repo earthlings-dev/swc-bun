@@ -1,12 +1,12 @@
 use std::{ffi::OsStr, path::Path};
 
 use swc_common::{
+    SourceMap,
     errors::{ColorConfig, Handler},
     input::StringInput,
     sync::Lrc,
-    SourceMap,
 };
-use swc_ecma_lexer::{lexer, lexer::Lexer, EsSyntax, Syntax, TsSyntax};
+use swc_ecma_lexer::{EsSyntax, Syntax, TsSyntax, lexer, lexer::Lexer};
 
 fn main() {
     let cm: Lrc<SourceMap> = Default::default();

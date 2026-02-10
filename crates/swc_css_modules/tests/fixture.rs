@@ -4,8 +4,8 @@ use indexmap::IndexMap;
 use serde::Serialize;
 use swc_atoms::Atom;
 use swc_css_codegen::{
-    writer::basic::{BasicCssWriter, BasicCssWriterConfig, IndentType},
     CodeGenerator, Emit,
+    writer::basic::{BasicCssWriter, BasicCssWriterConfig, IndentType},
 };
 use swc_css_modules::CssClassName;
 use swc_css_parser::parser::ParserConfig;

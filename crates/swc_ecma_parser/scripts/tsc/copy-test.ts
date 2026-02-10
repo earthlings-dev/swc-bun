@@ -1,4 +1,4 @@
-#!/usr/bin/env npx ts-node
+#!/usr/bin/env bun
 
 // Usage: ./scripts/copy-ts-tests.ts  ~/projects/TypeScript
 

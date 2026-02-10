@@ -5,11 +5,11 @@ use std::{
 };
 
 use rustc_hash::FxHashMap;
-use swc_atoms::{atom, Atom};
+use swc_atoms::{Atom, atom};
 
 use crate::{
     pos::Spanned,
-    syntax_pos::{BytePos, Span, DUMMY_SP},
+    syntax_pos::{BytePos, DUMMY_SP, Span},
 };
 
 /// Stores comment.

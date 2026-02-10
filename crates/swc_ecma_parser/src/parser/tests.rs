@@ -1,11 +1,11 @@
 use std::hint::black_box;
 
 use swc_atoms::atom;
-use swc_common::{comments::SingleThreadedComments, BytePos, FileName, SourceMap, DUMMY_SP};
+use swc_common::{BytePos, DUMMY_SP, FileName, SourceMap, comments::SingleThreadedComments};
 use swc_ecma_visit::assert_eq_ignore_span;
 
 use super::*;
-use crate::{parse_file_as_expr, EsSyntax, TsSyntax};
+use crate::{EsSyntax, TsSyntax, parse_file_as_expr};
 
 fn program(src: &'static str) -> Program {
     test_parser(src, Default::default(), |p| p.parse_program())

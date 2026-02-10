@@ -40,7 +40,7 @@
 
 use once_cell::sync::Lazy;
 use pass::mangle_names::mangle_names;
-use swc_common::{comments::Comments, pass::Repeated, sync::Lrc, SourceMap, SyntaxContext};
+use swc_common::{SourceMap, SyntaxContext, comments::Comments, pass::Repeated, sync::Lrc};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_usage_analyzer::marks::Marks;
@@ -49,7 +49,7 @@ use swc_timer::timer;
 
 pub use crate::pass::global_defs::globals_defs;
 use crate::{
-    compress::{compressor, pure_optimizer, PureOptimizerConfig},
+    compress::{PureOptimizerConfig, compressor, pure_optimizer},
     metadata::info_marker,
     mode::Minification,
     option::{CompressOptions, ExtraOptions, MinifyOptions},

@@ -3,9 +3,9 @@ use std::collections::HashMap;
 use inflector::Inflector;
 use serde::{Deserialize, Serialize};
 use swc_atoms::Atom;
-use swc_common::{errors::HANDLER, sync::Lrc, FileName, SourceMap};
+use swc_common::{FileName, SourceMap, errors::HANDLER, sync::Lrc};
 use swc_ecma_ast::{Expr, Ident};
-use swc_ecma_parser::{parse_file_as_expr, Syntax};
+use swc_ecma_parser::{Syntax, parse_file_as_expr};
 use swc_ecma_utils::quote_ident;
 
 use super::super::util;

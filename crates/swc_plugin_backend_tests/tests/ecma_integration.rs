@@ -5,17 +5,17 @@ use std::{
     sync::Arc,
 };
 
-use anyhow::{anyhow, Error};
+use anyhow::{Error, anyhow};
 use rustc_hash::FxHashMap;
 use serde_json::json;
 use swc_common::{
+    FileName, Mark,
     errors::HANDLER,
     plugin::{metadata::TransformPluginMetadataContext, serialized::PluginSerializedBytes},
     sync::Lazy,
-    FileName, Mark,
 };
 use swc_ecma_ast::{CallExpr, Callee, EsVersion, Expr, Lit, MemberExpr, Program, Str};
-use swc_ecma_parser::{parse_file_as_program, Syntax};
+use swc_ecma_parser::{Syntax, parse_file_as_program};
 use swc_ecma_visit::{Visit, VisitWith};
 use swc_plugin_runner::{plugin_module_bytes::CompiledPluginModuleBytes, runtime::Runtime};
 use testing::CARGO_TARGET_DIR;

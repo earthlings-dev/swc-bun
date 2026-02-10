@@ -22,7 +22,7 @@
 
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
-use swc_ecma_utils::{quote_ident, ExprFactory};
+use swc_ecma_utils::{ExprFactory, quote_ident};
 
 use crate::TraverseCtx;
 

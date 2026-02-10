@@ -1,8 +1,8 @@
 use rustc_hash::FxHashSet;
-use swc_common::{Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{DUMMY_SP, Spanned, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ExprFactory;
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use swc_ecma_visit::{Visit, VisitWith, noop_visit_type};
 
 pub fn is_builtin_hook(name: &str) -> bool {
     matches!(

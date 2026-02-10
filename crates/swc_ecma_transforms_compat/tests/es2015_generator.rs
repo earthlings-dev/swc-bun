@@ -1,8 +1,8 @@
 #![allow(clippy::unit_arg)]
 
 use swc_common::{
-    comments::{NoopComments, SingleThreadedComments},
     Mark,
+    comments::{NoopComments, SingleThreadedComments},
 };
 use swc_ecma_ast::Pass;
 use swc_ecma_parser::Syntax;

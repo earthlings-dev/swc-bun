@@ -1,11 +1,11 @@
-use serde::{de::DeserializeOwned, Serialize};
+use serde::{Serialize, de::DeserializeOwned};
 use swc_common::{
+    BytePos, SourceFile, SourceMap, Span,
     comments::{CommentKind, Comments},
     sync::Lrc,
-    BytePos, SourceFile, SourceMap, Span,
 };
 use swc_ecma_ast::Class;
-use swc_estree_ast::{flavor::Flavor, BaseComment, BaseNode, Comment, CommentType, LineCol, Loc};
+use swc_estree_ast::{BaseComment, BaseNode, Comment, CommentType, LineCol, Loc, flavor::Flavor};
 use swc_node_comments::SwcComments;
 
 mod class;

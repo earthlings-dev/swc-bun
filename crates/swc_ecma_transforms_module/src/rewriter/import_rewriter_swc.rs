@@ -3,7 +3,7 @@ use std::sync::Arc;
 use anyhow::Context;
 use swc_common::FileName;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{visit_mut_pass, VisitMut, VisitMutWith};
+use swc_ecma_visit::{VisitMut, VisitMutWith, visit_mut_pass};
 
 use crate::{path::ImportResolver, wtf8::wtf8_to_cow_str};
 

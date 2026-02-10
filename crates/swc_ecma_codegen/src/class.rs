@@ -5,7 +5,7 @@ use swc_ecma_codegen_macros::node_impl;
 #[cfg(swc_ast_unknown)]
 use crate::unknown_error;
 use crate::{
-    text_writer::WriteJs, util::StartsWithAlphaNum, Emitter, ListFormat, Result, SourceMapperExt,
+    Emitter, ListFormat, Result, SourceMapperExt, text_writer::WriteJs, util::StartsWithAlphaNum,
 };
 
 impl<W, S: SourceMapper> Emitter<'_, W, S>

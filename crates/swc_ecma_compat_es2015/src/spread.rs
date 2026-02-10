@@ -2,15 +2,15 @@ use std::mem;
 
 use serde::Deserialize;
 use swc_atoms::atom;
-use swc_common::{util::take::Take, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{DUMMY_SP, Mark, Span, Spanned, SyntaxContext, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{ext::ExprRefExt, helper, perf::Check};
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
-    alias_ident_for, member_expr, prepend_stmt, quote_ident, ExprFactory, StmtLike,
+    ExprFactory, StmtLike, alias_ident_for, member_expr, prepend_stmt, quote_ident,
 };
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
+    Visit, VisitMut, VisitMutWith, VisitWith, noop_visit_mut_type, noop_visit_type, visit_mut_pass,
 };
 use swc_trace_macro::swc_trace;
 

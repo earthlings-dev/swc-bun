@@ -1,6 +1,6 @@
 use std::iter::once;
 
-use swc_common::{util::take::Take, DUMMY_SP};
+use swc_common::{DUMMY_SP, util::take::Take};
 use swc_css_ast::*;
 
 use crate::compiler::Compiler;

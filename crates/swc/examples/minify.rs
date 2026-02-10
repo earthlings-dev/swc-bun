@@ -1,8 +1,8 @@
 use std::{path::Path, sync::Arc};
 
 use anyhow::Context;
-use swc::{config::JsMinifyOptions, try_with_handler, BoolOrDataConfig, JsMinifyExtras};
-use swc_common::{SourceMap, GLOBALS};
+use swc::{BoolOrDataConfig, JsMinifyExtras, config::JsMinifyOptions, try_with_handler};
+use swc_common::{GLOBALS, SourceMap};
 use swc_ecma_minifier::option::SimpleMangleCache;
 
 fn main() {

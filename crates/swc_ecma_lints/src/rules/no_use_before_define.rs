@@ -1,12 +1,12 @@
 use rustc_hash::{FxHashMap, FxHashSet};
 use serde::{Deserialize, Serialize};
-use swc_common::{errors::HANDLER, Span, DUMMY_SP};
+use swc_common::{DUMMY_SP, Span, errors::HANDLER};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use swc_ecma_visit::{Visit, VisitWith, noop_visit_type};
 
 use crate::{
     config::{LintRuleReaction, RuleConfig},
-    rule::{visitor_rule, Rule},
+    rule::{Rule, visitor_rule},
 };
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]

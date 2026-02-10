@@ -1,13 +1,13 @@
 use std::num::FpCategory;
 
 use swc_atoms::atom;
-use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{DUMMY_SP, Spanned, SyntaxContext, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Value::Known};
 
 use super::{BitCtx, Optimizer};
 use crate::{
-    compress::util::eval_as_number, program_data::VarUsageInfoFlags, DISABLE_BUGGY_PASSES,
+    DISABLE_BUGGY_PASSES, compress::util::eval_as_number, program_data::VarUsageInfoFlags,
 };
 
 /// Methods related to the option `evaluate`.

@@ -38,8 +38,8 @@ mod rkyv_impl {
 
     use rancor::Fallible;
     use rkyv::{
-        munge::munge, option::ArchivedOption, traits::NoUndef, Archive, Deserialize, Place,
-        Serialize,
+        Archive, Deserialize, Place, Serialize, munge::munge, option::ArchivedOption,
+        traits::NoUndef,
     };
 
     use super::*;

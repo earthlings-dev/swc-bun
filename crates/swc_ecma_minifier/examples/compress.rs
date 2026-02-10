@@ -8,7 +8,7 @@ extern crate swc_malloc;
 
 use std::{env::args, fs, path::Path};
 
-use swc_common::{sync::Lrc, Mark, SourceMap};
+use swc_common::{Mark, SourceMap, sync::Lrc};
 use swc_ecma_ast::Program;
 use swc_ecma_codegen::text_writer::JsWriter;
 use swc_ecma_minifier::{

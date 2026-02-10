@@ -1,7 +1,7 @@
 #[cfg(feature = "__plugin_mode")]
 use swc_common::{
-    comments::{Comment, Comments},
     BytePos,
+    comments::{Comment, Comments},
 };
 #[cfg(feature = "__plugin_mode")]
 use swc_trace_macro::swc_trace;

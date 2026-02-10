@@ -1,23 +1,23 @@
 use std::borrow::Cow;
 
 use indexmap::IndexSet;
-use petgraph::{algo::tarjan_scc, prelude::GraphMap, Directed, Direction::Incoming};
+use petgraph::{Directed, Direction::Incoming, algo::tarjan_scc, prelude::GraphMap};
 use rustc_hash::{FxBuildHasher, FxHashMap, FxHashSet};
-use swc_atoms::{atom, Atom};
+use swc_atoms::{Atom, atom};
 use swc_common::{
+    DUMMY_SP, Mark, SyntaxContext,
     pass::{CompilerPass, Repeated},
     util::take::Take,
-    Mark, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::cpu_count;
 use swc_ecma_utils::{
-    collect_decls, find_pat_ids, ExprCtx, ExprExt, IsEmpty, ModuleItemLike, StmtLike, Value::Known,
+    ExprCtx, ExprExt, IsEmpty, ModuleItemLike, StmtLike, Value::Known, collect_decls, find_pat_ids,
 };
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
+    Visit, VisitMut, VisitMutWith, VisitWith, noop_visit_mut_type, noop_visit_type, visit_mut_pass,
 };
-use tracing::{debug, span, Level};
+use tracing::{Level, debug, span};
 
 use crate::debug_assert_valid;
 

@@ -3,6 +3,7 @@ use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::*;
 
 use super::{
+    PResult, Parser,
     buffer::Buffer,
     expr::{parse_args, parse_assignment_expr},
     has_use_strict,
@@ -12,9 +13,9 @@ use super::{
     pat::parse_formal_params,
     stmt::parse_block,
     typescript::{parse_ts_modifier, parse_ts_type_args, try_parse_ts_type_ann},
-    PResult, Parser,
 };
 use crate::{
+    TokenContext,
     common::{
         context::Context,
         lexer::token::TokenFactory,
@@ -32,7 +33,6 @@ use crate::{
         },
     },
     error::SyntaxError,
-    TokenContext,
 };
 
 struct MakeMethodArgs {

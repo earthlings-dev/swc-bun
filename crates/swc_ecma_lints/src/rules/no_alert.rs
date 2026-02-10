@@ -1,11 +1,11 @@
 use swc_atoms::Atom;
-use swc_common::{errors::HANDLER, Span, SyntaxContext};
+use swc_common::{Span, SyntaxContext, errors::HANDLER};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use swc_ecma_visit::{Visit, VisitWith, noop_visit_type};
 
 use crate::{
     config::{LintRuleReaction, RuleConfig},
-    rule::{visitor_rule, Rule},
+    rule::{Rule, visitor_rule},
 };
 
 const FN_NAMES: &[&str] = &["alert", "confirm", "prompt"];

@@ -6,13 +6,13 @@ use std::{
     sync::Arc,
 };
 
-use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
+use codspeed_criterion_compat::{Bencher, Criterion, black_box, criterion_group, criterion_main};
 use swc_common::{
+    FileName, FilePathMapping, GLOBALS, Globals, Mark, SourceMap,
     plugin::{
         metadata::TransformPluginMetadataContext,
         serialized::{PluginSerializedBytes, VersionedSerializable},
     },
-    FileName, FilePathMapping, Globals, Mark, SourceMap, GLOBALS,
 };
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::parse_file_as_program;

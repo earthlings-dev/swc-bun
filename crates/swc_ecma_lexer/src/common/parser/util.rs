@@ -1,4 +1,4 @@
-use swc_atoms::{atom, Atom};
+use swc_atoms::{Atom, atom};
 use swc_common::{Span, Spanned};
 use swc_ecma_ast::{
     BindingIdent, BlockStmt, Decl, Expr, Ident, IdentName, JSXElementName, JSXMemberExpr,

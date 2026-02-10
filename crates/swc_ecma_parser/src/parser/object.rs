@@ -1,9 +1,9 @@
-use swc_common::{Span, Spanned, DUMMY_SP};
+use swc_common::{DUMMY_SP, Span, Spanned};
 use swc_ecma_ast::*;
 
 use crate::{
-    error::SyntaxError, input::Tokens, lexer::Token, parser::class_and_fn::is_not_this, Context,
-    PResult, Parser,
+    Context, PResult, Parser, error::SyntaxError, input::Tokens, lexer::Token,
+    parser::class_and_fn::is_not_this,
 };
 
 impl<I: Tokens> Parser<I> {

@@ -5,7 +5,7 @@ pub mod token {
         fmt::{self, Debug, Display, Formatter},
     };
 
-    use swc_atoms::{atom, Atom, AtomStore, Wtf8Atom};
+    use swc_atoms::{Atom, AtomStore, Wtf8Atom, atom};
     use swc_common::{Span, Spanned};
     use swc_ecma_ast::{AssignOp, BigIntValue, BinaryOp};
 

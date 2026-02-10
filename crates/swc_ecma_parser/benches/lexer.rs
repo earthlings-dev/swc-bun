@@ -1,8 +1,8 @@
 extern crate swc_malloc;
 
-use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
-use swc_common::{input::StringInput, FileName};
-use swc_ecma_parser::{lexer::Lexer, Syntax, TsSyntax};
+use codspeed_criterion_compat::{Bencher, Criterion, black_box, criterion_group, criterion_main};
+use swc_common::{FileName, input::StringInput};
+use swc_ecma_parser::{Syntax, TsSyntax, lexer::Lexer};
 
 fn bench_module(b: &mut Bencher, syntax: Syntax, src: &'static str) {
     let _ = ::testing::run_test(false, |cm, _| {

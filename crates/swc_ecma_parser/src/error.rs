@@ -4,8 +4,8 @@ use std::{borrow::Cow, fmt::Debug};
 
 use swc_atoms::Atom;
 use swc_common::{
-    errors::{DiagnosticBuilder, Handler},
     Span, Spanned,
+    errors::{DiagnosticBuilder, Handler},
 };
 
 /// Note: this struct is 8 bytes.

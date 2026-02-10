@@ -1,10 +1,10 @@
-use std::io::{stderr, Write};
+use std::io::{Write, stderr};
 
-use swc_common::{sync::Lrc, Mark, SourceMap, SyntaxContext, GLOBALS};
+use swc_common::{GLOBALS, Mark, SourceMap, SyntaxContext, sync::Lrc};
 use swc_ecma_ast::{Ident, Program};
-use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
+use swc_ecma_codegen::{Emitter, text_writer::JsWriter};
 use swc_ecma_transforms_base::resolver;
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, VisitMutWith};
+use swc_ecma_visit::{Fold, FoldWith, VisitMutWith, noop_fold_type};
 
 fn print_hygiene(cm: &Lrc<SourceMap>, t: Program) {
     let program = t.fold_with(&mut HygieneVisualizer);
@@ -43,7 +43,7 @@ impl Fold for HygieneVisualizer {
 fn main() {
     use std::{env, path::Path, process};
 
-    use swc_ecma_parser::{parse_file_as_program, EsSyntax, Syntax, TsSyntax};
+    use swc_ecma_parser::{EsSyntax, Syntax, TsSyntax, parse_file_as_program};
 
     // Get command-line arguments
     let args: Vec<String> = env::args().collect();

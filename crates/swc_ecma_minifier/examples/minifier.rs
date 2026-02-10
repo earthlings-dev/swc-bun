@@ -4,9 +4,9 @@ extern crate swc_malloc;
 
 use std::{env::args, fs, path::Path, sync::Arc};
 
-use swc_common::{errors::HANDLER, sync::Lrc, Mark, SourceMap};
+use swc_common::{Mark, SourceMap, errors::HANDLER, sync::Lrc};
 use swc_ecma_ast::Program;
-use swc_ecma_codegen::text_writer::{omit_trailing_semi, JsWriter};
+use swc_ecma_codegen::text_writer::{JsWriter, omit_trailing_semi};
 use swc_ecma_minifier::{
     optimize,
     option::{ExtraOptions, MangleOptions, MinifyOptions, SimpleMangleCache},

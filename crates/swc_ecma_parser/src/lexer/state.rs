@@ -1,6 +1,6 @@
 use std::mem::take;
 
-use swc_atoms::{wtf8::CodePoint, Atom};
+use swc_atoms::{Atom, wtf8::CodePoint};
 use swc_common::{BytePos, Span};
 use swc_ecma_ast::EsVersion;
 
@@ -10,11 +10,11 @@ use crate::{
     error::{Error, SyntaxError},
     input::Tokens,
     lexer::{
+        LexResult,
         char_ext::CharExt,
         comments_buffer::{BufferedCommentKind, CommentsBufferCheckpoint},
         search::SafeByteMatchTable,
         token::{Token, TokenAndSpan, TokenValue},
-        LexResult,
     },
     safe_byte_match_table,
     syntax::SyntaxFlags,
@@ -331,9 +331,10 @@ impl crate::input::Tokens for Lexer<'_> {
                         };
                     }
                 };
-                debug_assert!(self
-                    .get_token_value()
-                    .is_some_and(|t| matches!(t, TokenValue::Str { .. })));
+                debug_assert!(
+                    self.get_token_value()
+                        .is_some_and(|t| matches!(t, TokenValue::Str { .. }))
+                );
                 debug_assert!(token == Token::Str);
                 TokenAndSpan {
                     token,

@@ -8,7 +8,7 @@
 use swc_common::BytePos;
 use swc_ecma_ast::*;
 
-use crate::{input::Tokens, lexer::Token, PResult, Parser};
+use crate::{PResult, Parser, input::Tokens, lexer::Token};
 
 impl<I: Tokens> Parser<I> {
     pub(crate) fn try_parse_ts<T, F>(&mut self, _op: F) -> Option<T>

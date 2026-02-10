@@ -1,10 +1,10 @@
 use std::borrow::Borrow;
 
-use swc_common::{util::take::Take, DUMMY_SP};
+use swc_common::{DUMMY_SP, util::take::Take};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{contains_this_expr, private_ident, prop_name_eq, ExprExt};
+use swc_ecma_utils::{ExprExt, contains_this_expr, private_ident, prop_name_eq};
 
-use super::{unused::PropertyAccessOpts, BitCtx, Optimizer};
+use super::{BitCtx, Optimizer, unused::PropertyAccessOpts};
 use crate::{program_data::VarUsageInfoFlags, util::deeply_contains_this_expr};
 
 /// Methods related to the option `hoist_props`.

@@ -7,12 +7,12 @@ use std::{
 use is_macro::Is;
 use num_bigint::BigInt as BigIntValue;
 use swc_atoms::{
-    wtf8::{CodePoint, Wtf8Buf},
     Atom, Wtf8Atom,
+    wtf8::{CodePoint, Wtf8Buf},
 };
-use swc_common::{ast_node, errors::HANDLER, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
+use swc_common::{DUMMY_SP, EqIgnoreSpan, Span, ast_node, errors::HANDLER, util::take::Take};
 
-use crate::{jsx::JSXText, TplElement};
+use crate::{TplElement, jsx::JSXText};
 
 #[ast_node]
 #[derive(Eq, Hash, EqIgnoreSpan, Is)]

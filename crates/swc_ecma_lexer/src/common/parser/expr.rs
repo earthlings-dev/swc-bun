@@ -1,14 +1,15 @@
 use either::Either;
 use rustc_hash::FxHashMap;
 use swc_atoms::atom;
-use swc_common::{util::take::Take, BytePos, Span, Spanned};
+use swc_common::{BytePos, Span, Spanned, util::take::Take};
 use swc_ecma_ast::*;
 
 use super::{
-    assign_target_or_spread::AssignTargetOrSpread, buffer::Buffer, ident::parse_ident_name,
-    PResult, Parser,
+    PResult, Parser, assign_target_or_spread::AssignTargetOrSpread, buffer::Buffer,
+    ident::parse_ident_name,
 };
 use crate::{
+    TokenContext,
     common::{
         context::Context,
         lexer::token::TokenFactory,
@@ -31,7 +32,6 @@ use crate::{
         },
     },
     error::{Error, SyntaxError},
-    TokenContext,
 };
 
 pub(super) fn is_start_of_left_hand_side_expr<'a>(p: &mut impl Parser<'a>) -> bool {

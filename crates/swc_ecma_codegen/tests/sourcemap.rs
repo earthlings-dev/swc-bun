@@ -1,13 +1,13 @@
 use std::{fs::read_to_string, path::PathBuf};
 
-use base64::prelude::{Engine, BASE64_STANDARD};
+use base64::prelude::{BASE64_STANDARD, Engine};
 use rustc_hash::FxBuildHasher;
 use swc_allocator::api::global::HashSet;
 use swc_common::{comments::SingleThreadedComments, source_map::SourceMapGenConfig};
 use swc_ecma_ast::EsVersion;
-use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
-use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
-use swc_ecma_testing::{exec_node_js, JsExecOptions};
+use swc_ecma_codegen::{Emitter, text_writer::WriteJs};
+use swc_ecma_parser::{Parser, Syntax, lexer::Lexer};
+use swc_ecma_testing::{JsExecOptions, exec_node_js};
 use swc_sourcemap::SourceMap;
 
 static IGNORED_PASS_TESTS: &[&str] = &[

@@ -1,7 +1,7 @@
-use anyhow::{bail, Context, Result};
+use anyhow::{Context, Result, bail};
 use bytes_str::BytesStr;
 use serde::{Deserialize, Serialize};
-use swc_sourcemap::{vlq::parse_vlq_segment, RawToken, SourceMap};
+use swc_sourcemap::{RawToken, SourceMap, vlq::parse_vlq_segment};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]

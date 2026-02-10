@@ -1,15 +1,15 @@
 use core::f64;
 
 use rustc_hash::FxHashMap;
-use swc_atoms::{atom, Atom};
-use swc_common::{Spanned, SyntaxContext, DUMMY_SP};
+use swc_atoms::{Atom, atom};
+use swc_common::{DUMMY_SP, Spanned, SyntaxContext};
 use swc_ecma_ast::{
     BinExpr, BinaryOp, Expr, Ident, Lit, Number, Str, TsEnumDecl, TsEnumMemberId, UnaryExpr,
     UnaryOp,
 };
 use swc_ecma_utils::number::JsNumber;
 
-use super::{util::ast_ext::MemberPropExt, FastDts};
+use super::{FastDts, util::ast_ext::MemberPropExt};
 
 #[derive(Debug, Clone)]
 enum ConstantValue {

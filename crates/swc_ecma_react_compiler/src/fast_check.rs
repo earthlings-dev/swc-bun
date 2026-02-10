@@ -126,7 +126,7 @@ impl Visit for Finder {
 #[cfg(test)]
 mod tests {
     use swc_common::FileName;
-    use swc_ecma_parser::{parse_file_as_program, EsSyntax, Syntax};
+    use swc_ecma_parser::{EsSyntax, Syntax, parse_file_as_program};
     use testing::run_test2;
 
     use super::*;

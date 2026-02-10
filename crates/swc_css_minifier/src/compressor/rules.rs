@@ -2,7 +2,7 @@ use std::mem::take;
 
 use rustc_hash::FxHashMap;
 use swc_atoms::Atom;
-use swc_common::{util::take::Take, EqIgnoreSpan, Span, Spanned};
+use swc_common::{EqIgnoreSpan, Span, Spanned, util::take::Take};
 use swc_css_ast::*;
 use swc_css_visit::{Visit, VisitMutWith, VisitWith};
 

@@ -4,7 +4,7 @@ use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::marks::Marks;
 use swc_ecma_utils::find_pat_ids;
-use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitWith};
+use swc_ecma_visit::{Visit, VisitWith, noop_visit_type, visit_obj_and_computed};
 
 use crate::option::MangleOptions;
 

@@ -3,15 +3,10 @@ run-name: "Publish ${{ inputs.version }}"
 
 env:
   CI: 1
-  # 7 GiB by default on GitHub, setting to 6 GiB
-  # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources
-  NODE_OPTIONS: --max-old-space-size=6144
   GIT_AUTHOR_NAME: "SWC Bot"
   GIT_AUTHOR_EMAIL: "bot@swc.rs"
   GIT_COMMITTER_NAME: "SWC Bot"
   GIT_COMMITTER_EMAIL: "bot@swc.rs"
-  # https://github.com/actions/setup-node/issues/899#issuecomment-1819151595
-  SKIP_YARN_COREPACK_CHECK: 1
 
 permissions:
   contents: write
@@ -56,11 +51,11 @@ jobs:
       version: ${{ steps.determine-nightly-version.outputs.version }}
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-node
+      - uses: ./.github/actions/setup-bun
       - name: Determine nightly version
         id: determine-nightly-version
         run: |
-          npx ts-node .github/bot/src/nightly-version.ts ${{ github.event.inputs.version }} >> $GITHUB_OUTPUT
+          bun .github/bot/src/nightly-version.ts ${{ github.event.inputs.version }} >> $GITHUB_OUTPUT
 
   git-tag-nightly:
     name: "Git tag nightly"
@@ -135,12 +130,12 @@ jobs:
       - publish-npm-stable
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-node
+      - uses: ./.github/actions/setup-bun
       - name: Manage milestone
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          npx ts-node .github/bot/src/milestone-manager.ts ${{ inputs.version }}
+          bun .github/bot/src/milestone-manager.ts ${{ inputs.version }}
 
   publish-npm-stable:
     name: "Publish ${{ matrix.package }}@${{ inputs.version || 'stable' }} to npm"

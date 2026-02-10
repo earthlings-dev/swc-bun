@@ -1,7 +1,7 @@
 use swc_common::{
+    Mark, SyntaxContext,
     hygiene::MutableMarkContext,
     plugin::serialized::{PluginSerializedBytes, VersionedSerializable},
-    Mark, SyntaxContext,
 };
 
 use crate::{

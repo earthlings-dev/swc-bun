@@ -7,7 +7,7 @@ use syn::{Block, ExprBlock};
 
 use crate::{
     ast::ToCode,
-    ctxt::{prepare_vars, Ctx},
+    ctxt::{Ctx, prepare_vars},
     input::QuoteInput,
     ret_type::parse_input_type,
 };

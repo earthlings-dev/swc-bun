@@ -7,6 +7,6 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 set -eu
 
-npx tsc ./scripts/tsc/copy-test.ts
+bunx tsc ./scripts/tsc/copy-test.ts
 
-find "$1/tests/cases/conformance" -type f | sort -R | xargs -P 10 -L 1 -I {} node "$SCRIPT_DIR/copy-test.js" {} \;
+find "$1/tests/cases/conformance" -type f | sort -R | xargs -P 10 -L 1 -I {} bun "$SCRIPT_DIR/copy-test.js" {} \;

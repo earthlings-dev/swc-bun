@@ -7,14 +7,14 @@ use std::{
 };
 
 use anyhow::Error;
-use swc::{resolver::environment_resolver, PrintArgs};
+use swc::{PrintArgs, resolver::environment_resolver};
 use swc_bundler::{BundleKind, Bundler, Config, ModuleRecord};
-use swc_common::{errors::HANDLER, FileName, Globals, Span, GLOBALS};
+use swc_common::{FileName, GLOBALS, Globals, Span, errors::HANDLER};
 use swc_ecma_ast::{
     Bool, EsVersion, Expr, IdentName, KeyValueProp, Lit, MemberExpr, MemberProp, MetaPropExpr,
     MetaPropKind, Program, PropName, Str,
 };
-use swc_ecma_loader::{TargetEnv, NODE_BUILTINS};
+use swc_ecma_loader::{NODE_BUILTINS, TargetEnv};
 use swc_ecma_transforms::fixer;
 use swc_node_bundler::loaders::swc::SwcLoader;
 use testing::NormalizedOutput;
@@ -109,7 +109,7 @@ fn pass(input_dir: PathBuf) {
                     println!("Printing {}", output_path.display());
 
                     // {
-                    //     let status = Command::new("node")
+                    //     let status = Command::new("bun")
                     //         .arg(&output_path)
                     //         .stdout(Stdio::inherit())
                     //         .stderr(Stdio::inherit())

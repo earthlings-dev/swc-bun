@@ -1,6 +1,6 @@
 use swc_common::{Span, Spanned};
 use swc_ecma_ast::{AssignProp, Expr};
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use swc_ecma_visit::{Visit, VisitWith, noop_visit_type};
 
 use crate::error::SyntaxError;
 

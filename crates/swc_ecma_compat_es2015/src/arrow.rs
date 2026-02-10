@@ -1,12 +1,12 @@
 use std::mem;
 
-use swc_common::{util::take::Take, Mark, SyntaxContext, DUMMY_SP};
+use swc_common::{DUMMY_SP, Mark, SyntaxContext, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    function::{init_this, FnEnvHoister},
+    function::{FnEnvHoister, init_this},
     prepend_stmt,
 };
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, InjectVars, VisitMut, VisitMutWith};
+use swc_ecma_visit::{InjectVars, VisitMut, VisitMutWith, noop_visit_mut_type, visit_mut_pass};
 use swc_trace_macro::swc_trace;
 
 /// Compile ES2015 arrow functions to ES5

@@ -4,10 +4,10 @@ use core::f64::consts::PI;
 use std::{mem::take, sync::Arc};
 
 use once_cell::sync::Lazy;
-use preset_env_base::{query::targets_to_versions, version::Version, BrowserData, Versions};
+use preset_env_base::{BrowserData, Versions, query::targets_to_versions, version::Version};
 use rustc_hash::FxHashMap;
-use swc_atoms::{atom, Atom};
-use swc_common::{EqIgnoreSpan, DUMMY_SP};
+use swc_atoms::{Atom, atom};
+use swc_common::{DUMMY_SP, EqIgnoreSpan};
 use swc_css_ast::*;
 use swc_css_utils::{
     replace_function_name, replace_ident, replace_pseudo_class_selector_name,

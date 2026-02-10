@@ -4,7 +4,7 @@ use std::{
     hash::{Hash, Hasher},
     ops::{Add, Sub},
     path::PathBuf,
-    sync::{atomic::AtomicU32, Mutex},
+    sync::{Mutex, atomic::AtomicU32},
 };
 
 use bytes_str::BytesStr;
@@ -575,11 +575,7 @@ impl Span {
 
     /// Returns `self` if `self` is not the dummy span, and `other` otherwise.
     pub fn substitute_dummy(self, other: Span) -> Span {
-        if self.is_dummy() {
-            other
-        } else {
-            self
-        }
+        if self.is_dummy() { other } else { self }
     }
 
     /// Return true if `self` fully encloses `other`.
@@ -815,11 +811,7 @@ impl MultiByteChar {
     /// 1, 2, and 3 UTF-8 bytes encode into 1 UTF-16 char, but 4 UTF-8 bytes
     /// encode into 2.
     pub fn byte_to_char_diff(&self) -> u8 {
-        if self.bytes == 4 {
-            2
-        } else {
-            self.bytes - 1
-        }
+        if self.bytes == 4 { 2 } else { self.bytes - 1 }
     }
 }
 
@@ -1720,7 +1712,7 @@ mod encoding_helper {
 
 #[cfg(test)]
 mod tests {
-    use super::{lookup_line, BytePos, Span};
+    use super::{BytePos, Span, lookup_line};
 
     #[test]
     fn test_lookup_line() {

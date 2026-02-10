@@ -1,14 +1,14 @@
 use is_macro::Is;
-use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
+use swc_common::{DUMMY_SP, EqIgnoreSpan, Span, ast_node, util::take::Take};
 
 use crate::{
+    Id, IdentName, MemberProp, Pat,
     expr::Expr,
     function::Function,
     ident::Ident,
     lit::{BigInt, Number, Str},
     stmt::BlockStmt,
     typescript::TsTypeAnn,
-    Id, IdentName, MemberProp, Pat,
 };
 
 #[ast_node]

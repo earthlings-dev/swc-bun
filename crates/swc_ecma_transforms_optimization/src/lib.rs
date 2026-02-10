@@ -4,8 +4,8 @@
 
 pub use self::{
     const_modules::const_modules,
-    debug::{debug_assert_valid, AssertValid},
-    inline_globals::{inline_globals, GlobalExprMap},
+    debug::{AssertValid, debug_assert_valid},
+    inline_globals::{GlobalExprMap, inline_globals},
     json_parse::json_parse,
     simplify::simplifier,
 };

@@ -6,26 +6,26 @@ use std::{path::PathBuf, sync::Arc};
 
 use preset_env_base::query::targets_to_versions;
 pub use preset_env_base::{
+    BrowserData, Versions,
     query::{TargetInfo, Targets},
     version::Version,
-    BrowserData, Versions,
 };
 use rustc_hash::FxHashSet;
 use serde::Deserialize;
-use swc_atoms::{atom, Atom};
-use swc_common::{comments::Comments, pass::Optional, FromVariant, Mark, SyntaxContext, DUMMY_SP};
+use swc_atoms::{Atom, atom};
+use swc_common::{DUMMY_SP, FromVariant, Mark, SyntaxContext, comments::Comments, pass::Optional};
 use swc_ecma_ast::*;
 use swc_ecma_transforms::{
+    Assumptions,
     compat::{
         bugfixes,
         class_fields_use_set::class_fields_use_set,
         es2015::{self, generator::generator},
         es2020, es2022,
     },
-    Assumptions,
 };
-use swc_ecma_utils::{prepend_stmts, ExprFactory};
-use swc_ecma_visit::{visit_mut_pass, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_utils::{ExprFactory, prepend_stmts};
+use swc_ecma_visit::{VisitMut, VisitMutWith, VisitWith, visit_mut_pass};
 
 pub use self::transform_data::Feature;
 
@@ -60,9 +60,7 @@ where
     options.assumptions = assumptions;
 
     macro_rules! add {
-        ($prev:expr, $feature:ident, $pass:expr) => {{
-            add!($prev, $feature, $pass, false)
-        }};
+        ($prev:expr, $feature:ident, $pass:expr) => {{ add!($prev, $feature, $pass, false) }};
         ($prev:expr, $feature:ident, $pass:expr, $default:expr) => {{
             let f = transform_data::Feature::$feature;
 
@@ -571,12 +569,14 @@ impl VisitMut for Polyfills {
                                 ..Default::default()
                             }
                             .as_callee(),
-                            args: vec![Str {
-                                span: DUMMY_SP,
-                                value: src.into(),
-                                raw: None,
-                            }
-                            .as_arg()],
+                            args: vec![
+                                Str {
+                                    span: DUMMY_SP,
+                                    value: src.into(),
+                                    raw: None,
+                                }
+                                .as_arg(),
+                            ],
                             type_args: None,
                             ..Default::default()
                         }
@@ -599,12 +599,14 @@ impl VisitMut for Polyfills {
                                 ..Default::default()
                             }
                             .as_callee(),
-                            args: vec![Str {
-                                span: DUMMY_SP,
-                                value: src.into(),
-                                raw: None,
-                            }
-                            .as_arg()],
+                            args: vec![
+                                Str {
+                                    span: DUMMY_SP,
+                                    value: src.into(),
+                                    raw: None,
+                                }
+                                .as_arg(),
+                            ],
                             ..Default::default()
                         }
                         .into(),

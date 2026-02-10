@@ -1,11 +1,11 @@
 use std::{fs::read_to_string, path::PathBuf};
 
-use swc_common::{comments::NoopComments, Mark};
+use swc_common::{Mark, comments::NoopComments};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::es2015::{
     self,
-    for_of::{for_of, Config},
+    for_of::{Config, for_of},
 };
 use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, test_fixture};
 

@@ -5,10 +5,12 @@ use is_macro::Is;
 use string_enum::StringEnum;
 use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::{
-    ast_node, util::take::Take, BytePos, EqIgnoreSpan, Span, Spanned, SyntaxContext, DUMMY_SP,
+    BytePos, DUMMY_SP, EqIgnoreSpan, Span, Spanned, SyntaxContext, ast_node, util::take::Take,
 };
 
 use crate::{
+    ArrayPat, BindingIdent, ComputedPropName, Id, IdentName, ImportPhase, Invalid, KeyValueProp,
+    Number, ObjectPat, PropName, Str,
     class::Class,
     function::Function,
     ident::{Ident, PrivateName},
@@ -22,8 +24,6 @@ use crate::{
         TsAsExpr, TsConstAssertion, TsInstantiation, TsNonNullExpr, TsSatisfiesExpr, TsTypeAnn,
         TsTypeAssertion, TsTypeParamDecl, TsTypeParamInstantiation,
     },
-    ArrayPat, BindingIdent, ComputedPropName, Id, IdentName, ImportPhase, Invalid, KeyValueProp,
-    Number, ObjectPat, PropName, Str,
 };
 
 #[ast_node(no_clone)]

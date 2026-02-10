@@ -3,16 +3,16 @@ use std::{iter::once, mem::take};
 use indexmap::IndexMap;
 use rustc_hash::{FxHashMap, FxHashSet};
 use smallvec::SmallVec;
-use swc_atoms::{atom, Atom};
-use swc_common::{util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
+use swc_atoms::{Atom, atom};
+use swc_common::{DUMMY_SP, Mark, Spanned, SyntaxContext, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
-    find_pat_ids, function::FnEnvHoister, prepend_stmt, private_ident, quote_ident, quote_str,
-    ExprFactory, StmtLike,
+    ExprFactory, StmtLike, find_pat_ids, function::FnEnvHoister, prepend_stmt, private_ident,
+    quote_ident, quote_str,
 };
 use swc_ecma_visit::{
-    noop_visit_mut_type, visit_mut_obj_and_computed, visit_mut_pass, VisitMut, VisitMutWith,
+    VisitMut, VisitMutWith, noop_visit_mut_type, visit_mut_obj_and_computed, visit_mut_pass,
 };
 use swc_trace_macro::swc_trace;
 

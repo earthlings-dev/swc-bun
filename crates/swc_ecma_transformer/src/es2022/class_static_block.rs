@@ -38,7 +38,7 @@
 
 use rustc_hash::FxHashSet;
 use swc_atoms::Atom;
-use swc_common::{source_map::PLACEHOLDER_SP, DUMMY_SP};
+use swc_common::{DUMMY_SP, source_map::PLACEHOLDER_SP};
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_utils::ExprFactory;

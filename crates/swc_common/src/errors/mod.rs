@@ -29,10 +29,10 @@ pub use self::{
     snippet::Style,
 };
 use crate::{
+    SpanSnippetError,
     rustc_data_structures::stable_hasher::StableHasher,
     sync::{Lock, LockCell, Lrc},
     syntax_pos::{BytePos, FileLinesResult, FileName, Loc, MultiSpan, Span},
-    SpanSnippetError,
 };
 
 mod diagnostic;

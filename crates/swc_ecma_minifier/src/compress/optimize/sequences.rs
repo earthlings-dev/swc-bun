@@ -1,32 +1,32 @@
 use std::{iter::once, mem::take};
 
 use rustc_hash::FxHashSet;
-use swc_common::{pass::Either, util::take::Take, EqIgnoreSpan, Spanned, DUMMY_SP};
+use swc_common::{DUMMY_SP, EqIgnoreSpan, Spanned, pass::Either, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::{
-    alias::{try_collect_infects_from, AccessKind, AliasConfig},
+    alias::{AccessKind, AliasConfig, try_collect_infects_from},
     util::is_global_var_with_pure_property_access,
 };
 use swc_ecma_utils::{
-    contains_arguments, contains_this_expr, prepend_stmts, ExprExt, StmtLike, Type, Value,
+    ExprExt, StmtLike, Type, Value, contains_arguments, contains_this_expr, prepend_stmts,
 };
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use swc_ecma_visit::{Visit, VisitWith, noop_visit_type};
 #[cfg(feature = "debug")]
-use tracing::{span, Level};
+use tracing::{Level, span};
 
-use super::{is_pure_undefined, Optimizer};
+use super::{Optimizer, is_pure_undefined};
 #[cfg(feature = "debug")]
 use crate::debug::dump;
 use crate::{
     compress::{
-        optimize::{unused::PropertyAccessOpts, util::replace_id_with_expr, BitCtx},
+        optimize::{BitCtx, unused::PropertyAccessOpts, util::replace_id_with_expr},
         util::{is_directive, is_ident_used_by, replace_expr},
     },
     option::CompressOptions,
     program_data::{ScopeData, VarUsageInfoFlags},
     util::{
-        idents_used_by, idents_used_by_ignoring_nested, ExprOptExt, IdentUsageCollector,
-        ModuleItemExt,
+        ExprOptExt, IdentUsageCollector, ModuleItemExt, idents_used_by,
+        idents_used_by_ignoring_nested,
     },
 };
 
@@ -1623,7 +1623,7 @@ impl Optimizer<'_> {
 
         match b {
             Expr::Update(..) | Expr::Arrow(..) | Expr::Fn(..) | Expr::OptChain(..) => {
-                return Ok(false)
+                return Ok(false);
             }
 
             Expr::Cond(b) => {

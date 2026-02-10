@@ -1,8 +1,8 @@
 use std::fmt;
 
 use serde::{
-    de::{Unexpected, Visitor},
     Deserialize, Deserializer, Serialize, Serializer,
+    de::{Unexpected, Visitor},
 };
 
 use crate::merge::Merge;

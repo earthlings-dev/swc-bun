@@ -27,10 +27,10 @@
 //!
 //! Implementation based on [@babel/plugin-transform-function-name](https://babel.dev/docs/babel-plugin-transform-function-name).
 
-use swc_common::{util::take::Take, DUMMY_SP};
+use swc_common::{DUMMY_SP, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
-use swc_ecma_utils::{private_ident, IdentUsageFinder};
+use swc_ecma_utils::{IdentUsageFinder, private_ident};
 
 use crate::TraverseCtx;
 

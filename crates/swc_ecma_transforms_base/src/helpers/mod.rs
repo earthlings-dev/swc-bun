@@ -1,10 +1,10 @@
 use std::cell::RefCell;
 
 use swc_atoms::atom;
-use swc_common::{Mark, SyntaxContext, DUMMY_SP};
+use swc_common::{DUMMY_SP, Mark, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{prepend_stmts, quote_ident, DropSpan, ExprFactory};
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
+use swc_ecma_utils::{DropSpan, ExprFactory, prepend_stmts, quote_ident};
+use swc_ecma_visit::{VisitMut, VisitMutWith, noop_visit_mut_type, visit_mut_pass};
 
 #[macro_export]
 macro_rules! enable_helper {
@@ -481,12 +481,14 @@ impl InjectHelpers {
                 ..Default::default()
             })
             .as_callee(),
-            args: vec![Str {
-                span: DUMMY_SP,
-                value: format!("@swc/helpers/_/_{name}").into(),
-                raw: None,
-            }
-            .as_arg()],
+            args: vec![
+                Str {
+                    span: DUMMY_SP,
+                    value: format!("@swc/helpers/_/_{name}").into(),
+                    raw: None,
+                }
+                .as_arg(),
+            ],
             ..Default::default()
         };
         let ctxt = SyntaxContext::empty().apply_mark(mark);

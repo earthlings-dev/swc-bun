@@ -1,4 +1,4 @@
-use swc_atoms::{wtf8::Wtf8, Atom};
+use swc_atoms::{Atom, wtf8::Wtf8};
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::{Str, TplElement};
 

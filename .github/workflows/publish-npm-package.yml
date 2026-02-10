@@ -12,8 +12,6 @@ env:
   CARGO_PROFILE_RELEASE_LTO: "fat"
   CI: "1"
   DISABLE_PLUGIN_E2E_TESTS: true
-  # https://github.com/actions/setup-node/issues/899#issuecomment-1819151595
-  SKIP_YARN_COREPACK_CHECK: 1
   GIT_AUTHOR_NAME: "SWC Bot"
   GIT_AUTHOR_EMAIL: "bot@swc.rs"
   GIT_COMMITTER_NAME: "SWC Bot"
@@ -77,28 +75,27 @@ jobs:
                 cp ../../target/x86_64-apple-darwin/release/swc .
                 chmod +x ./swc
               fi
-              yarn build --target x86_64-apple-darwin
+              bun run build --target x86_64-apple-darwin
               strip -x *.node
           - host: windows-latest
             build: |
               export CARGO_PROFILE_RELEASE_LTO=false
-              yarn build --target x86_64-pc-windows-msvc
+              bun run build --target x86_64-pc-windows-msvc
               if [[ ${{ inputs.package }} == "core" ]]; then
                 cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target x86_64-pc-windows-msvc
                 cp ../../target/x86_64-pc-windows-msvc/release/swc .
               fi
             target: x86_64-pc-windows-msvc
           - host: windows-latest
-            # use npm to run test, because of corepack link the yarn with x64 Node.js
             build: |
               export DISABLE_PLUGIN_E2E_TESTS=true
               export CARGO_PROFILE_RELEASE_LTO=false
               if [[ ${{ inputs.package }} == "core" ]]; then
                 cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --target i686-pc-windows-msvc
                 cp ../../target/i686-pc-windows-msvc/release/swc .
-                yarn build --target i686-pc-windows-msvc --no-default-features --features swc_v1
+                bun run build --target i686-pc-windows-msvc --no-default-features --features swc_v1
               else
-                yarn build --target i686-pc-windows-msvc
+                bun run build --target i686-pc-windows-msvc
               fi
             target: i686-pc-windows-msvc
           - host: ubuntu-latest
@@ -110,9 +107,9 @@ jobs:
               rm -rf ../../target/target/x86_64-unknown-linux-gnu/release/.cargo-lock &&
               cp ../../target/x86_64-unknown-linux-gnu/release/swc . && chmod +x ./swc &&
               if [[ ${{ inputs.package }} == "core" ]]; then
-                yarn build --target x86_64-unknown-linux-gnu --no-default-features --features swc_v1,plugin
+                bun run build --target x86_64-unknown-linux-gnu --no-default-features --features swc_v1,plugin
               else
-                yarn build --target x86_64-unknown-linux-gnu
+                bun run build --target x86_64-unknown-linux-gnu
               fi
           - host: ubuntu-latest
             target: x86_64-unknown-linux-musl
@@ -130,9 +127,9 @@ jobs:
                 RUSTFLAGS='-C target-feature=+sse2' cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target x86_64-unknown-linux-musl &&
                 rm -rf target/release/.cargo-lock &&
                 cp ../../target/x86_64-unknown-linux-musl/release/swc . && chmod +x ./swc &&
-                RUSTFLAGS='-C target-feature=+sse2 -C target-feature=-crt-static' yarn build --target x86_64-unknown-linux-musl
+                RUSTFLAGS='-C target-feature=+sse2 -C target-feature=-crt-static' bun run build --target x86_64-unknown-linux-musl
               else
-                RUSTFLAGS='-C target-feature=+sse2 -C target-feature=-crt-static' yarn build --target x86_64-unknown-linux-musl
+                RUSTFLAGS='-C target-feature=+sse2 -C target-feature=-crt-static' bun run build --target x86_64-unknown-linux-musl
               fi
           - host: macos-latest
             target: aarch64-apple-darwin
@@ -147,7 +144,7 @@ jobs:
                 cp ../../target/aarch64-apple-darwin/release/swc .
                 chmod +x ./swc
               fi
-              yarn build --target aarch64-apple-darwin
+              bun run build --target aarch64-apple-darwin
           - host: ubuntu-latest
             target: aarch64-unknown-linux-gnu
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian-aarch64
@@ -159,21 +156,21 @@ jobs:
                 RUSTFLAGS='' cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target aarch64-unknown-linux-gnu &&
                 cp ../../target/aarch64-unknown-linux-gnu/release/swc . && chmod +x ./swc &&
                 export CC_aarch64_unknown_linux_gnu=clang &&
-                yarn build --target aarch64-unknown-linux-gnu
+                bun run build --target aarch64-unknown-linux-gnu
               else
                 export CC_aarch64_unknown_linux_gnu=clang &&
-                yarn build --target aarch64-unknown-linux-gnu
+                bun run build --target aarch64-unknown-linux-gnu
               fi
           - host: ubuntu-latest
             target: armv7-unknown-linux-gnueabihf
             build: |
               export DISABLE_PLUGIN_E2E_TESTS=true
               if [[ ${{ inputs.package }} == "core" ]]; then
-                yarn napi build --bin swc --release --target armv7-unknown-linux-gnueabihf --manifest-path ../../bindings/swc_cli/Cargo.toml -x --target-dir ../release -o .
+                bunx napi build --bin swc --release --target armv7-unknown-linux-gnueabihf --manifest-path ../../bindings/swc_cli/Cargo.toml -x --target-dir ../release -o .
                 chmod +x ./swc
-                yarn build --target armv7-unknown-linux-gnueabihf --no-default-features --features swc_v1 --use-napi-cross
+                bun run build --target armv7-unknown-linux-gnueabihf --no-default-features --features swc_v1 --use-napi-cross
               else
-                yarn build --target armv7-unknown-linux-gnueabihf --use-napi-cross
+                bun run build --target armv7-unknown-linux-gnueabihf --use-napi-cross
               fi
           - host: ubuntu-latest
             target: aarch64-unknown-linux-musl
@@ -192,9 +189,9 @@ jobs:
                 RUSTFLAGS='-C target-feature=+crt-static -C link-arg=-lgcc' cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target aarch64-unknown-linux-musl &&
                 rm -rf target/release/.cargo-lock &&
                 cp ../../target/aarch64-unknown-linux-musl/release/swc . && chmod +x ./swc &&
-                env RUSTFLAGS='-C target-feature=-crt-static' yarn build --target=aarch64-unknown-linux-musl
+                env RUSTFLAGS='-C target-feature=-crt-static' bun run build --target=aarch64-unknown-linux-musl
               else
-                env RUSTFLAGS='-C target-feature=-crt-static' yarn build --target=aarch64-unknown-linux-musl
+                env RUSTFLAGS='-C target-feature=-crt-static' bun run build --target=aarch64-unknown-linux-musl
               fi
           - host: windows-latest
             target: aarch64-pc-windows-msvc
@@ -206,26 +203,19 @@ jobs:
               if [[ ${{ inputs.package }} == "core" ]]; then
                 cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --target aarch64-pc-windows-msvc
                 cp ../../target/aarch64-pc-windows-msvc/release/swc.exe .
-                yarn build --target aarch64-pc-windows-msvc --no-default-features --features swc_v1
+                bun run build --target aarch64-pc-windows-msvc --no-default-features --features swc_v1
               else
-                yarn build --target aarch64-pc-windows-msvc
+                bun run build --target aarch64-pc-windows-msvc
               fi
-    name: "Build ${{ inputs.package }} - ${{ matrix.settings.target }} - node@20"
+    name: "Build ${{ inputs.package }} - ${{ matrix.settings.target }}"
     runs-on: ${{ matrix.settings.host }}
     steps:
       - uses: actions/checkout@v5
         with:
           ref: "v${{ inputs.version }}"
 
-      - name: Corepack
-        shell: bash
-        run: corepack enable
-      - name: Setup node x64
-        uses: actions/setup-node@v5
-        with:
-          node-version: 20
-          cache: yarn
-          architecture: x64
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
       - name: Output toolchain
         id: toolchain
         shell: bash
@@ -244,37 +234,23 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.cargo/registry
-          key: ${{ matrix.settings.target }}-node@20-cargo-registry-trimmed
+          key: ${{ matrix.settings.target }}-cargo-registry-trimmed
       - name: Cache cargo index
         uses: actions/cache@v4
         with:
           path: ~/.cargo/git
-          key: ${{ matrix.settings.target }}-node@20-cargo-index-trimmed
+          key: ${{ matrix.settings.target }}-cargo-index-trimmed
         if: ${{ matrix.settings.docker }}
       - name: Setup toolchain
         run: ${{ matrix.settings.setup }}
         if: ${{ matrix.settings.setup }}
         shell: bash
-      # use x64 Node.js to install dependencies because of ia32 version will fail with `Error: Couldn't allocate enough memory`
-      - name: Setup install target x86
-        if: matrix.settings.target == 'i686-pc-windows-msvc'
-        run: yarn config set supportedArchitectures.cpu "ia32"
-        shell: bash
       - name: Install dependencies
-        # run corepack enable again
-        # because on Windows, yarn will use `cmd` to run `yarn install`
         shell: bash
         run: |
-          corepack enable
-          yarn install
+          bun install --frozen-lockfile
           curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
           echo '/usr/local/cargo/bin' >> $GITHUB_PATH
-      - name: Setup node x86
-        uses: actions/setup-node@v5
-        if: matrix.settings.target == 'i686-pc-windows-msvc'
-        with:
-          node-version: 20
-          architecture: x86
       - name: Build in docker
         uses: addnab/docker-run-action@v3
         if: ${{ matrix.settings.docker }}
@@ -284,9 +260,7 @@ jobs:
           shell: bash
           run: >-
             cd ./packages/${{ inputs.package }} &&
-            npm install -f -g yarn@1.22 &&
-            corepack enable &&
-            npm i -g wasm-pack &&
+            curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh &&
             ${{ matrix.settings.build }}
       - name: Build
         working-directory: ./packages/${{ inputs.package }}
@@ -302,7 +276,7 @@ jobs:
             packages/${{ inputs.package }}/*.node
           if-no-files-found: error
   test-macOS-windows-binding:
-    name: Test bindings on ${{ matrix.settings.target }} - node@${{ matrix.node }}
+    name: Test bindings on ${{ matrix.settings.target }}
     needs:
       - build
     strategy:
@@ -313,25 +287,16 @@ jobs:
             target: x86_64-pc-windows-msvc
           - host: macos-latest
             target: x86_64-apple-darwin
-        node:
-          - "20"
-          - "22"
     runs-on: ${{ matrix.settings.host }}
     steps:
       - uses: actions/checkout@v5
         with:
           ref: "v${{ inputs.version }}"
 
-      - run: corepack enable
-        shell: bash
-      - name: Setup node
-        uses: actions/setup-node@v5
-        with:
-          node-version: ${{ matrix.node }}
-          cache: yarn
-          architecture: x64
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
       - name: Install dependencies
-        run: corepack enable && yarn install --network-timeout 300000
+        run: bun install --frozen-lockfile
       - name: Download artifacts
         uses: actions/download-artifact@v5
         with:
@@ -342,35 +307,24 @@ jobs:
         shell: bash
       - name: Build TypeScript
         working-directory: ./packages/${{ inputs.package }}
-        run: yarn build:ts
+        run: bun run build:ts
       - name: Test bindings
         working-directory: ./packages/${{ inputs.package }}
-        run: yarn test
+        run: bun run test
   test-linux-x64-gnu-binding:
-    name: Test bindings on Linux-x64-gnu - node@${{ matrix.node }}
+    name: Test bindings on Linux-x64-gnu
     needs:
       - build
-    strategy:
-      fail-fast: false
-      matrix:
-        node:
-          - "20"
-          - "22"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
         with:
           ref: "v${{ inputs.version }}"
 
-      - name: Corepack
-        run: corepack enable
-      - name: Setup node
-        uses: actions/setup-node@v5
-        with:
-          node-version: ${{ matrix.node }}
-          cache: yarn
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
       - name: Install dependencies
-        run: corepack enable && yarn install
+        run: bun install --frozen-lockfile
       - name: Download artifacts
         uses: actions/download-artifact@v5
         with:
@@ -380,37 +334,23 @@ jobs:
         run: ls -R .
         shell: bash
       - name: Build TypeScript
-        run: yarn build:ts
+        run: bun run build:ts
       - name: Test bindings
-        run: docker run --rm -v $(pwd):/swc -w /swc node:${{ matrix.node }}-slim sh -c 'npm install -f -g yarn@1.22.19 && env DISABLE_PLUGIN_E2E_TESTS=true yarn test:${{ inputs.package }}'
+        run: docker run --rm -v $(pwd):/swc -w /swc oven/bun:latest sh -c 'env DISABLE_PLUGIN_E2E_TESTS=true bun run test:${{ inputs.package }}'
   test-linux-x64-musl-binding:
-    name: Test bindings on x86_64-unknown-linux-musl - node@${{ matrix.node }}
+    name: Test bindings on x86_64-unknown-linux-musl
     needs:
       - build
-    strategy:
-      fail-fast: false
-      matrix:
-        node:
-          - "20"
-          - "22"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
         with:
           ref: "v${{ inputs.version }}"
 
-      - run: corepack enable
-        shell: bash
-      - name: Setup node
-        uses: actions/setup-node@v5
-        with:
-          node-version: ${{ matrix.node }}
-          cache: yarn
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
       - name: Install dependencies
-        run: |
-          corepack enable
-          yarn config set supportedArchitectures.libc "musl"
-          yarn install
+        run: bun install --frozen-lockfile
       - name: Download artifacts
         uses: actions/download-artifact@v5
         with:
@@ -420,9 +360,9 @@ jobs:
         run: ls -R .
         shell: bash
       - name: Build TypeScript
-        run: yarn build:ts
+        run: bun run build:ts
       - name: Test bindings
-        run: docker run --rm -v $(pwd):/swc -w /swc node:${{ matrix.node }}-alpine sh -c 'npm install -f -g yarn@1.22.19 && env DISABLE_PLUGIN_E2E_TESTS=true yarn test:${{ inputs.package }}'
+        run: docker run --rm -v $(pwd):/swc -w /swc oven/bun:alpine sh -c 'env DISABLE_PLUGIN_E2E_TESTS=true bun run test:${{ inputs.package }}'
   # test-linux-aarch64-musl-binding:
   #   name: Test bindings on aarch64-unknown-linux-musl - node@lts
   #   needs:
@@ -432,8 +372,6 @@ jobs:
   #     - uses: actions/checkout@v5
   #       with:
   #         ref: "v${{ inputs.version }}"
-  #     - name: Corepack
-  #       run: corepack enable
   #     - name: Download artifacts
   #       uses: actions/download-artifact@v5
   #       with:
@@ -443,13 +381,9 @@ jobs:
   #       run: ls -R .
   #       shell: bash
   #     - name: Install dependencies
-  #       run: |
-  #         corepack enable
-  #         yarn config set supportedArchitectures.cpu "arm64"
-  #         yarn config set supportedArchitectures.libc "musl"
-  #         yarn install
+  #       run: bun install --frozen-lockfile
   #     - name: Build TypeScript
-  #       run: yarn build:ts
+  #       run: bun run build:ts
   #     - name: Set up QEMU
   #       uses: docker/setup-qemu-action@v2
   #       with:
@@ -458,23 +392,22 @@ jobs:
   #     - name: Validate binary loading (before full tests)
   #       uses: addnab/docker-run-action@v3
   #       with:
-  #         image: node:lts-alpine
+  #         image: oven/bun:latest
   #         options: "--platform linux/arm64 -v ${{ github.workspace }}:/build -w /build"
   #         shell: bash
   #         run: >-
   #           set -e &&
   #           echo "Running binary validation for ARM64 musl..." &&
-  #           node scripts/validate-binary.js packages/${{ inputs.package }}
+  #           bun scripts/validate-binary.js packages/${{ inputs.package }}
   #     - name: Setup and run tests
   #       uses: addnab/docker-run-action@v3
   #       with:
-  #         image: node:lts-alpine
+  #         image: oven/bun:latest
   #         options: "--platform linux/arm64 -v ${{ github.workspace }}:/build -w /build"
   #         shell: bash
   #         run: >-
   #           set -e &&
-  #           npm install -f -g yarn@1.22 &&
-  #           DISABLE_PLUGIN_E2E_TESTS=true yarn test:${{ inputs.package }}
+  #           DISABLE_PLUGIN_E2E_TESTS=true bun run test:${{ inputs.package }}
 
   # test-linux-arm-gnueabihf-binding:
   #   name: Test bindings on armv7-unknown-linux-gnueabihf - node@${{ matrix.node }}
@@ -489,10 +422,8 @@ jobs:
   #   runs-on: ubuntu-latest
   #   steps:
   #     - uses: actions/checkout@v5
-  # with:
-  #   ref: "v${{ inputs.version }}"
-  #     - name: Corepack
-  #       run: corepack enable
+  #       with:
+  #         ref: "v${{ inputs.version }}"
   #     - name: Download artifacts
   #       uses: actions/download-artifact@v5
   #       with:
@@ -502,12 +433,9 @@ jobs:
   #       run: ls -R .
   #       shell: bash
   #     - name: Install dependencies
-  #       run: |
-  #         corepack enable
-  #         yarn config set supportedArchitectures.cpu "arm"
-  #         yarn install
+  #       run: bun install --frozen-lockfile
   #     - name: Build TypeScript
-  #       run: yarn build:ts
+  #       run: bun run build:ts
   #     - name: Set up QEMU
   #       uses: docker/setup-qemu-action@v2
   #       with:
@@ -516,13 +444,12 @@ jobs:
   #     - name: Setup and run tests
   #       uses: addnab/docker-run-action@v3
   #       with:
-  #         image: node:${{ matrix.node }}-slim
+  #         image: oven/bun:latest
   #         options: "--platform linux/arm/v7 -v ${{ github.workspace }}:/build -w /build"
   #         shell: bash
   #         run: >-
   #           set -e &&
-  #           npm install -f -g yarn@1.22 &&
-  #           DISABLE_PLUGIN_E2E_TESTS=true yarn test &&
+  #           DISABLE_PLUGIN_E2E_TESTS=true bun run test &&
   #           ls -la
   publish:
     environment: publish
@@ -539,13 +466,8 @@ jobs:
         with:
           ref: "v${{ inputs.version }}"
 
-      - uses: ./.github/actions/setup-node
-
-      # Update npm to latest, for trusted publish
-      - name: Update npm to latest
-        shell: bash
-        run: |
-          npm install -g npm@latest
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
 
       - name: Tag npm release
         run: |
@@ -556,7 +478,7 @@ jobs:
           fi
 
       - name: Install dependencies
-        run: corepack enable && yarn install
+        run: bun install --frozen-lockfile
 
       - name: Download all artifacts
         uses: actions/download-artifact@v5
@@ -575,7 +497,7 @@ jobs:
           ./scripts/cli_artifacts.sh
           ls -R ./artifacts
           ls -R ./artifacts_cli
-          npm run artifacts
+          bun run artifacts
 
       - name: List npm
         run: ls -R ./scripts/npm
@@ -585,12 +507,12 @@ jobs:
       - name: Set fallback dependencies
         shell: bash
         run: |
-          node ./scripts/update_fallback_dependencies.js
+          bun ./scripts/update_fallback_dependencies.js
 
       - name: Publish
         if: ${{ !inputs.skipPublishing }}
         run: |
-          (cd packages/${{ inputs.package }} && yarn prepack && yarn workspaces foreach -Rt npm publish --tolerate-republish --tag $NPM_TAG)
+          (cd packages/${{ inputs.package }} && bun run prepack && bunx yarn workspaces foreach -Rt bun publish --tag $NPM_TAG)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -640,9 +562,6 @@ jobs:
         with:
           ref: "v${{ inputs.version }}"
 
-      - name: Corepack
-        run: corepack enable
-
       - name: Tag npm release
         run: |
           if [[ '${{ inputs.version }}' != *"nightly"* ]]; then
@@ -651,10 +570,8 @@ jobs:
             echo "NPM_TAG=nightly" >> $GITHUB_ENV
           fi
 
-      - name: Setup node
-        uses: actions/setup-node@v5
-        with:
-          node-version: 20
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
 
       - name: Cache
         uses: actions/cache@v4
@@ -663,8 +580,8 @@ jobs:
             ~/.cargo/
           key: ${{ runner.os }}-publish-integration
 
-      - name: Install node dependencies
-        run: yarn
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
 
       - name: Install wasm-pack
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
@@ -682,13 +599,9 @@ jobs:
         run: |
           ${{ matrix.settings.build }}
 
-      # Ensure npm 11.5.1 or later is installed
-      - name: Update npm
-        run: npm install -g npm@latest
-
       - name: Publish
         if: ${{ !inputs.skipBuild }}
         run: |
-          (cd bindings/${{ matrix.settings.crate }}/${{ matrix.settings.out }} && npm publish --access public --tag $NPM_TAG)
+          (cd bindings/${{ matrix.settings.crate }}/${{ matrix.settings.out }} && bun publish --access public --tag $NPM_TAG)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -2,10 +2,10 @@ use std::mem;
 
 use rustc_hash::FxHashSet;
 use swc_atoms::atom;
-use swc_common::{comments::Comments, sync::Lrc, util::take::Take, Mark, SourceMap, Span, Spanned};
+use swc_common::{Mark, SourceMap, Span, Spanned, comments::Comments, sync::Lrc, util::take::Take};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_react::{parse_expr_for_jsx, JsxDirectives};
-use swc_ecma_visit::{visit_mut_pass, VisitMut, VisitMutWith};
+use swc_ecma_transforms_react::{JsxDirectives, parse_expr_for_jsx};
+use swc_ecma_visit::{VisitMut, VisitMutWith, visit_mut_pass};
 
 pub use crate::config::*;
 use crate::{semantic::analyze_program, transform::transform};

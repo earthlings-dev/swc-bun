@@ -1,6 +1,6 @@
 use rustc_hash::FxHashMap;
 use swc_atoms::Atom;
-use swc_common::{util::take::Take, Span};
+use swc_common::{Span, util::take::Take};
 use swc_css_ast::{
     ComplexSelector, ComplexSelectorChildren, ComponentValue, Declaration, DeclarationName,
     Delimiter, DelimiterValue, FunctionName, Ident, KeyframesName, PseudoClassSelectorChildren,

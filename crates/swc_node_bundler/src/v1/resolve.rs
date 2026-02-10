@@ -1,7 +1,7 @@
 use std::{collections::HashMap, path::PathBuf};
 
 use serde::Deserialize;
-use swc_atoms::{atom, Atom};
+use swc_atoms::{Atom, atom};
 
 /// https://webpack.js.org/configuration/resolve/
 #[derive(Debug, Deserialize)]

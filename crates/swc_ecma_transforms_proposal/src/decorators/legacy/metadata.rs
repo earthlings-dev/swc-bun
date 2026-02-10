@@ -1,14 +1,14 @@
 use std::ops::Deref;
 
 use rustc_hash::FxHashMap;
-use swc_atoms::{atom, Atom};
+use swc_atoms::{Atom, atom};
 use swc_common::{
+    BytePos, DUMMY_SP, Spanned,
     util::{move_map::MoveMap, take::Take},
-    BytePos, Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
-use swc_ecma_utils::{quote_ident, ExprFactory};
+use swc_ecma_utils::{ExprFactory, quote_ident};
 use swc_ecma_visit::{VisitMut, VisitMutWith};
 
 use super::EnumKind;
@@ -373,7 +373,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
             // We should omit references to self (class) since it will throw a ReferenceError at
             // runtime due to babel transpile output.
             TsEntityName::Ident(i) if &*i.sym == class_name => {
-                return quote_ident!("Object").into()
+                return quote_ident!("Object").into();
             }
             _ => {}
         }

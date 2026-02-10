@@ -14,4 +14,4 @@ find . -name 'input.js.output.js' -print0 | xargs -0 -n1 bash -c 'mv "$0" "${0/i
 
 # Make it easier to compare
 prettier --write $1
-yarn run eslint --fix $1
+bun run eslint --fix $1

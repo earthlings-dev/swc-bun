@@ -4,7 +4,7 @@ use std::{
     fmt::Write,
     fs::create_dir_all,
     mem,
-    panic::{catch_unwind, resume_unwind, AssertUnwindSafe},
+    panic::{AssertUnwindSafe, catch_unwind, resume_unwind},
     path::{Path, PathBuf},
     sync::Arc,
 };
@@ -15,12 +15,13 @@ use rustc_hash::FxHashSet;
 use serde::de::DeserializeOwned;
 use serde_json::from_str;
 use swc::{
+    Compiler,
     config::{
         Config, JsMinifyOptions, JscConfig, JscExperimental, ModuleConfig, Options, TransformConfig,
     },
-    try_with_handler, Compiler,
+    try_with_handler,
 };
-use swc_common::{errors::ColorConfig, FileName, SourceFile, SourceMap, GLOBALS};
+use swc_common::{FileName, GLOBALS, SourceFile, SourceMap, errors::ColorConfig};
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::{Syntax, TsSyntax};
 use testing::NormalizedOutput;

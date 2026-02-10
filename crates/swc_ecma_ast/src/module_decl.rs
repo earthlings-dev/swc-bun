@@ -2,15 +2,15 @@ use std::borrow::Cow;
 
 use is_macro::Is;
 use swc_atoms::Atom;
-use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
+use swc_common::{DUMMY_SP, EqIgnoreSpan, Span, ast_node, util::take::Take};
 
 use crate::{
+    BindingIdent, IdentName, ObjectLit,
     decl::Decl,
     expr::{ClassExpr, Expr, FnExpr},
     ident::Ident,
     lit::Str,
     typescript::{TsExportAssignment, TsImportEqualsDecl, TsInterfaceDecl, TsNamespaceExportDecl},
-    BindingIdent, IdentName, ObjectLit,
 };
 
 #[ast_node]

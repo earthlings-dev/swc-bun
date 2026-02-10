@@ -1,10 +1,10 @@
 use serde::{Deserialize, Serialize};
-use swc_common::{comments::Comment, Span};
+use swc_common::{Span, comments::Comment};
 use swc_ecma_ast::{Module, ModuleItem, Program, Script};
 use swc_ecma_visit::{Visit, VisitWith};
 use swc_estree_ast::{
-    flavor::Flavor, BaseNode, File, InterpreterDirective, LineCol, Loc, ModuleDeclaration,
-    Program as BabelProgram, SrcType, Statement,
+    BaseNode, File, InterpreterDirective, LineCol, Loc, ModuleDeclaration, Program as BabelProgram,
+    SrcType, Statement, flavor::Flavor,
 };
 use swc_node_comments::SwcComments;
 

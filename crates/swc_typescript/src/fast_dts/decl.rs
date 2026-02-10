@@ -5,10 +5,9 @@ use swc_ecma_ast::{
 use swc_ecma_visit::VisitMutWith;
 
 use super::{
-    type_ann,
+    FastDts, type_ann,
     util::{ast_ext::PatExt, types::any_type_ann},
     visitors::internal_annotation::InternalAnnotationTransformer,
-    FastDts,
 };
 
 impl FastDts {

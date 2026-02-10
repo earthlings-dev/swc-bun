@@ -3,15 +3,15 @@ use rustc_hash::FxHashMap;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    find_pat_ids, ident::IdentLike, ExprCtx, ExprExt, IsEmpty, StmtExt, Type, Value,
+    ExprCtx, ExprExt, IsEmpty, StmtExt, Type, Value, find_pat_ids, ident::IdentLike,
 };
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use swc_ecma_visit::{Visit, VisitWith, noop_visit_type};
 use swc_timer::timer;
 
 pub use self::ctx::Ctx;
 use self::storage::*;
 use crate::{
-    alias::{collect_infects_from, AliasConfig},
+    alias::{AliasConfig, collect_infects_from},
     marks::Marks,
     util::{can_end_conditionally, get_object_define_property_name_arg},
 };

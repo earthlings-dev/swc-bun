@@ -1,7 +1,7 @@
 extern crate swc_malloc;
 
-use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
-use swc_allocator::{boxed::Box as SwcBox, vec::Vec as SwcVec, Allocator, FastAlloc};
+use codspeed_criterion_compat::{Bencher, Criterion, black_box, criterion_group, criterion_main};
+use swc_allocator::{Allocator, FastAlloc, boxed::Box as SwcBox, vec::Vec as SwcVec};
 
 fn bench_alloc(c: &mut Criterion) {
     fn direct_alloc_std(b: &mut Bencher, times: usize) {

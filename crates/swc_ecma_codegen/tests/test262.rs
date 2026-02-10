@@ -5,8 +5,8 @@ use std::{
 
 use swc_common::comments::SingleThreadedComments;
 use swc_ecma_ast::EsVersion;
-use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
-use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
+use swc_ecma_codegen::{Emitter, text_writer::WriteJs};
+use swc_ecma_parser::{Parser, Syntax, lexer::Lexer};
 use testing::NormalizedOutput;
 
 const IGNORED_PASS_TESTS: &[&str] = &[

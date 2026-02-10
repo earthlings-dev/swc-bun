@@ -1,8 +1,8 @@
 use std::borrow::Cow;
 
-use swc_common::{pass::CompilerPass, EqIgnoreSpan, Mark, SyntaxContext};
+use swc_common::{EqIgnoreSpan, Mark, SyntaxContext, pass::CompilerPass};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{VisitMut, VisitMutWith, noop_visit_mut_type};
 
 pub fn globals_defs(
     defs: Vec<(Box<Expr>, Box<Expr>)>,

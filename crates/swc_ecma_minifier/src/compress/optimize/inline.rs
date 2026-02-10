@@ -2,18 +2,18 @@ use std::ops::Deref;
 
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::atom;
-use swc_common::{util::take::Take, EqIgnoreSpan, Mark};
+use swc_common::{EqIgnoreSpan, Mark, util::take::Take};
 use swc_ecma_ast::*;
-use swc_ecma_usage_analyzer::alias::{collect_infects_from, AliasConfig};
+use swc_ecma_usage_analyzer::alias::{AliasConfig, collect_infects_from};
 use swc_ecma_utils::{
-    class_has_side_effect, collect_decls, contains_this_expr, find_pat_ids, ExprExt, Remapper,
+    ExprExt, Remapper, class_has_side_effect, collect_decls, contains_this_expr, find_pat_ids,
 };
 use swc_ecma_visit::VisitMutWith;
 
 use super::Optimizer;
 use crate::{
     compress::{
-        optimize::{util::is_valid_for_lhs, BitCtx},
+        optimize::{BitCtx, util::is_valid_for_lhs},
         util::contains_super,
     },
     program_data::{ScopeData, VarUsageInfo, VarUsageInfoFlags},
@@ -406,7 +406,7 @@ impl Optimizer<'_> {
                                 }
                         ) =>
                     {
-                        return
+                        return;
                     }
                     Expr::Arrow(ArrowExpr { is_async: true, .. })
                     | Expr::Arrow(ArrowExpr {
@@ -612,13 +612,13 @@ impl Optimizer<'_> {
                 Stmt::Expr(ExprStmt { expr, .. })
                     if expr.size(self.ctx.expr_ctx.unresolved_ctxt) < cost_limit =>
                 {
-                    return true
+                    return true;
                 }
 
                 Stmt::Return(ReturnStmt { arg: Some(arg), .. })
                     if arg.size(self.ctx.expr_ctx.unresolved_ctxt) < cost_limit =>
                 {
-                    return true
+                    return true;
                 }
 
                 Stmt::Return(ReturnStmt { arg: None, .. }) => {
@@ -992,7 +992,7 @@ fn is_arrow_body_simple_enough_for_copy(e: &Expr) -> Option<u8> {
     match e {
         Expr::Ident(..) | Expr::Lit(..) => return Some(1),
         Expr::Member(MemberExpr { obj, prop, .. }) if !prop.is_computed() => {
-            return Some(is_arrow_body_simple_enough_for_copy(obj)? + 2)
+            return Some(is_arrow_body_simple_enough_for_copy(obj)? + 2);
         }
         Expr::Call(c) => {
             let mut cost = is_arrow_body_simple_enough_for_copy(c.callee.as_expr()?.deref())?;
@@ -1011,7 +1011,7 @@ fn is_arrow_body_simple_enough_for_copy(e: &Expr) -> Option<u8> {
                 is_arrow_body_simple_enough_for_copy(&b.left)?
                     + is_arrow_body_simple_enough_for_copy(&b.right)?
                     + 2,
-            )
+            );
         }
         _ => {}
     }

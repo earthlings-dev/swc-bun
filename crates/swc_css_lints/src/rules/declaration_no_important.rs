@@ -2,7 +2,7 @@ use swc_common::Span;
 use swc_css_ast::*;
 use swc_css_visit::{Visit, VisitWith};
 
-use crate::rule::{visitor_rule, LintRule, LintRuleContext};
+use crate::rule::{LintRule, LintRuleContext, visitor_rule};
 
 pub fn declaration_no_important(ctx: LintRuleContext<()>) -> Box<dyn LintRule> {
     visitor_rule(

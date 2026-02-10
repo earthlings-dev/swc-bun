@@ -5,12 +5,12 @@ use std::{
     sync::Arc,
 };
 
-use anyhow::{bail, Context, Result};
-use flate2::{write::ZlibEncoder, Compression};
-use swc_common::{comments::SingleThreadedComments, errors::HANDLER, Mark, SourceFile, SourceMap};
+use anyhow::{Context, Result, bail};
+use flate2::{Compression, write::ZlibEncoder};
+use swc_common::{Mark, SourceFile, SourceMap, comments::SingleThreadedComments, errors::HANDLER};
 use swc_ecma_ast::{EsVersion, Module};
-use swc_ecma_codegen::text_writer::{omit_trailing_semi, JsWriter, WriteJs};
-use swc_ecma_parser::{parse_file_as_module, Syntax};
+use swc_ecma_codegen::text_writer::{JsWriter, WriteJs, omit_trailing_semi};
+use swc_ecma_parser::{Syntax, parse_file_as_module};
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_visit::VisitMutWith;
 
@@ -32,7 +32,7 @@ pub fn gzipped_size(code: &str) -> usize {
 }
 
 pub fn make_pretty(f: &Path) -> Result<()> {
-    let mut c = Command::new("npx");
+    let mut c = Command::new("bunx");
     c.stderr(Stdio::inherit());
     c.arg("js-beautify").arg("--replace").arg(f);
 

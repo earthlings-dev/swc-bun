@@ -4,8 +4,8 @@ use swc_common::Mark;
 use swc_ecma_ast::Pass;
 use swc_ecma_parser::{Syntax, TsSyntax};
 use swc_ecma_transforms_base::resolver;
-use swc_ecma_transforms_module::umd::{umd, Config, FeatureFlag};
-use swc_ecma_transforms_testing::{test_fixture, FixtureTestConfig, Tester};
+use swc_ecma_transforms_module::umd::{Config, FeatureFlag, umd};
+use swc_ecma_transforms_testing::{FixtureTestConfig, Tester, test_fixture};
 use swc_ecma_transforms_typescript::typescript;
 
 fn syntax() -> Syntax {

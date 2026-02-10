@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-npx tsc scripts/patch-options.ts
-node scripts/patch-options.js
+bunx tsc scripts/patch-options.ts
+bun scripts/patch-options.js

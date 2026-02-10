@@ -36,7 +36,7 @@ body:
     id: swc-info
     attributes:
       label: SWC Info output
-      description: Please run `npx -y swc-info@latest` and paste the output here.
+      description: Please run `bunx -y swc-info@latest` and paste the output here.
   - type: textarea
     id: expected-behavior
     attributes:

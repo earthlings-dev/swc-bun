@@ -3,7 +3,7 @@ extern crate test;
 
 use std::{
     env,
-    fs::{read_dir, File},
+    fs::{File, read_dir},
     io::{self, Read, Write},
     path::Path,
     sync::{Arc, RwLock},
@@ -12,12 +12,12 @@ use std::{
 use swc_atoms::atom;
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
-use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
+use swc_ecma_parser::{Parser, Syntax, lexer::Lexer};
 use swc_ecma_transforms_base::fixer::fixer;
 use swc_ecma_utils::DropSpan;
 use swc_ecma_visit::{Fold, FoldWith, VisitMutWith};
 use test::{
-    test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
+    DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType, test_main,
 };
 
 const IGNORED_PASS_TESTS: &[&str] = &[

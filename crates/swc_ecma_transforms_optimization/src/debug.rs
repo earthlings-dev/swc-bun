@@ -1,7 +1,7 @@
 #![allow(unused)]
 
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use swc_ecma_visit::{Visit, VisitWith, noop_visit_type};
 
 /// Assert in debug mode. This is noop in release build.
 #[cfg_attr(not(debug_assertions), inline(always))]

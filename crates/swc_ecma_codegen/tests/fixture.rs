@@ -7,11 +7,11 @@ use serde::Deserialize;
 use swc_common::comments::SingleThreadedComments;
 use swc_ecma_ast::EsVersion;
 use swc_ecma_codegen::{
-    text_writer::{JsWriter, WriteJs},
     Emitter,
+    text_writer::{JsWriter, WriteJs},
 };
-use swc_ecma_parser::{parse_file_as_module, Syntax, TsSyntax};
-use testing::{run_test2, NormalizedOutput};
+use swc_ecma_parser::{Syntax, TsSyntax, parse_file_as_module};
+use testing::{NormalizedOutput, run_test2};
 
 const fn true_by_default() -> bool {
     true

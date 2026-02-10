@@ -1,11 +1,11 @@
 use std::mem;
 
 use rustc_hash::FxHashMap;
-use swc_common::{util::take::Take, Spanned, DUMMY_SP};
+use swc_common::{DUMMY_SP, Spanned, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_transforms_base::{assumptions::Assumptions, helper, helper_expr};
-use swc_ecma_utils::{alias_if_required, private_ident, quote_ident, ExprFactory};
+use swc_ecma_utils::{ExprFactory, alias_if_required, private_ident, quote_ident};
 
 use crate::TraverseCtx;
 
@@ -90,13 +90,15 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
                         PropOrSpread::Prop(..) => {
                             // before is spread element
                             if !first && obj.props.is_empty() && !self.config.pure_getters {
-                                buf = vec![Expr::Call(CallExpr {
-                                    span: DUMMY_SP,
-                                    callee: callee.clone(),
-                                    args: buf.take(),
-                                    ..Default::default()
-                                })
-                                .as_arg()];
+                                buf = vec![
+                                    Expr::Call(CallExpr {
+                                        span: DUMMY_SP,
+                                        callee: callee.clone(),
+                                        args: buf.take(),
+                                        ..Default::default()
+                                    })
+                                    .as_arg(),
+                                ];
                             }
                             obj.props.push(prop)
                         }
@@ -105,13 +107,15 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
                             if first || !obj.props.is_empty() {
                                 buf.push(obj.take().as_arg());
                                 if !first && !self.config.pure_getters {
-                                    buf = vec![Expr::Call(CallExpr {
-                                        span: DUMMY_SP,
-                                        callee: helper!(object_spread_props),
-                                        args: buf.take(),
-                                        ..Default::default()
-                                    })
-                                    .as_arg()];
+                                    buf = vec![
+                                        Expr::Call(CallExpr {
+                                            span: DUMMY_SP,
+                                            callee: helper!(object_spread_props),
+                                            args: buf.take(),
+                                            ..Default::default()
+                                        })
+                                        .as_arg(),
+                                    ];
                                 }
                                 first = false;
                             }

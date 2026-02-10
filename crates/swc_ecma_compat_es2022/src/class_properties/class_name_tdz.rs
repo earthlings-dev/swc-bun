@@ -2,7 +2,7 @@ use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::ExprFactory;
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{VisitMut, VisitMutWith, noop_visit_mut_type};
 use swc_trace_macro::swc_trace;
 
 pub(super) struct ClassNameTdzFolder<'a> {
@@ -25,12 +25,14 @@ impl VisitMut for ClassNameTdzFolder<'_> {
                             Box::new(Expr::Call(CallExpr {
                                 span: DUMMY_SP,
                                 callee: helper!(class_name_tdz_error),
-                                args: vec![Str {
-                                    span: i.span,
-                                    raw: None,
-                                    value: i.sym.clone().into(),
-                                }
-                                .as_arg()],
+                                args: vec![
+                                    Str {
+                                        span: i.span,
+                                        raw: None,
+                                        value: i.sym.clone().into(),
+                                    }
+                                    .as_arg(),
+                                ],
 
                                 ..Default::default()
                             })),

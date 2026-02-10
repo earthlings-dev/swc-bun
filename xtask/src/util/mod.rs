@@ -4,7 +4,7 @@ use std::{
     process::{Command, Stdio},
 };
 
-use anyhow::{bail, Context, Result};
+use anyhow::{Context, Result, bail};
 use serde_derive::Deserialize;
 
 pub fn wrap<F, Ret>(op: F) -> Result<Ret>

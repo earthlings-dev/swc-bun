@@ -1,11 +1,11 @@
 use either::Either;
 use swc_atoms::atom;
-use swc_common::{ast_node, util::take::Take, BytePos, Span, Spanned};
+use swc_common::{BytePos, Span, Spanned, ast_node, util::take::Take};
 
 use super::*;
 use crate::{
     error::SyntaxError,
-    parser::{pat::PatType, util::IsSimpleParameterList, Parser},
+    parser::{Parser, pat::PatType, util::IsSimpleParameterList},
 };
 
 #[ast_node]
@@ -353,7 +353,7 @@ impl<I: Tokens> Parser<I> {
             }
             Token::LBracket => {
                 return self
-                    .do_outside_of_context(Context::WillExpectColonForCond, Self::parse_array_lit)
+                    .do_outside_of_context(Context::WillExpectColonForCond, Self::parse_array_lit);
             }
             Token::LBrace => {
                 return self.parse_object_expr().map(Box::new);
@@ -374,7 +374,7 @@ impl<I: Tokens> Parser<I> {
             }
             Token::LParen => return self.parse_paren_expr_or_arrow_fn(can_be_arrow, None),
             Token::NoSubstitutionTemplateLiteral => {
-                return Ok(self.parse_no_substitution_template_literal(false)?.into())
+                return Ok(self.parse_no_substitution_template_literal(false)?.into());
             }
             Token::TemplateHead => {
                 // parse template literal

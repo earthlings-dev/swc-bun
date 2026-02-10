@@ -3,7 +3,7 @@
 use swc_common::Spanned;
 
 use super::*;
-use crate::parser::{expr::AssignTargetOrSpread, Parser};
+use crate::parser::{Parser, expr::AssignTargetOrSpread};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(crate) enum PatType {

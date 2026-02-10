@@ -1,6 +1,6 @@
 use std::mem::take;
 
-use swc_common::{util::take::Take, EqIgnoreSpan, Spanned, DUMMY_SP};
+use swc_common::{DUMMY_SP, EqIgnoreSpan, Spanned, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, IsEmpty, StmtExt, Type, Value};
 

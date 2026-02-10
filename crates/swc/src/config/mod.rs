@@ -10,7 +10,7 @@ use std::{
     all(feature = "plugin", not(target_arch = "wasm32"))
 ))]
 use anyhow::Context;
-use anyhow::{bail, Error};
+use anyhow::{Error, bail};
 use bytes_str::BytesStr;
 use dashmap::DashMap;
 use either::Either;
@@ -22,9 +22,9 @@ use swc_atoms::Atom;
 #[allow(unused)]
 use swc_common::plugin::metadata::TransformPluginMetadataContext;
 use swc_common::{
+    FileName, Mark, SourceMap,
     comments::{Comments, SingleThreadedComments},
     errors::Handler,
-    FileName, Mark, SourceMap,
 };
 pub use swc_compiler_base::SourceMapsConfig;
 pub use swc_config::is_module::IsModule;
@@ -33,12 +33,12 @@ use swc_config::{
     merge::Merge,
     types::{BoolConfig, BoolOr, BoolOrDataConfig, MergingOption},
 };
-use swc_ecma_ast::{noop_pass, EsVersion, Expr, Pass, Program};
+use swc_ecma_ast::{EsVersion, Expr, Pass, Program, noop_pass};
 use swc_ecma_ext_transforms::jest;
 #[cfg(feature = "lint")]
 use swc_ecma_lints::{
     config::LintConfig,
-    rules::{lint_pass, LintParams},
+    rules::{LintParams, lint_pass},
 };
 #[cfg(feature = "module")]
 use swc_ecma_loader::resolvers::{
@@ -46,10 +46,11 @@ use swc_ecma_loader::resolvers::{
 };
 pub use swc_ecma_minifier::js::*;
 use swc_ecma_minifier::option::terser::TerserTopLevelOptions;
-use swc_ecma_parser::{parse_file_as_expr, Syntax, TsSyntax};
+use swc_ecma_parser::{Syntax, TsSyntax, parse_file_as_expr};
 use swc_ecma_preset_env::{Caniuse, Feature};
 pub use swc_ecma_transforms::proposals::DecoratorVersion;
 use swc_ecma_transforms::{
+    Assumptions,
     fixer::{fixer, paren_remover},
     helpers,
     hygiene::{self, hygiene_with_config},
@@ -61,28 +62,26 @@ use swc_ecma_transforms::{
     react::{self, default_pragma, default_pragma_frag},
     resolver,
     typescript::{self, TsImportExportAssignConfig},
-    Assumptions,
 };
 use swc_ecma_transforms_compat::es2015::regenerator;
 #[cfg(feature = "module")]
 use swc_ecma_transforms_module::{
-    self as modules,
+    self as modules, EsModuleConfig,
     path::{ImportResolver, NodeImportResolver, Resolver},
     rewriter::import_rewriter,
-    util, EsModuleConfig,
+    util,
 };
 use swc_ecma_transforms_optimization::{
-    inline_globals,
-    simplify::{dce::Config as DceConfig, Config as SimplifyConfig},
-    GlobalExprMap,
+    GlobalExprMap, inline_globals,
+    simplify::{Config as SimplifyConfig, dce::Config as DceConfig},
 };
 use swc_ecma_utils::NodeIgnoringSpan;
 use swc_ecma_visit::VisitMutWith;
 use swc_visit::Optional;
 
-pub use crate::plugin::PluginConfig;
 #[cfg(feature = "module")]
 use crate::SwcImportResolver;
+pub use crate::plugin::PluginConfig;
 use crate::{builder::MinifierPass, dropped_comments_preserver::dropped_comments_preserver};
 
 #[cfg(test)]

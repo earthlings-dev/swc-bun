@@ -2,11 +2,11 @@ use swc_atoms::Atom;
 use swc_common::{BytePos, Span, Spanned};
 use swc_css_ast::*;
 
-use super::{input::ParserInput, PResult, Parser};
+use super::{PResult, Parser, input::ParserInput};
 use crate::{
+    Parse,
     error::{Error, ErrorKind},
     parser::Ctx,
-    Parse,
 };
 
 impl<I> Parse<SelectorList> for Parser<I>

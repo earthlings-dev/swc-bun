@@ -3,11 +3,11 @@ use std::mem;
 use swc_common::Span;
 
 use crate::{
+    Context,
     error::Error,
     input::Tokens,
-    lexer::{token::TokenAndSpan, Token, TokenFlags},
+    lexer::{Token, TokenFlags, token::TokenAndSpan},
     syntax::SyntaxFlags,
-    Context,
 };
 
 #[derive(Debug)]

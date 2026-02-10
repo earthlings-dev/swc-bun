@@ -1,9 +1,9 @@
 use std::any::type_name;
 
-use anyhow::{anyhow, bail, Context, Error};
-use swc_common::{sync::Lrc, FileName, SourceMap};
+use anyhow::{Context, Error, anyhow, bail};
+use swc_common::{FileName, SourceMap, sync::Lrc};
 use swc_ecma_ast::{AssignTarget, EsVersion};
-use swc_ecma_parser::{lexer::Lexer, PResult, Parser, StringInput};
+use swc_ecma_parser::{PResult, Parser, StringInput, lexer::Lexer};
 use syn::{GenericArgument, PathArguments, Type};
 
 use crate::{ast::ToCode, ctxt::Ctx};
@@ -43,7 +43,7 @@ pub(crate) fn parse_input_type(input_str: &str, ty: &Type) -> Result<BoxWrapper,
                     return parse(input_str, &mut |p| {
                         Ok(AssignTarget::try_from(p.parse_pat()?)
                             .expect("failed to parse AssignTarget"))
-                    })
+                    });
                 }
                 "ModuleItem" => return parse(input_str, &mut |p| p.parse_module_item()),
                 _ => {}

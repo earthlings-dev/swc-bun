@@ -11,15 +11,15 @@ use anyhow::{Context as AnyhowContext, Error};
 use copyless::BoxHelper;
 use pretty_assertions::assert_eq;
 use serde_json::{Number, Value};
-use swc::{config::IsModule, Compiler};
+use swc::{Compiler, config::IsModule};
 use swc_common::{
+    FileName, FilePathMapping, GLOBALS, SourceMap,
     errors::{ColorConfig, Handler},
-    FileName, FilePathMapping, SourceMap, GLOBALS,
 };
 use swc_ecma_parser::{EsSyntax, Syntax};
 use swc_estree_compat::babelify::{Babelify, Context};
-use test::{test_main, DynTestFn, ShouldPanic, TestDesc, TestDescAndFn, TestName, TestType};
-use testing::{json::diff_json_value, DebugUsingDisplay};
+use test::{DynTestFn, ShouldPanic, TestDesc, TestDescAndFn, TestName, TestType, test_main};
+use testing::{DebugUsingDisplay, json::diff_json_value};
 use walkdir::WalkDir;
 
 #[test]

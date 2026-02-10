@@ -1,14 +1,14 @@
 #![allow(clippy::needless_update)]
 
-use swc_common::{pass::Repeated, util::take::Take, SyntaxContext, DUMMY_SP};
+use swc_common::{DUMMY_SP, SyntaxContext, pass::Repeated, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::{debug_assert_valid, simplify};
 use swc_ecma_usage_analyzer::marks::Marks;
 use swc_ecma_utils::{
-    parallel::{cpu_count, Parallel, ParallelExt},
     ExprCtx,
+    parallel::{Parallel, ParallelExt, cpu_count},
 };
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_visit::{VisitMut, VisitMutWith, VisitWith, noop_visit_mut_type};
 #[cfg(feature = "debug")]
 use tracing::Level;
 

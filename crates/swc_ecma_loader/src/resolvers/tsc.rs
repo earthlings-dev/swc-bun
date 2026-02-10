@@ -3,9 +3,9 @@ use std::{
     path::{Component, Path, PathBuf},
 };
 
-use anyhow::{bail, Context, Error};
+use anyhow::{Context, Error, bail};
 use swc_common::FileName;
-use tracing::{debug, info, trace, warn, Level};
+use tracing::{Level, debug, info, trace, warn};
 
 use crate::resolve::{Resolution, Resolve};
 

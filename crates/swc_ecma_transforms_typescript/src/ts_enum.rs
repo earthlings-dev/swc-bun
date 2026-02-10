@@ -1,12 +1,12 @@
 use rustc_hash::FxHashMap;
-use swc_atoms::{atom, Atom, Wtf8Atom};
-use swc_common::{SyntaxContext, DUMMY_SP};
+use swc_atoms::{Atom, Wtf8Atom, atom};
+use swc_common::{DUMMY_SP, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    number::{JsNumber, ToJsString},
     ExprFactory,
+    number::{JsNumber, ToJsString},
 };
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{VisitMut, VisitMutWith, noop_visit_mut_type};
 
 #[inline]
 fn atom_from_wtf8_atom(value: &Wtf8Atom) -> Atom {

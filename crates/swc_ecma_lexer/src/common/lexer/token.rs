@@ -7,12 +7,7 @@ use crate::common::{context::Context, input::Tokens};
 
 pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + PartialEq {
     type Lexer: super::Lexer<'a, TokenAndSpan>;
-    type Buffer: crate::common::parser::buffer::Buffer<
-        'a,
-        I = I,
-        Token = Self,
-        TokenAndSpan = TokenAndSpan,
-    >;
+    type Buffer: crate::common::parser::buffer::Buffer<'a, I = I, Token = Self, TokenAndSpan = TokenAndSpan>;
 
     const FROM: Self;
     const FOR: Self;

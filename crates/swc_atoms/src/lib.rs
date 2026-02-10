@@ -246,17 +246,13 @@ impl<'de> serde::de::Deserialize<'de> for Atom {
 /// Creates an [Atom] from a constant.
 #[macro_export]
 macro_rules! atom {
-    ($s:tt) => {{
-        $crate::Atom::from($crate::hstr::atom!($s))
-    }};
+    ($s:tt) => {{ $crate::Atom::from($crate::hstr::atom!($s)) }};
 }
 
 /// Creates an [Atom] from a constant.
 #[macro_export]
 macro_rules! lazy_atom {
-    ($s:tt) => {{
-        $crate::Atom::from($crate::hstr::atom!($s))
-    }};
+    ($s:tt) => {{ $crate::Atom::from($crate::hstr::atom!($s)) }};
 }
 
 impl PartialEq<Atom> for str {

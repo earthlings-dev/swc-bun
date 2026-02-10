@@ -1,6 +1,6 @@
 use tracing_chrome::{ChromeLayerBuilder, FlushGuard};
 use tracing_subscriber::{
-    filter, prelude::__tracing_subscriber_SubscriberExt, util::SubscriberInitExt, Layer,
+    Layer, filter, prelude::__tracing_subscriber_SubscriberExt, util::SubscriberInitExt,
 };
 
 /// Register a tracing subscriber generated event trace format output.

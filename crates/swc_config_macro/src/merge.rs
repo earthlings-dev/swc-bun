@@ -1,7 +1,7 @@
 use proc_macro2::TokenStream;
-use quote::{quote, ToTokens};
+use quote::{ToTokens, quote};
 use swc_macros_common::{access_field, join_stmts};
-use syn::{parse_quote, DeriveInput, Expr, Field, Fields, Stmt, Token};
+use syn::{DeriveInput, Expr, Field, Fields, Stmt, Token, parse_quote};
 
 pub fn expand(input: DeriveInput) -> TokenStream {
     match &input.data {

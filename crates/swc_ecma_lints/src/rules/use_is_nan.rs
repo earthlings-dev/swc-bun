@@ -1,11 +1,11 @@
 use serde::{Deserialize, Serialize};
-use swc_common::{errors::HANDLER, Span, SyntaxContext};
+use swc_common::{Span, SyntaxContext, errors::HANDLER};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Visit, VisitWith};
 
 use crate::{
     config::{LintRuleReaction, RuleConfig},
-    rule::{visitor_rule, Rule},
+    rule::{Rule, visitor_rule},
 };
 
 const MESSAGE: &str = "Use the isNaN function to compare with NaN";

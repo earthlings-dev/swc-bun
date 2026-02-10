@@ -113,28 +113,28 @@ pub extern crate swc_atoms as atoms;
 extern crate swc_common as common;
 
 use std::{
-    fs::{read_to_string, File},
+    fs::{File, read_to_string},
     io::ErrorKind,
     path::{Path, PathBuf},
     sync::Arc,
 };
 
-use anyhow::{bail, Context, Error};
-use base64::prelude::{Engine, BASE64_STANDARD};
+use anyhow::{Context, Error, bail};
+use base64::prelude::{BASE64_STANDARD, Engine};
 use common::{
     comments::{Comment, SingleThreadedComments},
     errors::HANDLER,
 };
-use jsonc_parser::{parse_to_serde_value, ParseOptions};
+use jsonc_parser::{ParseOptions, parse_to_serde_value};
 use once_cell::sync::Lazy;
 use serde_json::error::Category;
 use swc_common::{
-    comments::Comments, errors::Handler, sync::Lrc, FileName, Mark, SourceFile, SourceMap, Spanned,
-    GLOBALS,
+    FileName, GLOBALS, Mark, SourceFile, SourceMap, Spanned, comments::Comments, errors::Handler,
+    sync::Lrc,
 };
 pub use swc_compiler_base::{PrintArgs, TransformOutput};
 pub use swc_config::types::{BoolConfig, BoolOr, BoolOrDataConfig};
-use swc_ecma_ast::{noop_pass, EsVersion, Pass, Program};
+use swc_ecma_ast::{EsVersion, Pass, Program, noop_pass};
 use swc_ecma_codegen::Node;
 #[cfg(feature = "module")]
 use swc_ecma_loader::resolvers::{
@@ -151,7 +151,7 @@ use swc_ecma_transforms_base::fixer::paren_remover;
 #[cfg(feature = "module")]
 use swc_ecma_transforms_module::path::NodeImportResolver;
 use swc_ecma_visit::{FoldWith, VisitMutWith, VisitWith};
-pub use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
+pub use swc_error_reporters::handler::{HandlerOpts, try_with_handler};
 pub use swc_node_comments::SwcComments;
 pub use swc_sourcemap as sourcemap;
 use swc_timer::timer;
@@ -175,8 +175,8 @@ pub mod resolver {
 
     use rustc_hash::FxHashMap;
     use swc_ecma_loader::{
-        resolvers::{lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver},
         TargetEnv,
+        resolvers::{lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver},
     };
 
     use crate::config::CompiledPaths;

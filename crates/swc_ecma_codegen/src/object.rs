@@ -1,10 +1,10 @@
-use swc_common::{Spanned, DUMMY_SP};
+use swc_common::{DUMMY_SP, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::node_impl;
 
 #[cfg(swc_ast_unknown)]
 use crate::unknown_error;
-use crate::{is_empty_comments, ListFormat};
+use crate::{ListFormat, is_empty_comments};
 
 #[node_impl]
 impl MacroNode for ObjectLit {

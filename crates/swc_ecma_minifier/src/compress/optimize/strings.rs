@@ -1,5 +1,5 @@
-use swc_atoms::{atom, Atom, Wtf8Atom};
-use swc_common::{util::take::Take, Spanned, SyntaxContext};
+use swc_atoms::{Atom, Wtf8Atom, atom};
+use swc_common::{Spanned, SyntaxContext, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Value::Known};
 

@@ -4,7 +4,7 @@
 #![allow(rustc::untranslatable_diagnostic_trivial)]
 #![cfg_attr(not(feature = "concurrent"), allow(unused))]
 
-use swc_common::{comments::Comments, sync::Lrc, Mark, SourceMap};
+use swc_common::{Mark, SourceMap, comments::Comments, sync::Lrc};
 use swc_ecma_ast::Pass;
 use swc_ecma_hooks::{CompositeHook, VisitMutWithHook};
 use swc_ecma_visit::visit_mut_pass;

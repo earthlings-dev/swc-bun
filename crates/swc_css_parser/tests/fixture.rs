@@ -4,15 +4,15 @@
 use std::{path::PathBuf, rc::Rc};
 
 use swc_common::{
-    comments::SingleThreadedComments, errors::Handler, input::SourceFileInput, Span, Spanned,
+    Span, Spanned, comments::SingleThreadedComments, errors::Handler, input::SourceFileInput,
 };
 use swc_css_ast::*;
 use swc_css_parser::{
     lexer::Lexer,
     parse_input,
     parser::{
-        input::{InputType, ParserInput, Tokens},
         PResult, Parser, ParserConfig,
+        input::{InputType, ParserInput, Tokens},
     },
 };
 use swc_css_visit::{Visit, VisitWith};

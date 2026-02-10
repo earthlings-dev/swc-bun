@@ -5,8 +5,8 @@ use par_iter::prelude::*;
 use parking_lot::Mutex;
 use serde::Serialize;
 use swc_common::{
-    errors::{Diagnostic, DiagnosticBuilder, Emitter, Handler, HANDLER},
     Spanned,
+    errors::{Diagnostic, DiagnosticBuilder, Emitter, HANDLER, Handler},
 };
 use swc_css_ast::Stylesheet;
 use swc_css_visit::{Visit, VisitWith};

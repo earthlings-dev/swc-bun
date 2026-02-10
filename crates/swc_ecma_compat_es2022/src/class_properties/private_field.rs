@@ -2,11 +2,11 @@ use std::iter;
 
 use rustc_hash::FxHashMap;
 use swc_atoms::Atom;
-use swc_common::{errors::HANDLER, util::take::Take, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{DUMMY_SP, Mark, Span, Spanned, SyntaxContext, errors::HANDLER, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
-use swc_ecma_utils::{alias_ident_for, alias_if_required, prepend_stmt, quote_ident, ExprFactory};
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_utils::{ExprFactory, alias_ident_for, alias_if_required, prepend_stmt, quote_ident};
+use swc_ecma_visit::{VisitMut, VisitMutWith, noop_visit_mut_type};
 use swc_trace_macro::swc_trace;
 
 use super::Config;

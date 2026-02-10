@@ -2,25 +2,25 @@ use std::iter;
 
 use rustc_hash::FxBuildHasher;
 use serde::Deserialize;
-use swc_atoms::{atom, Atom};
-use swc_common::{util::take::Take, BytePos, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
+use swc_atoms::{Atom, atom};
+use swc_common::{BytePos, DUMMY_SP, Mark, Span, Spanned, SyntaxContext, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, native::is_native, perf::Check};
 use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
-    alias_if_required, contains_this_expr, is_valid_ident, is_valid_prop_ident, prepend_stmt,
-    private_ident, prop_name_to_expr, quote_expr, quote_ident, quote_str, replace_ident,
-    ExprFactory, ModuleItemLike, StmtLike,
+    ExprFactory, ModuleItemLike, StmtLike, alias_if_required, contains_this_expr, is_valid_ident,
+    is_valid_prop_ident, prepend_stmt, private_ident, prop_name_to_expr, quote_expr, quote_ident,
+    quote_str, replace_ident,
 };
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith,
+    Visit, VisitMut, VisitMutWith, noop_visit_mut_type, noop_visit_type, visit_mut_pass,
 };
 use swc_trace_macro::swc_trace;
 
 use self::{
     constructor::fold_constructor,
-    prop_name::{is_pure_prop_name, should_extract_class_prop_key, HashKey},
+    prop_name::{HashKey, is_pure_prop_name, should_extract_class_prop_key},
 };
 
 mod constructor;
@@ -128,15 +128,17 @@ impl Classes {
                                     match T::try_from_module_decl(
                                         NamedExport {
                                             span: DUMMY_SP,
-                                            specifiers: vec![ExportNamedSpecifier {
-                                                span: DUMMY_SP,
-                                                orig: ModuleExportName::Ident(ident),
-                                                exported: Some(ModuleExportName::Ident(
-                                                    quote_ident!("default").into(),
-                                                )),
-                                                is_type_only: false,
-                                            }
-                                            .into()],
+                                            specifiers: vec![
+                                                ExportNamedSpecifier {
+                                                    span: DUMMY_SP,
+                                                    orig: ModuleExportName::Ident(ident),
+                                                    exported: Some(ModuleExportName::Ident(
+                                                        quote_ident!("default").into(),
+                                                    )),
+                                                    is_type_only: false,
+                                                }
+                                                .into(),
+                                            ],
                                             src: None,
                                             type_only: false,
                                             with: None,
@@ -409,13 +411,15 @@ impl Classes {
             if is_super_native {
                 (
                     params,
-                    vec![CallExpr {
-                        span: DUMMY_SP,
-                        callee: helper!(wrap_native_super),
-                        args: vec![super_class.as_arg()],
-                        ..Default::default()
-                    }
-                    .as_arg()],
+                    vec![
+                        CallExpr {
+                            span: DUMMY_SP,
+                            callee: helper!(wrap_native_super),
+                            args: vec![super_class.as_arg()],
+                            ..Default::default()
+                        }
+                        .as_arg(),
+                    ],
                     Some(super_param),
                 )
             } else {

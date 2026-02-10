@@ -7,9 +7,9 @@ use std::{
 };
 
 use pretty_assertions::assert_eq;
-use swc_common::{comments::SingleThreadedComments, FileName};
+use swc_common::{FileName, comments::SingleThreadedComments};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, PResult, Parser, Syntax, TsSyntax};
+use swc_ecma_parser::{PResult, Parser, Syntax, TsSyntax, lexer::Lexer};
 use swc_ecma_visit::FoldWith;
 use testing::StdErr;
 

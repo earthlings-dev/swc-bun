@@ -3,7 +3,7 @@
 set -eu
 
 ./scripts/build.sh
-npx rstest $@
+bun test $@
 
 ./scripts/build.sh --features nightly
-npx rstest $@
+bun test $@

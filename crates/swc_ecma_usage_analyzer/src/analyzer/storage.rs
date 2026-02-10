@@ -3,7 +3,7 @@ use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{Type, Value};
 
-use super::{ctx::Ctx, ScopeKind};
+use super::{ScopeKind, ctx::Ctx};
 use crate::alias::Access;
 
 pub trait Storage: Sized {

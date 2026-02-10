@@ -8,7 +8,7 @@ use swc_ecma_transforms_compat::{
     es2015,
     es2015::{
         block_scoping,
-        destructuring::{destructuring, Config},
+        destructuring::{Config, destructuring},
         parameters, spread,
     },
     es2018::object_rest_spread,

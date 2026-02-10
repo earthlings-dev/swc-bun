@@ -2,13 +2,6 @@ name: Ecosystem CI
 
 env:
   CI: 1
-  # 7 GiB by default on GitHub, setting to 6 GiB
-  # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources
-  NODE_OPTIONS: --max-old-space-size=6144
-  FNM_COREPACK_ENABLED: true
-  FNM_RESOLVE_ENGINES: true
-  # https://github.com/actions/setup-node/issues/899#issuecomment-1819151595
-  SKIP_YARN_COREPACK_CHECK: 1
 
 on:
   workflow_call:
@@ -44,10 +37,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: ./.github/actions/setup-node
+      - uses: ./.github/actions/setup-bun
 
       - id: list-tests
-        run: yarn tsx run-all.ts
+        run: bun run-all.ts
         working-directory: .github/swc-ecosystem-ci
         env:
           CI_MODE: ${{ github.event.inputs.mode || 'passing' }}
@@ -65,11 +58,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: ./.github/actions/setup-node
+      - uses: ./.github/actions/setup-bun
 
-      - run: corepack enable
-      - run: yarn
-      - run: yarn tsc
+      - run: bun run tsc
         working-directory: .github/swc-ecosystem-ci
 
       - id: ecosystem-ci-run
@@ -77,10 +68,9 @@ jobs:
         run: |
           bash -r
           echo $PATH
-          which node
+          which bun
 
-          corepack disable
-          node ecosystem-ci.js run-suites ${{ matrix.suite }}
+          bun ecosystem-ci.js run-suites ${{ matrix.suite }}
         env:
           SWC_VERSION: ${{ inputs.version }}
           CI_MODE: ${{ inputs.mode }}

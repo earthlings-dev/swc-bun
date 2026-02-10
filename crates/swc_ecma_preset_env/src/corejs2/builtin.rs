@@ -1,7 +1,7 @@
 use once_cell::sync::Lazy;
 use rustc_hash::FxHashMap;
 
-use crate::{util::PooledStr, Versions};
+use crate::{Versions, util::PooledStr};
 
 include!(concat!(env!("OUT_DIR"), "/corejs2_builtin/lib.rs"));
 

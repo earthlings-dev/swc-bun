@@ -1,13 +1,13 @@
 use std::{env, path::PathBuf, str::FromStr, sync::Arc};
 
-use anyhow::{bail, Error, Result};
+use anyhow::{Error, Result, bail};
 use clap::{StructOpt, Subcommand};
 use es::EsCommand;
 use swc_common::{
+    GLOBALS, Globals, SourceMap,
     errors::{ColorConfig, HANDLER},
-    Globals, SourceMap, GLOBALS,
 };
-use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
+use swc_error_reporters::handler::{HandlerOpts, try_with_handler};
 use tracing_subscriber::EnvFilter;
 
 use self::util::print_js;

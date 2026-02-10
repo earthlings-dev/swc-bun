@@ -10,11 +10,11 @@ use ntest::timeout;
 use rustc_hash::FxHashSet;
 use swc_atoms::atom;
 use swc_bundler::{Bundler, Load, ModuleRecord};
-use swc_common::{errors::HANDLER, FileName, Mark, Span, GLOBALS};
+use swc_common::{FileName, GLOBALS, Mark, Span, errors::HANDLER};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{
-    text_writer::{omit_trailing_semi, JsWriter, WriteJs},
     Emitter,
+    text_writer::{JsWriter, WriteJs, omit_trailing_semi},
 };
 use swc_ecma_minifier::option::MangleOptions;
 use swc_ecma_transforms_base::{fixer::fixer, resolver};

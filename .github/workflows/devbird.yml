@@ -66,14 +66,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v5
 
-      - run: corepack enable
 
-      # Source map format
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-          cache: "yarn"
-
+      # Source map format (bun)
+      - uses: oven-sh/setup-bun@v2
       # We explicitly do this to cache properly.
       - name: Install Rust
         uses: actions-rs/toolchain@v1

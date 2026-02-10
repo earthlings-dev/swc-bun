@@ -1,7 +1,6 @@
-import fs from "node:fs/promises";
+import { cp } from "node:fs/promises";
 
-const pkgJsonFile = await fs.readFile("esm/package.json", "utf8");
-const pkgJson = JSON.parse(pkgJsonFile);
+const pkgJson = await Bun.file("esm/package.json").json();
 pkgJson.name = '@swc/wasm-typescript-esm';
 pkgJson.exports = {
     types: "./wasm.d.ts",
@@ -10,6 +9,6 @@ pkgJson.exports = {
 };
 
 await Promise.all([
-    fs.cp("src/wasm-node.js", "esm/wasm-node.js"),
-    fs.writeFile("esm/package.json", JSON.stringify(pkgJson, null, 2)),
+    cp("src/wasm-node.js", "esm/wasm-node.js"),
+    Bun.write("esm/package.json", JSON.stringify(pkgJson, null, 2)),
 ]);

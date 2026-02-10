@@ -73,6 +73,7 @@ export async function setupEnvironment(): Promise<EnvironmentData> {
     CI: "true",
     TURBO_FORCE: "true", // disable turbo caching, ecosystem-ci modifies things and we don't want replays
     YARN_ENABLE_IMMUTABLE_INSTALLS: "false", // to avoid errors with mutated lockfile due to overrides
+    // Note: Bun manages its own memory; NODE_OPTIONS is kept for repos that still use Node.js internally
     NODE_OPTIONS: "--max-old-space-size=6144", // GITHUB CI has 7GB max, stay below
     ECOSYSTEM_CI: "true", // flag for tests, can be used to conditionally skip irrelevant tests.
     NO_COLOR: "1",
@@ -259,6 +260,8 @@ export async function runInRepo(options: RunOptions & RepoOptions) {
   const pkg = JSON.parse(await fs.promises.readFile(pkgFile, "utf-8"));
 
   if (nodeVerison) {
+    // Some external repos may require a specific Node.js version;
+    // fnm is used for those repos, but Bun is the primary runtime.
     await $`fnm use --install-if-missing ${nodeVerison}`;
     await $`node --version`;
     await $`which node`;
@@ -478,7 +481,7 @@ export async function applyPackageOverrides(
   const pkgFile = path.join(dir, "package.json");
   await fs.promises.writeFile(pkgFile, JSON.stringify(pkg, null, 2), "utf-8");
 
-  await $`node --version`;
+  await $`bun --version`;
 
   // use of `ni` command here could cause lockfile violation errors so fall back to native commands that avoid these
 
@@ -506,7 +509,7 @@ export async function installSwc({ version }: { version: string }) {
   await fs.promises.mkdir(swcPath, { recursive: true });
   await fs.promises.writeFile(path.join(swcPath, "package.json"), "{}", "utf8");
   cd(swcPath);
-  await $`npm install @swc/core@${version} @swc/jest @swc/types --no-save --force`;
+  await $`bun install @swc/core@${version} @swc/jest @swc/types --no-save --force`;
 }
 
 export const isWorkingWithIgnoredTess = process.env.CI_MODE === "ignored";

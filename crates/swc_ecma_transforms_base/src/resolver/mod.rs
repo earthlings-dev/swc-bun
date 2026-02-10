@@ -4,9 +4,9 @@ use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, stack_size::maybe_grow_default};
 use swc_ecma_visit::{
-    noop_visit_mut_type, visit_mut_obj_and_computed, visit_mut_pass, VisitMut, VisitMutWith,
+    VisitMut, VisitMutWith, noop_visit_mut_type, visit_mut_obj_and_computed, visit_mut_pass,
 };
-use tracing::{debug, span, Level};
+use tracing::{Level, debug, span};
 
 use crate::scope::{DeclKind, IdentType, ScopeKind};
 

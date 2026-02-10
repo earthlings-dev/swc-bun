@@ -1,6 +1,6 @@
 use is_macro::Is;
 use swc_atoms::Atom;
-use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span};
+use swc_common::{EqIgnoreSpan, Span, ast_node, util::take::Take};
 
 use crate::{
     AlphaValue, AnglePercentage, AtRule, CalcSum, CmykComponent, Color, ComplexSelector,

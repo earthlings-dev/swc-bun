@@ -10,7 +10,7 @@ use swc_estree_ast::{
     StaticBlock as BabelStaticBlock,
 };
 
-use crate::babelify::{extract_class_body_span, Babelify, Context};
+use crate::babelify::{Babelify, Context, extract_class_body_span};
 
 impl Babelify for Class {
     type Output = ClassExpression;

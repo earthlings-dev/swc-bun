@@ -3,7 +3,7 @@ use swc_atoms::Atom;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::enable_helper;
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitWith,
+    Visit, VisitMut, VisitWith, noop_visit_mut_type, noop_visit_type, visit_mut_pass,
 };
 
 use crate::{module_decl_strip::LinkFlag, util::ImportInterop, wtf8::str_to_atom};
