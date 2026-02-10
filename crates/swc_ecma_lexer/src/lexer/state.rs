@@ -114,17 +114,20 @@ impl State {
             // https://github.com/swc-project/swc/issues/3241#issuecomment-1029584460
             // <Blah blah={function (): void {}} />
             let c = token_contexts.current();
-            if c == Some(TokenContext::BraceExpr) {
+            let is_jsx_opening = if c == Some(TokenContext::BraceExpr) {
                 let len = token_contexts.len();
-                if let Some(TokenContext::JSXOpeningTag) = token_contexts.0.get(len - 2) {
-                    return true;
-                }
+                matches!(token_contexts.0.get(len - 2), Some(TokenContext::JSXOpeningTag))
+            } else {
+                false
+            };
+            if is_jsx_opening {
+                true
+            } else {
+                c == Some(TokenContext::BraceStmt)
             }
-            c == Some(TokenContext::BraceStmt)
+        } else if had_line_break && prev.is_other_and_before_expr_is_false() {
+            true
         } else {
-            if had_line_break && prev.is_other_and_before_expr_is_false() {
-                return true;
-            }
             !is_expr_allowed
         }
     }
@@ -149,7 +152,7 @@ impl State {
         } else if next.is_rparen() || next.is_rbrace() {
             // TODO: Verify
             if context.len() == 1 {
-                return true;
+                true
             } else {
                 let out = context.pop().unwrap();
                 // let a = function(){}
@@ -160,18 +163,13 @@ impl State {
                     )
                 {
                     context.pop();
-                    return false;
+                    false
+                } else if out == TokenContext::TplQuasi {
+                    !matches!(context.current(), Some(TokenContext::Tpl))
+                } else {
+                    // expression cannot follow expression
+                    !out.is_expr()
                 }
-
-                // ${} in template
-                if out == TokenContext::TplQuasi {
-                    match context.current() {
-                        Some(TokenContext::Tpl) => return false,
-                        _ => return true,
-                    }
-                }
-                // expression cannot follow expression
-                !out.is_expr()
             }
         } else if next.is_keyword_fn() {
             // This is required to lex

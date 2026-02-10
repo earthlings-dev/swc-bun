@@ -81,7 +81,7 @@ impl VisitMut for InlineGlobals {
         expr.visit_mut_children_with(self);
 
         match expr {
-            Expr::Ident(Ident { ref sym, .. }) => {
+            Expr::Ident(Ident { sym, .. }) => {
                 // It's ok because we don't recurse into member expressions.
                 if let Some(value) = self.globals.get(sym) {
                     let mut value = value.clone();
@@ -96,7 +96,7 @@ impl VisitMut for InlineGlobals {
                 arg,
                 ..
             }) => {
-                if let Expr::Ident(ident @ Ident { ref sym, .. }) = &**arg {
+                if let Expr::Ident(ident @ Ident { sym, .. }) = &**arg {
                     // It's a declared variable
                     if self.bindings.contains(&ident.to_id()) {
                         return;

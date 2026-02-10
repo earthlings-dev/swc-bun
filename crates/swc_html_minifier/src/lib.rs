@@ -2568,7 +2568,7 @@ impl<C: MinifyCss> VisitMut for Minifier<'_, C> {
         let mut remove_list = Vec::new();
 
         for (i, i1) in n.attributes.iter().enumerate() {
-            if i1.value.is_some() {
+            if let Some(value) = i1.value.as_ref() {
                 if self.options.remove_redundant_attributes != RemoveRedundantAttributes::None
                     && self.is_default_attribute_value(n, i1)
                 {
@@ -2577,17 +2577,14 @@ impl<C: MinifyCss> VisitMut for Minifier<'_, C> {
                     continue;
                 }
 
-                if self.options.remove_empty_attributes {
-                    let value = i1.value.as_ref().unwrap();
-
-                    if (matches!(&*i1.name, "id") && value.is_empty())
+                if self.options.remove_empty_attributes
+                    && ((matches!(&*i1.name, "id") && value.is_empty())
                         || (matches!(&*i1.name, "class" | "style") && value.is_empty())
-                        || self.is_event_handler_attribute(i1) && value.is_empty()
-                    {
-                        remove_list.push(i);
+                        || self.is_event_handler_attribute(i1) && value.is_empty())
+                {
+                    remove_list.push(i);
 
-                        continue;
-                    }
+                    continue;
                 }
             }
 
@@ -2708,15 +2705,17 @@ impl<C: MinifyCss> VisitMut for Minifier<'_, C> {
                     let mut type_attribute_value = None;
 
                     for attribute in &current_element.attributes {
-                        if attribute.name == "type" && attribute.value.is_some() {
-                            type_attribute_value = Some(attribute.value.as_ref().unwrap());
-
-                            break;
+                        if attribute.name == "type" {
+                            if let Some(value) = attribute.value.as_ref() {
+                                type_attribute_value = Some(value);
+                                break;
+                            }
                         }
                     }
 
-                    if type_attribute_value.is_none()
-                        || self.is_type_text_css(type_attribute_value.as_ref().unwrap())
+                    if type_attribute_value
+                        .as_ref()
+                        .map_or(true, |value| self.is_type_text_css(value))
                     {
                         text_type = Some(MinifierType::Css)
                     }

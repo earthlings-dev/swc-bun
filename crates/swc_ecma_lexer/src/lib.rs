@@ -4,7 +4,7 @@
 //! these tokens are correctly parsed.
 
 #![cfg_attr(docsrs, feature(doc_cfg))]
-#![cfg_attr(test, feature(test))]
+#![cfg_attr(all(test, swc_nightly), feature(test))]
 #![deny(clippy::all)]
 #![deny(unused)]
 #![allow(clippy::nonminimal_bool)]

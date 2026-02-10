@@ -1,6 +1,6 @@
-#![cfg_attr(test, feature(test))]
+#![cfg_attr(all(test, swc_nightly), feature(test))]
 
-#[cfg(test)]
+#[cfg(all(test, swc_nightly))]
 extern crate test;
 
 /// Explicit extern crate to use allocator.

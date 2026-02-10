@@ -555,7 +555,7 @@ impl VisitMut for NormalMultiReplacer<'_> {
 
         #[cfg(feature = "debug")]
         if !self.vars.is_empty() {
-            let keys = self.vars.iter().map(|(k, _)| k.clone()).collect::<Vec<_>>();
+            let keys = self.vars.keys().cloned().collect::<Vec<_>>();
             debug!("Dropping {:?}", keys);
         }
     }

@@ -1,10 +1,13 @@
+use std::rc::Rc;
+
+use swc_common::{SourceMap, comments::SingleThreadedComments, sync::Lrc};
 use swc_ecma_transforms_base::resolver;
-use swc_ecma_transforms_testing::{Tester, test};
+use swc_ecma_transforms_testing::test;
 
 use super::*;
 use crate::jsx;
 
-fn tr(t: &mut Tester) -> impl Pass {
+fn tr(cm: Lrc<SourceMap>, comments: Rc<SingleThreadedComments>) -> impl Pass {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
@@ -16,8 +19,8 @@ fn tr(t: &mut Tester) -> impl Pass {
                 emit_full_signatures: true,
                 ..Default::default()
             }),
-            t.cm.clone(),
-            Some(t.comments.clone()),
+            cm.clone(),
+            Some(comments.clone()),
             top_level_mark,
         ),
     )
@@ -29,7 +32,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    tr,
+    |t| tr(t.cm.clone(), t.comments.clone()),
     normal_function,
     r#"
     function Hello() {
@@ -48,7 +51,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    tr,
+    |t| tr(t.cm.clone(), t.comments.clone()),
     export_function,
     r#"
     export function Hello() {
@@ -74,7 +77,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    tr,
+    |t| tr(t.cm.clone(), t.comments.clone()),
     export_named_arrow_function,
     r#"
     export const Hello = () => {
@@ -96,7 +99,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    tr,
+    |t| tr(t.cm.clone(), t.comments.clone()),
     reassigned_function,
     // TODO: in the future, we may *also* register the wrapped one.
     r#"
@@ -113,7 +116,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    tr,
+    |t| tr(t.cm.clone(), t.comments.clone()),
     pascal_case_only,
     r#"
     function hello() {
@@ -128,7 +131,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    tr,
+    |t| tr(t.cm.clone(), t.comments.clone()),
     anonymous_function_expressions_declaration,
     r#"
     let Hello = function() {
@@ -150,7 +153,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    tr,
+    |t| tr(t.cm.clone(), t.comments.clone()),
     named_arrow_function_expressions_declaration,
     r#"
     let Hello = () => {
@@ -171,7 +174,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    tr,
+    |t| tr(t.cm.clone(), t.comments.clone()),
     ignore_hoc,
     // TODO: we might want to handle HOCs at usage site, however.
     // TODO: it would be nice if we could always avoid registering
@@ -198,7 +201,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    tr,
+    |t| tr(t.cm.clone(), t.comments.clone()),
     ignore_complex_definition,
     r#"
     let A = foo ? () => {
@@ -222,7 +225,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    tr,
+    |t| tr(t.cm.clone(), t.comments.clone()),
     ignore_unnamed_function_declarations,
     r#"export default function() {}"#
 );
@@ -233,7 +236,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    tr,
+    |t| tr(t.cm.clone(), t.comments.clone()),
     register_likely_hoc_1,
     r#"
     const A = forwardRef(function() {
@@ -254,7 +257,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    tr,
+    |t| tr(t.cm.clone(), t.comments.clone()),
     register_likely_hoc_2,
     r#"
     export default React.memo(forwardRef(function (props, ref) {
@@ -269,7 +272,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    tr,
+    |t| tr(t.cm.clone(), t.comments.clone()),
     register_likely_hoc_3,
     r#"
     export default React.memo(forwardRef(function Named(props, ref) {
@@ -284,7 +287,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    tr,
+    |t| tr(t.cm.clone(), t.comments.clone()),
     register_likely_hoc_4,
     r#"
     function Foo() {
@@ -301,7 +304,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    tr,
+    |t| tr(t.cm.clone(), t.comments.clone()),
     ignore_not_hoc,
     r#"
     const throttledAlert = throttle(function() {
@@ -320,7 +323,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    tr,
+    |t| tr(t.cm.clone(), t.comments.clone()),
     register_identifiers_used_in_jsx,
     r#"
     import A from './A';
@@ -356,7 +359,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    tr,
+    |t| tr(t.cm.clone(), t.comments.clone()),
     register_identifiers_used_in_create_element,
     r#"
     import A from './A';
@@ -397,7 +400,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    tr,
+    |t| tr(t.cm.clone(), t.comments.clone()),
     register_identifiers_used_in_jsx_false_positive,
     r#"
   const A = foo() {}
@@ -414,7 +417,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    tr,
+    |t| tr(t.cm.clone(), t.comments.clone()),
     register_capitalized_identifiers_in_hoc,
     r#"
     function Foo() {
@@ -432,7 +435,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    tr,
+    |t| tr(t.cm.clone(), t.comments.clone()),
     register_fn_with_hooks,
     r#"
     export default function App() {
@@ -449,7 +452,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    tr,
+    |t| tr(t.cm.clone(), t.comments.clone()),
     register_fn_with_hooks_2,
     r#"
     export function Foo() {
@@ -475,7 +478,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    tr,
+    |t| tr(t.cm.clone(), t.comments.clone()),
     register_fn_expr_with_hooks,
     r#"
     export const A = React.memo(React.forwardRef((props, ref) => {
@@ -505,7 +508,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    tr,
+    |t| tr(t.cm.clone(), t.comments.clone()),
     register_fn_expr_with_hooks_2,
     r#"
   const A = function () {
@@ -522,7 +525,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    tr,
+    |t| tr(t.cm.clone(), t.comments.clone()),
     register_implicit_arrow_returns,
     r#"
     export default () => useContext(X);
@@ -540,7 +543,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    tr,
+    |t| tr(t.cm.clone(), t.comments.clone()),
     hook_signatures_should_include_custom_hook,
     r#"
     function useFancyState() {
@@ -607,7 +610,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    tr,
+    |t| tr(t.cm.clone(), t.comments.clone()),
     gen_valid_hook_signatures_for_exotic_hooks,
     r#"
     import FancyHook from 'fancy';
@@ -632,7 +635,7 @@ test!(
         tsx: true,
         ..Default::default()
     }),
-    tr,
+    |t| tr(t.cm.clone(), t.comments.clone()),
     dont_consider_require_as_hoc,
     r#"
     const A = require('A');
@@ -660,7 +663,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    tr,
+    |t| tr(t.cm.clone(), t.comments.clone()),
     should_refresh_when_has_comment,
     r#"
     export function Foo() {
@@ -684,7 +687,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    tr,
+    |t| tr(t.cm.clone(), t.comments.clone()),
     dont_consider_iife_as_hoc,
     r#"
     while (item) {
@@ -735,7 +738,7 @@ test!(
         tsx: true,
         ..Default::default()
     }),
-    tr,
+    |t| tr(t.cm.clone(), t.comments.clone()),
     issue_1865,
     r#"
     function useHooks() {
@@ -749,7 +752,7 @@ test!(
 test!(
     module,
     Default::default(),
-    tr,
+    |t| tr(t.cm.clone(), t.comments.clone()),
     next_001,
     "
     import dynamic from 'next/dynamic'
@@ -761,7 +764,7 @@ test!(
 test!(
     module,
     Default::default(),
-    tr,
+    |t| tr(t.cm.clone(), t.comments.clone()),
     issue_2261,
     "
     export function App() {
@@ -778,7 +781,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    tr,
+    |t| tr(t.cm.clone(), t.comments.clone()),
     nested_hook,
     r#"
 const a = (a) => {
@@ -797,7 +800,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    tr,
+    |t| tr(t.cm.clone(), t.comments.clone()),
     issue_6022,
     r#"/* @refresh reset */
     import { useState } from 'react';

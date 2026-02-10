@@ -1,3 +1,4 @@
+#[cfg(all(test, swc_nightly))]
 use std::hint::black_box;
 
 use swc_atoms::atom;
@@ -1026,6 +1027,7 @@ fn issue_6781() {
     assert!(errors.is_empty());
 }
 
+#[cfg(all(test, swc_nightly))]
 #[bench]
 fn bench_new_expr_ts(b: &mut Bencher) {
     bench_parser(
@@ -1039,6 +1041,7 @@ fn bench_new_expr_ts(b: &mut Bencher) {
     );
 }
 
+#[cfg(all(test, swc_nightly))]
 #[bench]
 fn bench_new_expr_es(b: &mut Bencher) {
     bench_parser(b, "new Foo()", Syntax::Es(Default::default()), |p| {
@@ -1047,6 +1050,7 @@ fn bench_new_expr_es(b: &mut Bencher) {
     });
 }
 
+#[cfg(all(test, swc_nightly))]
 #[bench]
 fn bench_member_expr_ts(b: &mut Bencher) {
     bench_parser(
@@ -1060,6 +1064,7 @@ fn bench_member_expr_ts(b: &mut Bencher) {
     );
 }
 
+#[cfg(all(test, swc_nightly))]
 #[bench]
 fn bench_member_expr_es(b: &mut Bencher) {
     bench_parser(b, "a.b.c.d.e.f", Syntax::Es(Default::default()), |p| {

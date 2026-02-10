@@ -1578,9 +1578,9 @@ impl IsTsDecl for Decl {
             Self::TsInterface(..) | Self::TsTypeAlias(..) => true,
 
             Self::TsModule(module) => module.declare || matches!(module.id, TsModuleName::Str(..)),
-            Self::TsEnum(ref r#enum) => r#enum.declare,
+            Self::TsEnum(r#enum) => r#enum.declare,
 
-            Self::Var(ref var) => var.declare,
+            Self::Var(var) => var.declare,
             Self::Fn(FnDecl { declare: true, .. })
             | Self::Class(ClassDecl { declare: true, .. }) => true,
 

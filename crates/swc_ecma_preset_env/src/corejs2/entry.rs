@@ -85,7 +85,7 @@ impl VisitMut for Entry {
             if let ModuleItem::Stmt(Stmt::Expr(ExprStmt { expr, .. })) = &item {
                 if let Expr::Call(CallExpr {
                     callee: Callee::Expr(callee),
-                    ref args,
+                    args,
                     ..
                 }) = &**expr
                 {

@@ -1019,7 +1019,7 @@ pub fn parse_stmt_like<'a, P: Parser<'a>, Type: IsDirective + From<Stmt>>(
 ) -> PResult<Type> {
     trace_cur!(p, parse_stmt_like);
 
-    debug_tracing!(p, "parse_stmt_like");
+    let _ = debug_tracing!(p, "parse_stmt_like");
 
     let start = p.cur_pos();
     let decorators = if p.input().get_cur().token() == &P::Token::AT {

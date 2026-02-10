@@ -432,7 +432,7 @@ pub trait Parser<'a>: Sized + Clone {
 
     fn parse_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_expr);
-        debug_tracing!(self, "parse_expr");
+        let _ = debug_tracing!(self, "parse_expr");
         let expr = parse_assignment_expr(self)?;
         let start = expr.span_lo();
 

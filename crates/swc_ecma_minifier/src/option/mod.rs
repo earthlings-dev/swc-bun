@@ -109,20 +109,15 @@ pub struct ManglePropertiesOptions {
     pub regex: Option<CachedRegex>,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 #[serde(untagged)]
 pub enum PureGetterOption {
     Bool(bool),
     #[serde(rename = "strict")]
+    #[default]
     Strict,
     Str(Vec<Atom>),
-}
-
-impl Default for PureGetterOption {
-    fn default() -> Self {
-        Self::Strict
-    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

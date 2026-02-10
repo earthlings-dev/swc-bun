@@ -15,14 +15,14 @@ use swc_ecma_transforms_compat::{
     es2020::optional_chaining,
     es2022::class_properties,
 };
-use swc_ecma_transforms_testing::{Tester, compare_stdout, test, test_exec, test_fixture};
+use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, test_fixture};
 
 fn syntax() -> Syntax {
     Syntax::Es(Default::default())
 }
 
 #[cfg(feature = "es3")]
-fn tr(_: &Tester) -> impl Pass {
+fn tr() -> impl Pass {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
@@ -37,7 +37,7 @@ fn tr(_: &Tester) -> impl Pass {
 }
 
 #[cfg(not(feature = "es3"))]
-fn tr(_: &Tester) -> impl Pass {
+fn tr() -> impl Pass {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
@@ -52,7 +52,7 @@ fn tr(_: &Tester) -> impl Pass {
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     public_static_infer_name,
     r#"
 var Foo = class {
@@ -64,7 +64,7 @@ var Foo = class {
 
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     public_call_exec,
     r#"
 class Foo {
@@ -88,7 +88,7 @@ expect(test[1]).toBe(o);
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     public_instance_computed,
     r#"
 function test(x) {
@@ -110,7 +110,7 @@ test('foo');
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     public_super_statement,
     r#"
 class Foo extends Bar {
@@ -146,7 +146,7 @@ class Foo {
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     private_foobar,
     r#"
 class Child extends Parent {
@@ -164,7 +164,7 @@ class Child extends Parent {
 
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     private_call_exec,
     r#"
 class Foo {
@@ -188,7 +188,7 @@ expect(test[1]).toBe(o);
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     public_derived_multiple_supers,
     r#"
 class Foo extends Bar {
@@ -208,7 +208,7 @@ class Foo extends Bar {
 
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     private_static_call_exec,
     r#"
 class Foo {
@@ -230,7 +230,7 @@ expect(f.test("bar")).toBe("bar");
 
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     private_instance_undefined_exec,
     r#"
 class Foo {
@@ -248,7 +248,7 @@ expect(new Foo().test()).toBe(undefined);
 
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     private_instance_exec,
     r#"
 class Foo {
@@ -292,7 +292,7 @@ expect(f.test()).toBe(4);
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     public_regression_t6719,
     r#"
 function withContext(ComposedComponent) {
@@ -315,7 +315,7 @@ function withContext(ComposedComponent) {
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     public_super_with_collision,
     r#"
 class A {
@@ -330,7 +330,7 @@ class A {
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     public_call,
     r#"
 class Foo {
@@ -349,7 +349,7 @@ class Foo {
 
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     public_instance_computed_exec,
     r#"
 function test(x) {
@@ -371,7 +371,7 @@ test('foo');
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     private_declaration_order,
     r#"
 class C {
@@ -388,7 +388,7 @@ expect(() => {
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     nested_class_super_call_in_key,
     r#"
 
@@ -419,7 +419,7 @@ expect(new Outer().hello).toBe('hello');
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     public_instance_undefined,
     r#"
 class Foo {
@@ -431,7 +431,7 @@ class Foo {
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     private_derived_multiple_supers,
     r#"
 class Foo extends Bar {
@@ -451,7 +451,7 @@ class Foo extends Bar {
 
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     public_native_classes_exec,
     r#"
 class Foo {
@@ -478,7 +478,7 @@ expect(f.test()).toBe("bar")
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     public_regression_t2983,
     r#"
 call(class {
@@ -494,7 +494,7 @@ export default class {
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     public_static,
     r#"
 class Foo {
@@ -506,7 +506,7 @@ class Foo {
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     private_instance_undefined,
     r#"
 class Foo {
@@ -518,7 +518,7 @@ class Foo {
 
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     private_declaration_order_exec,
     r#"
 class C {
@@ -535,7 +535,7 @@ expect(() => {
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     public_update,
     r#"
 class Foo {
@@ -554,7 +554,7 @@ class Foo {
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     public_super_call,
     r#"
 class A {
@@ -572,7 +572,7 @@ class B extends A {
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     private_constructor_collision,
     r#"
 var foo = "bar";
@@ -590,7 +590,7 @@ class Foo {
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     public_constructor_collision,
     r#"
 var foo = "bar";
@@ -610,7 +610,7 @@ class Foo {
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     public_computed,
     r#"
 const foo = "foo";
@@ -644,7 +644,7 @@ class MyClass {
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     public_assignment,
     r#"
 class Foo {
@@ -665,7 +665,7 @@ class Foo {
 
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     public_static_exec,
     r#"
 class Foo {
@@ -683,7 +683,7 @@ expect(Foo.str = "bar").toBe("bar");
 
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     regression_7371_exec_1,
     r#"
 
@@ -716,7 +716,7 @@ new A();
 
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     regression_7371_exec_2,
     r#"
 class Obj {
@@ -798,7 +798,7 @@ new ComputedField();
 
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     private_static_inherited_exec,
     r#"
 class Base {
@@ -876,7 +876,7 @@ expect(Sub2.getClass()).toBe(7);
 
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     nested_class_super_property_in_key_exec,
     r#"
 
@@ -904,7 +904,7 @@ expect(new Outer().hello).toBe('hello');
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     private_super_statement,
     r#"
 class Foo extends Bar {
@@ -920,7 +920,7 @@ class Foo extends Bar {
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     private_private_in_derived,
     r#"
 class Outer {
@@ -937,7 +937,7 @@ class Outer {
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     private_update,
     r#"
 class Foo {
@@ -956,7 +956,7 @@ class Foo {
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     public_super_expression,
     r#"
 class Foo extends Bar {
@@ -972,7 +972,7 @@ class Foo extends Bar {
 
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     public_computed_initialization_order_exec,
     r#"
 const actualOrder = [];
@@ -1019,7 +1019,7 @@ expect(inst[9]).toBe(15);
 
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     nested_class_super_call_in_key_exec,
     r#"
 
@@ -1050,7 +1050,7 @@ expect(new Outer().hello).toBe('hello');
 
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     private_update_exec,
     r#"
 class Foo {
@@ -1086,7 +1086,7 @@ expect(results[7]).toBe(4);
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     public_extracted_this,
     r#"
 var foo = "bar";
@@ -1104,7 +1104,7 @@ class Foo {
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     private_derived,
     r#"
 class Foo {
@@ -1120,7 +1120,7 @@ class Bar extends Foo {
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     private_super_call,
     r#"
 class A {
@@ -1138,7 +1138,7 @@ class B extends A {
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     private_reference_in_other_property,
     r#"
 class Foo {
@@ -1154,7 +1154,7 @@ class Foo {
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     nested_class_super_property_in_key,
     r#"
 
@@ -1182,7 +1182,7 @@ expect(new Outer().hello).toBe('hello');
 
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     private_reevaluated_exec,
     r#"
 function classFactory() {
@@ -1242,7 +1242,7 @@ expect(() => {
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     public_numeric,
     r#"
 class Foo {
@@ -1255,7 +1255,7 @@ class Foo {
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     private_assignment,
     r#"
 class Foo {
@@ -1274,7 +1274,7 @@ class Foo {
 
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     private_constructor_collision_exec,
     r#"
 var foo = "bar";
@@ -1300,7 +1300,7 @@ expect("bar" in f).toBe(false);
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     public_static_export,
     r#"
 export class MyClass {
@@ -1316,7 +1316,7 @@ export default class MyClass2 {
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     private_multiple,
     r#"
 class Foo {
@@ -1329,7 +1329,7 @@ class Foo {
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     public_derived,
     r#"
 class Foo extends Bar {
@@ -1341,7 +1341,7 @@ class Foo extends Bar {
 
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     public_static_undefined_exec,
     r#"
 class Foo {
@@ -1356,7 +1356,7 @@ expect(Foo.num).toBeUndefined();
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     public_instance,
     r#"
 class Foo {
@@ -1368,7 +1368,7 @@ class Foo {
 
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     static_property_tdz_edgest_case_exec,
     r#"
 expect(() => {
@@ -1382,7 +1382,7 @@ expect(() => {
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     public_non_block_arrow_func,
     r#"
 export default param =>
@@ -1402,7 +1402,7 @@ export default param =>
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     public_static_undefined,
     r#"
 class Foo {
@@ -1414,7 +1414,7 @@ class Foo {
 
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     public_static_infer_name_exec,
     r#"
 var Foo = class {
@@ -1430,7 +1430,7 @@ expect(Foo.name).toBe("Foo");
 
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     static_property_tdz_general_exec,
     r#"
 expect(() => {
@@ -1444,7 +1444,7 @@ expect(() => {
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     private_call,
     r#"
 class Foo {
@@ -1463,7 +1463,7 @@ class Foo {
 
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     private_derived_exec,
     r#"
 class Foo {
@@ -1494,7 +1494,7 @@ expect(b.bar()).toBe("bar");
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     private_extracted_this,
     r#"
 var foo = "bar";
@@ -1512,7 +1512,7 @@ class Foo {
 
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     private_canonical_exec,
     r#"
 class Point {
@@ -1594,7 +1594,7 @@ expect(p3.toString()).toBe("Point<0,0>")
 
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     private_static_undefined_exec,
     r#"
 class Foo {
@@ -1618,7 +1618,7 @@ expect(Foo.test()).toBe(undefined);
 
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     public_update_exec,
     r#"
 class Foo {
@@ -1654,7 +1654,7 @@ expect(results[7]).toBe(4);
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     private_static_call,
     r#"
 class Foo {
@@ -1673,7 +1673,7 @@ class Foo {
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     private_super_expression,
     r#"
 class Foo extends Bar {
@@ -1689,7 +1689,7 @@ class Foo extends Bar {
 
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     private_native_classes_exec,
     r#"
 class Foo {
@@ -1716,7 +1716,7 @@ expect(f.test()).toBe("bar")
 
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     private_multiple_exec,
     r#"
 class Foo {
@@ -1736,7 +1736,7 @@ expect(f.test()).toBe(1);
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     custom_instance_update,
     "
 class Foo {
@@ -1752,7 +1752,7 @@ class Foo {
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     custom_static_update,
     "
 class Foo {

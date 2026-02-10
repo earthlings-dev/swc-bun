@@ -609,8 +609,8 @@ where
             match &mut **init {
                 Expr::Call(CallExpr {
                     span,
-                    callee: Callee::Expr(ref mut callee),
-                    ref args,
+                    callee: Callee::Expr(callee),
+                    args,
                     ..
                 }) if self.bundler.config.require
                     && callee.is_ident_ref_to("require")

@@ -252,7 +252,7 @@ impl Visit for UsageVisitor {
                         }
                     }
 
-                    MemberProp::Ident(ref p) => {
+                    MemberProp::Ident(p) => {
                         if let Some(imports) = props.get(&p.sym) {
                             self.add(imports);
                         }

@@ -57,7 +57,7 @@ where
                 //
                 // See: https://github.com/denoland/deno/issues/9200
                 ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
-                    ref specifiers,
+                    specifiers,
                     with: Some(with),
                     ..
                 })) if is_injected(with) => {
@@ -129,7 +129,7 @@ where
         .into();
 
         module.iter().for_each(|(_, v)| {
-            if let ModuleItem::ModuleDecl(ModuleDecl::ExportAll(ref export)) = v {
+            if let ModuleItem::ModuleDecl(ModuleDecl::ExportAll(export)) = v {
                 // We handle this later.
                 let mut map = ctx.export_stars_in_wrapped.lock();
                 let data = ExportMetadata::decode(export.with.as_deref());

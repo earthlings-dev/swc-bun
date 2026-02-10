@@ -16,12 +16,24 @@ doctest = false
 # for ast_node macro
 default = ["encoding-impl"]
 __rkyv = []
-rkyv-impl = []
+rkyv-impl = [
+  "__rkyv",
+  "rkyv",
+  "bytecheck",
+  "rancor",
+  "swc_common/rkyv-impl",
+  "swc_ecma_ast/rkyv-impl",
+]
 serde-impl = []
 encoding-impl = []
 
 [lints.rust]
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
+
+[dependencies]
+bytecheck = { workspace = true, optional = true }
+rancor    = { workspace = true, optional = true }
+rkyv      = { workspace = true, optional = true }
 
 [dev-dependencies]
 anyhow                    = { workspace = true }

@@ -10,17 +10,17 @@ use swc_ecma_transforms_compat::{
     es2016, es2017, es2018, es2022,
     es2022::class_properties,
 };
-use swc_ecma_transforms_testing::{Tester, compare_stdout, test, test_exec, test_fixture};
+use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, test_fixture};
 
 fn syntax() -> Syntax {
     Syntax::default()
 }
 
-fn tr(_: &Tester) -> impl Pass {
+fn tr() -> impl Pass {
     classes(Default::default())
 }
 
-fn spec_tr(_: &Tester) -> impl Pass {
+fn spec_tr() -> impl Pass {
     let unresolved_mark = Mark::new();
     (
         resolver(unresolved_mark, Mark::new(), false),
@@ -32,7 +32,7 @@ fn spec_tr(_: &Tester) -> impl Pass {
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     bigint_literial_methods,
     "
 class Foo {
@@ -45,7 +45,7 @@ class Foo {
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     issue_189,
     r#"
 class HomePage extends React.Component {}
@@ -54,7 +54,7 @@ class HomePage extends React.Component {}
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     custom_singleton,
     r#"
 let singleton;
@@ -71,7 +71,7 @@ class Sub extends Foo {
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     custom_native,
     r#"
     class List extends Array {}
@@ -80,7 +80,7 @@ test!(
 
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     custom_nested,
     r#"
 class Hello{
@@ -110,7 +110,7 @@ expect(new Outer().hello).toBe('hello');
 // spec_constructor_only
 test!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_constructor_only,
     r#"
 class Foo {
@@ -130,7 +130,7 @@ class Foo {
 // regression_5769_exec
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     regression_5769_exec,
     r#"
 class Point {
@@ -162,7 +162,7 @@ cp.m();
 // spec_this_not_allowed_before_super_in_derived_classes_5_exec
 test_exec!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_this_not_allowed_before_super_in_derived_classes_5_exec,
     r#"
 class Bar {}
@@ -183,7 +183,7 @@ test!(
     // We don't use function-name pass
     ignore,
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_statement,
     r#"
 var BaseView = class BaseView {
@@ -210,7 +210,7 @@ var BaseView = class {
 // get_set_set_semantics_getter_defined_on_parent
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     get_set_set_semantics_getter_defined_on_parent,
     r#"
 
@@ -247,7 +247,7 @@ expect(obj.test).toBe(2);
 // spec_derived_constructor_must_call_super
 test!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_derived_constructor_must_call_super,
     r#"
 class Foo extends Bar {
@@ -262,7 +262,7 @@ class Foo extends Bar {
 // get_set_get_semantics_data_defined_on_parent
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     get_set_get_semantics_data_defined_on_parent,
     r#"
 
@@ -291,7 +291,7 @@ expect(obj.get()).toBe(1);
 // regression_8499
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     regression_8499,
     r#"
 // Pretend that `Reflect.construct` isn't supported.
@@ -318,7 +318,7 @@ expect(constructor).toBe(CustomElement);
 // regression_5817
 test!(
     syntax(),
-    |t| (tr(t), arrow(Mark::new())),
+    |_| (tr(), arrow(Mark::new())),
     regression_5817,
     r#"
 class A extends B {
@@ -338,7 +338,7 @@ class A extends B {
 // get_set_set_semantics_not_defined_on_parent_setter_on_obj
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     get_set_set_semantics_not_defined_on_parent_setter_on_obj,
     r#"
 
@@ -370,7 +370,7 @@ expect(obj.test).toBe(3);
 // get_set_get_semantics_setter_defined_on_parent
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     get_set_get_semantics_setter_defined_on_parent,
     r#"
 
@@ -401,7 +401,7 @@ expect(obj.get()).toBeUndefined();
 // spec_this_not_allowed_before_super_in_derived_classes_4
 test!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_this_not_allowed_before_super_in_derived_classes_4,
     r#"
 class Foo extends Bar {
@@ -418,7 +418,7 @@ class Foo extends Bar {
 // spec_calling_super_properties
 test!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_calling_super_properties,
     r#"
 class Test extends Foo {
@@ -443,7 +443,7 @@ class Test extends Foo {
 // spec_instance_getter_and_setter
 test!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_instance_getter_and_setter,
     r#"
 class Test {
@@ -463,7 +463,7 @@ test!(
     // Module
     ignore,
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     regression_2941,
     r#"
 export default class {}
@@ -474,7 +474,7 @@ export default class {}
 // regression_t2494
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     regression_t2494,
     r#"
 var x = {
@@ -487,7 +487,7 @@ var x = {
 // spec_inferred_expression_name
 test!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_inferred_expression_name,
     r#"
 var o = { foo: class foo {} };
@@ -500,7 +500,7 @@ test_exec!(
     // Wrong test (babel + jest fails)
     ignore,
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     regression_8499_exec,
     r#"
 // Pretend that `Reflect.construct` isn't supported.
@@ -527,7 +527,7 @@ expect(constructor).toBe(CustomElement);
 // spec_default_super
 test!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_default_super,
     r#"
 class Test {
@@ -554,7 +554,7 @@ expect(Test.test()).toBe(Function);
 // spec_default_super
 test!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_default_super_constructor,
     r#"
 class Test {
@@ -568,7 +568,7 @@ class Test {
 // get_set_get_semantics_getter_defined_on_parent
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     get_set_get_semantics_getter_defined_on_parent,
     r#"
 
@@ -602,7 +602,7 @@ expect(obj.get()).toBe(1);
 // spec_this_not_allowed_before_super_in_derived_classes
 test!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_this_not_allowed_before_super_in_derived_classes,
     r#"
 class Foo extends Bar {
@@ -618,7 +618,7 @@ class Foo extends Bar {
 // get_set_call_semantics_getter_defined_on_parent
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     get_set_call_semantics_getter_defined_on_parent,
     r#"
 
@@ -655,7 +655,7 @@ expect(obj.call(1, 2, 3)).toBe(1);
 // spec_derived_constructor_must_call_super_4_exec
 test_exec!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_derived_constructor_must_call_super_4_exec,
     r#"
 class Bar {}
@@ -676,7 +676,7 @@ expect(() => new Foo()).toThrow("this hasn't been initialised");
 // spec_export_default
 test!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_export_default,
     r#"
 export default class Foo {}
@@ -687,7 +687,7 @@ export default class Foo {}
 // get_set_call_semantics_data_defined_on_parent
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     get_set_call_semantics_data_defined_on_parent,
     r#"
 
@@ -721,7 +721,7 @@ expect(obj.call(1, 2, 3)).toBe(1);
 // spec_static
 test!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_static,
     r#"
 class A {
@@ -746,7 +746,7 @@ class A {
 // get_set_memoized_update
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     get_set_memoized_update,
     r#"
 
@@ -797,7 +797,7 @@ expect(obj[1]).toBe(2);
 // spec_nested_class_super_property_in_key
 test!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_nested_class_super_property_in_key,
     r#"
 
@@ -828,7 +828,7 @@ expect(new Outer().hello()).toBe('hello');
 // spec_super_reference_in_prop_expression
 test!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_super_reference_in_prop_exression,
     r#"
 class Foo extends Bar {
@@ -842,7 +842,7 @@ class Foo extends Bar {
 // spec_super_reference_before_in_lambda_exec
 test_exec!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_super_reference_before_in_lambda_exec,
     r#"
 class Bar {
@@ -863,7 +863,7 @@ new Foo();
 // spec_nested_class_super_call_in_key_exec
 test_exec!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_nested_class_super_call_in_key_exec,
     r#"
 
@@ -897,7 +897,7 @@ expect(new Outer().hello()).toBe('hello');
 // spec_this_not_allowed_before_super_in_derived_classes_4_exec
 test_exec!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_this_not_allowed_before_super_in_derived_classes_4_exec,
     r#"
 class Bar {}
@@ -918,7 +918,7 @@ new Foo();
 // spec_this_not_allowed_before_super_in_derived_classes_2
 test!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_this_not_allowed_before_super_in_derived_classes_2,
     r#"
 class Foo extends Bar {
@@ -933,7 +933,7 @@ class Foo extends Bar {
 // spec_accessing_super_properties
 test!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_accessing_super_properties,
     r#"
 class Test extends Foo {
@@ -952,7 +952,7 @@ class Test extends Foo {
 // spec_computed_methods
 test!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_computed_methods,
     r#"
 class Foo {
@@ -970,7 +970,7 @@ class Foo {
 // get_set_set_semantics_data_defined_on_parent
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     get_set_set_semantics_data_defined_on_parent,
     r#"
 
@@ -1005,7 +1005,7 @@ expect(obj.test).toBe(3);
 // get_set_set_semantics_not_defined_on_parent_getter_on_obj
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     get_set_set_semantics_not_defined_on_parent_getter_on_obj,
     r#"
 
@@ -1034,7 +1034,7 @@ expect(obj.test).toBe(3);
 // spec_returning_from_derived_constructor_exec
 test_exec!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_returning_from_derived_constructor_exec,
     r#"
 
@@ -1104,7 +1104,7 @@ expect(() => {
 // regression_5769
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     regression_5769,
     r#"
 class Point {
@@ -1136,7 +1136,7 @@ cp.m();
 // spec_super_function_fallback
 test!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_super_function_fallback,
     r#"
 class Test {
@@ -1155,7 +1155,7 @@ test!(
     // Module
     ignore,
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     regression_3028,
     r#"
 class b {
@@ -1183,7 +1183,7 @@ export default class a2 extends b {
 // spec_instance_setter
 test!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_instance_setter,
     r#"
 class Test {
@@ -1198,7 +1198,7 @@ class Test {
 // spec_nested_object_super_call_in_key
 test!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_nested_object_super_call_in_key,
     r#"
 
@@ -1232,7 +1232,7 @@ expect(new Outer().hello()).toBe('hello');
 // get_set_set_semantics_not_defined_on_parent_not_on_obj
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     get_set_set_semantics_not_defined_on_parent_not_on_obj,
     r#"
 
@@ -1257,7 +1257,7 @@ expect(obj.test).toBe(3);
 // spec_derived_constructor_no_super_return_falsy
 test!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_derived_constructor_no_super_return_falsey,
     r#"
 class Child extends Base {
@@ -1272,7 +1272,7 @@ class Child extends Base {
 // spec_this_not_allowed_before_super_in_derived_classes_5
 test!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_this_not_allowed_before_super_in_derived_classes_5,
     r#"
 class Foo extends Bar {
@@ -1289,7 +1289,7 @@ class Foo extends Bar {
 // spec_constructor
 test!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_constructor,
     r#"
 class Test {
@@ -1320,7 +1320,7 @@ class ConstructorScoping {
 // spec_preserves_directives
 test!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_preserves_directives,
     r#"
 class MyCtrl {
@@ -1354,7 +1354,7 @@ class MyCtrl3 {
 // spec_derived_constructor_no_super_return_object
 test!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_derived_constructor_no_super_return_object,
     r#"
 class Child extends Base {
@@ -1371,7 +1371,7 @@ test!(
     // Module
     ignore,
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     regression_t6750,
     r#"
 export default function() {
@@ -1387,7 +1387,7 @@ export default function() {
 // spec_instance_method
 test!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_instance_method,
     r#"
 class Test {
@@ -1402,7 +1402,7 @@ class Test {
 // regression_t2997
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     regression_t2997,
     r#"
 class A {}
@@ -1419,7 +1419,7 @@ class B extends A {
 // spec_constructor_binding_collision
 test!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_constructor_binding_collision,
     r#"
 class Example {
@@ -1436,7 +1436,7 @@ var t = new Example();
 // spec_super_class_anonymous
 test!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_super_class_anonymous,
     r#"
 class TestEmpty extends (class {}) {
@@ -1467,7 +1467,7 @@ class TestMultipleMethods extends (class {
 // spec_nested_class_super_call_in_key
 test!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_nested_class_super_call_in_key,
     r#"
 
@@ -1505,7 +1505,7 @@ test!(
     // Module
     ignore,
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     regression_2663,
     r#"
 import net from 'net';
@@ -1538,7 +1538,7 @@ export default class Connection extends EventEmitter {
 // get_set_set_semantics_setter_defined_on_parent_exec
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     get_set_set_semantics_setter_defined_on_parent_exec,
     r#"
 
@@ -1573,7 +1573,7 @@ expect(obj.test).toBe(2);
 // regression_5817_exec
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     regression_5817_exec,
     r#"
 // https://github.com/babel/babel/issues/5817
@@ -1601,7 +1601,7 @@ expect(table.returnParam(false)).toBe(false);
 // spec_instance_getter
 test!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_instance_getter,
     r#"
 class Test {
@@ -1616,7 +1616,7 @@ class Test {
 // spec_this_not_allowed_before_super_in_derived_classes_3
 test!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_this_not_allowed_before_super_in_derived_classes_3,
     r#"
 class Foo extends Bar {
@@ -1635,7 +1635,7 @@ test!(
     // TODO(kdy1): Unignore this.
     ignore,
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_accessing_super_class,
     r#"
 class Test extends Foo {
@@ -1670,7 +1670,7 @@ class Test extends Foo {
 // spec_this_not_allowed_before_super_in_derived_classes_exec
 test_exec!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_this_not_allowed_before_super_in_derived_classes_exec,
     r#"
 class Bar {}
@@ -1690,7 +1690,7 @@ expect(() => new Foo()).toThrow();
 // spec_nested_object_super_property_in_key_exec
 test_exec!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_nested_object_super_property_in_key_exec,
     r#"
 
@@ -1721,7 +1721,7 @@ expect(new Outer().hello()).toBe('hello');
 // regression_t6712
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     regression_t6712,
     r#"
 class A {
@@ -1736,7 +1736,7 @@ class A {
 // get_set_set_semantics_setter_defined_on_parent
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     get_set_set_semantics_setter_defined_on_parent,
     r#"
 
@@ -1771,7 +1771,7 @@ expect(obj.test).toBe(2);
 // get_set_call_semantics_not_defined_on_parent
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     get_set_call_semantics_not_defined_on_parent,
     r#"
 
@@ -1802,7 +1802,7 @@ expect(() => {
 // spec_derived_constructor_must_call_super_2_exec
 test_exec!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_derived_constructor_must_call_super_2_exec,
     r#"
 class Bar {}
@@ -1823,7 +1823,7 @@ expect(() => new Foo()).toThrow("this hasn't been initialised");
 // spec_nested_object_super_property_in_key
 test!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_nested_object_super_property_in_key,
     r#"
 
@@ -1853,7 +1853,7 @@ expect(new Outer().hello()).toBe('hello');
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     nested_this_in_key,
     r#"
 class Outer extends B {
@@ -1877,7 +1877,7 @@ class Outer extends B {
 // get_set_set_semantics_not_defined_on_parent_setter_on_obj_exec
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     get_set_set_semantics_not_defined_on_parent_setter_on_obj_exec,
     r#"
 
@@ -1910,7 +1910,7 @@ expect(obj.test).toBe(3);
 // spec_this_not_allowed_before_super_in_derived_classes_2_exec
 test_exec!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_this_not_allowed_before_super_in_derived_classes_2_exec,
     r#"
 class Bar {}
@@ -1929,7 +1929,7 @@ expect(() => new Foo()).toThrow("this hasn't been initialised");
 // spec_super_reference_before_bare_super_inline_exec
 test_exec!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_super_reference_before_bare_super_inline_exec,
     r#"
 class Bar {}
@@ -1948,7 +1948,7 @@ expect(() => new Foo()).toThrow("this hasn't been initialised");
 // get_set_call_semantics_setter_defined_on_parent
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     get_set_call_semantics_setter_defined_on_parent,
     r#"
 
@@ -1982,7 +1982,7 @@ expect(() => {
 // spec_super_class
 test!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_super_class,
     r#"
 class Test extends Foo { }
@@ -1995,7 +1995,7 @@ class Test extends Foo { }
 // spec_nested_object_super_call_in_key_exec
 test_exec!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_nested_object_super_call_in_key_exec,
     r#"
 
@@ -2029,7 +2029,7 @@ expect(new Outer().hello()).toBe('hello');
 // spec_derived_constructor_must_call_super_2
 test!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_derived_constructor_must_call_super_2,
     r#"
 class Foo extends Bar {
@@ -2044,7 +2044,7 @@ class Foo extends Bar {
 // spec_derived_constructor_must_call_super_3
 test!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_derived_constructor_must_call_super_3,
     r#"
 class Foo extends Bar {
@@ -2060,7 +2060,7 @@ class Foo extends Bar {
 // spec_this_not_allowed_before_super_in_derived_classes_3_exec
 test_exec!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_this_not_allowed_before_super_in_derived_classes_3_exec,
     r#"
 class Bar {}
@@ -2081,7 +2081,7 @@ expect(() => new Foo()).toThrow("this hasn't been initialised");
 // get_set_set_semantics_not_defined_on_parent_data_on_obj
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     get_set_set_semantics_not_defined_on_parent_data_on_obj,
     r#"
 
@@ -2111,7 +2111,7 @@ expect(obj.test).toBe(3);
 // get_set_memoized_assign
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     get_set_memoized_assign,
     r#"
 
@@ -2162,7 +2162,7 @@ expect(obj[1]).toBe(2);
 // spec_nested_class_super_property_in_key_exec
 test_exec!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_nested_class_super_property_in_key_exec,
     r#"
 
@@ -2193,7 +2193,7 @@ expect(new Outer().hello()).toBe('hello');
 // spec_relaxed_method_coercion
 test!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_relaxed_method_coercion,
     r#"
 // #1649
@@ -2209,7 +2209,7 @@ class Foo {
 // spec_derived_constructor_must_call_super_3_exec
 test_exec!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_derived_constructor_must_call_super_3_exec,
     r#"
 class Bar {}
@@ -2229,7 +2229,7 @@ new Foo();
 // spec_computed_methods_exec
 test_exec!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_computed_methods_exec,
     r#"
 const sym = Symbol();
@@ -2256,7 +2256,7 @@ expect(i[sym]()).toBe(3);
 // spec_derived_constructor_must_call_super_4
 test!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_derived_constructor_must_call_super_4,
     r#"
 class Foo extends Bar {
@@ -2271,7 +2271,7 @@ class Foo extends Bar {
 // spec_super_class_id_member_expression
 test!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_super_class_id_member_expression,
     r#"
 class BaseController extends Chaplin.Controller {
@@ -2288,7 +2288,7 @@ class BaseController2 extends Chaplin.Controller.Another {
 // spec_delay_arrow_function_for_bare_super_derived
 test!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_delay_arrow_function_for_bare_super_derived,
     r#"
 class Foo extends Bar {
@@ -2307,7 +2307,7 @@ class Foo extends Bar {
 // spec_default_super_exec
 test_exec!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_default_super_exec,
     r#"
 class Test {
@@ -2334,7 +2334,7 @@ expect(Test.test()).toBe(Function);
 // spec_super_reference_before_in_lambda_3_exec
 test_exec!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_super_reference_before_in_lambda_3_exec,
     r#"
 class Bar {
@@ -2359,7 +2359,7 @@ new Foo();
 // get_set_get_semantics_not_defined_on_parent
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     get_set_get_semantics_not_defined_on_parent,
     r#"
 
@@ -2389,7 +2389,7 @@ expect(obj.get()).toBeUndefined();
 // spec_plain_class
 test!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_plain_class,
     r#"
 class Test { }
@@ -2400,7 +2400,7 @@ class Test { }
 // spec_super_reference_before_bare_super_exec
 test_exec!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_super_reference_before_bare_super_exec,
     r#"
 class Bar {}
@@ -2420,7 +2420,7 @@ expect(() => new Foo()).toThrow("this hasn't been initialised");
 // spec_super_reference_before_in_lambda_2_exec
 test_exec!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_super_reference_before_in_lambda_2_exec,
     r#"
 class Bar {
@@ -2443,7 +2443,7 @@ expect(() => new Foo()).toThrow("this hasn't been initialised");
 // spec_derived_constructor_must_call_super_exec
 test_exec!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_derived_constructor_must_call_super_exec,
     r#"
 class Bar {}
@@ -2464,7 +2464,7 @@ expect(() => new Foo()).toThrow("this hasn't been initialised");
 // spec_export_super_class
 test!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_export_super_class,
     r#"
 export default class extends A {}
@@ -2475,7 +2475,7 @@ export default class extends A {}
 // extend_builtins_wrap_native_super_exec
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     extend_builtins_wrap_native_super_exec,
     r#"
 // basic sanity check to confirm the external wrapNativeSuper helper works
@@ -2512,7 +2512,7 @@ test_exec!(
     // babel also fails on this
     ignore,
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     spec_super_reference_in_prop_exression_exec,
     r#"
 let called = false;
@@ -2544,7 +2544,7 @@ expect(called).toBe(true);
 // get_set_set_semantics_getter_defined_on_parent_exec
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     get_set_set_semantics_getter_defined_on_parent_exec,
     r#"
 
@@ -2581,7 +2581,7 @@ expect(obj.test).toBe(2);
 
 test!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     issue_454_followup,
     "if (true){
     class Foo extends Bar { }
@@ -2590,7 +2590,7 @@ test!(
 
 test!(
     syntax(),
-    |t| spec_tr(t),
+    |_| spec_tr(),
     issue_454_followup_2,
     "function broken(x, ...foo) {
   if (true) {
@@ -2622,7 +2622,7 @@ test!(
     // Cost is too high while being useless
     ignore,
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     extend_builtins_shadowed,
     r#"
 class Array {}
@@ -2775,7 +2775,7 @@ expect(s.method()).toBe(s);
 // get_set_call_semantics_setter_defined_on_parent
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     get_set_call_semantics_setter_defined_on_parent_exec,
     r#"
 "use strict";
@@ -2809,7 +2809,7 @@ expect(() => {
 // get_set_call_semantics_not_defined_on_parent
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     get_set_call_semantics_not_defined_on_parent_exec,
     r#"
 "use strict";
@@ -2840,7 +2840,7 @@ expect(() => {
 // get_set_set_semantics_not_defined_on_parent_getter_on_obj
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     get_set_set_semantics_not_defined_on_parent_getter_on_obj_exec,
     r#"
 "use strict";
@@ -2910,7 +2910,7 @@ expect(obj.test).toBe(3);
 // get_set_set_semantics_not_defined_on_parent_data_on_obj
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     get_set_set_semantics_not_defined_on_parent_data_on_obj_exec,
     r#"
 "use strict";
@@ -3040,7 +3040,7 @@ expect(new List).toBeInstanceOf(Array);
 // get_set_call_semantics_data_defined_on_parent
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     get_set_call_semantics_data_defined_on_parent_exec,
     r#"
 "use strict";
@@ -3074,7 +3074,7 @@ expect(obj.call(1, 2, 3)).toBe(1);
 // get_set_memoized_assign
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     get_set_memoized_assign_exec,
     r#"
 "use strict";
@@ -3125,7 +3125,7 @@ expect(obj[1]).toBe(2);
 // get_set_get_semantics_setter_defined_on_parent
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     get_set_get_semantics_setter_defined_on_parent_exec,
     r#"
 "use strict";
@@ -3158,7 +3158,7 @@ test!(
     // TODO: Unignore this
     ignore,
     syntax(),
-    |t| (tr(t), block_scoping(Mark::new())),
+    |_| (tr(), block_scoping(Mark::new())),
     regression_t7010,
     r#"
 class Foo {
@@ -3206,7 +3206,7 @@ class Foo {
 // get_set_call_semantics_getter_defined_on_parent
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     get_set_call_semantics_getter_defined_on_parent_exec,
     r#"
 "use strict";
@@ -3243,7 +3243,7 @@ expect(obj.call(1, 2, 3)).toBe(1);
 // get_set_set_semantics_data_defined_on_parent
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     get_set_set_semantics_data_defined_on_parent_exec,
     r#"
 "use strict";
@@ -3278,7 +3278,7 @@ expect(obj.test).toBe(3);
 // get_set_get_semantics_getter_defined_on_parent
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     get_set_get_semantics_getter_defined_on_parent_exec,
     r#"
 "use strict";
@@ -3310,7 +3310,7 @@ expect(obj.get()).toBe(1);
 // get_set_memoized_update
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     get_set_memoized_update_exec,
     r#"
 "use strict";
@@ -3361,7 +3361,7 @@ expect(obj[1]).toBe(2);
 // get_set_get_semantics_not_defined_on_parent
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     get_set_get_semantics_not_defined_on_parent_exec,
     r#"
 "use strict";
@@ -3389,7 +3389,7 @@ expect(obj.get()).toBeUndefined();
 // get_set_set_semantics_not_defined_on_parent_not_on_obj
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     get_set_set_semantics_not_defined_on_parent_not_on_obj_exec,
     r#"
 "use strict";
@@ -3428,7 +3428,7 @@ expect(() => class BetterJSON extends JSON {}).toThrow();
 // get_set_get_semantics_data_defined_on_parent
 test_exec!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     get_set_get_semantics_data_defined_on_parent_exec,
     r#"
 "use strict";
@@ -3718,7 +3718,7 @@ test!(
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     issue_1838,
     r#"
     class Foo {
@@ -3729,7 +3729,7 @@ test!(
 
 test!(
     syntax(),
-    |t| tr(t),
+    |_| tr(),
     issue_1799_1,
     "
     export default function Foo() {

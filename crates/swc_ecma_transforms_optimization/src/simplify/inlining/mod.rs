@@ -125,7 +125,7 @@ impl VisitMut for Inlining<'_> {
                 match &mut e.left {
                     AssignTarget::Simple(left) => {
                         //
-                        if let SimpleAssignTarget::Member(ref left) = &*left {
+                        if let SimpleAssignTarget::Member(left) = &*left {
                             tracing::trace!("Assign to member expression!");
                             let mut v = IdentListVisitor {
                                 scope: &mut self.scope,
@@ -273,7 +273,7 @@ impl VisitMut for Inlining<'_> {
             }
         }
 
-        if let Expr::Ident(ref i) = node {
+        if let &mut Expr::Ident(ref i) = node {
             let id = i.to_id();
             if self.is_first_run {
                 if let Some(expr) = self.scope.find_constant(&id) {
@@ -501,7 +501,7 @@ impl VisitMut for Inlining<'_> {
     fn visit_mut_pat(&mut self, node: &mut Pat) {
         node.visit_mut_children_with(self);
 
-        if let Pat::Ident(ref i) = node {
+        if let &mut Pat::Ident(ref i) = node {
             match self.pat_mode {
                 PatFoldingMode::Param => {
                     self.declare(
@@ -631,7 +631,7 @@ impl VisitMut for Inlining<'_> {
                                 self.scope.prevent_inline(&name.to_id());
                             }
                         }
-                        Some(ref e) => {
+                        Some(e) => {
                             if self.var_decl_kind != VarDeclKind::Const {
                                 self.declare(name.to_id(), Some(Cow::Borrowed(e)), false, kind);
 

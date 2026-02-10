@@ -1,7 +1,7 @@
 use std::{env, path::PathBuf, str::FromStr, sync::Arc};
 
 use anyhow::{Error, Result, bail};
-use clap::{StructOpt, Subcommand};
+use clap::{Parser, Subcommand};
 use es::EsCommand;
 use swc_common::{
     GLOBALS, Globals, SourceMap,
@@ -21,7 +21,7 @@ const CREDUCE_INPUT_ENV_VAR: &str = "CREDUCE_INPUT";
 
 const CREDUCE_MODE_ENV_VAR: &str = "CREDUCE_COMPARE";
 
-#[derive(Debug, clap::Parser)]
+#[derive(Debug, Parser)]
 struct AppArgs {
     #[clap(subcommand)]
     cmd: Cmd,

@@ -19,9 +19,9 @@ use crate::{
     },
     syntax::SyntaxFlags,
 };
-#[cfg(test)]
+#[cfg(all(test, swc_nightly))]
 extern crate test;
-#[cfg(test)]
+#[cfg(all(test, swc_nightly))]
 use test::Bencher;
 
 use crate::error::Error;
@@ -716,7 +716,7 @@ where
     .unwrap_or_else(|output| panic!("test_parser(): failed to parse \n{s}\n{output}"))
 }
 
-#[cfg(test)]
+#[cfg(all(test, swc_nightly))]
 pub fn bench_parser<F>(b: &mut Bencher, s: &'static str, syntax: Syntax, mut f: F)
 where
     F: for<'a> FnMut(&'a mut Parser<crate::lexer::Lexer<'a>>) -> PResult<()>,

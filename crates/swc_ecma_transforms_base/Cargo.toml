@@ -13,7 +13,7 @@ version       = "36.0.1"
 bench = false
 
 [lints.rust]
-unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)', 'cfg(swc_nightly)'] }
 
 [features]
 concurrent         = ["concurrent-renamer", "par-iter", "swc_ecma_utils/concurrent"]

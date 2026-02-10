@@ -332,16 +332,11 @@ struct Scope<'a> {
     ast_path: Vec<Id>,
 }
 
-#[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(Debug, Default, PartialEq, Eq, PartialOrd, Ord, Hash)]
 enum ScopeKind {
+    #[default]
     Fn,
     ArrowFn,
-}
-
-impl Default for ScopeKind {
-    fn default() -> Self {
-        Self::Fn
-    }
 }
 
 impl Analyzer<'_> {

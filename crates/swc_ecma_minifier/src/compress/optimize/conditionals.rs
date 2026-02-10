@@ -541,53 +541,45 @@ impl Optimizer<'_> {
 
                 // TODO: Handle new expression with no args.
 
-                if cons.callee.eq_ignore_span(&alt.callee)
-                    && cons.args.as_ref().map(|v| v.len() <= 1).unwrap_or(true)
-                    && alt.args.as_ref().map(|v| v.len() <= 1).unwrap_or(true)
-                    && cons.args.as_ref().map(|v| v.len()).unwrap_or(0)
-                        == alt.args.as_ref().map(|v| v.len()).unwrap_or(0)
-                    && (cons.args.is_some()
-                        && cons
-                            .args
-                            .as_ref()
-                            .unwrap()
-                            .iter()
-                            .all(|arg| arg.spread.is_none()))
-                    && (alt.args.is_some()
-                        && alt
-                            .args
-                            .as_ref()
-                            .unwrap()
-                            .iter()
-                            .all(|arg| arg.spread.is_none()))
-                {
-                    let mut args = Vec::new();
+                if cons.callee.eq_ignore_span(&alt.callee) {
+                    if let (Some(cons_args), Some(alt_args)) =
+                        (cons.args.as_mut(), alt.args.as_mut())
+                    {
+                        if cons_args.len() <= 1
+                            && alt_args.len() <= 1
+                            && cons_args.len() == alt_args.len()
+                            && cons_args.iter().all(|arg| arg.spread.is_none())
+                            && alt_args.iter().all(|arg| arg.spread.is_none())
+                        {
+                            let mut args = Vec::new();
 
-                    if cons.args.as_ref().map(|v| v.len()).unwrap_or(0) == 1 {
-                        args = vec![ExprOrSpread {
-                            spread: None,
-                            expr: Box::new(Expr::Cond(CondExpr {
-                                span: DUMMY_SP,
-                                test: test.take(),
-                                cons: cons.args.as_mut().unwrap()[0].expr.take(),
-                                alt: alt.args.as_mut().unwrap()[0].expr.take(),
-                            })),
-                        }];
-                    }
+                            if cons_args.len() == 1 {
+                                args = vec![ExprOrSpread {
+                                    spread: None,
+                                    expr: Box::new(Expr::Cond(CondExpr {
+                                        span: DUMMY_SP,
+                                        test: test.take(),
+                                        cons: cons_args[0].expr.take(),
+                                        alt: alt_args[0].expr.take(),
+                                    })),
+                                }];
+                            }
 
-                    report_change!(
-                        "Compressing if statement into a conditional expression of `new` as \
-                         there's no side effect and the number of arguments is 1"
-                    );
-                    return Some(
-                        NewExpr {
-                            span: DUMMY_SP,
-                            callee: cons.callee.take(),
-                            args: Some(args),
-                            ..Default::default()
+                            report_change!(
+                                "Compressing if statement into a conditional expression of `new` \
+                                 as there's no side effect and the number of arguments is 1"
+                            );
+                            return Some(
+                                NewExpr {
+                                    span: DUMMY_SP,
+                                    callee: cons.callee.take(),
+                                    args: Some(args),
+                                    ..Default::default()
+                                }
+                                .into(),
+                            );
                         }
-                        .into(),
-                    );
+                    }
                 }
 
                 None

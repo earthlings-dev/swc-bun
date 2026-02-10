@@ -180,15 +180,17 @@ impl VisitMut for FieldsHandler {
         for member in n.iter_mut() {
             match member {
                 ClassMember::ClassProp(ClassProp {
-                    ref span,
-                    ref is_static,
+                    span,
+                    is_static,
                     key,
                     value,
                     ..
                 }) => {
+                    let span = *span;
+                    let is_static = *is_static;
                     if let Some(value) = value.take() {
                         let init_expr: Expr = AssignExpr {
-                            span: *span,
+                            span,
                             op: op!("="),
                             left: MemberExpr {
                                 span: DUMMY_SP,
@@ -200,7 +202,7 @@ impl VisitMut for FieldsHandler {
                         }
                         .into();
 
-                        if *is_static {
+                        if is_static {
                             *member = StaticBlock {
                                 span: DUMMY_SP,
                                 body: BlockStmt {
@@ -220,15 +222,16 @@ impl VisitMut for FieldsHandler {
                     member.take();
                 }
                 ClassMember::PrivateProp(PrivateProp {
-                    ref span,
+                    span,
                     is_static: false,
                     key,
                     value,
                     ..
                 }) => {
+                    let span = *span;
                     if let Some(value) = value.take() {
                         let init_expr: Expr = AssignExpr {
-                            span: *span,
+                            span,
                             op: op!("="),
                             left: MemberExpr {
                                 span: DUMMY_SP,

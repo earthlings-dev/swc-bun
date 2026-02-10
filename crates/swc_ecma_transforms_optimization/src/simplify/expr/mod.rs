@@ -1143,17 +1143,17 @@ pub fn optimize_bin_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool)
 
                     Expr::Unary(UnaryExpr {
                         op: op!("!"),
-                        ref arg,
+                        arg,
                         ..
                     })
                     | Expr::Unary(UnaryExpr {
                         op: op!(unary, "-"),
-                        ref arg,
+                        arg,
                         ..
                     })
                     | Expr::Unary(UnaryExpr {
                         op: op!("void"),
-                        ref arg,
+                        arg,
                         ..
                     }) => is_non_obj(arg),
                     _ => false,
@@ -1240,7 +1240,7 @@ pub fn optimize_bin_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool)
 
                         *changed = true;
                         *left = left_lhs.take();
-                        *right = Box::new(value_expr);
+                        **right = value_expr;
                     }
                 }
             }

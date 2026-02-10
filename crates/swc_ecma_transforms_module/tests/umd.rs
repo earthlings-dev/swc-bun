@@ -5,7 +5,7 @@ use swc_ecma_ast::Pass;
 use swc_ecma_parser::{Syntax, TsSyntax};
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_module::umd::{Config, FeatureFlag, umd};
-use swc_ecma_transforms_testing::{FixtureTestConfig, Tester, test_fixture};
+use swc_ecma_transforms_testing::{FixtureTestConfig, test_fixture};
 use swc_ecma_transforms_typescript::typescript;
 
 fn syntax() -> Syntax {
@@ -16,7 +16,7 @@ fn ts_syntax() -> Syntax {
     Syntax::Typescript(TsSyntax::default())
 }
 
-fn tr(tester: &mut Tester<'_>, config: Config, typescript: bool) -> impl Pass {
+fn tr(cm: swc_common::sync::Lrc<swc_common::SourceMap>, config: Config, typescript: bool) -> impl Pass {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
@@ -24,7 +24,7 @@ fn tr(tester: &mut Tester<'_>, config: Config, typescript: bool) -> impl Pass {
         resolver(unresolved_mark, top_level_mark, typescript),
         typescript::typescript(Default::default(), unresolved_mark, top_level_mark),
         umd(
-            tester.cm.clone(),
+            cm.clone(),
             Default::default(),
             unresolved_mark,
             config,
@@ -60,7 +60,7 @@ fn esm_to_umd(input: PathBuf) {
 
     test_fixture(
         if is_ts { ts_syntax() } else { syntax() },
-        &|tester| tr(tester, config.clone(), is_ts),
+        &|tester| tr(tester.cm.clone(), config.clone(), is_ts),
         &input,
         &output,
         FixtureTestConfig {

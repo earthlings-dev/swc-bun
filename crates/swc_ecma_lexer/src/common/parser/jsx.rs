@@ -206,7 +206,7 @@ fn parse_jsx_attr<'a, P: Parser<'a>>(p: &mut P) -> PResult<JSXAttrOrSpread> {
     debug_assert!(p.input().syntax().jsx());
     let start = p.cur_pos();
 
-    debug_tracing!(p, "parse_jsx_attr");
+    let _ = debug_tracing!(p, "parse_jsx_attr");
 
     if p.input_mut().eat(&P::Token::LBRACE) {
         let dot3_start = p.cur_pos();
@@ -336,7 +336,7 @@ fn parse_jsx_element_at<'a, P: Parser<'a>>(
 
     p.do_outside_of_context(Context::ShouldNotLexLtOrGtAsType, |p| {
         let f = |p: &mut P| {
-            debug_tracing!(p, "parse_jsx_element");
+            let _ = debug_tracing!(p, "parse_jsx_element");
 
             let opening_element = parse_jsx_opening_element_at(p, start_pos)?;
 

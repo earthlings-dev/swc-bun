@@ -1,3 +1,4 @@
+#[cfg(all(test, swc_nightly))]
 extern crate test;
 
 use std::{ops::Range, str};
@@ -8,9 +9,12 @@ use swc_atoms::{
 };
 use swc_common::{BytePos, Span};
 use swc_ecma_ast::{AssignOp, AssignOp::*};
+#[cfg(all(test, swc_nightly))]
 use test::{Bencher, black_box};
 
-use super::state::{lex, lex_module_errors, lex_tokens, with_lexer};
+use super::state::{lex, lex_module_errors, lex_tokens};
+#[cfg(all(test, swc_nightly))]
+use super::state::with_lexer;
 use crate::{
     common::syntax::EsSyntax,
     error::{Error, SyntaxError},
@@ -1683,8 +1687,10 @@ fn issue_915_1() {
     );
 }
 
+#[cfg(all(test, swc_nightly))]
 const COLOR_JS_CODE: &str = include_str!("../../../swc_ecma_parser/benches/files/colors.js");
 
+#[cfg(all(test, swc_nightly))]
 #[bench]
 fn lex_colors_js(b: &mut Bencher) {
     b.bytes = COLOR_JS_CODE.len() as _;
@@ -1704,6 +1710,7 @@ fn lex_colors_js(b: &mut Bencher) {
     });
 }
 
+#[cfg(all(test, swc_nightly))]
 #[bench]
 fn lex_colors_ts(b: &mut Bencher) {
     b.bytes = COLOR_JS_CODE.len() as _;
@@ -1724,11 +1731,13 @@ fn lex_colors_ts(b: &mut Bencher) {
 }
 
 /// Benchmarks [Lexer] using [Iterator] interface.
+#[cfg(all(test, swc_nightly))]
 fn bench_simple(b: &mut Bencher, s: &str) {
     bench(b, Default::default(), s)
 }
 
 /// Benchmarks [Lexer] using [Iterator] interface.
+#[cfg(all(test, swc_nightly))]
 fn bench(b: &mut Bencher, syntax: Syntax, s: &str) {
     b.bytes = s.len() as _;
 
@@ -1742,6 +1751,7 @@ fn bench(b: &mut Bencher, syntax: Syntax, s: &str) {
     });
 }
 
+#[cfg(all(test, swc_nightly))]
 #[bench]
 fn lex_large_number(b: &mut Bencher) {
     bench_simple(
@@ -1759,6 +1769,7 @@ fn lex_large_number(b: &mut Bencher) {
     );
 }
 
+#[cfg(all(test, swc_nightly))]
 #[bench]
 #[allow(clippy::octal_escapes)]
 fn lex_escaped_char(b: &mut Bencher) {
@@ -1772,6 +1783,7 @@ fn lex_escaped_char(b: &mut Bencher) {
     );
 }
 
+#[cfg(all(test, swc_nightly))]
 #[bench]
 fn lex_legacy_octal_lit(b: &mut Bencher) {
     bench_simple(
@@ -1787,6 +1799,7 @@ fn lex_legacy_octal_lit(b: &mut Bencher) {
     );
 }
 
+#[cfg(all(test, swc_nightly))]
 #[bench]
 fn lex_dec_lit(b: &mut Bencher) {
     bench_simple(
@@ -1801,6 +1814,7 @@ fn lex_dec_lit(b: &mut Bencher) {
     );
 }
 
+#[cfg(all(test, swc_nightly))]
 #[bench]
 fn lex_ident(b: &mut Bencher) {
     bench_simple(
@@ -1815,6 +1829,7 @@ fn lex_ident(b: &mut Bencher) {
     );
 }
 
+#[cfg(all(test, swc_nightly))]
 #[bench]
 fn lex_regex(b: &mut Bencher) {
     bench_simple(
@@ -1824,6 +1839,7 @@ fn lex_regex(b: &mut Bencher) {
     );
 }
 
+#[cfg(all(test, swc_nightly))]
 #[bench]
 fn lex_long_ident(b: &mut Bencher) {
     bench_simple(
@@ -1838,6 +1854,7 @@ fn lex_long_ident(b: &mut Bencher) {
     );
 }
 
+#[cfg(all(test, swc_nightly))]
 #[bench]
 fn lex_semicolons(b: &mut Bencher) {
     bench_simple(

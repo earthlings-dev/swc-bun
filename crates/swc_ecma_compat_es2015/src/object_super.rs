@@ -83,7 +83,7 @@ impl VisitMut for ObjectSuper {
                 vars: Vec::new(),
             };
             for prop_or_spread in props.iter_mut() {
-                if let PropOrSpread::Prop(ref mut prop) = prop_or_spread {
+                if let PropOrSpread::Prop(prop) = prop_or_spread {
                     if let Prop::Method(MethodProp { key: _, function }) = &mut **prop {
                         function.visit_mut_with(&mut replacer);
                         if !replacer.vars.is_empty() {

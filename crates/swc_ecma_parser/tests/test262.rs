@@ -1,4 +1,5 @@
-#![feature(test)]
+#![cfg(swc_nightly)]
+#![cfg_attr(swc_nightly, feature(test))]
 
 extern crate test;
 

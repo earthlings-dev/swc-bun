@@ -72,7 +72,7 @@ impl BuiltConfig {
 
     pub fn determine_export_name(&self, filename: Lrc<FileName>) -> Ident {
         match &*filename {
-            FileName::Real(ref path) => {
+            FileName::Real(path) => {
                 let s = match path.file_stem() {
                     Some(stem) => self.global_name(&stem.to_string_lossy()),
                     None => self.global_name(&path.display().to_string()),

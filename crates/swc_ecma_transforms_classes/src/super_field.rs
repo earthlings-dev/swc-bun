@@ -112,7 +112,7 @@ impl VisitMut for SuperFieldAccessFolder<'_> {
                 }
             }
             Expr::Assign(AssignExpr {
-                ref left,
+                left,
                 op: op!("="),
                 right,
                 ..

@@ -2033,7 +2033,7 @@ fn add_line_of_jsx_text_wtf8(
         buffer.push_str(" ");
         buffer.push_wtf8(source.slice(line_start, line_end));
         *acc = Some(buffer);
-    } else if let Some(ref mut buffer) = acc {
+    } else if let Some(buffer) = acc {
         // Subsequent lines
         buffer.push_str(" ");
         buffer.push_wtf8(source.slice(line_start, line_end));

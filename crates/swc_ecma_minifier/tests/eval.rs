@@ -211,7 +211,7 @@ impl VisitMut for PartialInliner {
 
         if let Some(evaluator) = self.eval.as_mut() {
             if let Expr::TaggedTpl(tt) = e {
-                if let Expr::Ident(ref tag) = &*tt.tag {
+                if let Expr::Ident(tag) = &*tt.tag {
                     if &*tag.sym == "css" {
                         let res = evaluator.eval_tpl(&tt.tpl);
 
@@ -229,11 +229,11 @@ impl VisitMut for PartialInliner {
                                     raw: Atom::new(s.value.to_string_lossy()),
                                     cooked: Some(s.value.clone()),
                                 };
-                                tt.tpl = Box::new(Tpl {
+                                *tt.tpl = Tpl {
                                     span: el.span,
                                     exprs: Default::default(),
                                     quasis: vec![el],
-                                });
+                                };
                             }
                             _ => {
                                 unreachable!()

@@ -152,7 +152,7 @@ impl PropFolder {
                     }
                     PropName::Computed(ComputedPropName { expr, .. }) => {
                         // Computed property might collide
-                        if let Expr::Lit(Lit::Str(Str { ref value, .. })) = &**expr {
+                        if let Expr::Lit(Lit::Str(Str { value, .. })) = &**expr {
                             let atom = atom_from_wtf8(value);
                             self.getter_props.insert(atom.clone());
                             self.setter_props.insert(atom);
@@ -197,7 +197,7 @@ impl PropFolder {
             }
             PropName::Computed(ComputedPropName { expr, .. }) => {
                 // Computed property might collide
-                if let Expr::Lit(Lit::Str(Str { ref value, .. })) = &**expr {
+                if let Expr::Lit(Lit::Str(Str { value, .. })) = &**expr {
                     props.insert(atom_from_wtf8(value));
                 }
             }

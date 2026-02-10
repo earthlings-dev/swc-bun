@@ -16,7 +16,7 @@ all-features = true
 bench = false
 
 [lints.rust]
-unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)', 'cfg(swc_nightly)'] }
 
 [features]
 

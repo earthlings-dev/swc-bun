@@ -522,7 +522,7 @@ impl<'a> Scope<'a> {
     }
 
     pub fn mark_this_sensitive(&self, callee: &Expr) {
-        if let Expr::Ident(ref i) = callee {
+        if let Expr::Ident(i) = callee {
             if let Some(v) = self.find_binding(&i.to_id()) {
                 v.this_sensitive.set(true);
             }
@@ -596,7 +596,7 @@ impl<'a> Scope<'a> {
 
     pub fn is_inline_prevented(&self, e: &Expr) -> bool {
         match e {
-            Expr::Ident(ref ri) => {
+            Expr::Ident(ri) => {
                 if let Some(v) = self.find_binding_from_current(&ri.to_id()) {
                     return v.inline_prevented.get();
                 }

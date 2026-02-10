@@ -160,16 +160,17 @@ impl VisitMut for ConstModules {
 
     fn visit_mut_expr(&mut self, n: &mut Expr) {
         match n {
-            Expr::Ident(ref id @ Ident { ref sym, .. }) => {
-                let sym_wtf8: Wtf8Atom = sym.clone().into();
+            Expr::Ident(ident) => {
+                let sym_wtf8: Wtf8Atom = ident.sym.clone().into();
                 if let Some(value) = self.scope.imported.get(&sym_wtf8) {
                     *n = (**value).clone();
                     return;
                 }
 
-                if self.scope.namespace.contains(&id.to_id()) {
+                if self.scope.namespace.contains(&ident.to_id()) {
                     panic!(
-                        "The const_module namespace `{sym}` cannot be used without member accessor"
+                        "The const_module namespace `{}` cannot be used without member accessor",
+                        ident.sym
                     )
                 }
             }
@@ -180,8 +181,8 @@ impl VisitMut for ConstModules {
                     .map(|member_obj| &member_obj.sym)
                 {
                     let imported_name: Wtf8Atom = match prop {
-                        MemberProp::Ident(ref id) => id.sym.clone().into(),
-                        MemberProp::Computed(ref p) => match &*p.expr {
+                        MemberProp::Ident(id) => id.sym.clone().into(),
+                        MemberProp::Computed(p) => match &*p.expr {
                             Expr::Lit(Lit::Str(s)) => s.value.clone(),
                             _ => return,
                         },

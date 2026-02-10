@@ -3,8 +3,10 @@
 use std::{
     fs,
     path::{Path, PathBuf},
+    rc::Rc,
 };
 
+use swc_common::{SourceMap, comments::SingleThreadedComments, sync::Lrc};
 use swc_ecma_codegen::{Config, Emitter};
 use swc_ecma_parser::{EsSyntax, Parser, StringInput};
 use swc_ecma_transforms_base::{fixer::fixer, hygiene, resolver};
@@ -17,14 +19,19 @@ use testing::NormalizedOutput;
 use super::*;
 use crate::{display_name, pure_annotations, react};
 
-fn tr(t: &mut Tester, options: Options, top_level_mark: Mark) -> impl Pass {
+fn tr(
+    cm: Lrc<SourceMap>,
+    comments: Rc<SingleThreadedComments>,
+    options: Options,
+    top_level_mark: Mark,
+) -> impl Pass {
     let unresolved_mark = Mark::new();
 
     (
         resolver(unresolved_mark, top_level_mark, false),
         jsx(
-            t.cm.clone(),
-            Some(t.comments.clone()),
+            cm.clone(),
+            Some(comments.clone()),
             options,
             top_level_mark,
             unresolved_mark,
@@ -110,7 +117,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_add_appropriate_newlines,
     r#"
 <Component
@@ -125,7 +132,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_arrow_functions,
     r#"
 var foo = function () {
@@ -144,7 +151,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_concatenates_adjacent_string_literals,
     r#"
 var x =
@@ -169,7 +176,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_display_name_assignment_expression,
     r#"var Component;
 Component = React.createClass({
@@ -185,7 +192,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_display_name_export_default,
     r#"
 export default React.createClass({
@@ -202,7 +209,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_display_name_if_missing,
     r#"
 var Whateva = React.createClass({
@@ -227,7 +234,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_display_name_object_declaration,
     r#"
 exports = {
@@ -245,7 +252,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_display_name_property_assignment,
     r#"
 exports.Component = React.createClass({
@@ -262,7 +269,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_display_name_variable_declaration,
     r#"
 var Component = React.createClass({
@@ -279,7 +286,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_dont_coerce_expression_containers,
     r#"
 <Text>
@@ -295,7 +302,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_honor_custom_jsx_comment_if_jsx_pragma_option_set,
     r#"/** @jsx dom */
 
@@ -313,7 +320,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_honor_custom_jsx_comment,
     r#"
 /** @jsx dom */
@@ -334,7 +341,8 @@ test!(
         ..Default::default()
     }),
     |t| tr(
-        t,
+        t.cm.clone(),
+        t.comments.clone(),
         Options {
             pragma: Some("dom".into()),
             ..Default::default()
@@ -358,7 +366,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_jsx_with_retainlines_option,
     r#"var div = <div>test</div>;"#
 );
@@ -369,7 +377,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_jsx_without_retainlines_option,
     r#"var div = <div>test</div>;"#
 );
@@ -381,7 +389,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_optimisation_react_constant_elements,
     r#"
 class App extends React.Component {
@@ -412,7 +420,7 @@ test!(
         ..Default::default()
     }),
     |t| (
-        tr(t, Default::default(), Mark::fresh(Mark::root())),
+        tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
         property_literals(),
     ),
     react_should_add_quotes_es3,
@@ -425,7 +433,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_should_allow_constructor_as_prop,
     r#"<Component constructor="foo" />;"#
 );
@@ -436,7 +444,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_should_allow_deeper_js_namespacing,
     r#"<Namespace.DeepNamespace.Component />;"#
 );
@@ -447,7 +455,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_should_allow_elements_as_attributes,
     r#"<div attr=<div /> />"#
 );
@@ -458,7 +466,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_should_allow_js_namespacing,
     r#"<Namespace.Component />;"#
 );
@@ -469,7 +477,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_should_allow_nested_fragments,
     r#"
 <div>
@@ -493,7 +501,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_should_allow_no_pragmafrag_if_frag_unused,
     r#"
 /** @jsx dom */
@@ -508,7 +516,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_should_allow_pragmafrag_and_frag,
     r#"
 /** @jsx dom */
@@ -524,7 +532,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_should_avoid_wrapping_in_extra_parens_if_not_needed,
     r#"
 var x = <div>
@@ -551,7 +559,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_should_convert_simple_tags,
     r#"var x = <div></div>;"#
 );
@@ -562,7 +570,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_should_convert_simple_text,
     r#"var x = <div>text</div>;"#
 );
@@ -573,7 +581,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_should_escape_xhtml_jsxattribute,
     r#"
 <div id="wôw" />;
@@ -588,7 +596,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_should_escape_xhtml_jsxtext_1,
     r"
 <div>wow</div>;
@@ -610,7 +618,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_should_escape_xhtml_jsxtext_2,
     r"
 <div>this should not parse as unicode: \u00a0</div>;
@@ -623,7 +631,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_should_escape_unicode_chars_in_attribute,
     r#"<Bla title="Ú"/>"#
 );
@@ -635,7 +643,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_should_escape_xhtml_jsxtext_3,
     r#"
 <div>this should parse as nbsp:   </div>;
@@ -648,7 +656,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_should_handle_attributed_elements,
     r#"
 var HelloMessage = React.createClass({
@@ -671,7 +679,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_should_handle_has_own_property_correctly,
     r#"<hasOwnProperty>testing</hasOwnProperty>;"#
 );
@@ -682,7 +690,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_should_have_correct_comma_in_nested_children,
     r#"
 var x = <div>
@@ -699,7 +707,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_should_insert_commas_after_expressions_before_whitespace,
     r#"
 var x =
@@ -727,7 +735,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_should_not_add_quotes_to_identifier_names,
     r#"var e = <F aaa new const var default foo-bar/>;"#
 );
@@ -738,7 +746,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_should_not_mangle_expressioncontainer_attribute_values,
     r#"<button data-value={"a value\n  with\nnewlines\n   and spaces"}>Button</button>;"#
 );
@@ -749,7 +757,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_should_not_strip_nbsp_even_coupled_with_other_whitespace,
     r#"<div>&nbsp; </div>;"#
 );
@@ -760,7 +768,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_should_not_strip_tags_with_a_single_child_of_nbsp,
     r#"<div>&nbsp;</div>;"#
 );
@@ -773,7 +781,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_should_not_strip_entity_encoded_whitespace_multiline,
     r#"<example>
   foo
@@ -789,7 +797,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_should_preserve_entity_encoded_space,
     r#"<div>&#32;content</div>;"#
 );
@@ -801,7 +809,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_should_preserve_trailing_entity_encoded_space,
     r#"<div>content&#32;</div>;"#
 );
@@ -814,7 +822,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_should_preserve_whitespace_before_entity,
     r#"const variable = 'foo';
 const x = <div>{variable} &ndash; something</div>;"#
@@ -827,7 +835,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_should_properly_handle_comments_between_props,
     r#"
 var x = (
@@ -849,7 +857,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_should_quote_jsx_attributes,
     r#"<button data-value='a value'>Button</button>;"#
 );
@@ -861,7 +869,8 @@ test!(
         ..Default::default()
     }),
     |t| tr(
-        t,
+        t.cm.clone(),
+        t.comments.clone(),
         Options {
             pragma: Some("h".into()),
             throw_if_namespace: false.into(),
@@ -879,7 +888,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_should_transform_known_hyphenated_tags,
     r#"<font-face />;"#
 );
@@ -890,7 +899,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_wraps_props_in_react_spread_for_first_spread_attributes,
     r#"
 <Component { ... x } y
@@ -904,7 +913,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_wraps_props_in_react_spread_for_last_spread_attributes,
     r#"<Component y={2} z { ... x } />"#
 );
@@ -915,7 +924,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_wraps_props_in_react_spread_for_middle_spread_attributes,
     r#"<Component y={2} { ... x } z />"#
 );
@@ -926,7 +935,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     react_attribute_html_entity_quote,
     r#"<Component text="Hello &quot;World&quot;" />"#
 );
@@ -937,7 +946,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     use_builtins_assignment,
     r#"var div = <Component {...props} foo="bar" />"#
 );
@@ -948,7 +957,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     use_spread_assignment,
     r#"<Component y={2} { ...x } z />"#
 );
@@ -959,7 +968,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     issue_229,
     "const a = <>test</>
 const b = <div>test</div>"
@@ -973,7 +982,7 @@ test!(
     }),
     |t| {
         let top_level_mark = Mark::fresh(Mark::root());
-        tr(t, Default::default(), top_level_mark)
+        tr(t.cm.clone(), t.comments.clone(), Default::default(), top_level_mark)
     },
     issue_351,
     "import React from 'react';
@@ -987,7 +996,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     issue_481,
     "<span> {foo}</span>;"
 );
@@ -1001,7 +1010,7 @@ test!(
     }),
     |t| {
         let top_level_mark = Mark::fresh(Mark::root());
-        tr(t, Default::default(), top_level_mark)
+        tr(t.cm.clone(), t.comments.clone(), Default::default(), top_level_mark)
     },
     issue_517,
     "import React from 'react';
@@ -1061,7 +1070,7 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(t.cm.clone(), t.comments.clone(), Default::default(), Mark::fresh(Mark::root())),
     issue_542,
     "let page = <p>Click <em>New melody</em> listen to a randomly generated melody</p>"
 );

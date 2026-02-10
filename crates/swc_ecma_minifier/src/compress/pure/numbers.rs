@@ -142,11 +142,11 @@ impl Pure<'_> {
                             self.changed = true;
 
                             a.op = op!("*=");
-                            a.right = Box::new(Expr::Lit(Lit::Num(Number {
+                            *a.right = Expr::Lit(Lit::Num(Number {
                                 span: DUMMY_SP,
                                 value: 1.0,
                                 raw: None,
-                            })))
+                            }))
                         }
                     }
                 }

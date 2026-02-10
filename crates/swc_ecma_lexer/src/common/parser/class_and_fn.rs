@@ -1067,7 +1067,7 @@ fn parse_class_member_with_is_static<'a, P: Parser<'a>>(
                     // TODO: Search deeply for assignment pattern using a Visitor
 
                     let span = match *param {
-                        ParamOrTsParamProp::Param(ref param) => match param.pat {
+                        ParamOrTsParamProp::Param(ref param) => match &param.pat {
                             Pat::Assign(p) => Some(p.span()),
                             _ => None,
                         },

@@ -7,13 +7,13 @@ use swc_ecma_ast::Pass;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_module::system_js::{Config, system_js};
-use swc_ecma_transforms_testing::{FixtureTestConfig, Tester, test, test_fixture};
+use swc_ecma_transforms_testing::{FixtureTestConfig, test, test_fixture};
 
 fn syntax() -> Syntax {
     Syntax::Es(Default::default())
 }
 
-fn tr(_tester: &mut Tester<'_>, config: Config) -> impl Pass {
+fn tr(config: Config) -> impl Pass {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
     (
@@ -25,7 +25,7 @@ fn tr(_tester: &mut Tester<'_>, config: Config) -> impl Pass {
 test!(
     module,
     syntax(),
-    |tester| tr(tester, Default::default()),
+    |_| tr(Default::default()),
     allow_continuous_assignment,
     r#"var e = {}; e.a = e.b = e.c = e.d = e.e = e.f = e.g = e.h = e.i = e.j = e.k = e.l = e.m = e.n = e.o = e.p = e.q = e.r = e.s = e.t = e.u = e.v = e.w = e.x = e.y = e.z = e.A = e.B = e.C = e.D = e.E = e.F = e.G = e.H = e.I = e.J = e.K = e.L = e.M = e.N = e.O = e.P = e.Q = e.R = e.S = void 0;"#
 );
@@ -33,8 +33,7 @@ test!(
 test!(
     module,
     syntax(),
-    |tester| tr(
-        tester,
+    |_| tr(
         Config {
             allow_top_level_this: true,
             ..Default::default()
@@ -47,8 +46,7 @@ test!(
 test!(
     module,
     syntax(),
-    |tester| tr(
-        tester,
+    |_| tr(
         Config {
             allow_top_level_this: false,
             ..Default::default()
@@ -65,8 +63,7 @@ test!(
 test!(
     module,
     syntax(),
-    |tester| tr(
-        tester,
+    |_| tr(
         Config {
             allow_top_level_this: false,
             ..Default::default()
@@ -88,8 +85,7 @@ test!(
 test!(
     module,
     syntax(),
-    |tester| tr(
-        tester,
+    |_| tr(
         Config {
             allow_top_level_this: false,
             ..Default::default()
@@ -106,7 +102,7 @@ test!(
 test!(
     module,
     syntax(),
-    |tester| tr(tester, Default::default()),
+    |_| tr(Default::default()),
     imports,
     r#"
     import.meta.url;
@@ -125,7 +121,7 @@ fn fixture(input: PathBuf) {
 
     test_fixture(
         syntax(),
-        &|tester| tr(tester, Default::default()),
+        &|_| tr(Default::default()),
         &input,
         &output,
         FixtureTestConfig {

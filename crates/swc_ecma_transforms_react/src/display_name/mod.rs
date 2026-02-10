@@ -91,16 +91,16 @@ impl VisitMutHook<()> for DisplayName {
     fn exit_prop(&mut self, prop: &mut Prop, _ctx: &mut ()) {
         if let Prop::KeyValue(KeyValueProp { key, value }) = prop {
             let name = match key {
-                PropName::Ident(ref i) => Lit::Str(Str {
+                PropName::Ident(i) => Lit::Str(Str {
                     span: i.span,
                     raw: None,
                     value: i.sym.clone().into(),
                 })
                 .into(),
-                PropName::Str(ref s) => Lit::Str(s.clone()).into(),
-                PropName::Num(ref n) => Lit::Num(n.clone()).into(),
-                PropName::BigInt(ref b) => Lit::BigInt(b.clone()).into(),
-                PropName::Computed(ref c) => c.expr.clone(),
+                PropName::Str(s) => Lit::Str(s.clone()).into(),
+                PropName::Num(n) => Lit::Num(n.clone()).into(),
+                PropName::BigInt(b) => Lit::BigInt(b.clone()).into(),
+                PropName::Computed(c) => c.expr.clone(),
                 #[cfg(swc_ast_unknown)]
                 _ => panic!("unable to access unknown nodes"),
             };
@@ -176,7 +176,7 @@ fn is_create_class_call(call: &CallExpr) -> bool {
 fn add_display_name(call: &mut CallExpr, name: Box<Expr>) {
     let props = match call.args.first_mut() {
         Some(&mut ExprOrSpread { ref mut expr, .. }) => match expr.deref_mut() {
-            Expr::Object(ObjectLit { ref mut props, .. }) => props,
+            Expr::Object(ObjectLit { props, .. }) => props,
             _ => return,
         },
         _ => return,
