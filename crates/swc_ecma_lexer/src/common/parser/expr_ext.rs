@@ -63,11 +63,11 @@ pub trait ExprExt {
             | Expr::JSXFragment(..) => false,
 
             // typescript
-            Expr::TsNonNull(TsNonNullExpr { ref expr, .. })
-            | Expr::TsTypeAssertion(TsTypeAssertion { ref expr, .. })
-            | Expr::TsAs(TsAsExpr { ref expr, .. })
-            | Expr::TsInstantiation(TsInstantiation { ref expr, .. })
-            | Expr::TsSatisfies(TsSatisfiesExpr { ref expr, .. }) => {
+            Expr::TsNonNull(TsNonNullExpr { expr, .. })
+            | Expr::TsTypeAssertion(TsTypeAssertion { expr, .. })
+            | Expr::TsAs(TsAsExpr { expr, .. })
+            | Expr::TsInstantiation(TsInstantiation { expr, .. })
+            | Expr::TsSatisfies(TsSatisfiesExpr { expr, .. }) => {
                 expr.is_valid_simple_assignment_target(strict)
             }
 

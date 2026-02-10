@@ -48,7 +48,8 @@ fn run_bump(workspace_dir: &Path, dry_run: bool) -> Result<()> {
     let changeset = changesets::ChangeSet::from_directory(&changeset_dir)
         .context("failed to load changeset")?;
 
-    if changeset.releases.is_empty() {
+    let releases: Vec<_> = changeset.into_iter().collect();
+    if releases.is_empty() {
         eprintln!("No changeset found");
         return Ok(());
     }
@@ -62,7 +63,8 @@ fn run_bump(workspace_dir: &Path, dry_run: bool) -> Result<()> {
         new_versions: &mut new_versions,
     };
 
-    for (pkg_name, release) in changeset.releases {
+    for release in releases {
+        let pkg_name = release.package_name.clone();
         let is_breaking = worker
             .is_breaking(pkg_name.as_str(), release.change_type())
             .with_context(|| format!("failed to check if package {pkg_name} is breaking"))?;
@@ -325,12 +327,12 @@ fn get_data() -> Result<(VersionMap, InternedGraph)> {
         .exec()
         .expect("failed to run cargo metadata");
 
-    let workspace_packages = md
+    let workspace_packages: IndexSet<String> = md
         .workspace_packages()
         .into_iter()
         .filter(|p| p.publish != Some(vec![]))
-        .map(|p| p.name.clone())
-        .collect::<Vec<_>>();
+        .map(|p| p.name.to_string())
+        .collect();
     let mut graph = InternedGraph::default();
     let mut versions = VersionMap::new();
 
@@ -339,7 +341,7 @@ fn get_data() -> Result<(VersionMap, InternedGraph)> {
             continue;
         }
 
-        versions.insert(pkg.name.clone(), pkg.version.clone());
+        versions.insert(pkg.name.to_string(), pkg.version.clone());
     }
 
     for pkg in md.workspace_packages() {
@@ -348,9 +350,9 @@ fn get_data() -> Result<(VersionMap, InternedGraph)> {
                 continue;
             }
 
-            if workspace_packages.contains(&dep.name) {
-                let from = graph.add_node(pkg.name.clone());
-                let to = graph.add_node(dep.name.clone());
+            if workspace_packages.contains(dep.name.as_str()) {
+                let from = graph.add_node(pkg.name.to_string());
+                let to = graph.add_node(dep.name.to_string());
 
                 if from == to {
                     continue;

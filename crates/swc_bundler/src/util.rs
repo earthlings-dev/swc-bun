@@ -6,10 +6,10 @@ use rustc_hash::FxBuildHasher;
 #[cfg(not(feature = "concurrent"))]
 use rustc_hash::FxHashMap;
 use swc_atoms::atom;
-use swc_common::{SyntaxContext, DUMMY_SP};
+use swc_common::{DUMMY_SP, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut};
+use swc_ecma_visit::{VisitMut, noop_visit_mut_type};
 
 #[cfg(feature = "concurrent")]
 pub(crate) type Readonly<T> = std::sync::Arc<T>;

@@ -1,7 +1,7 @@
 use std::sync::atomic::{AtomicBool, Ordering};
 
 use swc_atoms::atom;
-use swc_common::{sync::Lrc, FileName};
+use swc_common::{FileName, sync::Lrc};
 
 use super::load::TransformedModule;
 use crate::{
@@ -35,7 +35,7 @@ impl Scope {
     }
 
     pub fn get_module_by_path(&self, file_name: &FileName) -> Option<TransformedModule> {
-        let (id, _, _) = self.module_id_gen.gen(file_name);
+        let (id, _, _) = self.module_id_gen.r#gen(file_name);
         self.get_module(id)
     }
 

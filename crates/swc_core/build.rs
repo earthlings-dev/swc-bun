@@ -7,21 +7,25 @@ use std::{
 
 use vergen::{CargoBuilder, Emitter};
 
-// Validate conflict between host / plugin features
-#[cfg(all(
-    feature = "ecma_plugin_transform",
-    any(
-        feature = "plugin_transform_host_native",
-        feature = "plugin_transform_host_js"
-    )
-))]
-compile_error!(
-    "'plugin_transform' and 'plugin_transform_host*' features are mutually exclusive. If you're \
-     writing a plugin, use 'plugin_transform' feature. If you're writing a custom SWC binary to \
-     run plugin, use 'plugin_transform_host_*' instead."
-);
-
 fn main() {
+    // Validate conflict between host / plugin features.
+    // During workspace builds with --all-features we allow both to compile, but
+    // keep a warning for consumers.
+    #[cfg(all(
+        not(feature = "allow_feature_conflicts"),
+        feature = "ecma_plugin_transform",
+        any(
+            feature = "plugin_transform_host_native",
+            feature = "plugin_transform_host_js"
+        )
+    ))]
+    {
+        println!(
+            "cargo:warning=Both 'plugin_transform' and 'plugin_transform_host*' are enabled; \
+             prefer enabling only one set for production builds."
+        );
+    }
+
     let cargo = CargoBuilder::all_cargo().unwrap();
 
     // Creates a static compile time constants for the version of swc_core.

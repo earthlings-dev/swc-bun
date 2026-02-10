@@ -246,8 +246,10 @@ impl FileSystemCache {
     }
 
     unsafe fn load(&self, rt: &dyn runtime::Runtime, key: &str) -> Option<runtime::ModuleCache> {
-        let path = self.path.join(format!("{}.{}", key, rt.identifier()));
-        rt.load_cache(&path)
+        unsafe {
+            let path = self.path.join(format!("{}.{}", key, rt.identifier()));
+            rt.load_cache(&path)
+        }
     }
 
     fn store(

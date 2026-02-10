@@ -326,7 +326,7 @@ impl SyntaxError {
             SyntaxError::UnterminatedBlockComment => "Unterminated block comment".into(),
             SyntaxError::UnterminatedStrLit => "Unterminated string constant".into(),
             SyntaxError::ExpectedUnicodeEscape => "Expected unicode escape".into(),
-            SyntaxError::EscapeInReservedWord { ref word } => {
+            SyntaxError::EscapeInReservedWord { word } => {
                 format!("Unexpected escape sequence in reserved word: {word}").into()
             }
             SyntaxError::UnterminatedRegExp => "Unterminated regexp literal".into(),
@@ -366,16 +366,13 @@ impl SyntaxError {
             SyntaxError::LineBreakBeforeArrow => {
                 "Unexpected line break between arrow head and arrow".into()
             }
-            SyntaxError::Unexpected {
-                ref got,
-                ref expected,
-            } => format!("Unexpected token `{got}`. Expected {expected}").into(),
+            SyntaxError::Unexpected { got, expected } => {
+                format!("Unexpected token `{got}`. Expected {expected}").into()
+            }
 
             SyntaxError::ReservedWordInImport => "cannot import as reserved word".into(),
             SyntaxError::AssignProperty => "assignment property is invalid syntax".into(),
-            SyntaxError::Expected(token, ref got) => {
-                format!("Expected '{token}', got '{got}'").into()
-            }
+            SyntaxError::Expected(token, got) => format!("Expected '{token}', got '{got}'").into(),
             SyntaxError::ExpectedSemiForExprStmt { .. } => "Expected ';', '}' or <eof>".into(),
 
             SyntaxError::AwaitStar => "await* has been removed from the async functions proposal. \
@@ -403,7 +400,7 @@ impl SyntaxError {
             SyntaxError::NotSimpleAssign => "Cannot assign to this".into(),
             SyntaxError::ExpectedIdent => "Expected ident".into(),
             SyntaxError::ExpectedSemi => "Expected ';' or line break".into(),
-            SyntaxError::DuplicateLabel(ref label) => {
+            SyntaxError::DuplicateLabel(label) => {
                 format!("Label {label} is already declared").into()
             }
             SyntaxError::AsyncGenerator => "An async function cannot be generator".into(),
@@ -452,7 +449,7 @@ impl SyntaxError {
             SyntaxError::JSXExpectedClosingTagForLtGt => {
                 "Expected corresponding JSX closing tag for <>".into()
             }
-            SyntaxError::JSXExpectedClosingTag { ref tag } => {
+            SyntaxError::JSXExpectedClosingTag { tag } => {
                 format!("Expected corresponding JSX closing tag for <{tag}>").into()
             }
             SyntaxError::InvalidLeadingDecorator => {
@@ -759,7 +756,7 @@ impl SyntaxError {
 impl Error {
     #[cold]
     #[inline(never)]
-    pub fn into_diagnostic(self, handler: &Handler) -> DiagnosticBuilder {
+    pub fn into_diagnostic(self, handler: &Handler) -> DiagnosticBuilder<'_> {
         if let SyntaxError::WithLabel { inner, note, span } = self.error.1 {
             let mut db = inner.into_diagnostic(handler);
             db.span_label(span, note);

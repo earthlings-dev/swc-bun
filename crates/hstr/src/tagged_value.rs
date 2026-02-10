@@ -9,6 +9,7 @@ type RawTaggedValue = u128;
     target_pointer_width = "16",
     feature = "atom_size_64"
 ))]
+#[cfg(not(feature = "atom_size_128"))]
 type RawTaggedValue = u64;
 #[cfg(not(any(
     target_pointer_width = "32",
@@ -25,6 +26,7 @@ type RawTaggedNonZeroValue = std::num::NonZeroU128;
     target_pointer_width = "16",
     feature = "atom_size_64"
 ))]
+#[cfg(not(feature = "atom_size_128"))]
 type RawTaggedNonZeroValue = std::num::NonZeroU64;
 #[cfg(not(any(
     target_pointer_width = "32",
@@ -75,7 +77,7 @@ impl TaggedValue {
     pub const fn new_tag(value: NonZeroU8) -> Self {
         let value = value.get() as RawTaggedValue;
         Self {
-            value: unsafe { std::mem::transmute(value) },
+            value: unsafe { RawTaggedNonZeroValue::new_unchecked(value as _) },
         }
     }
 
@@ -134,15 +136,18 @@ impl TaggedValue {
     /// used when setting the untagged slice part of this value. If tag is
     /// zero and the slice is zeroed out, using this `TaggedValue` will be
     /// UB!
+    #[allow(clippy::incompatible_msrv)]
     pub const unsafe fn data_mut(&mut self) -> &mut [u8] {
-        let x: *mut _ = &mut self.value;
-        let mut data = x as *mut u8;
-        // All except the lowest byte, which is first in little-endian, last in
-        // big-endian.
-        if cfg!(target_endian = "little") {
-            data = data.offset(1);
+        unsafe {
+            let x: *mut _ = &mut self.value;
+            let mut data = x as *mut u8;
+            // All except the lowest byte, which is first in little-endian, last in
+            // big-endian.
+            if cfg!(target_endian = "little") {
+                data = data.offset(1);
+            }
+            let len = std::mem::size_of::<TaggedValue>() - 1;
+            slice::from_raw_parts_mut(data, len)
         }
-        let len = std::mem::size_of::<TaggedValue>() - 1;
-        slice::from_raw_parts_mut(data, len)
     }
 }

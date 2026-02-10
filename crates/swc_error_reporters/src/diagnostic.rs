@@ -188,8 +188,8 @@ impl miette::SourceCode for PrettySourceCode<'_> {
             None
         } else {
             match &*loc.file.name {
-                FileName::Real(ref path) => Some(path.to_string_lossy().into_owned()),
-                FileName::Custom(ref name) => Some(name.clone()),
+                FileName::Real(path) => Some(path.to_string_lossy().into_owned()),
+                FileName::Custom(name) => Some(name.clone()),
                 FileName::Anon => None,
                 _ => Some(loc.file.name.to_string()),
             }

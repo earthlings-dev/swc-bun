@@ -86,7 +86,7 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
         .variants()
         .into_iter()
         .map(|v| {
-            let (pat, bindings) = v.bind("_", Some(Token![ref](def_site())), None);
+            let (pat, bindings) = v.bind("_", None, None);
 
             let body = make_body_for_variant(&v, bindings);
 

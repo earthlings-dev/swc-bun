@@ -8,30 +8,31 @@ use std::{
 use anyhow::{Context, Error};
 use once_cell::sync::Lazy;
 use swc::{
+    BoolOrDataConfig, Compiler, HandlerOpts,
     config::{
         Config, JsMinifyOptions, JscConfig, ModuleConfig, Options, SourceMapsConfig,
         TransformConfig,
     },
-    try_with_handler, BoolOrDataConfig, Compiler, HandlerOpts,
+    try_with_handler,
 };
-use swc_common::{errors::ColorConfig, SourceMap, GLOBALS};
+use swc_common::{GLOBALS, SourceMap, errors::ColorConfig};
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::{Syntax, TsSyntax};
-use swc_ecma_testing::{exec_node_js, JsExecOptions};
+use swc_ecma_testing::{JsExecOptions, exec_node_js};
 use testing::{assert_eq, find_executable, unignore_fixture};
-use tracing::{span, Level};
+use tracing::{Level, span};
 
 trait IterExt<T>: Sized + IntoIterator<Item = T>
 where
     T: Clone,
 {
-    fn matrix<F, I, N>(self, mut gen: F) -> Vec<(T, N)>
+    fn matrix<F, I, N>(self, mut r#gen: F) -> Vec<(T, N)>
     where
         F: FnMut() -> I,
         I: IntoIterator<Item = N>,
     {
         self.into_iter()
-            .flat_map(|l| gen().into_iter().map(move |r| (l.clone(), r)))
+            .flat_map(|l| r#gen().into_iter().map(move |r| (l.clone(), r)))
             .collect()
     }
 

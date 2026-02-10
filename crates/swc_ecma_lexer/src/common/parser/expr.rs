@@ -633,7 +633,7 @@ fn parse_subscript<'a, P: Parser<'a>>(
                         && at_possible_async(
                             p,
                             match &mut_obj_opt {
-                                Some(Callee::Expr(ref expr)) => expr,
+                                Some(Callee::Expr(expr)) => expr,
                                 _ => unreachable!(),
                             },
                         )

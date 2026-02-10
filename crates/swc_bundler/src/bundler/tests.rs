@@ -4,15 +4,15 @@ use std::path::PathBuf;
 use anyhow::Error;
 use indexmap::IndexMap;
 use rustc_hash::FxBuildHasher;
-use swc_common::{sync::Lrc, FileName, SourceMap, Span, GLOBALS};
+use swc_common::{FileName, GLOBALS, SourceMap, Span, sync::Lrc};
 use swc_ecma_ast::*;
 use swc_ecma_loader::resolve::Resolution;
-use swc_ecma_parser::{lexer::Lexer, Parser, StringInput};
+use swc_ecma_parser::{Parser, StringInput, lexer::Lexer};
 use swc_ecma_utils::drop_span;
 use swc_ecma_visit::VisitMutWith;
 
-use super::{load::TransformedModule, Bundler, Config};
-use crate::{load::ModuleData, util::HygieneRemover, Load, ModuleRecord, Resolve};
+use super::{Bundler, Config, load::TransformedModule};
+use crate::{Load, ModuleRecord, Resolve, load::ModuleData, util::HygieneRemover};
 
 pub(crate) struct Tester<'a> {
     pub cm: Lrc<SourceMap>,

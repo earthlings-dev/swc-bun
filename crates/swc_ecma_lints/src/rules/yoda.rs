@@ -10,15 +10,11 @@ use crate::{
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
+#[derive(Default)]
 pub enum YodaConfigMode {
     Always,
+    #[default]
     Never,
-}
-
-impl Default for YodaConfigMode {
-    fn default() -> Self {
-        Self::Never
-    }
 }
 
 #[derive(Debug, Clone, Default, Copy, Serialize, Deserialize)]

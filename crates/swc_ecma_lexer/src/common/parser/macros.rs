@@ -75,7 +75,7 @@ macro_rules! debug_tracing {
             tracing::span!(
                 tracing::Level::ERROR,
                 $name,
-                cur = tracing::field::debug(&$p.input.cur())
+                cur = tracing::field::debug(&$p.input().cur())
             )
             .entered()
         }

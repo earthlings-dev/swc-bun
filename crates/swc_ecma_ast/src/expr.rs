@@ -1275,7 +1275,7 @@ impl Take for TplElement {
 impl<'a> arbitrary::Arbitrary<'a> for TplElement {
     fn arbitrary(u: &mut arbitrary::Unstructured<'_>) -> arbitrary::Result<Self> {
         let span = u.arbitrary()?;
-        let cooked = Some(u.arbitrary::<Wtf8Atom>()?.into());
+        let cooked = Some(u.arbitrary::<Wtf8Atom>()?);
         let raw = u.arbitrary::<String>()?.into();
 
         Ok(Self {
@@ -1506,10 +1506,7 @@ impl TryFrom<Pat> for AssignTarget {
             Pat::Ident(i) => SimpleAssignTarget::Ident(i).into(),
             Pat::Invalid(i) => SimpleAssignTarget::Invalid(i).into(),
 
-            Pat::Expr(e) => match Self::try_from(e) {
-                Ok(v) => v,
-                Err(e) => return Err(e.into()),
-            },
+            Pat::Expr(e) => Self::try_from(e)?,
 
             _ => return Err(p),
         })

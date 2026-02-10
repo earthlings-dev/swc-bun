@@ -19,13 +19,23 @@ encoding-impl = [
   "swc_atoms/encoding-impl",
   "swc_common/encoding-impl",
 ]
-rkyv-impl = []
-serde-impl = ["serde"]
+rkyv-impl = [
+  "__rkyv",
+  "rkyv",
+  "bytecheck",
+  "rancor",
+  "swc_atoms/rkyv-impl",
+  "swc_common/rkyv-impl",
+]
+serde-impl = ["serde", "bitflags/serde"]
 
 [dependencies]
 bitflags = { workspace = true }
+bytecheck = { workspace = true, optional = true }
 cbor4ii  = { workspace = true, features = ["use_std"], optional = true }
 is-macro = { workspace = true }
+rancor   = { workspace = true, optional = true }
+rkyv     = { workspace = true, optional = true }
 serde    = { workspace = true, features = ["derive"], optional = true }
 
 swc_atoms              = { version = "9.0.0", path = "../swc_atoms" }

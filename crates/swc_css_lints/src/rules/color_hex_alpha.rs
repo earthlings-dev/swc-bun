@@ -8,15 +8,11 @@ pub type ColorHexAlphaConfig = Option<Preference>;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
+#[derive(Default)]
 pub enum Preference {
+    #[default]
     Always,
     Never,
-}
-
-impl Default for Preference {
-    fn default() -> Self {
-        Self::Always
-    }
 }
 
 pub fn color_hex_alpha(ctx: LintRuleContext<ColorHexAlphaConfig>) -> Box<dyn LintRule> {

@@ -1,11 +1,11 @@
 #![allow(dead_code)]
 
-use std::io::{stderr, Write};
+use std::io::{Write, stderr};
 
-use swc_common::{sync::Lrc, SourceMap, SyntaxContext};
+use swc_common::{SourceMap, SyntaxContext, sync::Lrc};
 use swc_ecma_ast::{Ident, Module};
-use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
+use swc_ecma_codegen::{Emitter, text_writer::JsWriter};
+use swc_ecma_visit::{Fold, FoldWith, noop_fold_type};
 
 #[cfg(not(debug_assertions))]
 pub(crate) fn print_hygiene(_: &str, _: &Lrc<SourceMap>, _: &Module) {}

@@ -1,11 +1,11 @@
-use anyhow::{bail, Error};
+use anyhow::{Error, bail};
 use rustc_hash::FxHashMap;
 use swc_graph_analyzer::{DepGraph, GraphAnalyzer};
 
 use crate::{
+    BundleKind, Bundler, Load, ModuleId, Resolve,
     bundler::{load::TransformedModule, scope::Scope},
     dep_graph::ModuleGraph,
-    BundleKind, Bundler, Load, ModuleId, Resolve,
 };
 
 #[cfg(test)]

@@ -12,15 +12,15 @@ impl MacroNode for ModuleDecl {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         match self {
-            ModuleDecl::Import(ref d) => emit!(d),
-            ModuleDecl::ExportDecl(ref d) => emit!(d),
-            ModuleDecl::ExportNamed(ref d) => emit!(d),
-            ModuleDecl::ExportDefaultDecl(ref d) => emit!(d),
-            ModuleDecl::ExportDefaultExpr(ref n) => emit!(n),
-            ModuleDecl::ExportAll(ref d) => emit!(d),
-            ModuleDecl::TsExportAssignment(ref n) => emit!(n),
-            ModuleDecl::TsImportEquals(ref n) => emit!(n),
-            ModuleDecl::TsNamespaceExport(ref n) => emit!(n),
+            ModuleDecl::Import(d) => emit!(d),
+            ModuleDecl::ExportDecl(d) => emit!(d),
+            ModuleDecl::ExportNamed(d) => emit!(d),
+            ModuleDecl::ExportDefaultDecl(d) => emit!(d),
+            ModuleDecl::ExportDefaultExpr(n) => emit!(n),
+            ModuleDecl::ExportAll(d) => emit!(d),
+            ModuleDecl::TsExportAssignment(n) => emit!(n),
+            ModuleDecl::TsImportEquals(n) => emit!(n),
+            ModuleDecl::TsNamespaceExport(n) => emit!(n),
             #[cfg(swc_ast_unknown)]
             _ => return Err(unknown_error()),
         }
@@ -101,10 +101,10 @@ impl MacroNode for ExportDefaultDecl {
         space!(emitter);
         keyword!(emitter, "default");
         space!(emitter);
-        match self.decl {
-            DefaultDecl::Class(ref n) => emit!(n),
-            DefaultDecl::Fn(ref n) => emit!(n),
-            DefaultDecl::TsInterfaceDecl(ref n) => emit!(n),
+        match &self.decl {
+            DefaultDecl::Class(n) => emit!(n),
+            DefaultDecl::Fn(n) => emit!(n),
+            DefaultDecl::TsInterfaceDecl(n) => emit!(n),
             #[cfg(swc_ast_unknown)]
             _ => return Err(unknown_error()),
         }
@@ -157,14 +157,14 @@ impl MacroNode for ImportDecl {
         let mut emitted_ns = false;
         for specifier in &self.specifiers {
             match specifier {
-                ImportSpecifier::Named(ref s) => {
+                ImportSpecifier::Named(s) => {
                     specifiers.push(s);
                 }
-                ImportSpecifier::Default(ref s) => {
+                ImportSpecifier::Default(s) => {
                     emit!(s.local);
                     emitted_default = true;
                 }
-                ImportSpecifier::Namespace(ref ns) => {
+                ImportSpecifier::Namespace(ns) => {
                     if emitted_default {
                         punct!(emitter, ",");
                         formatting_space!(emitter);
@@ -262,8 +262,8 @@ impl MacroNode for ExportSpecifier {
             ExportSpecifier::Default(..) => {
                 unimplemented!("codegen of `export default from 'foo';`")
             }
-            ExportSpecifier::Namespace(ref node) => emit!(node),
-            ExportSpecifier::Named(ref node) => emit!(node),
+            ExportSpecifier::Namespace(node) => emit!(node),
+            ExportSpecifier::Named(node) => emit!(node),
             #[cfg(swc_ast_unknown)]
             _ => return Err(unknown_error()),
         }

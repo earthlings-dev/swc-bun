@@ -7,7 +7,7 @@ use swc_ecma_utils::ExprExt;
 pub trait ExprRefExt: ExprExt {
     fn as_ident(&self) -> Option<&Ident> {
         match self.as_expr() {
-            Expr::Ident(ref i) => Some(i),
+            Expr::Ident(i) => Some(i),
             _ => None,
         }
     }

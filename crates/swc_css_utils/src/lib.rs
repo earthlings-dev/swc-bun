@@ -274,11 +274,11 @@ fn hex_escape(ascii_byte: u8, _minify: bool) -> String {
     if ascii_byte > 0x0f {
         let high = (ascii_byte >> 4) as usize;
         let low = (ascii_byte & 0x0f) as usize;
-        unsafe { str::from_utf8_unchecked(&[b'\\', HEX_DIGITS[high], HEX_DIGITS[low], b' ']) }
-            .to_string()
+        let bytes = [b'\\', HEX_DIGITS[high], HEX_DIGITS[low], b' '];
+        unsafe { str::from_utf8_unchecked(&bytes) }.to_string()
     } else {
-        unsafe { str::from_utf8_unchecked(&[b'\\', HEX_DIGITS[ascii_byte as usize], b' ']) }
-            .to_string()
+        let bytes = [b'\\', HEX_DIGITS[ascii_byte as usize], b' '];
+        unsafe { str::from_utf8_unchecked(&bytes) }.to_string()
     }
 }
 

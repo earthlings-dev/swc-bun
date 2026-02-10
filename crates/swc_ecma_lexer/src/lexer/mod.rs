@@ -101,7 +101,7 @@ impl<'a> crate::common::lexer::Lexer<'a, TokenAndSpan> for Lexer<'a> {
 
     #[inline(always)]
     unsafe fn input_slice(&mut self, start: BytePos, end: BytePos) -> &'a str {
-        self.input.slice(start, end)
+        unsafe { self.input.slice(start, end) }
     }
 
     #[inline(always)]

@@ -1,10 +1,10 @@
 use std::io;
 
 use anyhow::{Context, Error};
-use crc::{Crc, Digest, CRC_64_ECMA_182};
-use swc_common::{sync::Lrc, BytePos, SourceMap, Span};
+use crc::{CRC_64_ECMA_182, Crc, Digest};
+use swc_common::{BytePos, SourceMap, Span, sync::Lrc};
 use swc_ecma_ast::Module;
-use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
+use swc_ecma_codegen::{Emitter, text_writer::WriteJs};
 
 pub(crate) fn calc_hash(cm: Lrc<SourceMap>, m: &Module) -> Result<String, Error> {
     let crc = Crc::<u64>::new(&CRC_64_ECMA_182);

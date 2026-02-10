@@ -1,7 +1,7 @@
-#![cfg(feature = "nightly")]
+use std::hint::black_box;
 
-use criterion::black_box;
-use swc_allocator::{Allocator, FastAlloc, boxed::Box};
+use allocator_api2::{alloc::Global, boxed::Box, vec::Vec};
+use swc_allocator::allocators::Arena;
 
 #[test]
 fn direct_alloc_std() {
@@ -14,52 +14,39 @@ fn direct_alloc_std() {
 
 #[test]
 fn direct_alloc_no_scope() {
-    let mut vec = swc_allocator::vec::Vec::new();
+    let arena = Arena::default();
+    let mut vec = Vec::new_in(&arena);
     for i in 0..1000 {
-        let item: swc_allocator::boxed::Box<usize> =
-            black_box(swc_allocator::boxed::Box::new(black_box(i)));
+        let item: Box<usize, &Arena> = black_box(Box::new_in(black_box(i), &arena));
         vec.push(item);
     }
 }
 
 #[test]
 fn direct_alloc_in_scope() {
-    let allocator = Allocator::default();
-    let _guard = unsafe { allocator.guard() };
-
-    let mut vec = swc_allocator::vec::Vec::new();
+    let arena = Arena::default();
+    let mut vec = Vec::new_in(&arena);
 
     for i in 0..1000 {
-        let item: swc_allocator::boxed::Box<usize> =
-            black_box(swc_allocator::boxed::Box::new(black_box(i)));
+        let item: Box<usize, &Arena> = black_box(Box::new_in(black_box(i), &arena));
         vec.push(item);
     }
 }
 
 #[test]
 fn escape() {
-    let allocator = Allocator::default();
-
-    let obj = {
-        let _guard = unsafe { allocator.guard() };
-        Box::new(1234)
-    };
+    let arena = Arena::default();
+    let obj = Box::new_in(1234, &arena);
 
     assert_eq!(*obj, 1234);
-    // It should not segfault, because the allocator is still alive.
     drop(obj);
 }
 
 #[test]
 fn global_allocator_escape() {
-    let allocator = Allocator::default();
-    let obj = {
-        let _guard = unsafe { allocator.guard() };
-        Box::new_in(1234, FastAlloc::global())
-    };
+    let obj = { Box::new_in(1234, Global) };
 
     assert_eq!(*obj, 1234);
-    drop(allocator);
     // Object created with global allocator should outlive the allocator.
     drop(obj);
 }

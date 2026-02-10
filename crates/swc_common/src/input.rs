@@ -62,9 +62,7 @@ impl<'a> StringInput<'a> {
 
         debug_assert!(end_idx <= s.len());
 
-        let ret = unsafe { s.get_unchecked(start_idx..end_idx) };
-
-        ret
+        (unsafe { s.get_unchecked(start_idx..end_idx) }) as _
     }
 
     pub fn start_pos(&self) -> BytePos {

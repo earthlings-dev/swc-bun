@@ -5,9 +5,9 @@ use anyhow::{Context, Error};
 use rayon::iter::ParallelIterator;
 use rustc_hash::FxHashMap;
 
-use super::{load::TransformedModule, Bundler};
+use super::{Bundler, load::TransformedModule};
 use crate::{
-    bundler::chunk::merge::Ctx, load::Load, resolve::Resolve, util::IntoParallelIterator, Bundle,
+    Bundle, bundler::chunk::merge::Ctx, load::Load, resolve::Resolve, util::IntoParallelIterator,
 };
 
 mod cjs;

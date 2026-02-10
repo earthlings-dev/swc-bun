@@ -384,15 +384,15 @@ impl<'a> Token {
         }
 
         let span = buffer.cur.span;
-        let atom = Atom::new(buffer.iter.read_string(span));
-        atom
+
+        Atom::new(buffer.iter.read_string(span))
     }
 
     #[inline(always)]
     pub fn take_known_ident<I: Tokens>(self, buffer: &Buffer<I>) -> Atom {
         let span = buffer.cur.span;
-        let atom = Atom::new(buffer.iter.read_string(span));
-        atom
+
+        Atom::new(buffer.iter.read_string(span))
     }
 
     #[inline(always)]

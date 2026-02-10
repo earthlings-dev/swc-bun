@@ -5,16 +5,12 @@ use swc_ecma_ast::{Expr, Lit, MemberExpr, MemberProp, Number, Regex, Str, Tagged
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
+#[derive(Default)]
 pub enum QuotesType {
     Single,
+    #[default]
     Double,
     Backtick,
-}
-
-impl Default for QuotesType {
-    fn default() -> Self {
-        Self::Double
-    }
 }
 
 impl QuotesType {

@@ -144,7 +144,7 @@ impl Deriver {
                 colon_token: Some(Token![:](ident.span())),
                 pat: Box::new(Pat::Ident(PatIdent {
                     attrs: Default::default(),
-                    by_ref: Some(Token![ref](ident.span())),
+                    by_ref: None,
                     mutability: None,
                     ident: ident.clone(),
                     subpat: None,

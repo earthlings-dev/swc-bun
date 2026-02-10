@@ -1,17 +1,17 @@
 use std::mem::take;
 
-use anyhow::{bail, Error};
+use anyhow::{Error, bail};
 use swc_atoms::atom;
-use swc_common::{SyntaxContext, DUMMY_SP};
+use swc_common::{DUMMY_SP, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{contains_top_level_await, find_pat_ids, private_ident, ExprFactory};
-use swc_ecma_visit::{noop_fold_type, Fold};
+use swc_ecma_utils::{ExprFactory, contains_top_level_await, find_pat_ids, private_ident};
+use swc_ecma_visit::{Fold, noop_fold_type};
 
 use crate::{
+    Bundler, Load, ModuleId, Resolve,
     bundler::chunk::merge::Ctx,
     modules::Modules,
-    util::{is_injected, ExportMetadata},
-    Bundler, Load, ModuleId, Resolve,
+    util::{ExportMetadata, is_injected},
 };
 
 impl<L, R> Bundler<'_, L, R>

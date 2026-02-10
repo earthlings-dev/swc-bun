@@ -1208,8 +1208,8 @@ impl Visit for LiteralVisitor {
         node.visit_children_with(self);
 
         match node {
-            PropName::Str(ref s) => self.cost += 2 + s.value.len(),
-            PropName::Ident(ref id) => self.cost += 2 + id.sym.len(),
+            PropName::Str(s) => self.cost += 2 + s.value.len(),
+            PropName::Ident(id) => self.cost += 2 + id.sym.len(),
             PropName::Num(..) => {
                 // TODO: Count digits
                 self.cost += 5;
@@ -1591,7 +1591,7 @@ pub fn prepend_stmt<T: StmtLike>(stmts: &mut Vec<T>, stmt: T) {
 /// If the stmt is maybe a directive like `"use strict";`
 pub fn is_maybe_branch_directive(stmt: &Stmt) -> bool {
     match stmt {
-        Stmt::Expr(ExprStmt { ref expr, .. }) if matches!(&**expr, Expr::Lit(Lit::Str(..))) => true,
+        Stmt::Expr(ExprStmt { expr, .. }) if matches!(&**expr, Expr::Lit(Lit::Str(..))) => true,
         _ => false,
     }
 }
@@ -2793,10 +2793,10 @@ fn cast_to_bool(expr: &Expr, ctx: ExprCtx) -> (Purity, BoolValue) {
     }
 
     let val = match expr {
-        Expr::Paren(ref e) => return e.expr.cast_to_bool(ctx),
+        Expr::Paren(e) => return e.expr.cast_to_bool(ctx),
 
         Expr::Assign(AssignExpr {
-            ref right,
+            right,
             op: op!("="),
             ..
         }) => {
@@ -2817,9 +2817,7 @@ fn cast_to_bool(expr: &Expr, ctx: ExprCtx) -> (Purity, BoolValue) {
         }
 
         Expr::Unary(UnaryExpr {
-            op: op!("!"),
-            ref arg,
-            ..
+            op: op!("!"), arg, ..
         }) => {
             let (p, v) = arg.cast_to_bool(ctx);
             return (p, !v);
@@ -2878,15 +2876,15 @@ fn cast_to_bool(expr: &Expr, ctx: ExprCtx) -> (Purity, BoolValue) {
         }
 
         Expr::Bin(BinExpr {
-            ref left,
+            left,
             op: op @ op!("&"),
-            ref right,
+            right,
             ..
         })
         | Expr::Bin(BinExpr {
-            ref left,
+            left,
             op: op @ op!("|"),
-            ref right,
+            right,
             ..
         }) => {
             if left.get_type(ctx) != Known(BoolType) || right.get_type(ctx) != Known(BoolType) {
@@ -2912,9 +2910,9 @@ fn cast_to_bool(expr: &Expr, ctx: ExprCtx) -> (Purity, BoolValue) {
         }
 
         Expr::Bin(BinExpr {
-            ref left,
+            left,
             op: op!("||"),
-            ref right,
+            right,
             ..
         }) => {
             let (lp, lv) = left.cast_to_bool(ctx);
@@ -2931,9 +2929,9 @@ fn cast_to_bool(expr: &Expr, ctx: ExprCtx) -> (Purity, BoolValue) {
         }
 
         Expr::Bin(BinExpr {
-            ref left,
+            left,
             op: op!("&&"),
-            ref right,
+            right,
             ..
         }) => {
             let (lp, lv) = left.cast_to_bool(ctx);
@@ -2976,7 +2974,7 @@ fn cast_to_bool(expr: &Expr, ctx: ExprCtx) -> (Purity, BoolValue) {
             op: op!("void"), ..
         }) => Known(false),
 
-        Expr::Lit(ref lit) => {
+        Expr::Lit(lit) => {
             return (
                 Pure,
                 Known(match *lit {
@@ -3048,9 +3046,7 @@ fn cast_to_number(expr: &Expr, ctx: ExprCtx) -> (Purity, Value<f64>) {
             _ => return (MayBeImpure, Unknown),
         },
         Expr::Unary(UnaryExpr {
-            op: op!("!"),
-            ref arg,
-            ..
+            op: op!("!"), arg, ..
         }) => match arg.cast_to_bool(ctx) {
             (Pure, Known(v)) => {
                 if v {
@@ -3063,7 +3059,7 @@ fn cast_to_number(expr: &Expr, ctx: ExprCtx) -> (Purity, Value<f64>) {
         },
         Expr::Unary(UnaryExpr {
             op: op!("void"),
-            ref arg,
+            arg,
             ..
         }) => {
             if arg.may_have_side_effects(ctx) {
@@ -3234,7 +3230,7 @@ fn get_type(expr: &Expr, ctx: ExprCtx) -> Value<Type> {
 
     match expr {
         Expr::Assign(AssignExpr {
-            ref right,
+            right,
             op: op!("="),
             ..
         }) => right.get_type(ctx),
@@ -3251,33 +3247,33 @@ fn get_type(expr: &Expr, ctx: ExprCtx) -> Value<Type> {
             _ => Unknown,
         },
 
-        Expr::Seq(SeqExpr { ref exprs, .. }) => exprs
+        Expr::Seq(SeqExpr { exprs, .. }) => exprs
             .last()
             .expect("sequence expression should not be empty")
             .get_type(ctx),
 
         Expr::Bin(BinExpr {
-            ref left,
+            left,
             op: op!("&&"),
-            ref right,
+            right,
             ..
         })
         | Expr::Bin(BinExpr {
-            ref left,
+            left,
             op: op!("||"),
-            ref right,
+            right,
             ..
         })
         | Expr::Cond(CondExpr {
-            cons: ref left,
-            alt: ref right,
+            cons: left,
+            alt: right,
             ..
         }) => and(left.get_type(ctx), right.get_type(ctx)),
 
         Expr::Bin(BinExpr {
-            ref left,
+            left,
             op: op!(bin, "+"),
-            ref right,
+            right,
             ..
         }) => {
             let rt = right.get_type(ctx);
@@ -3311,7 +3307,7 @@ fn get_type(expr: &Expr, ctx: ExprCtx) -> Value<Type> {
 
         Expr::Assign(AssignExpr {
             op: op!("+="),
-            ref right,
+            right,
             ..
         }) => {
             if right.get_type(ctx) == Known(StringType) {
@@ -3320,7 +3316,7 @@ fn get_type(expr: &Expr, ctx: ExprCtx) -> Value<Type> {
             Unknown
         }
 
-        Expr::Ident(Ident { ref sym, .. }) => Known(match &**sym {
+        Expr::Ident(Ident { sym, .. }) => Known(match &**sym {
             "undefined" => UndefinedType,
             "NaN" | "Infinity" => NumberType,
             _ => return Unknown,
@@ -3687,7 +3683,7 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
 
         Expr::Call(CallExpr {
             callee: Callee::Expr(callee),
-            ref args,
+            args,
             ..
         }) if callee.is_pure_callee(ctx) => {
             args.iter().any(|arg| arg.expr.may_have_side_effects(ctx))
@@ -3751,11 +3747,11 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
         | Expr::JSXElement(..)
         | Expr::JSXFragment(..) => true,
 
-        Expr::TsAs(TsAsExpr { ref expr, .. })
-        | Expr::TsNonNull(TsNonNullExpr { ref expr, .. })
-        | Expr::TsTypeAssertion(TsTypeAssertion { ref expr, .. })
-        | Expr::TsInstantiation(TsInstantiation { ref expr, .. })
-        | Expr::TsSatisfies(TsSatisfiesExpr { ref expr, .. }) => expr.may_have_side_effects(ctx),
+        Expr::TsAs(TsAsExpr { expr, .. })
+        | Expr::TsNonNull(TsNonNullExpr { expr, .. })
+        | Expr::TsTypeAssertion(TsTypeAssertion { expr, .. })
+        | Expr::TsInstantiation(TsInstantiation { expr, .. })
+        | Expr::TsSatisfies(TsSatisfiesExpr { expr, .. }) => expr.may_have_side_effects(ctx),
 
         Expr::Invalid(..) => true,
         #[cfg(swc_ast_unknown)]

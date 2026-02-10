@@ -36,7 +36,7 @@ base64                    = "0.22.1"
 bitflags                  = "2.10.0"
 blake3                    = "1.8.3"
 browserslist-rs           = "0.19.0"
-bumpalo                   = "3.19.1"
+bumpalo                   = { version = "3.19.1", features = ["allocator-api2"] }
 bytes-str                 = "0.2.7"
 cargo_metadata            = "0.23.1"
 changesets                = "0.4.0"
@@ -217,6 +217,12 @@ opt-level = "s"
 
 [profile.release.package.swc_ecma_parser]
 opt-level = 3
+
+[patch.crates-io]
+par-core = { path = "vendor/par-core-2.0.0" }
+regalloc2 = { path = "vendor/regalloc2-0.13.5" }
+wasmer = { path = "vendor/wasmer-7.0.1" }
+wasmer-wasix = { path = "vendor/wasmer-wasix-0.700.1" }
 
 [profile.release.package.wast]
 opt-level = "s"

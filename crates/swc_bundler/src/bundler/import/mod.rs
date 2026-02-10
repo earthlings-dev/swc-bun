@@ -1,10 +1,10 @@
 use anyhow::{Context, Error};
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
-use swc_common::{sync::Lrc, FileName, Mark, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{DUMMY_SP, FileName, Mark, Spanned, SyntaxContext, sync::Lrc};
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_pat_ids;
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{VisitMut, VisitMutWith, noop_visit_mut_type};
 
 use super::Bundler;
 use crate::{load::Load, resolve::Resolve, util::ExportMetadata};
@@ -152,7 +152,7 @@ where
             return None;
         }
         let path = self.bundler.resolve(self.path, src).ok()?;
-        let (_, local_mark, export_mark) = self.bundler.scope.module_id_gen.gen(&path);
+        let (_, local_mark, export_mark) = self.bundler.scope.module_id_gen.r#gen(&path);
 
         Some((
             SyntaxContext::empty().apply_mark(local_mark),
@@ -170,7 +170,7 @@ where
             Ok(v) => v,
             Err(_) => return,
         };
-        let (id, _, _) = self.bundler.scope.module_id_gen.gen(&path);
+        let (id, _, _) = self.bundler.scope.module_id_gen.r#gen(&path);
 
         self.bundler.scope.mark_as_wrapping_required(id);
     }
@@ -181,7 +181,7 @@ where
             Ok(v) => v,
             Err(_) => return,
         };
-        let (id, _, _) = self.bundler.scope.module_id_gen.gen(&path);
+        let (id, _, _) = self.bundler.scope.module_id_gen.r#gen(&path);
 
         self.bundler.scope.mark_as_cjs(id);
     }

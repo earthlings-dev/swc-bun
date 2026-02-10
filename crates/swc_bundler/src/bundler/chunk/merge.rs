@@ -1,18 +1,19 @@
 use std::sync::atomic::Ordering;
 
+use EdgeDirection::Outgoing;
 use anyhow::Error;
 use indexmap::IndexSet;
 use petgraph::EdgeDirection;
 use rustc_hash::{FxBuildHasher, FxHashMap, FxHashSet};
 use swc_atoms::atom;
-use swc_common::{sync::Lock, FileName, SyntaxContext, DUMMY_SP};
+use swc_common::{DUMMY_SP, FileName, SyntaxContext, sync::Lock};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helpers::Helpers;
-use swc_ecma_utils::{find_pat_ids, prepend_stmt, private_ident, quote_ident, ExprFactory};
+use swc_ecma_utils::{ExprFactory, find_pat_ids, prepend_stmt, private_ident, quote_ident};
 use swc_ecma_visit::{VisitMut, VisitMutWith};
-use EdgeDirection::Outgoing;
 
 use crate::{
+    Bundler, Hook, ModuleRecord,
     bundler::{keywords::KeywordRenamer, load::TransformedModule},
     dep_graph::ModuleGraph,
     id::{Id, ModuleId},
@@ -21,7 +22,6 @@ use crate::{
     modules::Modules,
     resolve::Resolve,
     util::{CloneMap, ExportMetadata, ExprExt, VarDeclaratorExt},
-    Bundler, Hook, ModuleRecord,
 };
 
 pub(super) struct Ctx {

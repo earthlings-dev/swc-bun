@@ -1,9 +1,9 @@
 use rustc_hash::FxHashMap;
-use swc_common::{SyntaxContext, DUMMY_SP};
+use swc_common::{DUMMY_SP, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, visit_mut_obj_and_computed, Visit, VisitMut,
-    VisitMutWith, VisitWith,
+    Visit, VisitMut, VisitMutWith, VisitWith, noop_visit_mut_type, noop_visit_type,
+    visit_mut_obj_and_computed,
 };
 
 use crate::{id::Id, modules::Modules, util::Readonly};

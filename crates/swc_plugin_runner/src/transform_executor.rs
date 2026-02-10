@@ -83,7 +83,7 @@ impl PluginTransformState {
             .into_inner();
         let ret = PluginSerializedBytes::from_bytes(transformed_result);
 
-        let ret = if returned_ptr_result == 0 {
+        if returned_ptr_result == 0 {
             Ok(ret)
         } else {
             let err: PluginError = ret.deserialize()?.into_inner();
@@ -98,9 +98,7 @@ impl PluginTransformState {
                     "Unexpected error occurred while running plugin transform"
                 )),
             }
-        };
-
-        ret
+        }
     }
 
     /**

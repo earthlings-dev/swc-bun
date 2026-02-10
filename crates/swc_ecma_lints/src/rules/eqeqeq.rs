@@ -10,15 +10,11 @@ use crate::{
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
+#[derive(Default)]
 enum EqEqEqMode {
+    #[default]
     Always,
     Never,
-}
-
-impl Default for EqEqEqMode {
-    fn default() -> Self {
-        Self::Always
-    }
 }
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]

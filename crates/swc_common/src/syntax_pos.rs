@@ -497,7 +497,7 @@ pub struct MultiSpan {
     span_labels: Vec<PrimarySpanLabel>,
 }
 
-extern "C" {
+unsafe extern "C" {
     fn __span_dummy_with_cmt_proxy() -> u32;
 }
 

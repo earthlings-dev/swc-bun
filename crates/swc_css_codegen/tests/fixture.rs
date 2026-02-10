@@ -4,15 +4,15 @@ use std::{
 };
 
 use swc_atoms::atom;
-use swc_common::{comments::SingleThreadedComments, sync::Lrc, FileName, Span};
+use swc_common::{FileName, Span, comments::SingleThreadedComments, sync::Lrc};
 use swc_css_ast::*;
 use swc_css_codegen::{
-    writer::basic::{BasicCssWriter, BasicCssWriterConfig, IndentType, LineFeed},
     CodeGenerator, CodegenConfig, Emit,
+    writer::basic::{BasicCssWriter, BasicCssWriterConfig, IndentType, LineFeed},
 };
 use swc_css_parser::parse_file;
 use swc_css_visit::{VisitMut, VisitMutWith};
-use testing::{run_test2, NormalizedOutput};
+use testing::{NormalizedOutput, run_test2};
 
 fn run(input: &Path, minify: bool) {
     let dir = input.parent().unwrap();
@@ -64,9 +64,9 @@ fn run(input: &Path, minify: bool) {
                 BasicCssWriterConfig::default(),
             );
 
-            let mut gen = CodeGenerator::new(wr, CodegenConfig { minify });
+            let mut r#gen = CodeGenerator::new(wr, CodegenConfig { minify });
 
-            gen.emit(&stylesheet).unwrap();
+            r#gen.emit(&stylesheet).unwrap();
         }
 
         // let source_map = cm.build_source_map(&mut src_map_buf);
@@ -375,9 +375,9 @@ fn indent_type(input: PathBuf) {
                 },
             );
 
-            let mut gen = CodeGenerator::new(wr, CodegenConfig { minify: false });
+            let mut r#gen = CodeGenerator::new(wr, CodegenConfig { minify: false });
 
-            gen.emit(&stylesheet).unwrap();
+            r#gen.emit(&stylesheet).unwrap();
         }
 
         let fm_output = cm.load_file(&output).unwrap();
@@ -444,9 +444,9 @@ fn indent_width(input: PathBuf) {
                 },
             );
 
-            let mut gen = CodeGenerator::new(wr, CodegenConfig { minify: false });
+            let mut r#gen = CodeGenerator::new(wr, CodegenConfig { minify: false });
 
-            gen.emit(&stylesheet).unwrap();
+            r#gen.emit(&stylesheet).unwrap();
         }
 
         let fm_output = cm.load_file(&output).unwrap();
@@ -513,9 +513,9 @@ fn linefeed_lf(input: PathBuf) {
                 },
             );
 
-            let mut gen = CodeGenerator::new(wr, CodegenConfig { minify: false });
+            let mut r#gen = CodeGenerator::new(wr, CodegenConfig { minify: false });
 
-            gen.emit(&stylesheet).unwrap();
+            r#gen.emit(&stylesheet).unwrap();
         }
 
         let fm_output = cm.load_file(&output).unwrap();
@@ -584,9 +584,9 @@ fn linefeed_crlf(input: PathBuf) {
                 },
             );
 
-            let mut gen = CodeGenerator::new(wr, CodegenConfig { minify: false });
+            let mut r#gen = CodeGenerator::new(wr, CodegenConfig { minify: false });
 
-            gen.emit(&stylesheet).unwrap();
+            r#gen.emit(&stylesheet).unwrap();
         }
 
         let fm_output = cm.load_file(&output).unwrap();
@@ -643,9 +643,9 @@ fn parse_again(input: PathBuf) {
         let mut css_str = String::new();
         {
             let wr = BasicCssWriter::new(&mut css_str, None, BasicCssWriterConfig::default());
-            let mut gen = CodeGenerator::new(wr, CodegenConfig { minify: false });
+            let mut r#gen = CodeGenerator::new(wr, CodegenConfig { minify: false });
 
-            gen.emit(&stylesheet).unwrap();
+            r#gen.emit(&stylesheet).unwrap();
         }
 
         eprintln!("==== ==== Codegen ==== ====\n{css_str}\n");

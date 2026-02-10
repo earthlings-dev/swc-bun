@@ -23,16 +23,12 @@ const ADD_10_RADIX_MESSAGE: &str = "Add radix parameter `10` for parsing decimal
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 #[serde(rename_all = "kebab-case")]
+#[derive(Default)]
 enum RadixMode {
+    #[default]
     Always,
     #[serde(alias = "asNeeded")]
     AsNeeded,
-}
-
-impl Default for RadixMode {
-    fn default() -> Self {
-        Self::Always
-    }
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]

@@ -10,27 +10,27 @@ use crate::util::{EndsWithAlphaNum, StartsWithAlphaNum};
 impl MacroNode for Stmt {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
-            Stmt::Expr(ref e) => emit!(e),
-            Stmt::Block(ref e) => {
+            Stmt::Expr(e) => emit!(e),
+            Stmt::Block(e) => {
                 emit!(e);
                 return Ok(());
             }
-            Stmt::Empty(ref e) => emit!(e),
-            Stmt::Debugger(ref e) => emit!(e),
-            Stmt::With(ref e) => emit!(e),
-            Stmt::Return(ref e) => emit!(e),
-            Stmt::Labeled(ref e) => emit!(e),
-            Stmt::Break(ref e) => emit!(e),
-            Stmt::Continue(ref e) => emit!(e),
-            Stmt::If(ref e) => emit!(e),
-            Stmt::Switch(ref e) => emit!(e),
-            Stmt::Throw(ref e) => emit!(e),
-            Stmt::Try(ref e) => emit!(e),
-            Stmt::While(ref e) => emit!(e),
-            Stmt::DoWhile(ref e) => emit!(e),
-            Stmt::For(ref e) => emit!(e),
-            Stmt::ForIn(ref e) => emit!(e),
-            Stmt::ForOf(ref e) => emit!(e),
+            Stmt::Empty(e) => emit!(e),
+            Stmt::Debugger(e) => emit!(e),
+            Stmt::With(e) => emit!(e),
+            Stmt::Return(e) => emit!(e),
+            Stmt::Labeled(e) => emit!(e),
+            Stmt::Break(e) => emit!(e),
+            Stmt::Continue(e) => emit!(e),
+            Stmt::If(e) => emit!(e),
+            Stmt::Switch(e) => emit!(e),
+            Stmt::Throw(e) => emit!(e),
+            Stmt::Try(e) => emit!(e),
+            Stmt::While(e) => emit!(e),
+            Stmt::DoWhile(e) => emit!(e),
+            Stmt::For(e) => emit!(e),
+            Stmt::ForIn(e) => emit!(e),
+            Stmt::ForOf(e) => emit!(e),
             Stmt::Decl(Decl::Var(e)) => {
                 emit!(e);
                 semi!(emitter);
@@ -39,7 +39,7 @@ impl MacroNode for Stmt {
                 emit!(e);
                 semi!(emitter);
             }
-            Stmt::Decl(ref e) => emit!(e),
+            Stmt::Decl(e) => emit!(e),
             #[cfg(swc_ast_unknown)]
             _ => return Err(unknown_error()),
         }

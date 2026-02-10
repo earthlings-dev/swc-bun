@@ -71,11 +71,13 @@ impl runtime::Runtime for WasmtimeRuntime {
     }
 
     unsafe fn load_cache(&self, path: &Path) -> Option<runtime::ModuleCache> {
-        let module = std::fs::read(path).ok()?;
-        let engine = ENGINE.get_or_try_init(init_engine).ok()?;
-        let cache = wasmtime::Module::deserialize(engine, module).ok()?;
-        let cache = WasmtimeCache(cache);
-        Some(runtime::ModuleCache(Box::new(cache)))
+        unsafe {
+            let module = std::fs::read(path).ok()?;
+            let engine = ENGINE.get_or_try_init(init_engine).ok()?;
+            let cache = wasmtime::Module::deserialize(engine, module).ok()?;
+            let cache = WasmtimeCache(cache);
+            Some(runtime::ModuleCache(Box::new(cache)))
+        }
     }
 
     fn store_cache(&self, path: &Path, cache: &runtime::ModuleCache) -> anyhow::Result<()> {

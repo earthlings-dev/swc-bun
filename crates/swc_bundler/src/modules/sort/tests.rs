@@ -1,4 +1,4 @@
-use swc_common::{SyntaxContext, DUMMY_SP};
+use swc_common::{DUMMY_SP, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::drop_span;
 use testing::assert_eq;

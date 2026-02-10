@@ -550,7 +550,7 @@ impl<I: Tokens> Parser<I> {
                     Expr::Lit(..) => false,
                     Expr::Call(..) => deny_call,
                     Expr::Bin(..) => false,
-                    Expr::Paren(ref p) => should_deny(&p.expr, deny_call),
+                    Expr::Paren(p) => should_deny(&p.expr, deny_call),
 
                     _ => true,
                 }

@@ -2,8 +2,8 @@ use std::path::PathBuf;
 
 use swc_css_ast::Stylesheet;
 use swc_css_codegen::{
-    writer::basic::{BasicCssWriter, BasicCssWriterConfig},
     CodeGenerator, CodegenConfig, Emit,
+    writer::basic::{BasicCssWriter, BasicCssWriterConfig},
 };
 use swc_css_minifier::minify;
 use swc_css_parser::parse_file;
@@ -39,9 +39,9 @@ fn minify_fixtures(input: PathBuf) {
         let mut css_str = String::new();
         {
             let wr = BasicCssWriter::new(&mut css_str, None, BasicCssWriterConfig::default());
-            let mut gen = CodeGenerator::new(wr, CodegenConfig { minify: true });
+            let mut r#gen = CodeGenerator::new(wr, CodegenConfig { minify: true });
 
-            gen.emit(&ss).unwrap();
+            r#gen.emit(&ss).unwrap();
         }
 
         NormalizedOutput::from(css_str)

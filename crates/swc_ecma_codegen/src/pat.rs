@@ -26,12 +26,12 @@ impl MacroNode for Param {
 impl MacroNode for Pat {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
-            Pat::Array(ref n) => emit!(n),
-            Pat::Assign(ref n) => emit!(n),
-            Pat::Expr(ref n) => emit!(n),
-            Pat::Ident(ref n) => emit!(n),
-            Pat::Object(ref n) => emit!(n),
-            Pat::Rest(ref n) => emit!(n),
+            Pat::Array(n) => emit!(n),
+            Pat::Assign(n) => emit!(n),
+            Pat::Expr(n) => emit!(n),
+            Pat::Ident(n) => emit!(n),
+            Pat::Object(n) => emit!(n),
+            Pat::Rest(n) => emit!(n),
             Pat::Invalid(n) => emit!(n),
             #[cfg(swc_ast_unknown)]
             _ => return Err(unknown_error()),
@@ -67,8 +67,8 @@ impl MacroNode for RestPat {
 impl MacroNode for PropOrSpread {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
-            PropOrSpread::Prop(ref n) => emit!(n),
-            PropOrSpread::Spread(ref n) => emit!(n),
+            PropOrSpread::Prop(n) => emit!(n),
+            PropOrSpread::Spread(n) => emit!(n),
             #[cfg(swc_ast_unknown)]
             _ => return Err(unknown_error()),
         }
@@ -99,8 +99,8 @@ impl MacroNode for SpreadElement {
 impl MacroNode for AssignTarget {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
-            AssignTarget::Simple(ref n) => emit!(n),
-            AssignTarget::Pat(ref n) => emit!(n),
+            AssignTarget::Simple(n) => emit!(n),
+            AssignTarget::Pat(n) => emit!(n),
             #[cfg(swc_ast_unknown)]
             _ => return Err(unknown_error()),
         }
@@ -235,9 +235,9 @@ impl MacroNode for ObjectPat {
 impl MacroNode for ObjectPatProp {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
-            ObjectPatProp::KeyValue(ref node) => emit!(node),
-            ObjectPatProp::Assign(ref node) => emit!(node),
-            ObjectPatProp::Rest(ref node) => emit!(node),
+            ObjectPatProp::KeyValue(node) => emit!(node),
+            ObjectPatProp::Assign(node) => emit!(node),
+            ObjectPatProp::Rest(node) => emit!(node),
             #[cfg(swc_ast_unknown)]
             _ => return Err(unknown_error()),
         }

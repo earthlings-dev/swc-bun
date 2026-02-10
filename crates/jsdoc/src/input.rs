@@ -1,11 +1,9 @@
 use std::{
-    ops::{Deref, Range, RangeFrom, RangeTo},
+    ops::{Bound, Deref, RangeBounds},
     str::{CharIndices, Chars},
 };
 
-use nom::{
-    Compare, CompareResult, InputIter, InputLength, InputTake, Needed, Slice, UnspecializedInput,
-};
+use nom::{Compare, CompareResult, Input as NomInput, Needed};
 use swc_common::{BytePos, Span, comments::Comment};
 
 use crate::ast::Text;
@@ -36,23 +34,31 @@ impl<'i> Input<'i> {
     pub fn span(self) -> Span {
         Span::new(self.start, self.end)
     }
+
+    pub fn slice<R: RangeBounds<usize>>(&self, range: R) -> Self {
+        let start = match range.start_bound() {
+            Bound::Included(&s) => s,
+            Bound::Excluded(&s) => s + 1,
+            Bound::Unbounded => 0,
+        };
+        let end = match range.end_bound() {
+            Bound::Included(&e) => e + 1,
+            Bound::Excluded(&e) => e,
+            Bound::Unbounded => self.src.len(),
+        };
+
+        let s = &self.src[start..end];
+        Self::new(
+            self.start + BytePos(start as _),
+            self.start + BytePos(end as _),
+            s,
+        )
+    }
+
+    pub fn iter_indices(&self) -> CharIndices<'i> {
+        self.src.char_indices()
+    }
 }
-
-macro_rules! impl_slice {
-    ($T:ident) => {
-        impl Slice<$T<usize>> for Input<'_> {
-            fn slice(&self, range: $T<usize>) -> Self {
-                let s = self.src.slice(range);
-
-                Self::new(self.start, self.start + BytePos(s.as_bytes().len() as _), s)
-            }
-        }
-    };
-}
-
-impl_slice!(Range);
-impl_slice!(RangeFrom);
-impl_slice!(RangeTo);
 
 impl From<Input<'_>> for Text {
     fn from(i: Input) -> Self {
@@ -60,16 +66,6 @@ impl From<Input<'_>> for Text {
             span: Span::new(i.start, i.end),
             value: i.src.into(),
         }
-    }
-}
-
-impl InputTake for Input<'_> {
-    fn take(&self, count: usize) -> Self {
-        self.slice(..count)
-    }
-
-    fn take_split(&self, count: usize) -> (Self, Self) {
-        (self.slice(..count), self.slice(count..))
     }
 }
 
@@ -83,36 +79,63 @@ impl<'a> Compare<&'a str> for Input<'_> {
     }
 }
 
-impl InputLength for Input<'_> {
+impl<'a> NomInput for Input<'a> {
+    type Item = char;
+    type Iter = Chars<'a>;
+    type IterIndices = CharIndices<'a>;
+
     fn input_len(&self) -> usize {
         self.src.len()
     }
-}
 
-impl UnspecializedInput for Input<'_> {}
-
-impl<'a> InputIter for Input<'a> {
-    type Item = char;
-    type Iter = CharIndices<'a>;
-    type IterElem = Chars<'a>;
-
-    fn iter_indices(&self) -> Self::Iter {
-        self.src.iter_indices()
+    fn take(&self, index: usize) -> Self {
+        let s = &self.src[..index];
+        Self::new(self.start, self.start + BytePos(index as _), s)
     }
 
-    fn iter_elements(&self) -> Self::IterElem {
-        self.src.iter_elements()
+    fn take_from(&self, index: usize) -> Self {
+        let s = &self.src[index..];
+        Self::new(self.start + BytePos(index as _), self.end, s)
+    }
+
+    fn take_split(&self, index: usize) -> (Self, Self) {
+        let (prefix, suffix) = self.src.split_at(index);
+        let mid = self.start + BytePos(index as _);
+        (
+            Self::new(mid, self.end, suffix),
+            Self::new(self.start, mid, prefix),
+        )
     }
 
     fn position<P>(&self, predicate: P) -> Option<usize>
     where
         P: Fn(Self::Item) -> bool,
     {
-        self.src.position(predicate)
+        self.src.find(predicate)
+    }
+
+    fn iter_elements(&self) -> Self::Iter {
+        self.src.chars()
+    }
+
+    fn iter_indices(&self) -> Self::IterIndices {
+        self.src.char_indices()
     }
 
     fn slice_index(&self, count: usize) -> Result<usize, Needed> {
-        self.src.slice_index(count)
+        let mut cnt = 0;
+        for (index, _) in self.src.char_indices() {
+            if cnt == count {
+                return Ok(index);
+            }
+            cnt += 1;
+        }
+
+        if cnt == count {
+            return Ok(self.src.len());
+        }
+
+        Err(Needed::Unknown)
     }
 }
 

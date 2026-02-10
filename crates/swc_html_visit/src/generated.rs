@@ -11753,9 +11753,14 @@ pub mod fields {
         Raw,
     }
     impl TokenField {
-        #[inline(always)]
-        pub(crate) fn set_index(&mut self, _: usize) {
-            swc_visit::wrong_ast_path();
+        pub(crate) fn set_index(&mut self, index: usize) {
+            match self {
+                Self::Attributes(idx) => {
+                    assert_initial_index(*idx, index);
+                    *idx = index;
+                }
+                _ => swc_visit::wrong_ast_path(),
+            }
         }
     }
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -11763,6 +11768,14 @@ pub mod fields {
     pub enum TokenField {
         #[doc = "Represents [`Token::Doctype`]"]
         Doctype,
+        #[doc = "Represents [`Token::Doctype::name`]"]
+        Name,
+        #[doc = "Represents [`Token::Doctype::public_id`]"]
+        PublicId,
+        #[doc = "Represents [`Token::Doctype::system_id`]"]
+        SystemId,
+        #[doc = "Represents [`Token::Doctype::raw`]"]
+        Raw,
         #[doc = "Represents [`Token::StartTag`]"]
         StartTag,
         #[doc = "Represents [`Token::EndTag`]"]
@@ -11773,6 +11786,14 @@ pub mod fields {
         Character,
         #[doc = "Represents [`Token::Eof`]"]
         Eof,
+        #[doc = "Represents [`Token::StartTag::tag_name`]"]
+        TagName,
+        #[doc = "Represents [`Token::StartTag::raw_tag_name`]"]
+        RawTagName,
+        #[doc = "Represents [`Token::StartTag::attributes`]"]
+        Attributes(usize),
+        #[doc = "Represents [`Token::Comment::data`]"]
+        Data,
     }
     impl TokenAndSpanField {
         pub(crate) fn set_index(&mut self, index: usize) {

@@ -1,4 +1,3 @@
-#![cfg_attr(feature = "atom_size_128", feature(integer_atomics))]
 //! See [Atom] for more information.
 
 use core::str;
@@ -391,16 +390,19 @@ impl rkyv::Archive for Atom {
     type Resolver = rkyv::string::StringResolver;
 
     #[allow(clippy::unit_arg)]
-    unsafe fn resolve(&self, pos: usize, resolver: Self::Resolver, out: *mut Self::Archived) {
-        rkyv::string::ArchivedString::resolve_from_str(self, pos, resolver, out)
+    fn resolve(&self, resolver: Self::Resolver, out: rkyv::Place<Self::Archived>) {
+        rkyv::string::ArchivedString::resolve_from_str(self, resolver, out)
     }
 }
 
 /// NOT A PUBLIC API
 #[cfg(feature = "rkyv")]
-impl<S: rkyv::ser::Serializer + ?Sized> rkyv::Serialize<S> for Atom {
+impl<S: rancor::Fallible + rkyv::ser::Writer + ?Sized> rkyv::Serialize<S> for Atom
+where
+    <S as rancor::Fallible>::Error: rancor::Source,
+{
     fn serialize(&self, serializer: &mut S) -> Result<Self::Resolver, S::Error> {
-        String::serialize(&self.to_string(), serializer)
+        rkyv::string::ArchivedString::serialize_from_str(self.as_str(), serializer)
     }
 }
 
@@ -408,12 +410,10 @@ impl<S: rkyv::ser::Serializer + ?Sized> rkyv::Serialize<S> for Atom {
 #[cfg(feature = "rkyv")]
 impl<D> rkyv::Deserialize<Atom, D> for rkyv::string::ArchivedString
 where
-    D: ?Sized + rkyv::Fallible,
+    D: ?Sized + rancor::Fallible,
 {
-    fn deserialize(&self, deserializer: &mut D) -> Result<Atom, <D as rkyv::Fallible>::Error> {
-        let s: String = self.deserialize(deserializer)?;
-
-        Ok(Atom::new(s))
+    fn deserialize(&self, _: &mut D) -> Result<Atom, <D as rancor::Fallible>::Error> {
+        Ok(Atom::new(self.as_str()))
     }
 }
 

@@ -517,7 +517,7 @@ pub type UnsafeId = (UnsafeAtom, SyntaxContext);
 /// **Currently, it's considered as a unstable API and may be changed in the
 /// future without a semver bump.**
 pub unsafe fn unsafe_id(id: &Id) -> UnsafeId {
-    (UnsafeAtom::new(&id.0), id.1)
+    unsafe { (UnsafeAtom::new(&id.0), id.1) }
 }
 
 /// This is extremely unsafe so don't use it unless you know what you are doing.
@@ -529,7 +529,7 @@ pub unsafe fn unsafe_id(id: &Id) -> UnsafeId {
 /// **Currently, it's considered as a unstable API and may be changed in the
 /// future without a semver bump.**
 pub unsafe fn unsafe_id_from_ident(id: &Ident) -> UnsafeId {
-    (UnsafeAtom::new(&id.sym), id.ctxt)
+    unsafe { (UnsafeAtom::new(&id.sym), id.ctxt) }
 }
 
 /// See [Ident] for documentation.

@@ -27,10 +27,6 @@
 
 #![allow(clippy::needless_doctest_main)]
 #![cfg_attr(docsrs, feature(doc_cfg))]
-#![cfg_attr(
-    feature = "nightly",
-    feature(allocator_api, fundamental, with_negative_coherence, box_into_inner)
-)]
 #![deny(missing_docs)]
 #![allow(clippy::derivable_impls)]
 
@@ -41,26 +37,3 @@ pub mod allocators;
 pub mod api;
 mod types;
 mod util;
-
-/// This expands to the given tokens if the `nightly` feature is enabled.
-#[cfg(feature = "nightly")]
-#[macro_export]
-macro_rules! nightly_only {
-    (
-        $($item:item)*
-    ) => {
-        $(
-            #[cfg_attr(docsrs, doc(cfg(feature = "nightly")))]
-            $item
-        )*
-    };
-}
-
-/// This expands to the given tokens if the `nightly` feature is enabled.
-#[cfg(not(feature = "nightly"))]
-#[macro_export]
-macro_rules! nightly_only {
-    (
-        $($item:item)*
-    ) => {};
-}

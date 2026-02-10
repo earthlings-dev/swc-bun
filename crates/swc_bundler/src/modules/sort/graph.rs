@@ -1,9 +1,9 @@
 use std::{collections::VecDeque, iter::repeat};
 
 use petgraph::{
-    prelude::GraphMap,
     Directed,
     EdgeDirection::{self, Incoming, Outgoing},
+    prelude::GraphMap,
 };
 use rustc_hash::{FxBuildHasher, FxHashSet};
 

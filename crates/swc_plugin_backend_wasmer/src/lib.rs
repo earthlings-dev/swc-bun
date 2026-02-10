@@ -289,18 +289,20 @@ impl runtime::Runtime for WasmerRuntime {
     }
 
     unsafe fn load_cache(&self, path: &std::path::Path) -> Option<runtime::ModuleCache> {
-        let store = new_store();
-        let module = wasmer::Module::deserialize_from_file(store.engine(), path);
+        unsafe {
+            let store = new_store();
+            let module = wasmer::Module::deserialize_from_file(store.engine(), path);
 
-        if module.is_err() {
-            // If an error occurs while deserializing then we can not trust it anymore
-            // so delete the cache file
-            let _ = std::fs::remove_file(path);
+            if module.is_err() {
+                // If an error occurs while deserializing then we can not trust it anymore
+                // so delete the cache file
+                let _ = std::fs::remove_file(path);
+            }
+
+            module
+                .ok()
+                .map(|module| runtime::ModuleCache(Box::new(WasmerCache { store, module })))
         }
-
-        module
-            .ok()
-            .map(|module| runtime::ModuleCache(Box::new(WasmerCache { store, module })))
     }
 
     fn store_cache(&self, path: &Path, cache: &runtime::ModuleCache) -> anyhow::Result<()> {

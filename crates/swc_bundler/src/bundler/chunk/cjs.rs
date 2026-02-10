@@ -3,15 +3,15 @@ use std::{collections::HashMap, sync::atomic::Ordering};
 use anyhow::Error;
 use rustc_hash::FxHashMap;
 use swc_atoms::atom;
-use swc_common::{Span, SyntaxContext, DUMMY_SP};
+use swc_common::{DUMMY_SP, Span, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{quote_ident, ExprFactory};
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_utils::{ExprFactory, quote_ident};
+use swc_ecma_visit::{VisitMut, VisitMutWith, noop_visit_mut_type};
 
 use crate::{
+    Bundler, Load, Resolve,
     bundler::{chunk::merge::Ctx, load::TransformedModule},
     modules::Modules,
-    Bundler, Load, Resolve,
 };
 
 impl<L, R> Bundler<'_, L, R>

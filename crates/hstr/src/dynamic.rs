@@ -41,14 +41,18 @@ impl Hash for Item {
 }
 
 pub(crate) unsafe fn deref_from(ptr: TaggedValue) -> ManuallyDrop<Item> {
-    let item = restore_arc(ptr);
+    unsafe {
+        let item = restore_arc(ptr);
 
-    ManuallyDrop::new(item)
+        ManuallyDrop::new(item)
+    }
 }
 
 pub(crate) unsafe fn restore_arc(v: TaggedValue) -> Item {
-    let ptr = v.get_ptr();
-    Item(ThinArc::from_raw(ptr))
+    unsafe {
+        let ptr = v.get_ptr();
+        Item(ThinArc::from_raw(ptr))
+    }
 }
 
 /// A store that stores [Atom]s. Can be merged with other [AtomStore]s for
@@ -163,7 +167,8 @@ pub(crate) const fn inline_atom(text: &str) -> Option<Atom> {
     if len <= MAX_INLINE_LEN {
         // INLINE_TAG ensures this is never zero
         let tag = INLINE_TAG | ((len as u8) << LEN_OFFSET);
-        let mut unsafe_data = TaggedValue::new_tag(NonZeroU8::new(tag).unwrap());
+        // SAFETY: INLINE_TAG ensures this is never zero.
+        let mut unsafe_data = TaggedValue::new_tag(unsafe { NonZeroU8::new_unchecked(tag) });
         // This odd pattern is needed because we cannot create slices from ranges or
         // ranges at all in constant context.  So we write our own copying loop.
         unsafe {

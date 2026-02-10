@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use anyhow::{Context, Error};
 use rustc_hash::FxHashMap;
 use swc_atoms::Atom;
-use swc_common::{sync::Lrc, FileName, Globals, Mark, SourceMap, SyntaxContext, GLOBALS};
+use swc_common::{FileName, GLOBALS, Globals, Mark, SourceMap, SyntaxContext, sync::Lrc};
 use swc_ecma_ast::Module;
 
 use self::scope::Scope;

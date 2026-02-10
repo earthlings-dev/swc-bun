@@ -478,7 +478,7 @@ impl NodeModulesResolver {
 
         let target_path = Path::new(target);
 
-        let file_name = {
+        {
             if target_path.is_absolute() {
                 let path = PathBuf::from(target_path);
                 self.resolve_as_file(&path)
@@ -533,9 +533,7 @@ impl NodeModulesResolver {
                 }
             }
             Ok(v)
-        });
-
-        file_name
+        })
     }
 }
 

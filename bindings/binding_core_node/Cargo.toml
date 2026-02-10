@@ -21,6 +21,7 @@ plugin = [
 ]
 swc_v1 = ["swc_core/bundler_node_v1"]
 swc_v2 = ["swc_core/bundler_node_v2"]
+allow_feature_conflicts = []
 
 # Internal flag for testing purpose only.
 __plugin_transform_vtest = [

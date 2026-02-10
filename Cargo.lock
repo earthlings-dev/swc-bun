@@ -568,6 +568,9 @@ name = "bitflags"
 version = "2.10.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "812e12b5285cc515a9c72a5c1d3b6d46a19dac5acfef5265968c166106e31dd3"
+dependencies = [
+ "serde_core",
+]
 
 [[package]]
 name = "bitvec"
@@ -2557,6 +2560,7 @@ dependencies = [
  "num_cpus",
  "once_cell",
  "par-iter",
+ "rancor",
  "rand 0.10.0",
  "rkyv 0.8.15",
  "rustc-hash",
@@ -3832,12 +3836,9 @@ dependencies = [
 [[package]]
 name = "par-core"
 version = "2.0.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e96cbd21255b7fb29a5d51ef38a779b517a91abd59e2756c039583f43ef4c90f"
 dependencies = [
  "chili",
  "once_cell",
- "rayon",
 ]
 
 [[package]]
@@ -4600,8 +4601,6 @@ dependencies = [
 [[package]]
 name = "regalloc2"
 version = "0.13.5"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "08effbc1fa53aaebff69521a5c05640523fab037b34a4a2c109506bc938246fa"
 dependencies = [
  "allocator-api2 0.2.21",
  "bumpalo",
@@ -6445,8 +6444,11 @@ name = "swc_ecma_regexp_ast"
 version = "0.7.0"
 dependencies = [
  "bitflags 2.10.0",
+ "bytecheck 0.8.2",
  "cbor4ii",
  "is-macro",
+ "rancor",
+ "rkyv 0.8.15",
  "serde",
  "swc_atoms",
  "swc_common",
@@ -8409,8 +8411,6 @@ dependencies = [
 [[package]]
 name = "wasmer"
 version = "7.0.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b76134972161fb9ae6d956d3e79177a51c6c968d4f95fdba060a95897b2fe81c"
 dependencies = [
  "bindgen",
  "bytes",
@@ -8643,8 +8643,6 @@ dependencies = [
 [[package]]
 name = "wasmer-wasix"
 version = "0.700.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b9e757e3f43c04ca81f40426078b4d65356e4d304396e6169742eb62a002a06b"
 dependencies = [
  "anyhow",
  "async-trait",

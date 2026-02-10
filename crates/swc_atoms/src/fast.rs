@@ -28,7 +28,7 @@ impl UnsafeAtom {
     ///    stored in AST and ensure that the AST is not dropped.
     #[inline]
     pub unsafe fn new(atom: &Atom) -> Self {
-        Self(ManuallyDrop::new(transmute_copy(atom)))
+        unsafe { Self(ManuallyDrop::new(transmute_copy(atom))) }
     }
 }
 

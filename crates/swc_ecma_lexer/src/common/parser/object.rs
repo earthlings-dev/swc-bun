@@ -106,7 +106,7 @@ fn make_binding_object<'a, P: Parser<'a>>(
     let len = props.len();
     for (i, prop) in props.iter().enumerate() {
         if i == len - 1 {
-            if let ObjectPatProp::Rest(ref rest) = prop {
+            if let ObjectPatProp::Rest(rest) = prop {
                 match *rest.arg {
                     Pat::Ident(..) => {
                         if let Some(trailing_comma) = trailing_comma {

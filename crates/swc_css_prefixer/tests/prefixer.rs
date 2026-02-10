@@ -10,8 +10,8 @@ use std::path::PathBuf;
 use preset_env_base::query::{Query, Targets};
 use swc_css_ast::Stylesheet;
 use swc_css_codegen::{
-    writer::basic::{BasicCssWriter, BasicCssWriterConfig},
     CodegenConfig, Emit,
+    writer::basic::{BasicCssWriter, BasicCssWriterConfig},
 };
 use swc_css_parser::{parse_file, parser::ParserConfig};
 use swc_css_prefixer::{options::Options, prefixer};
@@ -48,10 +48,10 @@ fn prefix(input: PathBuf, options: Options, suffix: Option<&str>) {
         let mut s = String::new();
         {
             let mut wr = BasicCssWriter::new(&mut s, None, BasicCssWriterConfig::default());
-            let mut gen =
+            let mut r#gen =
                 swc_css_codegen::CodeGenerator::new(&mut wr, CodegenConfig { minify: false });
 
-            gen.emit(&ss).unwrap();
+            r#gen.emit(&ss).unwrap();
         }
 
         NormalizedOutput::from(s).compare_to_file(&output).unwrap();

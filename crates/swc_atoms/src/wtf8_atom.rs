@@ -115,9 +115,11 @@ impl Wtf8Atom {
     ///
     /// See [hstr::wtf8::Wtf8::from_bytes_unchecked] for more details.
     pub unsafe fn from_bytes_unchecked(bytes: &[u8]) -> Self {
-        Wtf8Atom(hstr::Wtf8Atom::from(
-            hstr::wtf8::Wtf8::from_bytes_unchecked(bytes),
-        ))
+        unsafe {
+            Wtf8Atom(hstr::Wtf8Atom::from(
+                hstr::wtf8::Wtf8::from_bytes_unchecked(bytes),
+            ))
+        }
     }
 }
 

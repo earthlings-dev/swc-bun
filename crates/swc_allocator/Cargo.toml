@@ -15,16 +15,10 @@ rustdoc-args = ["--cfg", "docsrs"]
 
 [features]
 hashbrown = ["dep:hashbrown", "hashbrown/allocator-api2"]
-nightly = [
-  "skip-warning",
-  "bumpalo/allocator_api",
-  "hashbrown/nightly",
-]
 # This two features are actually useless
 rkyv  = []
 serde = []
 # This feature is used to suppress warnings about slowness caused by stable rustc.
-# It's recommended to use nightly rustc until the allocator APIs are stabilized.
 skip-warning = []
 
 
@@ -43,6 +37,5 @@ swc_malloc = { version = "1.2.4", path = "../swc_malloc" }
 
 
 [[bench]]
-harness           = false
-name              = "bench"
-required-features = ["nightly"]
+harness = false
+name    = "bench"

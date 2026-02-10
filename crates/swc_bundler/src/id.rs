@@ -5,7 +5,7 @@ use std::{
 
 use rustc_hash::FxHashMap;
 use swc_atoms::Atom;
-use swc_common::{sync::Lock, FileName, Mark, SyntaxContext, DUMMY_SP};
+use swc_common::{DUMMY_SP, FileName, Mark, SyntaxContext, sync::Lock};
 use swc_ecma_ast::{Expr, Ident};
 use swc_ecma_utils::ident::IdentLike;
 
@@ -33,7 +33,7 @@ pub(crate) struct ModuleIdGenerator {
 }
 
 impl ModuleIdGenerator {
-    pub fn gen(&self, file_name: &FileName) -> (ModuleId, Mark, Mark) {
+    pub fn r#gen(&self, file_name: &FileName) -> (ModuleId, Mark, Mark) {
         let mut w = self.cache.lock();
         if let Some(v) = w.get(file_name) {
             return *v;

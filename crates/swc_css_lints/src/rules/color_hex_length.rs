@@ -8,15 +8,11 @@ pub type ColorHexLengthConfig = Option<HexForm>;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
+#[derive(Default)]
 pub enum HexForm {
+    #[default]
     Long,
     Short,
-}
-
-impl Default for HexForm {
-    fn default() -> Self {
-        Self::Long
-    }
 }
 
 pub fn color_hex_length(ctx: LintRuleContext<ColorHexLengthConfig>) -> Box<dyn LintRule> {

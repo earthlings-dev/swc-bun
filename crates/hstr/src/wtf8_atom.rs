@@ -181,14 +181,8 @@ impl<'de> serde::de::Deserialize<'de> for Wtf8Atom {
                         let d3 = iter.next();
                         let d4 = iter.next();
 
-                        if d1.is_some() && d2.is_some() && d3.is_some() && d4.is_some() {
-                            let hex = format!(
-                                "{}{}{}{}",
-                                d1.unwrap(),
-                                d2.unwrap(),
-                                d3.unwrap(),
-                                d4.unwrap()
-                            );
+                        if let (Some(d1), Some(d2), Some(d3), Some(d4)) = (d1, d2, d3, d4) {
+                            let hex = format!("{d1}{d2}{d3}{d4}");
                             if let Ok(code_point) = u16::from_str_radix(&hex, 16) {
                                 result.push(unsafe {
                                     CodePoint::from_u32_unchecked(code_point as u32)

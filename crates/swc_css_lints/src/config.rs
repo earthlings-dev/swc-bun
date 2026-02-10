@@ -13,16 +13,12 @@ use crate::rules::{
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
+#[derive(Default)]
 pub enum LintRuleReaction {
+    #[default]
     Off,
     Warning,
     Error,
-}
-
-impl Default for LintRuleReaction {
-    fn default() -> Self {
-        Self::Off
-    }
 }
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]

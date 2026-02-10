@@ -918,7 +918,7 @@ impl EmitterWriter {
         //                see how it *looks* with
         //                very *weird* formats
         //                see?
-        for Message(text, ref style) in msg.iter() {
+        for Message(text, style) in msg.iter() {
             let lines = text.split('\n').collect::<Vec<_>>();
             if lines.len() > 1 {
                 for (i, line) in lines.iter().enumerate() {
@@ -1645,7 +1645,7 @@ impl Write for WritableDst<'_> {
 impl Drop for WritableDst<'_> {
     fn drop(&mut self) {
         #[cfg(feature = "tty-emitter")]
-        if let WritableDst::Buffered(ref mut dst, ref mut buf) = self {
+        if let WritableDst::Buffered(dst, buf) = self {
             drop(dst.print(buf));
         }
     }

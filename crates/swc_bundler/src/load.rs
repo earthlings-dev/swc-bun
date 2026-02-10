@@ -1,5 +1,5 @@
 use anyhow::Error;
-use swc_common::{sync::Lrc, FileName, SourceFile};
+use swc_common::{FileName, SourceFile, sync::Lrc};
 use swc_ecma_ast::Module;
 use swc_ecma_transforms_base::helpers::Helpers;
 

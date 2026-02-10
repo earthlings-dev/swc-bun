@@ -6,8 +6,8 @@ use is_macro::Is;
 use rayon::iter::ParallelIterator;
 use swc_atoms::atom;
 use swc_common::{
-    sync::{Lock, Lrc},
     FileName, SourceFile, SyntaxContext,
+    sync::{Lock, Lrc},
 };
 use swc_ecma_ast::{
     CallExpr, Callee, Expr, Ident, ImportDecl, ImportSpecifier, MemberExpr, MemberProp, Module,
@@ -15,17 +15,17 @@ use swc_ecma_ast::{
 };
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
+    Visit, VisitMut, VisitMutWith, VisitWith, noop_visit_mut_type, noop_visit_type,
 };
 
-use super::{export::Exports, helpers::Helpers, Bundler};
+use super::{Bundler, export::Exports, helpers::Helpers};
 use crate::{
+    Load, Resolve,
     bundler::{export::RawExports, import::RawImports},
     id::{Id, ModuleId},
     load::ModuleData,
     util,
     util::IntoParallelIterator,
-    Load, Resolve,
 };
 /// Module after applying transformations.
 #[derive(Debug, Clone)]
@@ -117,7 +117,7 @@ where
 
     fn load(&self, file_name: &FileName) -> Result<(ModuleId, ModuleData), Error> {
         self.run(|| {
-            let (module_id, _, _) = self.scope.module_id_gen.gen(file_name);
+            let (module_id, _, _) = self.scope.module_id_gen.r#gen(file_name);
 
             let data = self
                 .loader
@@ -136,7 +136,7 @@ where
     ) -> Result<(TransformedModule, Vec<(Source, Lrc<FileName>)>), Error> {
         self.run(|| {
             tracing::trace!("transform_module({})", data.fm.name);
-            let (id, local_mark, export_mark) = self.scope.module_id_gen.gen(file_name);
+            let (id, local_mark, export_mark) = self.scope.module_id_gen.r#gen(file_name);
 
             data.module.visit_mut_with(&mut ClearMark);
 
@@ -239,7 +239,7 @@ where
                             Some(src) => {
                                 let name = self.resolve(base, &src.value.to_string_lossy())?;
                                 let (id, local_mark, export_mark) =
-                                    self.scope.module_id_gen.gen(&name);
+                                    self.scope.module_id_gen.r#gen(&name);
                                 Some((id, local_mark, export_mark, name, src))
                             }
                             None => None,
@@ -316,7 +316,7 @@ where
                         //
                         let file_name = self.resolve(base, &decl.src.value.to_string_lossy())?;
                         let (id, local_mark, export_mark) =
-                            self.scope.module_id_gen.gen(&file_name);
+                            self.scope.module_id_gen.r#gen(&file_name);
 
                         Ok((
                             id,

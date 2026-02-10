@@ -7,11 +7,11 @@
 
 use std::path::PathBuf;
 
-use swc_common::{errors::HANDLER, sync::Lrc, SourceFile};
+use swc_common::{SourceFile, errors::HANDLER, sync::Lrc};
 use swc_css_ast::Stylesheet;
 use swc_css_codegen::{
-    writer::basic::{BasicCssWriter, BasicCssWriterConfig},
     CodegenConfig, Emit,
+    writer::basic::{BasicCssWriter, BasicCssWriterConfig},
 };
 use swc_css_compat::{
     compiler::{Compiler, Config},
@@ -46,9 +46,10 @@ fn print_stylesheet(ss: &Stylesheet) -> String {
     let mut s = String::new();
     {
         let mut wr = BasicCssWriter::new(&mut s, None, BasicCssWriterConfig::default());
-        let mut gen = swc_css_codegen::CodeGenerator::new(&mut wr, CodegenConfig { minify: false });
+        let mut r#gen =
+            swc_css_codegen::CodeGenerator::new(&mut wr, CodegenConfig { minify: false });
 
-        gen.emit(&ss).unwrap();
+        r#gen.emit(&ss).unwrap();
     }
 
     s

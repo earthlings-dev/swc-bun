@@ -531,11 +531,11 @@ impl VisitMut for MediaFeatureResolutionReplacerOnLegacyVariant<'_> {
                     _ => resolution_value.value,
                 };
 
-                n.value = Box::new(MediaFeatureValue::Number(Number {
+                *n.value = MediaFeatureValue::Number(Number {
                     span: resolution_value.span,
                     value: left,
                     raw: None,
-                }));
+                });
             }
         }
     }

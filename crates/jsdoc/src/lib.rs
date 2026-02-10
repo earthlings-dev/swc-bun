@@ -1,5 +1,7 @@
+#![allow(unexpected_cfgs)]
+
 use nom::{
-    IResult, InputIter, Slice,
+    IResult,
     bytes::complete::{tag, take_while},
     error::ErrorKind,
 };

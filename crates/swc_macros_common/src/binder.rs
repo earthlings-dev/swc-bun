@@ -133,9 +133,13 @@ impl<'a> VariantBinder<'a> {
     pub fn bind(
         &self,
         prefix: &str,
-        by_ref: Option<Ref>,
+        _by_ref: Option<Ref>,
         mutability: Option<Mut>,
     ) -> (Pat, Vec<BindedField<'a>>) {
+        // Rust 2024 pattern binding mode changes make explicit `ref` bindings
+        // invalid when matching on references. We never require explicit `ref`
+        // bindings here, so drop them unconditionally.
+        let by_ref = None;
         let path = self.qual_path();
 
         let (pat, bindings) = match *self.data {

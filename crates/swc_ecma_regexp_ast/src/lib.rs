@@ -1,3 +1,5 @@
+#![allow(unreachable_patterns)]
+
 use bitflags::bitflags;
 use is_macro::Is;
 use swc_atoms::Atom;
@@ -30,6 +32,7 @@ pub struct Alternative {
 }
 
 /// Single unit of [`Alternative`], containing various kinds.
+#[allow(unreachable_patterns)]
 #[ast_node(no_unknown)]
 #[derive(Eq, Hash, EqIgnoreSpan, Is)]
 pub enum Term {
@@ -86,6 +89,13 @@ pub struct BoundaryAssertion {
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 #[cfg_attr(
+    any(feature = "rkyv-impl"),
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
+#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
+#[cfg_attr(feature = "rkyv-impl", repr(u8))]
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(
     feature = "encoding-impl",
     derive(::swc_common::Encode, ::swc_common::Decode)
 )]
@@ -108,6 +118,13 @@ pub struct LookAroundAssertion {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[cfg_attr(
+    any(feature = "rkyv-impl"),
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
+#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
+#[cfg_attr(feature = "rkyv-impl", repr(u8))]
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(
     feature = "encoding-impl",
     derive(::swc_common::Encode, ::swc_common::Decode)
@@ -151,6 +168,13 @@ pub struct Character {
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 #[cfg_attr(
+    any(feature = "rkyv-impl"),
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
+#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
+#[cfg_attr(feature = "rkyv-impl", repr(u8))]
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(
     feature = "encoding-impl",
     derive(::swc_common::Encode, ::swc_common::Decode)
 )]
@@ -179,6 +203,13 @@ pub struct CharacterClassEscape {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[cfg_attr(
+    any(feature = "rkyv-impl"),
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
+#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
+#[cfg_attr(feature = "rkyv-impl", repr(u8))]
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(
     feature = "encoding-impl",
     derive(::swc_common::Encode, ::swc_common::Decode)
@@ -235,6 +266,13 @@ pub struct CharacterClass {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[cfg_attr(
+    any(feature = "rkyv-impl"),
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
+#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
+#[cfg_attr(feature = "rkyv-impl", repr(u8))]
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(
     feature = "encoding-impl",
     derive(::swc_common::Encode, ::swc_common::Decode)
@@ -346,6 +384,7 @@ pub struct Modifiers {
 bitflags! {
     /// Each part of modifier in [`Modifiers`].
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+    #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
     pub struct Modifier: u8 {
         /// Ignore case flag
         const I = 1 << 0;
@@ -353,6 +392,37 @@ bitflags! {
         const M = 1 << 1;
         /// DotAll flag
         const S = 1 << 2;
+    }
+}
+
+#[cfg(feature = "rkyv-impl")]
+impl rkyv::Archive for Modifier {
+    type Archived = u8;
+    type Resolver = ();
+
+    fn resolve(&self, _: Self::Resolver, out: rkyv::Place<Self::Archived>) {
+        out.write(self.bits());
+    }
+}
+
+#[cfg(feature = "rkyv-impl")]
+impl<S> rkyv::Serialize<S> for Modifier
+where
+    S: rancor::Fallible + rkyv::ser::Writer + ?Sized,
+    <S as rancor::Fallible>::Error: rancor::Source,
+{
+    fn serialize(&self, _: &mut S) -> Result<Self::Resolver, S::Error> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "rkyv-impl")]
+impl<D> rkyv::Deserialize<Modifier, D> for u8
+where
+    D: ?Sized + rancor::Fallible,
+{
+    fn deserialize(&self, _: &mut D) -> Result<Modifier, <D as rancor::Fallible>::Error> {
+        Ok(Modifier::from_bits_truncate(*self))
     }
 }
 

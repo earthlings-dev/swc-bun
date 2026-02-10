@@ -3,12 +3,12 @@ use std::{collections::VecDeque, iter::from_fn, mem::take, time::Instant};
 use indexmap::IndexSet;
 use petgraph::EdgeDirection::Outgoing;
 use rustc_hash::{FxBuildHasher, FxHashSet};
-use swc_common::{sync::Lrc, SourceMap, SyntaxContext};
+use swc_common::{SourceMap, SyntaxContext, sync::Lrc};
 use swc_ecma_ast::*;
 use swc_ecma_utils::prepend_stmts;
 
 use super::stmt::sort_stmts;
-use crate::{dep_graph::ModuleGraph, modules::Modules, ModuleId};
+use crate::{ModuleId, dep_graph::ModuleGraph, modules::Modules};
 
 /// The unit of sorting.
 #[derive(Debug)]

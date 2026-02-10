@@ -4,17 +4,17 @@ use anyhow::Error;
 use relative_path::RelativePath;
 use rustc_hash::FxHashMap;
 use swc_atoms::atom;
-use swc_common::{util::move_map::MoveMap, FileName, Mark, DUMMY_SP};
+use swc_common::{DUMMY_SP, FileName, Mark, util::move_map::MoveMap};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{
     fixer::fixer,
-    helpers::{inject_helpers, Helpers, HELPERS},
+    helpers::{HELPERS, Helpers, inject_helpers},
     hygiene::hygiene,
 };
-use swc_ecma_utils::{contains_top_level_await, find_pat_ids, private_ident, ExprFactory};
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, VisitMutWith};
+use swc_ecma_utils::{ExprFactory, contains_top_level_await, find_pat_ids, private_ident};
+use swc_ecma_visit::{Fold, FoldWith, VisitMutWith, noop_fold_type};
 
-use crate::{hash::calc_hash, Bundle, BundleKind, Bundler, Load, ModuleType, Resolve};
+use crate::{Bundle, BundleKind, Bundler, Load, ModuleType, Resolve, hash::calc_hash};
 
 impl<L, R> Bundler<'_, L, R>
 where

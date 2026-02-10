@@ -3,10 +3,10 @@ use std::{collections::VecDeque, iter::from_fn, ops::Range};
 use indexmap::IndexSet;
 use petgraph::EdgeDirection::{Incoming as Dependants, Outgoing as Dependencies};
 use rustc_hash::{FxBuildHasher, FxHashMap, FxHashSet};
-use swc_common::{sync::Lrc, util::take::Take, SourceMap, SyntaxContext};
+use swc_common::{SourceMap, SyntaxContext, sync::Lrc, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_pat_ids;
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use swc_ecma_visit::{Visit, VisitWith, noop_visit_type};
 
 use super::graph::Required;
 use crate::{id::Id, modules::sort::graph::StmtDepGraph, util::is_injected};
@@ -796,9 +796,11 @@ fn calc_deps(new: &[ModuleItem]) -> StmtDepGraph {
                         //     idx, idx_decl, declarator_index, &id
                         // );
                         if cfg!(debug_assertions) {
-                            assert!(graph
-                                .neighbors_directed(idx, Dependencies)
-                                .any(|x| x == declarator_index));
+                            assert!(
+                                graph
+                                    .neighbors_directed(idx, Dependencies)
+                                    .any(|x| x == declarator_index)
+                            );
                         }
                     }
                 }
@@ -814,7 +816,7 @@ mod tests {
     use swc_common::DUMMY_SP;
     use swc_ecma_ast::*;
 
-    use super::{calc_deps, Dependencies};
+    use super::{Dependencies, calc_deps};
     use crate::{bundler::tests::suite, debug::print_hygiene};
 
     fn assert_no_cycle(s: &str) {

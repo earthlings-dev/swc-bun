@@ -1,14 +1,14 @@
 use indexmap::IndexMap;
 use rustc_hash::FxBuildHasher;
-use swc_atoms::{atom, Atom};
+use swc_atoms::{Atom, atom};
 use swc_common::{FileName, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_pat_ids;
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{VisitMut, VisitMutWith, noop_visit_mut_type};
 
 use super::{
-    load::{Source, Specifier},
     Bundler,
+    load::{Source, Specifier},
 };
 use crate::{id::Id, load::Load, resolve::Resolve, util::ExportMetadata};
 
@@ -81,7 +81,7 @@ where
             return None;
         }
         let path = self.bundler.resolve(self.file_name, src).ok()?;
-        let (_, local_mark, export_mark) = self.bundler.scope.module_id_gen.gen(&path);
+        let (_, local_mark, export_mark) = self.bundler.scope.module_id_gen.r#gen(&path);
 
         Some((
             SyntaxContext::empty().apply_mark(local_mark),
@@ -105,7 +105,7 @@ where
             Ok(v) => v,
             _ => return,
         };
-        let (id, _, _) = self.bundler.scope.module_id_gen.gen(&path);
+        let (id, _, _) = self.bundler.scope.module_id_gen.r#gen(&path);
 
         self.bundler.scope.mark_as_wrapping_required(id);
     }
