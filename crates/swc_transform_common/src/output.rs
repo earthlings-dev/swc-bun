@@ -21,7 +21,7 @@ pub fn capture<Ret>(f: impl FnOnce() -> Ret) -> (Ret, FxHashMap<String, String>)
 }
 
 #[cfg(all(feature = "plugin-mode", target_arch = "wasm32"))]
-extern "C" {
+unsafe extern "C" {
     fn __emit_output(output_ptr: u32, output_len: u32);
 }
 

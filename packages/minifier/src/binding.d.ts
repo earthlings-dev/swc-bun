@@ -14,16 +14,14 @@ export interface NapiMinifyExtra {
 
 export declare function newMangleNameCache(): object
 
+/** Hack for `Type Generation` */
+export interface TransformOutput {
+  code: string
+  map?: string
+}
 export interface TransformOutput {
   code: string
   map?: string
   output?: string
   diagnostics: Array<string>
 }
-
-/** Hack for `Type Generation` */
-export interface TransformOutput {
-  code: string
-  map?: string
-}
-

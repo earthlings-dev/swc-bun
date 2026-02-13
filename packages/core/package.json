@@ -56,7 +56,7 @@
         "build:wasm": "wasm-pack build ../../bindings/binding_core_wasm --scope swc --features plugin",
         "build": "tsc -d && napi build --manifest-path ../../Cargo.toml --platform -p binding_core_node --js ./binding.js --dts ./binding.d.ts --release -o .",
         "build:dev": "tsc -d && napi build --manifest-path ../../Cargo.toml --platform -p binding_core_node --js ./binding.js --dts ./binding.d.ts -o .",
-        "test": "bun test",
+        "test": "bun test __tests__ e2e",
         "version": "napi version --npm-dir scripts/npm"
     },
     "peerDependencies": {

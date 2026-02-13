@@ -3,11 +3,3 @@
 export declare function isReactCompilerRequired(code: Buffer, signal?: AbortSignal | undefined | null): Promise<boolean>
 
 export declare function isReactCompilerRequiredSync(code: Buffer): boolean
-
-export interface TransformOutput {
-  code: string
-  map?: string
-  output?: string
-  diagnostics: Array<string>
-}
-

@@ -1,5 +1,9 @@
-const swc = require("../../");
-const path = require("path");
+import swc from "../../index.js";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 it("should handle minify", () => {
     const src = '/* Comment */import foo, {bar} from "foo"';
@@ -169,7 +173,7 @@ it("should respect `error.filename = false`", async () => {
             },
         });
     } catch (e) {
-        expect(e).not.toContain("-->");
+        expect(e.message).not.toContain("-->");
     }
 });
 

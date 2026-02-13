@@ -1,7 +1,6 @@
-/// <reference types="@rstest/core/globals" />
-const { getPkgRoot } = require("../utils");
-const { spawn } = require("child_process");
-const path = require("path");
+import { getPkgRoot } from "../utils.js";
+import { spawn } from "child_process";
+import path from "path";
 
 const waitProcessAsync = async (proc) =>
     new Promise((resolve, reject) => {
@@ -104,7 +103,7 @@ describe("Plugins", () => {
                     );
                 }, 10000000);
 
-                const transform = (code, feature) => {
+                const transform = async (code, feature) => {
                     const options = {
                         jsc: {
                             experimental: {
@@ -114,14 +113,18 @@ describe("Plugins", () => {
                     };
 
                     if (shouldUsePrebuiltHost) {
-                        const { transformSync } = require("@swc/core");
+                        const { transformSync } = await import(
+                            "../../index.js"
+                        );
 
                         return transformSync(code, options);
                     } else {
-                        const { transformSync } = require(path.resolve(
-                            getPkgRoot(),
-                            `swc_host_${host}.node`
-                        ));
+                        const { transformSync } = await import(
+                            path.resolve(
+                                getPkgRoot(),
+                                `swc_host_${host}.node`
+                            )
+                        );
 
                         return transformSync(
                             code,
@@ -133,8 +136,8 @@ describe("Plugins", () => {
 
                 it.each(pluginVersions)(
                     `Should work with plugin schema version %s`,
-                    (pluginVersion) => {
-                        const result = transform(
+                    async (pluginVersion) => {
+                        const result = await transform(
                             `console.log('boo')`,
                             pluginVersion
                         );

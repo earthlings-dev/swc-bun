@@ -1,10 +1,12 @@
-const assert = require("assert");
-const glob = require("glob");
-const fs = require("fs");
-const path = require("path");
-const { promisify } = require("util");
+import assert from "assert";
+import { globSync } from "glob";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 
-const getPkgRoot = (() => () => {
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+export const getPkgRoot = (() => () => {
     let ret;
 
     if (!ret) {
@@ -16,8 +18,8 @@ const getPkgRoot = (() => () => {
 /**
  * Temporarily move out existing napi bindings to avoid test fixture setup overwrite it.
  */
-const preserveBinaries = async (fromExt, toExt) => {
-    const existingBinary = glob.sync(`${getPkgRoot()}/*.${fromExt}`);
+export const preserveBinaries = async (fromExt, toExt) => {
+    const existingBinary = globSync(`${getPkgRoot()}/*.${fromExt}`);
     assert.equal(
         existingBinary.length <= 1,
         true,
@@ -34,10 +36,5 @@ const preserveBinaries = async (fromExt, toExt) => {
         `${path.basename(binaryPath, `.${fromExt}`)}.${toExt}`
     );
 
-    await promisify(fs.rename)(binaryPath, tmpBinaryPath);
-};
-
-module.exports = {
-    getPkgRoot,
-    preserveBinaries,
+    await fs.promises.rename(binaryPath, tmpBinaryPath);
 };

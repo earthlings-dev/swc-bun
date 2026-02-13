@@ -39,7 +39,7 @@ function assertAllObjectHasTypeFiled(obj, desc = '') {
 
 }
 
-class BaseVisitor extends Visitor.default {
+class BaseVisitor extends Visitor {
     visitExpression(n) {
         const e = super.visitExpression(n);
         assertAllObjectHasTypeFiled(e);

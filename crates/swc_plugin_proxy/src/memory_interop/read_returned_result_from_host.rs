@@ -6,7 +6,7 @@ use swc_common::plugin::serialized::PluginSerializedBytes;
 pub struct AllocatedBytesPtr(pub u32, pub u32);
 
 #[cfg(target_arch = "wasm32")]
-extern "C" {
+unsafe extern "C" {
     fn __free(ptr: *mut u8, size: i32) -> i32;
 }
 #[cfg(target_arch = "wasm32")]

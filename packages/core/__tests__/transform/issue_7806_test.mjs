@@ -3,8 +3,20 @@ import swc from "../..";
 import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
+const __packageRoot = path.join(__filename, "..", "..", "..");
 
 describe("jsc.paths", () => {
+    let savedCwd;
+
+    beforeEach(() => {
+        savedCwd = process.cwd();
+        process.chdir(__packageRoot);
+    });
+
+    afterEach(() => {
+        process.chdir(savedCwd);
+    });
+
     it("should work with process.cwd()", async () => {
         const testDir = path.join(
             __filename,

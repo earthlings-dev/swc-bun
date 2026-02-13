@@ -1,7 +1,6 @@
-/// <reference types="@rstest/core/globals" />
-const { getPkgRoot } = require("../utils");
-const path = require("path");
-const { readFileSync } = require("fs");
+import { getPkgRoot } from "../utils.js";
+import path from "path";
+import { readFileSync } from "fs";
 
 const { platform, arch } = process;
 
@@ -56,7 +55,7 @@ const inferBinaryName = () => {
     }
 
     return path.join(
-        path.dirname(require.resolve(packageName)),
+        path.dirname(import.meta.resolve(packageName)),
         platform === "win32" ? "swc.exe" : "swc"
     );
 };
@@ -65,11 +64,10 @@ describe.skip("Published plugins", () => {
     const packageName = platformPackagesMap[platform][arch];
 
     if (!!packageName) {
-        it("should compile without seg fault", () => {
-            const { transformSync } = require(path.resolve(
-                getPkgRoot(),
-                packageName
-            ));
+        it("should compile without seg fault", async () => {
+            const { transformSync } = await import(
+                path.resolve(getPkgRoot(), packageName)
+            );
             console.log(`Package name: ${packageName}`);
 
             const options = {
@@ -105,10 +103,9 @@ describe.skip("Published plugins", () => {
         });
 
         it("should compile without seg fault (async)", async () => {
-            const { transform } = require(path.resolve(
-                getPkgRoot(),
-                packageName
-            ));
+            const { transform } = await import(
+                path.resolve(getPkgRoot(), packageName)
+            );
             console.log(`Package name: ${packageName}`);
 
             const options = {

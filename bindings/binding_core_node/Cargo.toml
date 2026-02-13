@@ -48,7 +48,7 @@ tracing            = { workspace = true, features = ["release_max_level_info"] }
 tracing-chrome     = { workspace = true }
 tracing-subscriber = { workspace = true, features = ["env-filter"] }
 
-swc_core = { path = "../../crates/swc_core", features = [
+swc_core = { workspace = true, features = [
   "allocator_node",
   "ecma_ast",
   "ecma_minifier",
@@ -64,4 +64,4 @@ swc_core = { path = "../../crates/swc_core", features = [
   "base_concurrent",
   "base_module",
 ] }
-swc_malloc = { path = "../../crates/swc_malloc" }
+swc_malloc = { workspace = true }

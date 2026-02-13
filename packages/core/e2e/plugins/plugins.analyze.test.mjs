@@ -1,7 +1,6 @@
-/// <reference types="@rstest/core/globals" />
-const { getPkgRoot } = require("../utils");
-const { spawn } = require("child_process");
-const path = require("path");
+import { getPkgRoot } from "../utils.js";
+import { spawn } from "child_process";
+import path from "path";
 
 const waitProcessAsync = async (proc) =>
     new Promise((resolve, reject) => {
@@ -98,14 +97,18 @@ describe("Analysis Plugins", () => {
                     };
 
                     if (shouldUsePrebuiltHost) {
-                        const { experimental_analyze } = require("@swc/core");
+                        const { experimental_analyze } = await import(
+                            "../../index.js"
+                        );
 
                         return await experimental_analyze(code, options);
                     } else {
-                        const { analyze } = require(path.resolve(
-                            getPkgRoot(),
-                            `swc_host_${host}.node`
-                        ));
+                        const { analyze } = await import(
+                            path.resolve(
+                                getPkgRoot(),
+                                `swc_host_${host}.node`
+                            )
+                        );
 
                         return analyze(
                             code,
