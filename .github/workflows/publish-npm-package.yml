@@ -39,6 +39,9 @@ on:
       skipBuild:
         type: boolean
         required: true
+      publishWasm:
+        type: boolean
+        required: true
       skipPublishing:
         type: boolean
         required: true
@@ -171,6 +174,28 @@ jobs:
                 bun run build --target armv7-unknown-linux-gnueabihf --no-default-features --features swc_v1 --use-napi-cross
               else
                 bun run build --target armv7-unknown-linux-gnueabihf --use-napi-cross
+              fi
+          - host: ubuntu-latest
+            target: powerpc64le-unknown-linux-gnu
+            build: |
+              export DISABLE_PLUGIN_E2E_TESTS=true
+              if [[ ${{ inputs.package }} == "core" ]]; then
+                yarn napi build --bin swc --release --target powerpc64le-unknown-linux-gnu --manifest-path ../../bindings/swc_cli/Cargo.toml -x --target-dir ../release -o .
+                chmod +x ./swc
+                yarn build --target powerpc64le-unknown-linux-gnu --no-default-features --features swc_v1 --use-napi-cross
+              else
+                yarn build --target powerpc64le-unknown-linux-gnu --use-napi-cross
+              fi
+          - host: ubuntu-latest
+            target: s390x-unknown-linux-gnu
+            build: |
+              export DISABLE_PLUGIN_E2E_TESTS=true
+              if [[ ${{ inputs.package }} == "core" ]]; then
+                yarn napi build --bin swc --release --target s390x-unknown-linux-gnu --manifest-path ../../bindings/swc_cli/Cargo.toml -x --target-dir ../release -o .
+                chmod +x ./swc
+                yarn build --target s390x-unknown-linux-gnu --no-default-features --features swc_v1 --use-napi-cross
+              else
+                yarn build --target s390x-unknown-linux-gnu --use-napi-cross
               fi
           - host: ubuntu-latest
             target: aarch64-unknown-linux-musl
@@ -528,7 +553,7 @@ jobs:
   publish-wasm:
     environment: publish
     name: Build - wasm (${{ matrix.settings.npm }})
-    if: ${{ inputs.package == 'core' }}
+    if: ${{ inputs.publishWasm }}
     runs-on: ubuntu-latest
     needs:
       - publish
@@ -536,22 +561,31 @@ jobs:
       fail-fast: false
       matrix:
         settings:
-          - crate: "binding_core_wasm"
+          - package: "core"
+            crate: "binding_core_wasm"
             npm: "@swc\\/wasm"
             target: nodejs
             out: "pkg"
-          - crate: "binding_core_wasm"
+          - package: "core"
+            crate: "binding_core_wasm"
             npm: "@swc\\/wasm-web"
             target: web
             out: "pkg"
-          - crate: "binding_typescript_wasm"
+          - package: "core"
+            crate: "binding_typescript_wasm"
             npm: "@swc\\/wasm-typescript"
             build: "./scripts/build.sh"
             out: "pkg"
-          - crate: "binding_typescript_wasm"
+          - package: "core"
+            crate: "binding_typescript_wasm"
             npm: "@swc\\/wasm-typescript-esm"
             build: "./scripts/esm.sh"
             out: "esm"
+          - package: "html"
+            crate: "binding_html_wasm"
+            npm: "@swc\\/html-wasm"
+            target: nodejs
+            out: "pkg"
           # - crate: "binding_es_ast_viewer"
           #   npm: "@swc\\/es-ast-viewer"
           #   build: "./scripts/build.sh"

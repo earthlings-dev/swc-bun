@@ -1,6 +1,6 @@
 {
   "name": "@swc/react-compiler",
-  "version": "1.15.11",
+  "version": "1.15.19-nightly-20260302.1",
   "description": "SWC support for React Compiler",
   "homepage": "https://swc.rs",
   "main": "./index.js",
@@ -28,6 +28,8 @@
       "x86_64-apple-darwin",
       "x86_64-pc-windows-msvc",
       "x86_64-unknown-linux-gnu",
+      "powerpc64le-unknown-linux-gnu",
+      "s390x-unknown-linux-gnu",
       "x86_64-unknown-linux-musl",
       "i686-pc-windows-msvc",
       "armv7-unknown-linux-gnueabihf",

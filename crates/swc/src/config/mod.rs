@@ -975,6 +975,7 @@ impl Options {
             emit_assert_for_import_attributes: experimental
                 .emit_assert_for_import_attributes
                 .into_bool(),
+            emit_source_map_scopes: experimental.emit_source_map_scopes.into_bool(),
             codegen_inline_script,
             emit_isolated_dts: experimental.emit_isolated_dts.into_bool(),
             unresolved_mark,
@@ -1289,6 +1290,7 @@ pub struct BuiltInput<P: Pass> {
 
     pub output: JscOutputConfig,
     pub emit_assert_for_import_attributes: bool,
+    pub emit_source_map_scopes: bool,
     pub codegen_inline_script: bool,
 
     pub emit_isolated_dts: bool,
@@ -1325,6 +1327,7 @@ where
             emit_source_map_columns: self.emit_source_map_columns,
             output: self.output,
             emit_assert_for_import_attributes: self.emit_assert_for_import_attributes,
+            emit_source_map_scopes: self.emit_source_map_scopes,
             codegen_inline_script: self.codegen_inline_script,
             emit_isolated_dts: self.emit_isolated_dts,
             unresolved_mark: self.unresolved_mark,
@@ -1427,6 +1430,9 @@ pub struct JscExperimental {
 
     #[serde(default)]
     pub emit_assert_for_import_attributes: BoolConfig<false>,
+
+    #[serde(default)]
+    pub emit_source_map_scopes: BoolConfig<false>,
     /// Location where swc may stores its intermediate cache.
     /// Currently this is only being used for wasm plugin's bytecache.
     /// Path should be absolute directory, which will be created if not exist.
