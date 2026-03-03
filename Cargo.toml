@@ -288,9 +288,6 @@ opt-level = "s"
 [profile.release.package.zerovec]
 opt-level = "s"
 
-[profile.release.package.icu_locid]
-opt-level = "s"
-
 [profile.release.package.icu_properties]
 opt-level = "s"
 
@@ -301,9 +298,6 @@ opt-level = "s"
 opt-level = "s"
 
 [profile.release.package.icu_collections]
-opt-level = "s"
-
-[profile.release.package.icu_locid_transform]
 opt-level = "s"
 
 [profile.release.package.swc_ecma_visit]

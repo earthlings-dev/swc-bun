@@ -282,7 +282,7 @@ fn corejs3_builtin(strpool: &mut StrPool, crate_dir: &Path, out_dir: &Path) -> a
     }
 
     const SEED_BUILTINS: u64 = 16416001479773392852;
-    const SEED_INSTRANCE: u64 = 16416001479773392854;
+    const SEED_INSTRANCE: u64 = 16416001479773392855;
     const SEED_STATIC: u64 = 16416001479773392852;
 
     let out_dir = out_dir.join("corejs3_builtin");

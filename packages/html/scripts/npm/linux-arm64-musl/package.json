@@ -40,5 +40,8 @@
   },
   "bugs": {
     "url": "https://github.com/swc-project/swc/issues"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.3.9"
   }
 }

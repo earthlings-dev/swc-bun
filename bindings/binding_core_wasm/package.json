@@ -1,4 +1,7 @@
 {
     "name": "@swc/binding-core-wasm",
-    "private": true
+    "private": true,
+    "devDependencies": {
+        "@types/bun": "^1.3.9"
+    }
 }

@@ -10,11 +10,12 @@ artifacts.json
 /scripts/npm/**/swc
 /scripts/npm/**/swc.exe
 .yarn/
-
+**/node_modules
+**/bun.lock
 target/
 **/*.bk
 *.log
-
+**/node_modules/**
 .vscode/*
 !.vscode/settings.json
 *.swp

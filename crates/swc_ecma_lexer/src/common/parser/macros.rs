@@ -69,17 +69,15 @@ macro_rules! trace_cur {
 }
 
 macro_rules! debug_tracing {
-    ($p:expr, $name:tt) => {{
+    ($p:expr, $name:tt) => {
         #[cfg(feature = "debug")]
-        {
-            tracing::span!(
-                tracing::Level::ERROR,
-                $name,
-                cur = tracing::field::debug(&$p.input().cur())
-            )
-            .entered()
-        }
-    }};
+        let _tracing_guard = tracing::span!(
+            tracing::Level::ERROR,
+            $name,
+            cur = tracing::field::debug(&$p.input().cur())
+        )
+        .entered();
+    };
 }
 
 macro_rules! return_if_arrow {

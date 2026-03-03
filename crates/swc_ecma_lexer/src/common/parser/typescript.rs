@@ -204,7 +204,7 @@ where
     if !p.input().syntax().typescript() {
         return None;
     }
-    let _ = debug_tracing!(p, "try_parse_ts");
+    debug_tracing!(p, "try_parse_ts");
 
     trace_cur!(p, try_parse_ts);
 

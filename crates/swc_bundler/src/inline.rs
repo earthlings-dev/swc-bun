@@ -28,7 +28,17 @@ pub(crate) fn inline(injected_ctxt: SyntaxContext, module: &mut Modules) {
         module.visit_with(&mut analyzer);
     }
 
-    let mut v = Inliner { data: data.into() };
+    let data: Readonly<InlineData> = {
+        #[cfg(feature = "concurrent")]
+        {
+            data.into()
+        }
+        #[cfg(not(feature = "concurrent"))]
+        {
+            data
+        }
+    };
+    let mut v = Inliner { data };
     module.par_visit_mut_with(&mut v);
     module.retain_mut(|_, s| !matches!(s, ModuleItem::Stmt(Stmt::Empty(..))));
 }

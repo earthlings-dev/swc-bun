@@ -1,7 +1,9 @@
 use std::mem::take;
 
 use rustc_hash::FxHashMap;
-use swc_common::{DUMMY_SP, SourceMap, SyntaxContext};
+#[cfg(debug_assertions)]
+use swc_common::SourceMap;
+use swc_common::{DUMMY_SP, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Fold, FoldWith, Visit, VisitMut, VisitMutWith, VisitWith};
 

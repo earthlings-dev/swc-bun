@@ -5,25 +5,30 @@ import swc from "../..";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 it("should transpile import path correctly", async () => {
+    const savedCwd = process.cwd();
     const baseUrl = path.resolve(__dirname, "../../tests/issue-8674");
     console.log("baseUrl", baseUrl);
     process.chdir(baseUrl);
 
-    const { code } = await swc.transform(
-        `
-        import { foo } from "src/foo"
-        console.log(foo)
-    `,
-        {
-            jsc: {
-                baseUrl,
-            },
-        }
-    );
+    try {
+        const { code } = await swc.transform(
+            `
+            import { foo } from "src/foo"
+            console.log(foo)
+        `,
+            {
+                jsc: {
+                    baseUrl,
+                },
+            }
+        );
 
-    expect(code).toMatchInlineSnapshot(`
-        "import { foo } from "./src/foo";
-        console.log(foo);
-        "
-    `);
+        expect(code).toMatchInlineSnapshot(`
+            "import { foo } from "./src/foo";
+            console.log(foo);
+            "
+        `);
+    } finally {
+        process.chdir(savedCwd);
+    }
 });

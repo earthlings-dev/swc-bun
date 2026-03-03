@@ -20,6 +20,7 @@ mod bundle;
 mod minify;
 mod parse;
 mod print;
+mod span_normalize;
 mod transform;
 mod util;
 

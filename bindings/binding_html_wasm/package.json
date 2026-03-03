@@ -1,5 +1,8 @@
 {
+    "name": "@swc/binding-html-wasm",
+    "private": true,
     "devDependencies": {
-        "@rstest/core": "^0.7.8"
+        "@rstest/core": "^0.8.5",
+        "@types/bun": "^1.3.9"
     }
 }

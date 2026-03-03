@@ -54,17 +54,21 @@ describe("jsc.paths", () => {
     });
 
     it("should work with process.cwd() and relative url", async () => {
+        // Resolve paths eagerly while cwd is correct (before any await),
+        // because Bun runs test files concurrently in the same process and
+        // other files may call process.chdir() during our await.
         const testDir = path.join("tests", "swc-path-bug-1");
-        const f = path.join(testDir, "src", "index.ts");
-        console.log(f);
+        const absFile = path.resolve(testDir, "src", "index.ts");
+        const absBaseUrl = path.resolve(testDir);
+        console.log(testDir);
         expect(
             (
-                await swc.transformFile(f, {
+                await swc.transformFile(absFile, {
                     jsc: {
                         parser: {
                             syntax: "typescript",
                         },
-                        baseUrl: path.resolve(testDir),
+                        baseUrl: absBaseUrl,
                         paths: {
                             "@utils/*": ["src/utils/*"],
                         },

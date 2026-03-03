@@ -2,6 +2,7 @@
 
 use std::hash::Hash;
 
+#[cfg(feature = "concurrent")]
 use rustc_hash::FxBuildHasher;
 #[cfg(not(feature = "concurrent"))]
 use rustc_hash::FxHashMap;
@@ -136,7 +137,7 @@ where
 
     #[cfg(not(feature = "concurrent"))]
     pub fn get(&self, k: &K) -> Option<V> {
-        self.inner.borrow().get(k).map(|v| v.clone())
+        self.inner.borrow().get(k).cloned()
     }
 
     #[cfg(feature = "concurrent")]
