@@ -9,7 +9,7 @@ repository  = { workspace = true }
 version     = "58.0.0"
 
 [[bin]]
-name = "swc"
+name = "swc-impl"
 path = "src/main.rs"
 
 [lib]
@@ -26,7 +26,7 @@ plugin = [
 
 [dependencies]
 anyhow             = { workspace = true }
-clap               = { version = "4.5.57", features = ["derive", "wrap_help"] }
+clap               = { version = "4.5.60", features = ["derive", "wrap_help"] }
 glob               = { workspace = true }
 par-core           = { workspace = true, features = ["chili"] }
 par-iter           = { workspace = true }

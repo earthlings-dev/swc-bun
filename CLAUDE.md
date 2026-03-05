@@ -552,6 +552,45 @@ When working in a specific directory, apply the rules from that directory and al
 
 SWC (Speedy Web Compiler) is a high-performance TypeScript/JavaScript compiler written in Rust. This is the `swc-bun` fork. The codebase is a large Cargo workspace (~118 crates in `crates/`, plus bindings and tools).
 
+## Initial Setup
+
+### Prerequisites
+
+- **Rust 1.93+** — pinned via `rust-toolchain.toml` (includes `rustfmt`, `clippy`, and `wasm32-wasip1` target)
+- **Bun >= 1.3.10** — required for JS dependencies and tests (`engines` in root `package.json`)
+
+### Submodules
+
+Three git submodules provide conformance test suites:
+
+| Submodule | Path | Purpose |
+|---|---|---|
+| test262-parser-tests | `crates/swc_ecma_parser/tests/test262-parser` | TC39 ECMAScript parser conformance |
+| html5lib-tests | `crates/swc_html_parser/tests/html5lib-tests` | HTML5 parser conformance |
+| decorator-tests | `crates/swc_ecma_transforms_proposal/tests/decorator-tests` | Decorator proposal tests (evanw) |
+
+```bash
+# Initialize (required before running full test suite)
+git submodule update --init --recursive
+
+# Update to latest upstream (only when intentionally syncing — may introduce new failing tests)
+git submodule update --remote --merge
+```
+
+### JS Dependencies
+
+```bash
+bun install
+```
+
+### Environment Variables (required for tests)
+
+```bash
+export RUST_BACKTRACE=full
+export RUST_MIN_STACK=16777216          # 16MB stack — SWC's recursive visitors need this
+export PATH="$PATH:$PWD/node_modules/.bin"
+```
+
 ## Build and Development Commands
 
 ### Building
@@ -560,6 +599,29 @@ SWC (Speedy Web Compiler) is a high-performance TypeScript/JavaScript compiler w
 cargo check --workspace          # Fast type-check
 cargo build -p <crate_name>      # Build a specific crate
 ```
+
+### Building NPM Packages
+
+The npm packages require compiling the Rust NAPI binding first, then the TypeScript layer:
+
+```bash
+# Debug build (faster, for development)
+cd packages/core && bun run build:dev
+
+# Release build (optimized, for benchmarking/publishing)
+cd packages/core && bun run build
+```
+
+Both run `tsc -d` (TypeScript compilation) followed by `napi build -p binding_core_node` (Rust → `.node` native binary).
+
+| Rust Binding Crate | NPM Package | Purpose |
+|---|---|---|
+| `binding_core_node` | `packages/core` (`@swc/core`) | Main compiler |
+| `binding_minifier_node` | `packages/minifier` (`@swc/minifier`) | Standalone minifier |
+| `binding_html_node` | `packages/html` (`@swc/html`) | HTML compiler |
+| `binding_react_compiler_node` | `packages/react-compiler` (`@swc/react-compiler`) | React compiler |
+
+> **Note:** `napi artifacts` is a CI-only command that distributes cross-compiled `.node` files into platform-specific npm packages (e.g., `@swc/core-linux-x64-gnu`). It requires an `artifacts/` directory populated by CI matrix builds. You do not need it for local development.
 
 ### Formatting and Linting
 
@@ -586,14 +648,31 @@ cargo test -p <crate_name> <test_name>
 cargo test -p <crate_name> --test <test_file_name>
 ```
 
-**Required environment variables for tests:**
+See [Initial Setup](#initial-setup) for required environment variables, submodule initialization, and JS dependency installation.
+
+### JavaScript / TypeScript Tests
+
+Build the native binding first, then run tests per package from the repo root:
+
 ```bash
-export RUST_BACKTRACE=full
-export PATH="$PATH:$PWD/node_modules/.bin"
-export RUST_MIN_STACK=16777216
+# Build (required once, or after Rust changes)
+cd packages/core && bun run build:dev && cd ../..
+
+# Run JS tests
+bun test:core               # packages/core (__tests__ + e2e)
+bun test:minifier            # packages/minifier
+bun test:html                # packages/html
+bun test:react-compiler      # packages/react-compiler
 ```
 
-**Initial setup for full test suite:** `git submodule update --init --recursive` (pulls test262 conformance suite), then `bun install` for JS dependencies.
+### WASM Binding Tests
+
+```bash
+(cd bindings/binding_core_wasm && ./scripts/test.sh)
+(cd bindings/binding_minifier_wasm && ./scripts/test.sh)
+(cd bindings/binding_typescript_wasm && ./scripts/test.sh)
+(cd bindings/binding_es_ast_viewer && ./scripts/test.sh)
+```
 
 ### Minifier-Specific Testing (`crates/swc_ecma_minifier`)
 

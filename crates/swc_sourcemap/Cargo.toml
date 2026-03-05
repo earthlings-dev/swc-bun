@@ -15,20 +15,20 @@ all-features = true
 [dependencies]
 base64-simd      = { version = "0.8" }
 bitvec           = "1.0.1"
-bytes-str        = { version = "0.2.4", features = ["serde"] }
-data-encoding    = "2.3.3"
+bytes-str        = { version = "0.2.7", features = ["serde"] }
+data-encoding    = "2.10.0"
 debugid          = { version = "0.8.0", features = ["serde"] }
-if_chain         = "1.0.0"
+if_chain         = "1.0.3"
 rustc-hash       = "2.1.1"
-scroll           = { version = "0.12.0", features = ["derive"], optional = true }
-serde            = { version = "1.0.104", features = ["derive", "rc"] }
-serde_json       = { version = "1.0.48", features = ["raw_value"] }
+scroll           = { version = "0.13.0", features = ["derive"], optional = true }
+serde            = { version = "1.0.228", features = ["derive", "rc"] }
+serde_json       = { version = "1.0.149", features = ["raw_value"] }
 unicode-id-start = "1"
-url              = "2.1.1"
+url              = "2.5.8"
 
 [features]
 ram_bundle = ["scroll"]
 
 [dev-dependencies]
 magic_string = "0.3.4"
-proptest     = "1.2.0"
+proptest     = "1.10.0"

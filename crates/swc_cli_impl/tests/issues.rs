@@ -9,7 +9,7 @@ use assert_cmd::prelude::*;
 use assert_fs::TempDir;
 
 fn cli() -> Result<Command> {
-    let mut cmd = Command::new(assert_cmd::cargo::cargo_bin!("swc"));
+    let mut cmd = Command::new(assert_cmd::cargo::cargo_bin!("swc-impl"));
     cmd.stderr(Stdio::inherit());
     Ok(cmd)
 }
