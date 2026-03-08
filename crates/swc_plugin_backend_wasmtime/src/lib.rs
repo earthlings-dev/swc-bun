@@ -7,7 +7,7 @@ use swc_plugin_runner::runtime;
 /// Identifier for bytecode cache stored in local filesystem.
 ///
 /// This MUST be updated when bump up wasmtime.
-const MODULE_SERIALIZATION_IDENTIFIER: &str = concat!("wasmtime", "-", "v35");
+const MODULE_SERIALIZATION_IDENTIFIER: &str = concat!("wasmtime", "-", "v42");
 
 static ENGINE: OnceCell<wasmtime::Engine> = OnceCell::new();
 
@@ -48,9 +48,14 @@ struct WasmtimeCallerRef<'a> {
     free_func: wasmtime::TypedFunc<(u32, u32), u32>,
 }
 
+/// Converts a `wasmtime::Error` into an `anyhow::Error`.
+fn wt_err(e: wasmtime::Error) -> anyhow::Error {
+    anyhow::anyhow!("{e}")
+}
+
 fn init_engine() -> anyhow::Result<wasmtime::Engine> {
     let config = wasmtime::Config::default();
-    wasmtime::Engine::new(&config)
+    wasmtime::Engine::new(&config).map_err(wt_err)
 }
 
 impl runtime::Runtime for WasmtimeRuntime {
@@ -60,7 +65,7 @@ impl runtime::Runtime for WasmtimeRuntime {
 
     fn prepare_module(&self, bytes: &[u8]) -> anyhow::Result<runtime::ModuleCache> {
         let engine = ENGINE.get_or_try_init(init_engine)?;
-        let cache = WasmtimeCache(wasmtime::Module::new(engine, bytes)?);
+        let cache = WasmtimeCache(wasmtime::Module::new(engine, bytes).map_err(wt_err)?);
         Ok(runtime::ModuleCache(Box::new(cache)))
     }
 
@@ -84,7 +89,7 @@ impl runtime::Runtime for WasmtimeRuntime {
         use std::io::{ErrorKind, Write};
 
         let WasmtimeCache(module) = cache.0.downcast_ref().unwrap();
-        let data = module.serialize()?;
+        let data = module.serialize().map_err(wt_err)?;
 
         // atomic write
         //
@@ -130,7 +135,7 @@ impl runtime::Runtime for WasmtimeRuntime {
                 let cache = cache.0.downcast::<WasmtimeCache>().unwrap();
                 cache.0
             }
-            runtime::Module::Bytes(buf) => wasmtime::Module::new(engine, buf)?,
+            runtime::Module::Bytes(buf) => wasmtime::Module::new(engine, buf).map_err(wt_err)?,
         };
 
         let current_dir = std::env::current_dir()?;
@@ -157,33 +162,40 @@ impl runtime::Runtime for WasmtimeRuntime {
                 (0..func.sign.0).map(|_| wasmtime::ValType::I32),
                 (0..func.sign.1).map(|_| wasmtime::ValType::I32),
             );
-            linker.func_new("env", &name, ty, move |caller, input, output| {
-                wasmtime_func_call(caller, input, output, &func)
-            })?;
+            linker
+                .func_new("env", &name, ty, move |caller, input, output| {
+                    wasmtime_func_call(caller, input, output, &func)
+                })
+                .map_err(wt_err)?;
         }
 
-        wasi_common::sync::add_to_linker(&mut linker, |t| &mut t.wasi)?;
+        wasi_common::sync::add_to_linker(&mut linker, |t| &mut t.wasi).map_err(wt_err)?;
 
         let mut store = wasmtime::Store::new(engine, table);
-        let instance = linker.instantiate(&mut store, &module)?;
+        let instance = linker.instantiate(&mut store, &module).map_err(wt_err)?;
 
         let memory = instance
             .get_memory(&mut store, "memory")
             .context("miss memory export")?;
-        let alloc_func: wasmtime::TypedFunc<u32, u32> =
-            instance.get_typed_func(&mut store, "__alloc")?;
-        let free_func: wasmtime::TypedFunc<(u32, u32), u32> =
-            instance.get_typed_func(&mut store, "__free")?;
-        let transform_func: wasmtime::TypedFunc<(u32, u32, u32, u32), u32> =
-            instance.get_typed_func(&mut store, "__transform_plugin_process_impl")?;
+        let alloc_func: wasmtime::TypedFunc<u32, u32> = instance
+            .get_typed_func(&mut store, "__alloc")
+            .map_err(wt_err)?;
+        let free_func: wasmtime::TypedFunc<(u32, u32), u32> = instance
+            .get_typed_func(&mut store, "__free")
+            .map_err(wt_err)?;
+        let transform_func: wasmtime::TypedFunc<(u32, u32, u32, u32), u32> = instance
+            .get_typed_func(&mut store, "__transform_plugin_process_impl")
+            .map_err(wt_err)?;
 
         store.data_mut().memory = Some(memory);
         store.data_mut().alloc_func = Some(alloc_func.clone());
         store.data_mut().free_func = Some(free_func.clone());
 
         instance
-            .get_typed_func::<(), u32>(&mut store, "__get_transform_plugin_core_pkg_diag")?
-            .call(&mut store, ())?;
+            .get_typed_func::<(), u32>(&mut store, "__get_transform_plugin_core_pkg_diag")
+            .map_err(wt_err)?
+            .call(&mut store, ())
+            .map_err(wt_err)?;
 
         Ok(Box::new(WasmtimeInstance {
             store,
@@ -204,15 +216,17 @@ impl runtime::Instance for WasmtimeInstance {
         unresolved_mark: u32,
         should_enable_comments_proxy: u32,
     ) -> anyhow::Result<u32> {
-        self.transform_func.call(
-            &mut self.store,
-            (
-                program_ptr,
-                program_len,
-                unresolved_mark,
-                should_enable_comments_proxy,
-            ),
-        )
+        self.transform_func
+            .call(
+                &mut self.store,
+                (
+                    program_ptr,
+                    program_len,
+                    unresolved_mark,
+                    should_enable_comments_proxy,
+                ),
+            )
+            .map_err(wt_err)
     }
 
     fn caller(&mut self) -> anyhow::Result<Box<dyn runtime::Caller<'_> + '_>> {
@@ -243,11 +257,13 @@ impl<'a> runtime::Caller<'a> for WasmtimeCaller<'a> {
     }
 
     fn alloc(&mut self, size: u32) -> anyhow::Result<u32> {
-        self.alloc_func.call(&mut self.store, size)
+        self.alloc_func.call(&mut self.store, size).map_err(wt_err)
     }
 
     fn free(&mut self, ptr: u32, size: u32) -> anyhow::Result<u32> {
-        self.free_func.call(&mut self.store, (ptr, size))
+        self.free_func
+            .call(&mut self.store, (ptr, size))
+            .map_err(wt_err)
     }
 }
 
@@ -263,11 +279,13 @@ impl<'a> runtime::Caller<'a> for WasmtimeCallerRef<'a> {
     }
 
     fn alloc(&mut self, size: u32) -> anyhow::Result<u32> {
-        self.alloc_func.call(&mut self.caller, size)
+        self.alloc_func.call(&mut self.caller, size).map_err(wt_err)
     }
 
     fn free(&mut self, ptr: u32, size: u32) -> anyhow::Result<u32> {
-        self.free_func.call(&mut self.caller, (ptr, size))
+        self.free_func
+            .call(&mut self.caller, (ptr, size))
+            .map_err(wt_err)
     }
 }
 
@@ -276,7 +294,7 @@ fn wasmtime_func_call(
     input: &[wasmtime::Val],
     output: &mut [wasmtime::Val],
     func: &runtime::Func,
-) -> anyhow::Result<()> {
+) -> Result<(), wasmtime::Error> {
     assert_eq!(func.sign.0 as usize, input.len());
     assert_eq!(func.sign.1 as usize, output.len());
 
@@ -295,9 +313,9 @@ fn wasmtime_func_call(
         .iter()
         .map(|val| match val {
             wasmtime::Val::I32(v) => Ok(*v),
-            _ => Err(anyhow::format_err!("not support argument type")),
+            _ => Err(wasmtime::Error::msg("not support argument type")),
         })
-        .collect::<anyhow::Result<Vec<i32>>>()?;
+        .collect::<Result<Vec<i32>, _>>()?;
     let mut output2 = vec![0; output.len()];
 
     (func.func)(&mut caller, &input, &mut output2);

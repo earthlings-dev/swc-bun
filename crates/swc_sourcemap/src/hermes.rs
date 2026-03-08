@@ -6,14 +6,14 @@ use std::{
 use bytes_str::BytesStr;
 
 use crate::{
+    Token,
     decoder::{decode, decode_regular, decode_slice},
-    encoder::{encode, Encodable},
+    encoder::{Encodable, encode},
     errors::{Error, Result},
     jsontypes::{FacebookScopeMapping, FacebookSources, RawSourceMap},
     types::{DecodedMap, RewriteOptions, SourceMap},
     utils::greatest_lower_bound,
     vlq::parse_vlq_segment_into,
-    Token,
 };
 
 /// These are starting locations of scopes.

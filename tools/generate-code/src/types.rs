@@ -1,9 +1,8 @@
 use std::collections::HashMap;
 
 use syn::{
-    parse_quote,
-    visit_mut::{visit_file_mut, VisitMut},
-    File, Ident, ItemUse, Path, PathSegment, TypePath, UseTree,
+    File, Ident, ItemUse, Path, PathSegment, TypePath, UseTree, parse_quote,
+    visit_mut::{VisitMut, visit_file_mut},
 };
 
 pub fn qualify_types(mut file: File) -> File {

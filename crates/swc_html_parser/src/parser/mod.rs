@@ -4,8 +4,8 @@ use active_formatting_element_stack::*;
 use doctypes::*;
 use node::*;
 use open_elements_stack::*;
-use swc_atoms::{atom, Atom};
-use swc_common::{Span, DUMMY_SP};
+use swc_atoms::{Atom, atom};
+use swc_common::{DUMMY_SP, Span};
 use swc_html_ast::*;
 
 use self::input::{Buffer, ParserInput};

@@ -3,15 +3,15 @@ use std::sync::Arc;
 use anyhow::Result;
 use swc_core::{
     self,
-    common::{errors::ColorConfig, FileName, Globals, Mark, SourceMap, GLOBALS},
+    common::{FileName, GLOBALS, Globals, Mark, SourceMap, errors::ColorConfig},
     ecma::{
         ast::*,
-        parser::{unstable::Capturing, EsSyntax, Lexer, Parser, StringInput, Syntax, TsSyntax},
+        parser::{EsSyntax, Lexer, Parser, StringInput, Syntax, TsSyntax, unstable::Capturing},
         transforms::base::resolver,
         visit::VisitMutWith,
     },
 };
-use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
+use swc_error_reporters::handler::{HandlerOpts, try_with_handler};
 use wasm_bindgen::prelude::wasm_bindgen;
 
 static FILE_NAME: &str = "main.mtsx";

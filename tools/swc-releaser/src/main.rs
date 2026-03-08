@@ -1,16 +1,16 @@
 use std::{
-    collections::{hash_map::Entry, HashMap},
+    collections::{HashMap, hash_map::Entry},
     env,
     path::{Path, PathBuf},
     process::Command,
 };
 
 use anyhow::{Context, Result};
-use cargo_metadata::{semver::Version, DependencyKind};
+use cargo_metadata::{DependencyKind, semver::Version};
 use changesets::ChangeType;
 use clap::{Parser, Subcommand};
 use indexmap::IndexSet;
-use petgraph::{prelude::DiGraphMap, Direction};
+use petgraph::{Direction, prelude::DiGraphMap};
 
 #[derive(Debug, Parser)]
 struct CliArgs {

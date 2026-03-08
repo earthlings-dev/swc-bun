@@ -6,6 +6,7 @@
 use std::ops::RangeInclusive;
 
 use icu_properties::{
+    CodePointMapData, CodePointSetData,
     props::{
         Alphabetic, AsciiHexDigit, BidiControl, BidiMirrored, CaseIgnorable, Cased,
         ChangesWhenCasefolded, ChangesWhenCasemapped, ChangesWhenLowercased,
@@ -18,7 +19,6 @@ use icu_properties::{
         Radical, RegionalIndicator, Script, SentenceTerminal, SoftDotted, TerminalPunctuation,
         UnifiedIdeograph, Uppercase, VariationSelector, WhiteSpace, XidContinue, XidStart,
     },
-    CodePointMapData, CodePointSetData,
 };
 use swc_ecma_regexp_ast::{
     Character, CharacterClass, CharacterClassContents, CharacterClassContentsKind,

@@ -2,6 +2,7 @@ use serde::{Deserialize, Serialize};
 use swc_common::ast_serde;
 
 use crate::{
+    UsingDeclaration,
     class::ClassDeclaration,
     common::{BaseNode, Directive, Identifier, LVal},
     decl::{EnumDeclaration, FunctionDeclaration, VariableDeclaration},
@@ -20,7 +21,6 @@ use crate::{
         TSInterfaceDeclaration, TSModuleDeclaration, TSNamespaceExportDeclaration,
         TSTypeAliasDeclaration,
     },
-    UsingDeclaration,
 };
 
 #[derive(Debug, Clone, PartialEq)]

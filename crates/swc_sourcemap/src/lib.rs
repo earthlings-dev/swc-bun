@@ -48,8 +48,8 @@ pub use crate::{
     builder::SourceMapBuilder,
     decoder::{decode, decode_data_url, decode_slice},
     detector::{
-        is_sourcemap, is_sourcemap_slice, locate_sourcemap_reference,
-        locate_sourcemap_reference_slice, SourceMapRef,
+        SourceMapRef, is_sourcemap, is_sourcemap_slice, locate_sourcemap_reference,
+        locate_sourcemap_reference_slice,
     },
     errors::{Error, Result},
     hermes::SourceMapHermes,

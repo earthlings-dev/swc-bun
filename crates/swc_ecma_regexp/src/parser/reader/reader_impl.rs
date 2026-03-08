@@ -3,8 +3,8 @@ use swc_atoms::Atom;
 use crate::{
     diagnostics::Result,
     parser::reader::string_literal_parser::{
-        ast as StringLiteralAst, parse_regexp_literal, Options as StringLiteralParserOptions,
-        Parser as StringLiteralParser,
+        Options as StringLiteralParserOptions, Parser as StringLiteralParser,
+        ast as StringLiteralAst, parse_regexp_literal,
     },
 };
 

@@ -6,8 +6,8 @@ use dashmap::DashMap;
 use rustc_hash::FxBuildHasher;
 use swc_atoms::atom;
 use swc_common::{
-    comments::{Comment, CommentKind, Comments},
     BytePos, DUMMY_SP,
+    comments::{Comment, CommentKind, Comments},
 };
 
 type CommentMap = Arc<DashMap<BytePos, Vec<Comment>, FxBuildHasher>>;

@@ -1,4 +1,4 @@
-use std::alloc::{alloc as global_alloc, dealloc as global_dealloc, Layout};
+use std::alloc::{Layout, alloc as global_alloc, dealloc as global_dealloc};
 
 /// Allocate bytes that won't be dropped by the allocator.
 /// Return the pointer to the leaked allocation so the host can write to it.

@@ -3,7 +3,7 @@
 extern crate proc_macro;
 
 use quote::ToTokens;
-use syn::{parse_quote, FnArg, ImplItemFn, Type, TypeReference};
+use syn::{FnArg, ImplItemFn, Type, TypeReference, parse_quote};
 
 #[proc_macro_attribute]
 pub fn emitter(

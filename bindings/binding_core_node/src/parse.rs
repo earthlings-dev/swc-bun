@@ -5,17 +5,17 @@ use std::{
 
 use anyhow::Context as _;
 use napi::{
-    bindgen_prelude::{AbortSignal, AsyncTask, Buffer},
     Either, Env, Task,
+    bindgen_prelude::{AbortSignal, AsyncTask, Buffer},
 };
 use swc_core::{
     base::{
-        config::{ErrorFormat, ParseOptions},
         Compiler,
+        config::{ErrorFormat, ParseOptions},
     },
-    common::{comments::Comments, BytePos, FileName, Mark, Span},
+    common::{BytePos, FileName, Mark, Span, comments::Comments},
     ecma::{ast::Program, transforms::base::resolver, visit::VisitMutWith},
-    node::{deserialize_json, get_deserialized, MapErr},
+    node::{MapErr, deserialize_json, get_deserialized},
 };
 
 use crate::{get_compiler, get_fresh_compiler, span_normalize::SpanNormalizer, util::try_with};

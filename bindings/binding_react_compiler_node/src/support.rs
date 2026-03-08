@@ -1,6 +1,6 @@
 use napi::bindgen_prelude::*;
 use swc_core::{
-    common::{sync::Lrc, FileName, SourceMap},
+    common::{FileName, SourceMap, sync::Lrc},
     ecma::{ast::EsVersion, parser::Syntax},
 };
 

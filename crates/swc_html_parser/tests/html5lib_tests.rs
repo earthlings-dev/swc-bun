@@ -3,19 +3,19 @@
 
 use std::{fs, mem::take, path::PathBuf};
 
-use common::{document_span_visualizer, DomVisualizer};
+use common::{DomVisualizer, document_span_visualizer};
 use rustc_hash::FxHashSet;
 use serde_json::Value;
-use swc_atoms::{atom, Atom};
+use swc_atoms::{Atom, atom};
 use swc_common::{
-    input::{SourceFileInput, StringInput},
     BytePos,
+    input::{SourceFileInput, StringInput},
 };
 use swc_html_ast::*;
 use swc_html_parser::{
     error::ErrorKind,
     lexer::{Lexer, State},
-    parser::{input::ParserInput, PResult, Parser, ParserConfig},
+    parser::{PResult, Parser, ParserConfig, input::ParserInput},
 };
 use swc_html_visit::VisitMutWith;
 use testing::NormalizedOutput;
@@ -509,9 +509,11 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                         }
                     };
 
-                    assert!(actual_errors
-                        .iter()
-                        .any(|error| *error.kind() == expected_code));
+                    assert!(
+                        actual_errors
+                            .iter()
+                            .any(|error| *error.kind() == expected_code)
+                    );
                 }
             } else {
                 let errors = lexer.take_errors();

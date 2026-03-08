@@ -1,6 +1,6 @@
 use std::{io, io::BufRead};
 
-use swc_sourcemap::{decode_data_url, DecodedMap, SourceMap, Token};
+use swc_sourcemap::{DecodedMap, SourceMap, Token, decode_data_url};
 
 #[test]
 fn test_no_header() {

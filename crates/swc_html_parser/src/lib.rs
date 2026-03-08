@@ -6,7 +6,7 @@
 #![allow(clippy::wrong_self_convention)]
 #![allow(clippy::match_like_matches_macro)]
 
-use swc_common::{input::StringInput, SourceFile};
+use swc_common::{SourceFile, input::StringInput};
 use swc_html_ast::{Document, DocumentFragment, DocumentMode, Element};
 
 use crate::{

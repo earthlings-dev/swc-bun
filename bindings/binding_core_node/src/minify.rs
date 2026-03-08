@@ -1,18 +1,18 @@
 use std::sync::Arc;
 
 use napi::{
-    bindgen_prelude::{AbortSignal, AsyncTask, Buffer, External},
     Task,
+    bindgen_prelude::{AbortSignal, AsyncTask, Buffer, External},
 };
 use rustc_hash::FxHashMap;
 use swc_core::{
     base::{
-        config::{ErrorFormat, JsMinifyOptions},
         JsMinifyExtras, TransformOutput,
+        config::{ErrorFormat, JsMinifyOptions},
     },
-    common::{sync::Lrc, FileName, SourceFile, SourceMap},
+    common::{FileName, SourceFile, SourceMap, sync::Lrc},
     ecma::minifier::option::{MangleCache, SimpleMangleCache},
-    node::{deserialize_json, get_deserialized, MapErr},
+    node::{MapErr, deserialize_json, get_deserialized},
 };
 
 use crate::{get_fresh_compiler, util::try_with};

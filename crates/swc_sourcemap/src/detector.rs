@@ -6,7 +6,7 @@ use std::{
 use url::Url;
 
 use crate::{
-    decoder::{decode_data_url, strip_junk_header, StripHeaderReader},
+    decoder::{StripHeaderReader, decode_data_url, strip_junk_header},
     errors::Result,
     jsontypes::MinimalRawSourceMap,
     types::DecodedMap,

@@ -1,7 +1,7 @@
 use std::vec;
 
 use diagnostics::Result;
-use swc_atoms::{atom, Atom as SpanAtom};
+use swc_atoms::{Atom as SpanAtom, atom};
 
 use crate::{
     ast, diagnostics,

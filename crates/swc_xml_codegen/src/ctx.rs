@@ -1,6 +1,6 @@
 use std::ops::{Deref, DerefMut};
 
-use crate::{writer::XmlWriter, CodeGenerator};
+use crate::{CodeGenerator, writer::XmlWriter};
 
 impl<'b, W> CodeGenerator<'b, W>
 where

@@ -1,7 +1,7 @@
 [package]
 authors     = ["Sentry <hello@sentry.io>", "swc-project <https://swc.rs>"]
 description = "Forked from https://github.com/getsentry/rust-sourcemap"
-edition     = "2018"
+edition.workspace = true
 homepage    = "https://github.com/swc-project/swc-sourcemap"
 keywords    = ["javascript", "sourcemap", "sourcemaps"]
 license     = "BSD-3-Clause"

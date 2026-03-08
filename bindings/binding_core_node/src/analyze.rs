@@ -1,12 +1,12 @@
 use std::sync::Arc;
 
 use napi::{
-    bindgen_prelude::{AbortSignal, AsyncTask, Buffer},
     Env, Task,
+    bindgen_prelude::{AbortSignal, AsyncTask, Buffer},
 };
 use swc_core::{
-    base::{wasm_analysis::WasmAnalysisOptions, Compiler},
-    common::{comments::SingleThreadedComments, FileName},
+    base::{Compiler, wasm_analysis::WasmAnalysisOptions},
+    common::{FileName, comments::SingleThreadedComments},
     node::MapErr,
 };
 use tracing::instrument;

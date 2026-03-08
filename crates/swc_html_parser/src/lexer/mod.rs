@@ -1,8 +1,8 @@
 use std::{cell::RefCell, char::REPLACEMENT_CHARACTER, collections::VecDeque, mem::take, rc::Rc};
 
 use rustc_hash::FxHashSet;
-use swc_atoms::{atom, Atom};
-use swc_common::{input::Input, BytePos, Span};
+use swc_atoms::{Atom, atom};
+use swc_common::{BytePos, Span, input::Input};
 use swc_html_ast::{AttributeToken, Raw, Token, TokenAndSpan};
 use swc_html_utils::{Entity, HTML_ENTITIES};
 

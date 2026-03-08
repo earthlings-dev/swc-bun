@@ -1,8 +1,8 @@
 use std::{env, fs};
 
-use swc_common::{errors::HANDLER, FileName};
+use swc_common::{FileName, errors::HANDLER};
 use swc_html_ast::Document;
-use swc_html_codegen::{writer::basic::BasicHtmlWriter, Emit};
+use swc_html_codegen::{Emit, writer::basic::BasicHtmlWriter};
 use swc_html_minifier::{minify_document, option::MinifyOptions};
 use swc_html_parser::parse_file_as_document;
 

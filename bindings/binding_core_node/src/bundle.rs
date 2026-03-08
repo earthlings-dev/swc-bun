@@ -1,15 +1,15 @@
 #[cfg(all(feature = "swc_v1", not(feature = "swc_v2")))]
-use std::panic::{catch_unwind, AssertUnwindSafe};
+use std::panic::{AssertUnwindSafe, catch_unwind};
 use std::sync::Arc;
 
+use anyhow::Error;
 #[cfg(all(feature = "swc_v1", not(feature = "swc_v2")))]
 use anyhow::bail;
-use anyhow::Error;
-use napi::{bindgen_prelude::AsyncTask, Env, Task};
+use napi::{Env, Task, bindgen_prelude::AsyncTask};
 #[cfg(all(feature = "swc_v1", not(feature = "swc_v2")))]
 use napi::{
-    bindgen_prelude::{AbortSignal, Buffer},
     Status,
+    bindgen_prelude::{AbortSignal, Buffer},
 };
 use rustc_hash::FxHashMap;
 use serde::Deserialize;
@@ -17,14 +17,14 @@ use serde::Deserialize;
 use swc_core::{
     atoms::Atom,
     base::{
+        Compiler, PrintArgs,
         config::SourceMapsConfig,
         resolver::{environment_resolver, paths_resolver},
-        Compiler, PrintArgs,
     },
     bundler::{BundleKind, Bundler},
-    common::{Globals, GLOBALS},
-    ecma::loader::{TargetEnv, NODE_BUILTINS},
-    node::{get_deserialized, MapErr},
+    common::{GLOBALS, Globals},
+    ecma::loader::{NODE_BUILTINS, TargetEnv},
+    node::{MapErr, get_deserialized},
 };
 use swc_core::{
     base::TransformOutput,

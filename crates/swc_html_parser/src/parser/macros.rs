@@ -45,25 +45,17 @@ macro_rules! get_document_mode {
 }
 
 macro_rules! is_html_element {
-    ($node:expr, $tag_names:pat) => {{
-        get_namespace!($node) == Namespace::HTML && matches!(get_tag_name!($node), $tag_names)
-    }};
+    ($node:expr, $tag_names:pat) => {{ get_namespace!($node) == Namespace::HTML && matches!(get_tag_name!($node), $tag_names) }};
 }
 
 macro_rules! is_mathml_element {
-    ($node:expr, $tag_names:pat) => {{
-        get_namespace!($node) == Namespace::MATHML && matches!(get_tag_name!($node), $tag_names)
-    }};
+    ($node:expr, $tag_names:pat) => {{ get_namespace!($node) == Namespace::MATHML && matches!(get_tag_name!($node), $tag_names) }};
 }
 
 macro_rules! is_svg_element {
-    ($node:expr, $tag_names:pat) => {{
-        get_namespace!($node) == Namespace::SVG && matches!(get_tag_name!($node), $tag_names)
-    }};
+    ($node:expr, $tag_names:pat) => {{ get_namespace!($node) == Namespace::SVG && matches!(get_tag_name!($node), $tag_names) }};
 }
 
 macro_rules! is_html_element_with_tag_name {
-    ($node:expr, $tag_name:expr) => {{
-        get_namespace!($node) == Namespace::HTML && get_tag_name!($node) == $tag_name
-    }};
+    ($node:expr, $tag_name:expr) => {{ get_namespace!($node) == Namespace::HTML && get_tag_name!($node) == $tag_name }};
 }

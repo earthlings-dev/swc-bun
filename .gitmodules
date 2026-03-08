@@ -11,3 +11,12 @@
 [submodule "crates/swc_ecma_transforms_proposal/tests/decorator-tests"]
 	path = crates/swc_ecma_transforms_proposal/tests/decorator-tests
 	url = https://github.com/evanw/decorator-tests
+[submodule "extra-bindings"]
+	path = extra-bindings
+	url = https://github.com/earthlings-dev/swc-extra-bindings.git
+[submodule "plugins"]
+	path = plugins
+	url = https://github.com/earthlings-dev/swc-plugins.git
+[submodule "pkgs"]
+	path = pkgs
+	url = https://github.com/earthlings-dev/swc-pkgs.git

@@ -1,4 +1,4 @@
-use swc_sourcemap::{is_sourcemap_slice, locate_sourcemap_reference, SourceMapRef};
+use swc_sourcemap::{SourceMapRef, is_sourcemap_slice, locate_sourcemap_reference};
 
 #[test]
 fn test_basic_locate() {

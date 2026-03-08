@@ -1,17 +1,17 @@
 use std::sync::Arc;
 
 use napi::{
-    bindgen_prelude::{AbortSignal, AsyncTask, Buffer},
     Env, Task,
+    bindgen_prelude::{AbortSignal, AsyncTask, Buffer},
 };
 use swc_core::{
     base::{
-        config::{Options, SourceMapsConfig},
         Compiler, PrintArgs, TransformOutput,
+        config::{Options, SourceMapsConfig},
     },
     common::GLOBALS,
     ecma::ast::{EsVersion, Program},
-    node::{deserialize_json, get_deserialized, MapErr},
+    node::{MapErr, deserialize_json, get_deserialized},
 };
 
 use crate::get_compiler;

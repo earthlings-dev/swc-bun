@@ -2,7 +2,7 @@ use std::{cell::RefCell, mem, rc::Rc};
 
 use node::*;
 use open_elements_stack::*;
-use swc_common::{Span, DUMMY_SP};
+use swc_common::{DUMMY_SP, Span};
 use swc_xml_ast::*;
 
 use self::input::{Buffer, ParserInput};

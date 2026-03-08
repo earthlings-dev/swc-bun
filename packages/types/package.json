@@ -32,10 +32,10 @@
     },
     "homepage": "https://swc.rs",
     "devDependencies": {
-        "@types/bun": "^1.3.9",
+        "@types/bun": "^1.3.10",
         "typescript": "^5.9.3"
     },
     "dependencies": {
-        "@swc/counter": "^0.1.3"
+        "@swc/counter": "workspace:*"
     }
 }

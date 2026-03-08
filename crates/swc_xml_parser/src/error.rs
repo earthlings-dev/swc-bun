@@ -1,8 +1,8 @@
 use std::borrow::Cow;
 
 use swc_common::{
-    errors::{DiagnosticBuilder, Handler},
     Span,
+    errors::{DiagnosticBuilder, Handler},
 };
 
 /// Size is same as a size of a pointer.

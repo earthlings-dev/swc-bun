@@ -2,7 +2,7 @@
 authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
 description   = "Transpiles modern RegExp features to ES5-compatible patterns"
 documentation = "https://rustdoc.swc.rs/swc_ecma_compat_regexp/"
-edition       = "2021"
+edition.workspace = true
 include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc_ecma_compat_regexp"

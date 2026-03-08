@@ -5,7 +5,7 @@
 #![allow(clippy::nonminimal_bool)]
 #![allow(clippy::wrong_self_convention)]
 
-use swc_common::{input::StringInput, SourceFile};
+use swc_common::{SourceFile, input::StringInput};
 use swc_xml_ast::Document;
 
 use crate::{

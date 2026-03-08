@@ -1,19 +1,19 @@
 #![deny(warnings)]
 
-use std::panic::{catch_unwind, AssertUnwindSafe};
+use std::panic::{AssertUnwindSafe, catch_unwind};
 
-use anyhow::{anyhow, Error};
+use anyhow::{Error, anyhow};
 use napi::Env;
 use swc_core::common::{
+    GLOBALS, SourceMap,
     errors::Handler,
     sync::{Lrc, OnceCell},
-    SourceMap, GLOBALS,
 };
 use swc_error_reporters::handler::try_with_handler;
 use tracing::instrument;
 use tracing_chrome::ChromeLayerBuilder;
 use tracing_subscriber::{
-    filter, prelude::__tracing_subscriber_SubscriberExt, util::SubscriberInitExt, EnvFilter, Layer,
+    EnvFilter, Layer, filter, prelude::__tracing_subscriber_SubscriberExt, util::SubscriberInitExt,
 };
 
 static TARGET_TRIPLE: &str = include_str!(concat!(env!("OUT_DIR"), "/triple.txt"));

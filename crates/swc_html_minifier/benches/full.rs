@@ -2,10 +2,10 @@ extern crate swc_malloc;
 
 use std::{fs::read_to_string, path::Path};
 
-use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Criterion};
-use swc_common::{errors::HANDLER, FileName};
+use codspeed_criterion_compat::{Criterion, black_box, criterion_group, criterion_main};
+use swc_common::{FileName, errors::HANDLER};
 use swc_html_ast::{Document, DocumentFragment, DocumentMode, Element, Namespace};
-use swc_html_codegen::{writer::basic::BasicHtmlWriter, Emit};
+use swc_html_codegen::{Emit, writer::basic::BasicHtmlWriter};
 use swc_html_minifier::{minify_document, minify_document_fragment, option::MinifyOptions};
 use swc_html_parser::{parse_file_as_document, parse_file_as_document_fragment};
 

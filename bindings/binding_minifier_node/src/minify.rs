@@ -2,18 +2,18 @@ use std::sync::Arc;
 
 use anyhow::{Context, Error};
 use napi::{
-    bindgen_prelude::{AbortSignal, AsyncTask, Buffer, External},
     Task,
+    bindgen_prelude::{AbortSignal, AsyncTask, Buffer, External},
 };
 use swc_compiler_base::{
-    minify_file_comments, parse_js, IdentCollector, PrintArgs, SourceMapsConfig, TransformOutput,
+    IdentCollector, PrintArgs, SourceMapsConfig, TransformOutput, minify_file_comments, parse_js,
 };
 use swc_config::types::BoolOr;
 use swc_core::{
     common::{
+        FileName, Mark, SourceMap,
         comments::{Comments, SingleThreadedComments},
         sync::Lrc,
-        FileName, Mark, SourceMap,
     },
     ecma::{
         minifier::{
@@ -25,7 +25,7 @@ use swc_core::{
         visit::{VisitMutWith, VisitWith},
     },
 };
-use swc_nodejs_common::{deserialize_json, get_deserialized, MapErr};
+use swc_nodejs_common::{MapErr, deserialize_json, get_deserialized};
 
 use crate::util::try_with;
 

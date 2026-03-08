@@ -5,15 +5,15 @@ use std::{
 
 use anyhow::Context as _;
 use napi::{
-    bindgen_prelude::{AbortSignal, AsyncTask, Buffer},
     Env, Task,
+    bindgen_prelude::{AbortSignal, AsyncTask, Buffer},
 };
 use path_clean::clean;
 use swc_core::{
-    base::{config::Options, Compiler, TransformOutput},
+    base::{Compiler, TransformOutput, config::Options},
     common::{FileName, Spanned},
     ecma::{ast::Program, visit::VisitMutWith},
-    node::{deserialize_json, get_deserialized, MapErr},
+    node::{MapErr, deserialize_json, get_deserialized},
 };
 use tracing::instrument;
 

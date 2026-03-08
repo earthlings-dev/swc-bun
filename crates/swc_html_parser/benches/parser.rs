@@ -1,8 +1,8 @@
 extern crate swc_malloc;
 
-use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
+use codspeed_criterion_compat::{Bencher, Criterion, black_box, criterion_group, criterion_main};
 use swc_atoms::atom;
-use swc_common::{input::StringInput, FileName};
+use swc_common::{FileName, input::StringInput};
 use swc_html_ast::{DocumentMode, Element, Namespace};
 use swc_html_parser::{lexer::Lexer, parser::Parser};
 

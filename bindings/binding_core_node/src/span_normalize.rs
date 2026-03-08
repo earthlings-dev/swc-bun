@@ -55,7 +55,7 @@ impl VisitMut for SpanDenormalizer {
 #[cfg(test)]
 mod tests {
     use swc_core::{
-        common::{Span, DUMMY_SP},
+        common::{DUMMY_SP, Span},
         ecma::visit::VisitMutWith,
     };
 

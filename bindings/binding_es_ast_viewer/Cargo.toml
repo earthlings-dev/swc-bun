@@ -1,6 +1,6 @@
 [package]
 authors    = ["강동윤 <kdy1997.dev@gmail.com>"]
-edition    = "2021"
+edition.workspace = true
 license    = { workspace = true }
 name       = "binding_es_ast_viewer"
 publish    = false

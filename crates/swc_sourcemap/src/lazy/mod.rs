@@ -12,11 +12,11 @@ use serde::{Deserialize, Deserializer, Serialize};
 use serde_json::value::RawValue;
 
 use crate::{
+    Error, RawToken, Result,
     decoder::{decode_rmi, strip_junk_header},
     encoder::{encode_rmi, encode_vlq_diff},
     types::adjust_mappings,
     vlq::parse_vlq_segment_into,
-    Error, RawToken, Result,
 };
 
 #[derive(Serialize, Deserialize, Debug)]

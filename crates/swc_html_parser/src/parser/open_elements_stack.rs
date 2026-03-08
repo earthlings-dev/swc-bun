@@ -1,7 +1,7 @@
 use swc_html_ast::*;
 
 use crate::parser::{
-    is_html_integration_point, is_mathml_text_integration_point, is_same_node, Data, RcNode,
+    Data, RcNode, is_html_integration_point, is_mathml_text_integration_point, is_same_node,
 };
 
 static IMPLICIT_END_TAG_REQUIRED: &[&str] = &[

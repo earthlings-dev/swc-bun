@@ -2,11 +2,11 @@ use std::collections::HashSet;
 
 use inflector::Inflector;
 use proc_macro2::{Span, TokenStream};
-use quote::{quote, ToTokens};
+use quote::{ToTokens, quote};
 use swc_config::regex::CachedRegex;
 use syn::{
-    parse_quote, Arm, Attribute, Expr, Field, Fields, File, GenericArgument, Ident, Item, Lit,
-    LitInt, Path, PathArguments, Stmt, TraitItem, Type,
+    Arm, Attribute, Expr, Field, Fields, File, GenericArgument, Ident, Item, Lit, LitInt, Path,
+    PathArguments, Stmt, TraitItem, Type, parse_quote,
 };
 
 pub fn generate(crate_name_str: &str, node_types: &[&Item], excluded_types: &[String]) -> File {
@@ -205,7 +205,7 @@ impl FieldType {
                     // Vec<Option<Foo>> => opt_vec_foo
                     match &**ty {
                         FieldType::Generic(name, ty) if name == "Option" => {
-                            return format!("opt_vec_{}s", ty.method_name())
+                            return format!("opt_vec_{}s", ty.method_name());
                         }
                         _ => {}
                     }

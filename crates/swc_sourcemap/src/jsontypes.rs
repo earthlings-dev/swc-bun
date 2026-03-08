@@ -1,6 +1,6 @@
 use bytes_str::BytesStr;
 use debugid::DebugId;
-use serde::{de::IgnoredAny, Deserialize, Serialize};
+use serde::{Deserialize, Serialize, de::IgnoredAny};
 use serde_json::Value;
 
 #[derive(Serialize, Deserialize, PartialEq, Debug)]

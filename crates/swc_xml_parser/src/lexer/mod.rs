@@ -2,7 +2,7 @@ use std::{collections::VecDeque, mem::take};
 
 use rustc_hash::FxHashSet;
 use swc_atoms::Atom;
-use swc_common::{input::Input, BytePos, Span};
+use swc_common::{BytePos, Span, input::Input};
 use swc_xml_ast::{AttributeToken, Token, TokenAndSpan};
 
 use crate::{

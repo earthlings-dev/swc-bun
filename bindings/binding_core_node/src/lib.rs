@@ -11,7 +11,7 @@ use std::{env, panic::set_hook, sync::Arc};
 use backtrace::Backtrace;
 use swc_core::{
     base::Compiler,
-    common::{sync::Lazy, FilePathMapping, SourceMap},
+    common::{FilePathMapping, SourceMap, sync::Lazy},
 };
 
 #[cfg(feature = "plugin")]

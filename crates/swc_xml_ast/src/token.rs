@@ -1,7 +1,7 @@
 #[cfg(feature = "serde-impl")]
 use serde::{Deserialize, Serialize};
 use swc_atoms::Atom;
-use swc_common::{ast_node, EqIgnoreSpan, Span};
+use swc_common::{EqIgnoreSpan, Span, ast_node};
 
 #[ast_node("TokenAndSpan")]
 #[derive(Eq, Hash, EqIgnoreSpan)]

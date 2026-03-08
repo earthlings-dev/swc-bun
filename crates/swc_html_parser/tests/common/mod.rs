@@ -1,6 +1,6 @@
 use std::path::PathBuf;
 
-use swc_common::{errors::Handler, input::SourceFileInput, Spanned};
+use swc_common::{Spanned, errors::Handler, input::SourceFileInput};
 use swc_html_ast::*;
 use swc_html_parser::{
     lexer::Lexer,

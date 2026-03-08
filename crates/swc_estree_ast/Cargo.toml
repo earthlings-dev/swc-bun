@@ -5,7 +5,7 @@ authors = [
 ]
 description = "ESTree AST node definitions"
 documentation = "https://rustdoc.swc.rs/swc_estree_ast/"
-edition = "2021"
+edition.workspace = true
 license = { workspace = true }
 name = "swc_estree_ast"
 repository = "https://github.com/swc-project/swc.git"

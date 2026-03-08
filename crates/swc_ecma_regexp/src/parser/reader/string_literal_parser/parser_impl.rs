@@ -1,7 +1,7 @@
 use super::{
     ast,
     characters::{
-        is_line_terminator, is_non_escape_character, is_single_escape_character, CR, LF, LS, PS,
+        CR, LF, LS, PS, is_line_terminator, is_non_escape_character, is_single_escape_character,
     },
     diagnostics,
     options::Options,

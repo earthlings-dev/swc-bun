@@ -1,8 +1,8 @@
 use std::{
     fmt, slice, str,
     sync::{
-        atomic::{AtomicUsize, Ordering},
         Mutex,
+        atomic::{AtomicUsize, Ordering},
     },
 };
 
@@ -10,7 +10,7 @@ use bytes_str::BytesStr;
 use if_chain::if_chain;
 
 use crate::{
-    detector::{locate_sourcemap_reference_slice, SourceMapRef},
+    detector::{SourceMapRef, locate_sourcemap_reference_slice},
     errors::Result,
     js_identifiers::{get_javascript_token, is_valid_javascript_identifier},
     types::Token,
