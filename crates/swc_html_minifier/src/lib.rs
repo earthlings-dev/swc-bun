@@ -5,10 +5,10 @@ use std::{borrow::Cow, cmp::Ordering, mem::take};
 use once_cell::sync::Lazy;
 use rustc_hash::FxHashMap;
 use serde_json::Value;
-use swc_atoms::{atom, Atom};
+use swc_atoms::{Atom, atom};
 use swc_common::{
-    comments::SingleThreadedComments, sync::Lrc, EqIgnoreSpan, FileName, FilePathMapping, Mark,
-    SourceMap, DUMMY_SP,
+    DUMMY_SP, EqIgnoreSpan, FileName, FilePathMapping, Mark, SourceMap,
+    comments::SingleThreadedComments, sync::Lrc,
 };
 use swc_config::regex::CachedRegex;
 use swc_html_ast::*;
@@ -452,7 +452,7 @@ impl<C: MinifyCss> Minifier<'_, C> {
             Namespace::SVG => {
                 match &*attribute.name {
                     "transform" | "stroke-dasharray" | "clip-path" | "requiredFeatures" => {
-                        return true
+                        return true;
                     }
                     _ => {}
                 }
@@ -2216,7 +2216,7 @@ impl<C: MinifyCss> Minifier<'_, C> {
             None,
             swc_html_codegen::writer::basic::BasicHtmlWriterConfig::default(),
         );
-        let mut gen = swc_html_codegen::CodeGenerator::new(
+        let mut codegen = swc_html_codegen::CodeGenerator::new(
             wr,
             swc_html_codegen::CodegenConfig {
                 minify: true,
@@ -2231,10 +2231,10 @@ impl<C: MinifyCss> Minifier<'_, C> {
 
         match document_or_document_fragment {
             HtmlRoot::Document(document) => {
-                swc_html_codegen::Emit::emit(&mut gen, &document).unwrap();
+                swc_html_codegen::Emit::emit(&mut codegen, &document).unwrap();
             }
             HtmlRoot::DocumentFragment(document_fragment) => {
-                swc_html_codegen::Emit::emit(&mut gen, &document_fragment).unwrap();
+                swc_html_codegen::Emit::emit(&mut codegen, &document_fragment).unwrap();
             }
         }
 
@@ -2983,11 +2983,11 @@ impl MinifyCss for DefaultCssMinifier {
 
         options.codegen.minify = true;
 
-        let mut gen = swc_css_codegen::CodeGenerator::new(wr, options.codegen);
+        let mut codegen = swc_css_codegen::CodeGenerator::new(wr, options.codegen);
 
         match mode {
             CssMinificationMode::Stylesheet => {
-                swc_css_codegen::Emit::emit(&mut gen, &stylesheet).unwrap();
+                swc_css_codegen::Emit::emit(&mut codegen, &stylesheet).unwrap();
             }
             CssMinificationMode::ListOfDeclarations => {
                 let swc_css_ast::Stylesheet { rules, .. } = &stylesheet;
@@ -2999,7 +2999,7 @@ impl MinifyCss for DefaultCssMinifier {
 
                 let swc_css_ast::QualifiedRule { block, .. } = &**qualified_rule;
 
-                swc_css_codegen::Emit::emit(&mut gen, &block).unwrap();
+                swc_css_codegen::Emit::emit(&mut codegen, &block).unwrap();
 
                 minified = minified[1..minified.len() - 1].to_string();
             }
@@ -3013,7 +3013,7 @@ impl MinifyCss for DefaultCssMinifier {
 
                 let swc_css_ast::AtRule { prelude, .. } = &**at_rule;
 
-                swc_css_codegen::Emit::emit(&mut gen, &prelude).unwrap();
+                swc_css_codegen::Emit::emit(&mut codegen, &prelude).unwrap();
 
                 minified = minified.trim().to_string();
             }

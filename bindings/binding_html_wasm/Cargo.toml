@@ -29,7 +29,7 @@ swc_css_parser = { path = "../../crates/swc_css_parser" }
 swc_error_reporters = { path = "../../crates/swc_error_reporters" }
 swc_html = { path = "../../crates/swc_html" }
 swc_html_ast = { path = "../../crates/swc_html_ast", features = ["serde"] }
-swc_html_minifier = { path = "../../crates/swc_html_minifier", features = ["custom-css-minifier"] }
+swc_html_minifier = { path = "../../crates/swc_html_minifier", features = ["custom-css-minifier", "default-css-minifier"] }
 tracing = { workspace = true, features = ["max_level_off"] }
 wasm-bindgen = { workspace = true, features = ["enable-interning"] }
 wasm-bindgen-futures = { workspace = true }

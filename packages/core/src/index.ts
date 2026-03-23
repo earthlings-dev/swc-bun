@@ -12,11 +12,11 @@ import type {
 } from "@swc/types";
 export type * from "@swc/types";
 // @ts-ignore
-export { newMangleNameCache as experimental_newMangleNameCache } from "./binding";
+export { newMangleNameCache as experimental_newMangleNameCache } from "../binding";
 import { BundleInput, compileBundleOptions } from "./spack";
 import * as assert from "assert";
 // @ts-ignore
-import type { NapiMinifyExtra } from "./binding";
+import type { NapiMinifyExtra } from "../binding";
 
 // Allow overrides to the location of the .node binding file
 const bindingsOverride = process.env["SWC_BINARY_PATH"];
@@ -28,7 +28,7 @@ const bindings: typeof import("../binding") = (() => {
     try {
         binding = !!bindingsOverride
             ? require(resolve(bindingsOverride))
-            : require("./binding.js");
+            : require("../binding.js");
 
         // If native binding loaded successfully, it should return proper target triple constant.
         const triple = binding.getTargetTriple();
@@ -45,7 +45,7 @@ const bindings: typeof import("../binding") = (() => {
 /**
  * Version of the swc binding.
  */
-export const version: string = require("./package.json").version;
+export const version: string = require("../package.json").version;
 
 /**
  * @deprecated JavaScript API is deprecated. Please use Wasm plugin instead.
@@ -558,3 +558,29 @@ export const DEFAULT_EXTENSIONS = Object.freeze([
 function toBuffer(t: any): Buffer {
     return Buffer.from(JSON.stringify(t));
 }
+
+// Preserve the historical default export shape for internal consumers and tests.
+const swc = {
+    version,
+    experimental_newMangleNameCache: bindings.newMangleNameCache,
+    plugins,
+    Compiler,
+    parse,
+    parseSync,
+    parseFile,
+    parseFileSync,
+    print,
+    printSync,
+    transform,
+    transformSync,
+    transformFile,
+    transformFileSync,
+    bundle,
+    minify,
+    minifySync,
+    __experimental_registerGlobalTraceConfig,
+    getBinaryMetadata,
+    DEFAULT_EXTENSIONS,
+};
+
+export default swc;

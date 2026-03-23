@@ -1614,7 +1614,7 @@ impl VisitMut for Hoister<'_, '_> {
     /// The code below prints "PASS"
     ///
     /// ```js
-    /// 
+    ///
     ///      var a = "PASS";
     ///      try {
     ///          throw "FAIL1";
@@ -1627,7 +1627,7 @@ impl VisitMut for Hoister<'_, '_> {
     /// While the code below does not throw **ReferenceError** for `b`
     ///
     /// ```js
-    /// 
+    ///
     ///      b()
     ///      try {
     ///      } catch (b) {
@@ -1638,7 +1638,7 @@ impl VisitMut for Hoister<'_, '_> {
     /// while the code below throws **ReferenceError**
     ///
     /// ```js
-    /// 
+    ///
     ///      b()
     ///      try {
     ///      } catch (b) {

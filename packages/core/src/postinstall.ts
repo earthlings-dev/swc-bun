@@ -7,23 +7,7 @@
 import { existsSync } from "fs";
 import * as assert from "assert";
 import * as path from "path";
-import * as child_process from "child_process";
 import * as fs from "fs";
-
-function removeRecursive(dir: string): void {
-    for (const entry of fs.readdirSync(dir)) {
-        const entryPath = path.join(dir, entry);
-        let stats;
-        try {
-            stats = fs.lstatSync(entryPath);
-        } catch {
-            continue; // Guard against https://github.com/nodejs/node/issues/4760
-        }
-        if (stats.isDirectory()) removeRecursive(entryPath);
-        else fs.unlinkSync(entryPath);
-    }
-    fs.rmdirSync(dir);
-}
 
 /**
  * Trying to validate @swc/core's native binary installation, then installs if it is not supported.
@@ -105,23 +89,45 @@ const validateBinary = async () => {
         fs.mkdirSync(installDir);
         fs.writeFileSync(path.join(installDir, "package.json"), "{}");
 
-        // Instead of carrying over own dependencies to download & resolve package which increases installation sizes of `@swc/core`,
-        // assume & relies on system's npm installation.
-        child_process.execSync(
-            `npm install --no-save --loglevel=error --prefer-offline --no-audit --progress=false @swc/wasm@${version}`,
-            { cwd: installDir, stdio: "pipe", env }
-        );
+        // Keep the fallback installation Bun-native so package recovery does not
+        // depend on a separate npm installation being available on the machine.
+        const result = Bun.spawnSync({
+            cmd: [
+                process.execPath,
+                "add",
+                "--no-save",
+                "--silent",
+                "--no-progress",
+                "--ignore-scripts",
+                `@swc/wasm@${version}`,
+            ],
+            cwd: installDir,
+            env,
+            stdout: "pipe",
+            stderr: "pipe",
+        });
+
+        if (!result.success) {
+            throw new Error(
+                Buffer.from(result.stderr).toString() ||
+                    `bun add exited with code ${result.exitCode}`
+            );
+        }
 
         const installedBinPath = path.join(
             installDir,
             "node_modules",
             `@swc/wasm`
         );
-        // INIT_CWD is injected via npm. If it doesn't exists, can't proceed.
-        fs.renameSync(
-            installedBinPath,
-            path.resolve(process.env.INIT_CWD!, "node_modules", `@swc/wasm`)
+        const targetDir = path.resolve(
+            process.env.INIT_CWD!,
+            "node_modules",
+            `@swc/wasm`
         );
+
+        fs.mkdirSync(path.dirname(targetDir), { recursive: true });
+        // INIT_CWD is injected via npm. If it doesn't exists, can't proceed.
+        fs.renameSync(installedBinPath, targetDir);
     } catch (error) {
         console.error(error);
 
@@ -132,7 +138,7 @@ If there are unexpected errors, please report at https://github.com/swc-project/
         );
     } finally {
         try {
-            removeRecursive(installDir);
+            fs.rmSync(installDir, { recursive: true, force: true });
         } catch (_) {
             // Gracefully ignore any failures. This'll make few leftover files but it shouldn't block installation.
         }

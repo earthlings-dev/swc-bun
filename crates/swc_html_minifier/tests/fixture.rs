@@ -7,8 +7,8 @@ use std::{
 
 use swc_html_ast::{Document, DocumentFragment, DocumentMode, Element, Namespace};
 use swc_html_codegen::{
-    writer::basic::{BasicHtmlWriter, BasicHtmlWriterConfig},
     CodeGenerator, CodegenConfig, Emit,
+    writer::basic::{BasicHtmlWriter, BasicHtmlWriterConfig},
 };
 use swc_html_minifier::{minify_document, minify_document_fragment, option::MinifyOptions};
 use swc_html_parser::{parse_file_as_document, parse_file_as_document_fragment};
@@ -61,7 +61,7 @@ fn test_minify_document(input: PathBuf) {
         let mut html_str = String::new();
         {
             let wr = BasicHtmlWriter::new(&mut html_str, None, BasicHtmlWriterConfig::default());
-            let mut gen = CodeGenerator::new(
+            let mut codegen = CodeGenerator::new(
                 wr,
                 CodegenConfig {
                     scripting_enabled: false,
@@ -70,7 +70,7 @@ fn test_minify_document(input: PathBuf) {
                 },
             );
 
-            gen.emit(&document).unwrap();
+            codegen.emit(&document).unwrap();
         }
 
         NormalizedOutput::new_raw(html_str)
@@ -167,7 +167,7 @@ fn test_minify_document_fragment(input: PathBuf) {
         let mut html_str = String::new();
         {
             let wr = BasicHtmlWriter::new(&mut html_str, None, BasicHtmlWriterConfig::default());
-            let mut gen = CodeGenerator::new(
+            let mut codegen = CodeGenerator::new(
                 wr,
                 CodegenConfig {
                     scripting_enabled: false,
@@ -176,7 +176,7 @@ fn test_minify_document_fragment(input: PathBuf) {
                 },
             );
 
-            gen.emit(&document_fragment).unwrap();
+            codegen.emit(&document_fragment).unwrap();
         }
 
         NormalizedOutput::new_raw(html_str)
@@ -225,7 +225,7 @@ fn test_minify_recovery(input: PathBuf) {
         let mut html_str = String::new();
         {
             let wr = BasicHtmlWriter::new(&mut html_str, None, BasicHtmlWriterConfig::default());
-            let mut gen = CodeGenerator::new(
+            let mut codegen = CodeGenerator::new(
                 wr,
                 CodegenConfig {
                     scripting_enabled: false,
@@ -234,7 +234,7 @@ fn test_minify_recovery(input: PathBuf) {
                 },
             );
 
-            gen.emit(&document).unwrap();
+            codegen.emit(&document).unwrap();
         }
 
         NormalizedOutput::new_raw(html_str)

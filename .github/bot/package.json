@@ -1,15 +1,23 @@
 {
   "name": "swc-bot",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "./src/nightly-version.ts",
   "license": "MIT",
   "private": true,
   "devDependencies": {
-    "@types/node": "^17.0.17",
-    "typescript": "^4.5.5"
+    "@types/node": "catalog:",
+    "typescript": "catalog:"
   },
   "dependencies": {
     "@octokit/rest": "^18.12.0",
     "yaml": "^1.10.2"
+  },
+  "scripts": {
+    "milestone-manager": "bun src/milestone-manager.ts",
+    "nightly-version": "bun src/nightly-version.ts",
+    "update-constants": "bun src/cargo/update-constants.ts"
+  },
+  "engines": {
+    "bun": ">=1.3.11"
   }
 }

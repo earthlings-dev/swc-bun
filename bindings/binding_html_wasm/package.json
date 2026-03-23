@@ -3,6 +3,9 @@
     "private": true,
     "devDependencies": {
         "@rstest/core": "^0.8.5",
-        "@types/bun": "^1.3.9"
+        "@types/bun": "catalog:"
+    },
+    "engines": {
+        "bun": ">=1.3.11"
     }
 }

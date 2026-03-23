@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "engines": {
-    "bun": ">=1.3.8"
+    "bun": ">=1.3.11"
   },
   "repository": {
     "type": "git",
@@ -23,15 +23,15 @@
     "bisect": "bun ecosystem-ci.ts bisect"
   },
   "devDependencies": {
-    "@types/node": "^20.8.3",
+    "@types/node": "catalog:",
     "@typescript-eslint/eslint-plugin": "^6.7.4",
     "@typescript-eslint/parser": "^6",
     "eslint": "^8.51.0",
     "eslint-define-config": "^1.23.0",
     "eslint-plugin-n": "^16.1.0",
     "lint-staged": "^14.0.1",
-    "prettier": "^3.0.3",
-    "typescript": "^5.2.2"
+    "prettier": "catalog:",
+    "typescript": "catalog:"
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [

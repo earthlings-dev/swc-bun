@@ -1,17 +1,57 @@
 [workspace]
+resolver = "3"
 members = [
   "xtask",
   "bindings/*",
   "crates/*",
   "tools/generate-code",
   "tools/swc-releaser",
+  # extra-bindings
+  "extra-bindings/crates/css_node",
+  "extra-bindings/crates/linter_node",
+  # plugins - library crates
+  "plugins/crates/swc_experimental_babel",
+  "plugins/crates/swc_feature_flags",
+  "plugins/crates/swc_icu_messageformat_parser",
+  # plugins - packages (plugin wrappers)
+  "plugins/packages/emotion",
+  "plugins/packages/feature-flags",
+  "plugins/packages/formatjs",
+  "plugins/packages/jest",
+  "plugins/packages/loadable-components",
+  "plugins/packages/noop",
+  "plugins/packages/prefresh",
+  "plugins/packages/react-remove-properties",
+  "plugins/packages/relay",
+  "plugins/packages/remove-console",
+  "plugins/packages/styled-components",
+  "plugins/packages/styled-jsx",
+  "plugins/packages/swc-confidential",
+  "plugins/packages/swc-magic",
+  "plugins/packages/swc-sdk",
+  "plugins/packages/transform-imports",
+  # plugins - packages (transform crates)
+  "plugins/packages/emotion/transform",
+  "plugins/packages/formatjs/transform",
+  "plugins/packages/prefresh/transform",
+  "plugins/packages/react-remove-properties/transform",
+  "plugins/packages/relay/transform",
+  "plugins/packages/remove-console/transform",
+  "plugins/packages/styled-components/transform",
+  "plugins/packages/styled-jsx/transform",
+  "plugins/packages/swc-confidential/transform",
+  "plugins/packages/swc-magic/transform",
+  "plugins/packages/swc-sdk/transform",
+  "plugins/packages/transform-imports/transform",
+  # plugins - contrib
+  "plugins/contrib/graphql-codegen-client-preset",
+  "plugins/contrib/mut-cjs-exports",
 ]
-resolver = "3"
-
 [workspace.package]
-edition    = "2024"
-license    = "Apache-2.0"
-repository = "https://github.com/swc-project/swc.git"
+edition      = "2024"
+rust-version = "1.94"
+license      = "Apache-2.0"
+repository   = "https://github.com/swc-project/swc.git"
 
 
 [workspace.dependencies]
@@ -33,6 +73,8 @@ assert_fs                 = "1.1.3"
 auto_impl                 = "1.3.0"
 backtrace                 = "0.3"
 base64                    = "0.22.1"
+base64ct                  = "1.5.2"
+byteorder                 = "1"
 bitflags                  = "2.11.0"
 blake3                    = "1.8.3"
 browserslist-rs           = "0.19.0"
@@ -41,6 +83,9 @@ bytes-str                 = "0.2.7"
 cargo_metadata            = "0.23.1"
 changesets                = "0.4.0"
 chrono                    = "0.4.44"
+cipher                    = "0.4.4"
+clap                      = "4.5.4"
+convert_case              = "0.6.0"
 codspeed-criterion-compat = "4.3.0"
 compact_str               = "0.9.0"
 console_error_panic_hook  = "0.1.7"
@@ -48,6 +93,8 @@ copyless                  = "0.1.5"
 crc                       = "3.4.0"
 criterion                 = "0.8.2"
 dashmap                   = "6.1.0"
+default-from-serde        = "0.1"
+digest                    = "0.10"
 dialoguer                 = "0.12.0"
 difference                = "2"
 dragonbox_ecma            = "0.1.12"
@@ -57,6 +104,7 @@ flate2                    = "1.1"
 getrandom                 = "0.4.2"
 glob                      = "0.3.3"
 globset                   = { version = "0.4.18", default-features = false }
+handlebars                = "5.1.2"
 hashbrown                 = "0.16.1"
 hex                       = "0.4.3"
 humansize                 = "2.1.3"
@@ -65,10 +113,13 @@ is-macro                  = "0.3.7"
 js-sys                    = "0.3.91"
 jsonc-parser              = "0.29.0"
 kstring                   = "2.0.2"
+langtag                   = "0.3.2"
 lazy_static               = "1.5.0"
 lexical                   = "7.0.5"
-lightningcss              = "1.0.0-alpha.70"
+lightningcss              = "1.0.0-alpha.71"
 lru                       = "0.16.3"
+magic-crypt               = "3.1.13"
+md-5                      = "0.10"
 memchr                    = "2.8.0"
 miette                    = "7.6.0"
 napi                      = { version = "3", default-features = false }
@@ -81,6 +132,7 @@ num-bigint                = "0.4.6"
 num_cpus                  = "1.17.0"
 once_cell                 = "1.21.3"
 owo-colors                = "4.3.0"
+parcel_selectors          = "0.28.0"
 par-core                  = { version = "2.0.0", default-features = false }
 par-iter                  = "2.0.0"
 parking_lot               = "0.12.5"
@@ -99,6 +151,7 @@ regex                     = "1.12.3"
 regress                   = "0.10.5"
 relative-path             = "2.0.1"
 reqwest                   = "0.13.2"
+rquickjs                  = "0.8.1"
 rustc-hash                = "2"
 ryu-js                    = "1.0.2"
 scoped-tls                = "1.0.1"
@@ -108,9 +161,11 @@ serde                     = "1.0.228"
 serde-wasm-bindgen        = "0.6.5"
 serde_derive              = "1.0.228"
 serde_json                = "1.0.149"
+serde_repr                = "0.1"
 sha1                      = "0.10.6"
 sha2                      = "0.10.9"
 shrink-to-fit             = "0.2.10"
+similar-asserts           = "1.4.2"
 siphasher                 = "1.0.2"
 smallvec                  = "1.15.1"
 smartstring               = "1.0.1"
@@ -135,6 +190,7 @@ vergen                    = { version = "9.1.0", default-features = false }
 walkdir                   = "2.5.0"
 wasi-common               = { version = "42", default-features = false }
 wasm-bindgen              = "0.2.114"
+widestring                = "1.0.2"
 wasm-bindgen-futures      = "0.4.64"
 wasmer                    = { version = "7.0.1", default-features = false }
 wasmer-wasix              = { version = "0.700.1", default-features = false }
@@ -145,23 +201,47 @@ cbor4ii         = "1.2"
 foldhash        = "0.2"
 precomputed-map = "0.2"
 
-swc_atoms                = { version = "9.0.0",  path = "crates/swc_atoms",                default-features = false }
-swc_common               = { version = "19.0.0", path = "crates/swc_common",               default-features = false }
-swc_compiler_base        = { version = "49.0.0", path = "crates/swc_compiler_base",        default-features = false }
-swc_config               = { version = "4.0.0",  path = "crates/swc_config",               default-features = false }
-swc_core                 = { version = "58.0.4", path = "crates/swc_core",                 default-features = false }
-swc_css_ast              = { version = "19.0.0", path = "crates/swc_css_ast",              default-features = false }
-swc_css_codegen          = { version = "19.0.0", path = "crates/swc_css_codegen",          default-features = false }
-swc_css_minifier         = { version = "19.0.0", path = "crates/swc_css_minifier",         default-features = false }
-swc_css_parser           = { version = "19.0.0", path = "crates/swc_css_parser",           default-features = false }
-swc_ecma_react_compiler  = { version = "14.0.0", path = "crates/swc_ecma_react_compiler",  default-features = false }
-swc_error_reporters      = { version = "21.0.0", path = "crates/swc_error_reporters",      default-features = false }
-swc_html                 = { version = "31.0.0", path = "crates/swc_html",                 default-features = false }
-swc_html_ast             = { version = "19.0.0", path = "crates/swc_html_ast",             default-features = false }
-swc_html_minifier        = { version = "46.0.0", path = "crates/swc_html_minifier",        default-features = false }
-swc_malloc               = { version = "1.2.5",  path = "crates/swc_malloc",               default-features = false }
-swc_nodejs_common        = { version = "1.0.3",  path = "crates/swc_nodejs_common",        default-features = false }
-swc_ts_fast_strip        = { version = "45.0.0", path = "crates/swc_ts_fast_strip",        default-features = false }
+swc_atoms                    = { version = "9.0.0",  path = "crates/swc_atoms",                    default-features = false }
+swc_cached                   = { version = "2.0.0",  path = "crates/swc_cached",                   default-features = false }
+swc_common                   = { version = "19.0.0", path = "crates/swc_common",                   default-features = false }
+swc_compiler_base            = { version = "49.0.0", path = "crates/swc_compiler_base",            default-features = false }
+swc_config                   = { version = "4.0.0",  path = "crates/swc_config",                   default-features = false }
+swc_core                     = { version = "58.0.4", path = "crates/swc_core",                     default-features = false }
+swc_css_ast                  = { version = "19.0.0", path = "crates/swc_css_ast",                  default-features = false }
+swc_css_codegen              = { version = "19.0.0", path = "crates/swc_css_codegen",              default-features = false }
+swc_css_compat               = { version = "19.0.0", path = "crates/swc_css_compat",               default-features = false }
+swc_css_minifier             = { version = "19.0.0", path = "crates/swc_css_minifier",             default-features = false }
+swc_css_modules              = { version = "19.0.0", path = "crates/swc_css_modules",              default-features = false }
+swc_css_parser               = { version = "19.0.0", path = "crates/swc_css_parser",               default-features = false }
+swc_css_prefixer             = { version = "23.0.0", path = "crates/swc_css_prefixer",             default-features = false }
+swc_css_visit                = { version = "19.0.0", path = "crates/swc_css_visit",                default-features = false }
+swc_ecma_ast                 = { version = "21.0.0", path = "crates/swc_ecma_ast",                 default-features = false }
+swc_ecma_codegen             = { version = "24.0.0", path = "crates/swc_ecma_codegen",             default-features = false }
+swc_ecma_lints               = { version = "28.0.0", path = "crates/swc_ecma_lints",               default-features = false }
+swc_ecma_minifier            = { version = "46.0.0", path = "crates/swc_ecma_minifier",            default-features = false }
+swc_ecma_parser              = { version = "35.0.0", path = "crates/swc_ecma_parser",              default-features = false }
+swc_ecma_react_compiler      = { version = "14.0.0", path = "crates/swc_ecma_react_compiler",      default-features = false }
+swc_ecma_transforms          = { version = "48.0.0", path = "crates/swc_ecma_transforms",          default-features = false }
+swc_ecma_transforms_base     = { version = "38.0.0", path = "crates/swc_ecma_transforms_base",     default-features = false }
+swc_ecma_transforms_react    = { version = "42.0.0", path = "crates/swc_ecma_transforms_react",    default-features = false }
+swc_ecma_transforms_testing  = { version = "42.0.0", path = "crates/swc_ecma_transforms_testing",  default-features = false }
+swc_ecma_utils               = { version = "27.0.0", path = "crates/swc_ecma_utils",               default-features = false }
+swc_ecma_visit               = { version = "21.0.0", path = "crates/swc_ecma_visit",               default-features = false }
+swc_error_reporters          = { version = "21.0.0", path = "crates/swc_error_reporters",          default-features = false }
+swc_html                     = { version = "31.0.0", path = "crates/swc_html",                     default-features = false }
+swc_html_ast                 = { version = "19.0.0", path = "crates/swc_html_ast",                 default-features = false }
+swc_html_minifier            = { version = "46.0.0", path = "crates/swc_html_minifier",            default-features = false }
+swc_malloc                   = { version = "1.2.5",  path = "crates/swc_malloc",                   default-features = false }
+swc_nodejs_common            = { version = "1.0.3",  path = "crates/swc_nodejs_common",            default-features = false }
+swc_plugin_macro             = { version = "1.1.0",  path = "crates/swc_plugin_macro",             default-features = false }
+swc_plugin_proxy             = { version = "21.0.0", path = "crates/swc_plugin_proxy",             default-features = false }
+swc_trace_macro              = { version = "2.0.2",  path = "crates/swc_trace_macro",              default-features = false }
+swc_ts_fast_strip            = { version = "45.0.0", path = "crates/swc_ts_fast_strip",            default-features = false }
+# plugin-internal crates
+swc_icu_messageformat_parser = { path = "plugins/crates/swc_icu_messageformat_parser" }
+# crates also used by root but listed separately for clarity
+preset_env_base              = { version = "7.0.0",  path = "crates/preset_env_base",              default-features = false }
+testing                      = { version = "20.0.0", path = "crates/testing",                      default-features = false }
 
 [workspace.metadata.cargo-shear]
 # `serde` is used when #[ast_node] is expanded
@@ -237,23 +317,144 @@ opt-level = "s"
 opt-level = 3
 
 [patch.crates-io]
-par-core = { git = "https://github.com/earthlings-dev/dudykr-ddbase.git" }
-regalloc2 = { git = "https://github.com/earthlings-dev/regalloc2.git" }
-wasmer = { git = "https://github.com/earthlings-dev/wasmer.git" }
-wasmer-wasix = { git = "https://github.com/earthlings-dev/wasmer.git" }
-wasmer-compiler-cranelift = { git = "https://github.com/earthlings-dev/wasmer.git" }
-cranelift-codegen = { git = "https://github.com/earthlings-dev/wasmtime.git" }
-cranelift-entity = { git = "https://github.com/earthlings-dev/wasmtime.git" }
-cranelift-frontend = { git = "https://github.com/earthlings-dev/wasmtime.git" }
-cranelift-bforest = { git = "https://github.com/earthlings-dev/wasmtime.git" }
-cranelift-bitset = { git = "https://github.com/earthlings-dev/wasmtime.git" }
-cranelift-control = { git = "https://github.com/earthlings-dev/wasmtime.git" }
-cranelift-isle = { git = "https://github.com/earthlings-dev/wasmtime.git" }
-cranelift-codegen-meta = { git = "https://github.com/earthlings-dev/wasmtime.git" }
-cranelift-codegen-shared = { git = "https://github.com/earthlings-dev/wasmtime.git" }
-cranelift-srcgen = { git = "https://github.com/earthlings-dev/wasmtime.git" }
-cranelift-assembler-x64 = { git = "https://github.com/earthlings-dev/wasmtime.git" }
-cranelift-assembler-x64-meta = { git = "https://github.com/earthlings-dev/wasmtime.git" }
+# dudykr-ddbase crates
+par-core = { path = "../dudykr-ddbase/crates/par-core" }
+par-iter = { path = "../dudykr-ddbase/crates/par-iter" }
+bytes-str = { path = "../dudykr-ddbase/crates/bytes-str" }
+is-macro = { path = "../dudykr-ddbase/crates/is-macro" }
+shrink-to-fit = { path = "../dudykr-ddbase/crates/shrink-to-fit" }
+shrink-to-fit-macro = { path = "../dudykr-ddbase/crates/shrink-to-fit-macro" }
+st-map = { path = "../dudykr-ddbase/crates/st-map" }
+static-map-macro = { path = "../dudykr-ddbase/crates/static-map-macro" }
+
+# serde ecosystem
+serde = { path = "../serde/serde" }
+serde_derive = { path = "../serde/serde_derive" }
+serde_core = { path = "../serde/serde_core" }
+serde_derive_internals = { path = "../serde/serde_derive_internals" }
+serde_json = { path = "../json" }
+schemars = { path = "../schemars/schemars" }
+schemars_derive = { path = "../schemars/schemars_derive" }
+
+# error handling
+anyhow = { path = "../anyhow" }
+thiserror = { path = "../thiserror" }
+thiserror-impl = { path = "../thiserror/impl" }
+
+# async / runtime
+tokio = { path = "../tokio/tokio" }
+tokio-macros = { path = "../tokio/tokio-macros" }
+tokio-stream = { path = "../tokio/tokio-stream" }
+tokio-util = { path = "../tokio/tokio-util" }
+tracing = { path = "../tracing/tracing" }
+tracing-core = { path = "../tracing/tracing-core" }
+tracing-attributes = { path = "../tracing/tracing-attributes" }
+tracing-log = { path = "../tracing/tracing-log" }
+tracing-subscriber = { path = "../tracing/tracing-subscriber" }
+pin-project-lite = { path = "../pin-project-lit" }
+
+# data structures / utilities
+bumpalo = { path = "../bumpalo" }
+chrono = { path = "../chrono" }
+getrandom = { path = "../getrandom" }
+globset = { path = "../ripgrep/crates/globset" }
+num-bigint = { path = "../num-bigint" }
+rand = { path = "../rand" }
+rand_core = { path = "../rand_core" }
+rayon = { path = "../rayon-rs" }
+rayon-core = { path = "../rayon-rs/rayon-core" }
+semver = { path = "../semver" }
+tempfile = { path = "../tempfile" }
+toml = { path = "../toml/crates/toml" }
+toml_edit = { path = "../toml/crates/toml_edit" }
+toml_datetime = { path = "../toml/crates/toml_datetime" }
+serde_spanned = { path = "../toml/crates/serde_spanned" }
+url = { path = "../rust-url/url" }
+form_urlencoded = { path = "../rust-url/form_urlencoded" }
+idna = { path = "../rust-url/idna" }
+percent-encoding = { path = "../rust-url/percent_encoding" }
+
+# testing
+assert_cmd = { path = "../assert_cmd" }
+assert_fs = { path = "../assert_fs" }
+predicates = { path = "../predicates-rs" }
+predicates-core = { path = "../predicates-rs/crates/core" }
+predicates-tree = { path = "../predicates-rs/crates/tree" }
+
+# networking
+reqwest = { path = "../reqwest" }
+
+# wasmer / wasmtime
+regalloc2 = { path = "../regalloc2" }
+wasmer = { path = "../wasmer/lib/api" }
+wasmer-compiler = { path = "../wasmer/lib/compiler" }
+wasmer-compiler-cranelift = { path = "../wasmer/lib/compiler-cranelift" }
+wasmer-config = { path = "../wasmer/lib/config" }
+wasmer-derive = { path = "../wasmer/lib/derive" }
+wasmer-journal = { path = "../wasmer/lib/journal" }
+wasmer-types = { path = "../wasmer/lib/types" }
+wasmer-vm = { path = "../wasmer/lib/vm" }
+wasmer-wasix = { path = "../wasmer/lib/wasix" }
+wasmer-wasix-types = { path = "../wasmer/lib/wasi-types" }
+virtual-fs = { path = "../wasmer/lib/virtual-fs" }
+virtual-net = { path = "../wasmer/lib/virtual-net" }
+virtual-mio = { path = "../wasmer/lib/virtual-io" }
+wai-bindgen-wasmer = { path = "../wasmer/lib/wai-bindgen-wasmer" }
+cranelift-codegen = { path = "../wasmtime/cranelift/codegen" }
+cranelift-entity = { path = "../wasmtime/cranelift/entity" }
+cranelift-frontend = { path = "../wasmtime/cranelift/frontend" }
+cranelift-bforest = { path = "../wasmtime/cranelift/bforest" }
+cranelift-bitset = { path = "../wasmtime/cranelift/bitset" }
+cranelift-control = { path = "../wasmtime/cranelift/control" }
+cranelift-isle = { path = "../wasmtime/cranelift/isle/isle" }
+cranelift-codegen-meta = { path = "../wasmtime/cranelift/codegen/meta" }
+cranelift-codegen-shared = { path = "../wasmtime/cranelift/codegen/shared" }
+cranelift-srcgen = { path = "../wasmtime/cranelift/srcgen" }
+cranelift-assembler-x64 = { path = "../wasmtime/cranelift/assembler-x64" }
+cranelift-assembler-x64-meta = { path = "../wasmtime/cranelift/assembler-x64/meta" }
+
+# build tooling
+clang-sys = { path = "../clang-sys" }
+
+# SWC crates — ensure all crates.io references resolve locally
+swc_atoms                    = { path = "crates/swc_atoms" }
+swc_cached                   = { path = "crates/swc_cached" }
+swc_common                   = { path = "crates/swc_common" }
+swc_compiler_base            = { path = "crates/swc_compiler_base" }
+swc_config                   = { path = "crates/swc_config" }
+swc_core                     = { path = "crates/swc_core" }
+swc_css_ast                  = { path = "crates/swc_css_ast" }
+swc_css_codegen              = { path = "crates/swc_css_codegen" }
+swc_css_compat               = { path = "crates/swc_css_compat" }
+swc_css_minifier             = { path = "crates/swc_css_minifier" }
+swc_css_modules              = { path = "crates/swc_css_modules" }
+swc_css_parser               = { path = "crates/swc_css_parser" }
+swc_css_prefixer             = { path = "crates/swc_css_prefixer" }
+swc_css_visit                = { path = "crates/swc_css_visit" }
+swc_ecma_ast                 = { path = "crates/swc_ecma_ast" }
+swc_ecma_codegen             = { path = "crates/swc_ecma_codegen" }
+swc_ecma_lints               = { path = "crates/swc_ecma_lints" }
+swc_ecma_minifier            = { path = "crates/swc_ecma_minifier" }
+swc_ecma_parser              = { path = "crates/swc_ecma_parser" }
+swc_ecma_transforms          = { path = "crates/swc_ecma_transforms" }
+swc_ecma_transforms_base     = { path = "crates/swc_ecma_transforms_base" }
+swc_ecma_transforms_react    = { path = "crates/swc_ecma_transforms_react" }
+swc_ecma_transforms_testing  = { path = "crates/swc_ecma_transforms_testing" }
+swc_ecma_utils               = { path = "crates/swc_ecma_utils" }
+swc_ecma_visit               = { path = "crates/swc_ecma_visit" }
+swc_error_reporters          = { path = "crates/swc_error_reporters" }
+swc_html                     = { path = "crates/swc_html" }
+swc_html_ast                 = { path = "crates/swc_html_ast" }
+swc_html_minifier            = { path = "crates/swc_html_minifier" }
+swc_malloc                   = { path = "crates/swc_malloc" }
+swc_nodejs_common            = { path = "crates/swc_nodejs_common" }
+swc_plugin_macro             = { path = "crates/swc_plugin_macro" }
+swc_plugin_proxy             = { path = "crates/swc_plugin_proxy" }
+swc_sourcemap                = { path = "crates/swc_sourcemap" }
+swc_trace_macro              = { path = "crates/swc_trace_macro" }
+swc_ts_fast_strip            = { path = "crates/swc_ts_fast_strip" }
+testing                      = { path = "crates/testing" }
+preset_env_base              = { path = "crates/preset_env_base" }
 
 [profile.release.package.wast]
 opt-level = "s"

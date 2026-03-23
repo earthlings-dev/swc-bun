@@ -1,4 +1,4 @@
-use serde::{de::DeserializeOwned, Deserialize, Serialize};
+use serde::{Deserialize, Serialize, de::DeserializeOwned};
 use swc_config::regex::CachedRegex;
 #[cfg(feature = "default-css-minifier")]
 use swc_css_codegen::CodegenConfig as CssCodegenOptions;

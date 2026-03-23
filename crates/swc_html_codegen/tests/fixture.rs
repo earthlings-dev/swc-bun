@@ -9,14 +9,14 @@ use swc_atoms::atom;
 use swc_common::{FileName, Span};
 use swc_html_ast::*;
 use swc_html_codegen::{
-    writer::basic::{BasicHtmlWriter, BasicHtmlWriterConfig, IndentType, LineFeed},
     CodeGenerator, CodegenConfig, Emit,
+    writer::basic::{BasicHtmlWriter, BasicHtmlWriterConfig, IndentType, LineFeed},
 };
 use swc_html_parser::{
     parse_file_as_document, parse_file_as_document_fragment, parser::ParserConfig,
 };
 use swc_html_visit::{VisitMut, VisitMutWith};
-use testing::{assert_eq, run_test2, NormalizedOutput};
+use testing::{NormalizedOutput, assert_eq, run_test2};
 
 fn print_document(
     input: &Path,
@@ -52,9 +52,9 @@ fn print_document(
 
         let mut html_str = String::new();
         let wr = BasicHtmlWriter::new(&mut html_str, None, writer_config);
-        let mut gen = CodeGenerator::new(wr, codegen_config);
+        let mut codegen = CodeGenerator::new(wr, codegen_config);
 
-        gen.emit(&document).unwrap();
+        codegen.emit(&document).unwrap();
 
         let fm_output = cm.load_file(&output).unwrap();
 
@@ -124,9 +124,9 @@ fn print_document_fragment(
 
         let mut html_str = String::new();
         let wr = BasicHtmlWriter::new(&mut html_str, None, writer_config);
-        let mut gen = CodeGenerator::new(wr, codegen_config);
+        let mut codegen = CodeGenerator::new(wr, codegen_config);
 
-        gen.emit(&document_fragment).unwrap();
+        codegen.emit(&document_fragment).unwrap();
 
         let fm_output = cm.load_file(&output).unwrap();
 
@@ -189,9 +189,9 @@ fn verify_document(
 
         let mut html_str = String::new();
         let wr = BasicHtmlWriter::new(&mut html_str, None, writer_config);
-        let mut gen = CodeGenerator::new(wr, codegen_config);
+        let mut codegen = CodeGenerator::new(wr, codegen_config);
 
-        gen.emit(&document).unwrap();
+        codegen.emit(&document).unwrap();
 
         let new_fm = cm.new_source_file(FileName::Anon.into(), html_str);
         let mut parsed_errors = Vec::new();
@@ -254,9 +254,9 @@ fn verify_document_fragment(
 
         let mut html_str = String::new();
         let wr = BasicHtmlWriter::new(&mut html_str, None, writer_config);
-        let mut gen = CodeGenerator::new(wr, codegen_config);
+        let mut codegen = CodeGenerator::new(wr, codegen_config);
 
-        gen.emit(&document_fragment).unwrap();
+        codegen.emit(&document_fragment).unwrap();
 
         let new_fm = cm.new_source_file(FileName::Anon.into(), html_str);
         let mut parsed_errors = Vec::new();

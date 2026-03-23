@@ -3,7 +3,7 @@
   "version": "1.15.19-nightly-20260302.1",
   "description": "Super-fast alternative for babel",
   "homepage": "https://swc.rs",
-  "main": "./index.js",
+  "main": "./src/index.ts",
   "author": "강동윤 <kdy1997.dev@gmail.com>",
   "license": "Apache-2.0",
   "keywords": [
@@ -16,7 +16,7 @@
     "tsc"
   ],
   "engines": {
-    "bun": ">=1.3.10"
+    "bun": ">=1.3.11"
   },
   "repository": {
     "type": "git",
@@ -48,16 +48,15 @@
     "access": "public",
     "provenance": true
   },
-  "types": "./index.d.ts",
+  "types": "./src/index.ts",
   "scripts": {
-    "postinstall": "bun postinstall.js",
+    "postinstall": "bun src/postinstall.ts",
     "artifacts": "napi artifacts --npm-dir scripts/npm",
-    "prepack": "tsc -d && napi prepublish -p scripts/npm --tag-style npm --skip-optional-publish && bun scripts/copy-readme.js",
+    "prepack": "napi prepublish -p scripts/npm --tag-style npm --skip-optional-publish && bun scripts/copy-readme.js",
     "pack": "wasm-pack",
-    "build:ts": "tsc -d",
     "build:wasm": "wasm-pack build ../../bindings/binding_core_wasm --scope swc --features plugin",
-    "build": "tsc -d && napi build --manifest-path ../../Cargo.toml --platform -p binding_core_node --js ./binding.js --dts ./binding.d.ts --release -o .",
-    "build:dev": "tsc -d && napi build --manifest-path ../../Cargo.toml --platform -p binding_core_node --js ./binding.js --dts ./binding.d.ts -o .",
+    "build": "napi build --manifest-path ../../Cargo.toml --platform -p binding_core_node --js ./binding.js --dts ./binding.d.ts --release -o .",
+    "build:dev": "napi build --manifest-path ../../Cargo.toml --platform -p binding_core_node --js ./binding.js --dts ./binding.d.ts -o .",
     "test": "bun test __tests__ e2e",
     "version": "napi version --npm-dir scripts/npm"
   },
@@ -74,40 +73,31 @@
     "url": "https://opencollective.com/swc"
   },
   "files": [
-    "CHANGELOG.md",
-    "Visitor.d.ts",
-    "index.d.ts",
-    "spack.js",
-    "util.d.ts",
-    "LICENSE",
-    "Visitor.js",
-    "binding.d.ts",
-    "index.js",
-    "types.d.ts",
-    "util.js",
     "README.md",
+    "binding.d.ts",
     "binding.js",
     "package.json",
-    "spack.d.ts",
-    "types.js",
-    "postinstall.js",
-    "bindings/binding_core_wasm/pkg/binding_core_wasm.d.ts"
+    "src/index.ts",
+    "src/postinstall.ts",
+    "src/spack.ts",
+    "src/util.ts",
+    "src/Visitor.ts"
   ],
   "dependencies": {
     "@swc/counter": "workspace:*",
     "@swc/types": "workspace:*"
   },
   "devDependencies": {
-    "@napi-rs/cli": "^3.5.1",
-    "@types/bun": "^1.3.10",
-    "typescript": "^5.9.3"
+    "@napi-rs/cli": "catalog:",
+    "@types/bun": "catalog:",
+    "typescript": "catalog:"
   },
   "optionalDependencies": {
     "@swc/core-darwin-x64": "workspace:*",
     "@swc/core-win32-x64-msvc": "workspace:*",
     "@swc/core-linux-x64-gnu": "workspace:*",
-    "@swc/core-linux-ppc64-gnu": "latest",
-    "@swc/core-linux-s390x-gnu": "latest",
+    "@swc/core-linux-ppc64-gnu": "workspace:*",
+    "@swc/core-linux-s390x-gnu": "workspace:*",
     "@swc/core-linux-x64-musl": "workspace:*",
     "@swc/core-win32-ia32-msvc": "workspace:*",
     "@swc/core-linux-arm-gnueabihf": "workspace:*",
@@ -115,5 +105,24 @@
     "@swc/core-linux-arm64-gnu": "workspace:*",
     "@swc/core-linux-arm64-musl": "workspace:*",
     "@swc/core-win32-arm64-msvc": "workspace:*"
+  },
+  "exports": {
+    ".": {
+      "bun": "./src/index.ts",
+      "default": "./src/index.ts"
+    },
+    "./Visitor": {
+      "bun": "./src/Visitor.ts",
+      "default": "./src/Visitor.ts"
+    },
+    "./spack": {
+      "bun": "./src/spack.ts",
+      "default": "./src/spack.ts"
+    },
+    "./util": {
+      "bun": "./src/util.ts",
+      "default": "./src/util.ts"
+    },
+    "./package.json": "./package.json"
   }
 }

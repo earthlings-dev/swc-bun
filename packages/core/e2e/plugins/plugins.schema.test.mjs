@@ -114,7 +114,7 @@ describe("Plugins", () => {
 
                     if (shouldUsePrebuiltHost) {
                         const { transformSync } = await import(
-                            "../../index.js"
+                            "../../src/index.ts"
                         );
 
                         return transformSync(code, options);

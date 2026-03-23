@@ -1,6 +1,6 @@
 use serde::{
-    de::{Unexpected, Visitor},
     Deserialize,
+    de::{Unexpected, Visitor},
 };
 
 #[derive(Debug)]

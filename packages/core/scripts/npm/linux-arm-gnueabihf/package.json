@@ -26,7 +26,7 @@
   "homepage": "https://swc.rs",
   "license": "Apache-2.0",
   "engines": {
-    "node": ">=10"
+    "bun": ">=1.3.11"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
@@ -41,6 +41,6 @@
     "url": "https://github.com/swc-project/swc/issues"
   },
   "devDependencies": {
-    "@types/bun": "^1.3.9"
+    "@types/bun": "catalog:"
   }
 }

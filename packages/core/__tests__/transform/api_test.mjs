@@ -1,4 +1,4 @@
-import swc from "../../index.js";
+import swc from "../../src/index.ts";
 import path from "path";
 import { fileURLToPath } from "url";
 

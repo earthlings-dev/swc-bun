@@ -6,31 +6,31 @@ mod util;
 
 use std::{backtrace::Backtrace, borrow::Cow, env, panic::set_hook};
 
-use anyhow::{bail, Context};
+use anyhow::{Context, bail};
 use lightningcss::{printer::PrinterOptions, stylesheet::StyleSheet, targets::Targets};
-use napi::{bindgen_prelude::*, Task};
+use napi::{Task, bindgen_prelude::*};
 use serde::{Deserialize, Serialize};
 use swc_atoms::atom;
-use swc_common::{sync::Lrc, FileName, FilePathMapping, SourceMap, DUMMY_SP};
+use swc_common::{DUMMY_SP, FileName, FilePathMapping, SourceMap, sync::Lrc};
 use swc_config::regex::CachedRegex;
 use swc_html::{
     ast::{DocumentMode, Namespace},
     codegen::{
-        writer::basic::{BasicHtmlWriter, BasicHtmlWriterConfig},
         CodeGenerator, CodegenConfig, Emit,
+        writer::basic::{BasicHtmlWriter, BasicHtmlWriterConfig},
     },
     parser::{parse_file_as_document, parse_file_as_document_fragment},
 };
 use swc_html_ast::{Document, DocumentFragment};
 use swc_html_minifier::{
-    minify_document_fragment_with_custom_css_minifier, minify_document_with_custom_css_minifier,
+    CssMinificationMode, MinifyCss, minify_document_fragment_with_custom_css_minifier,
+    minify_document_with_custom_css_minifier,
     option::{
         CollapseWhitespaces, MinifierType, MinifyCssOption, MinifyJsOption, MinifyJsonOption,
         RemoveRedundantAttributes,
     },
-    CssMinificationMode, MinifyCss,
 };
-use swc_nodejs_common::{deserialize_json, get_deserialized, MapErr};
+use swc_nodejs_common::{MapErr, deserialize_json, get_deserialized};
 
 use crate::{tag_omission::TagOmission, util::try_with};
 
@@ -454,11 +454,11 @@ impl MinifyCss for CssMinifier {
 
                 options.codegen.minify = true;
 
-                let mut gen = swc_css_codegen::CodeGenerator::new(wr, options.codegen);
+                let mut codegen = swc_css_codegen::CodeGenerator::new(wr, options.codegen);
 
                 match mode {
                     CssMinificationMode::Stylesheet => {
-                        swc_css_codegen::Emit::emit(&mut gen, &stylesheet).unwrap();
+                        swc_css_codegen::Emit::emit(&mut codegen, &stylesheet).unwrap();
                     }
                     CssMinificationMode::ListOfDeclarations => {
                         let swc_css_ast::Stylesheet { rules, .. } = &stylesheet;
@@ -471,7 +471,7 @@ impl MinifyCss for CssMinifier {
 
                         let swc_css_ast::QualifiedRule { block, .. } = &**qualified_rule;
 
-                        swc_css_codegen::Emit::emit(&mut gen, &block).unwrap();
+                        swc_css_codegen::Emit::emit(&mut codegen, &block).unwrap();
 
                         minified = minified[1..minified.len() - 1].to_string();
                     }
@@ -485,7 +485,7 @@ impl MinifyCss for CssMinifier {
 
                         let swc_css_ast::AtRule { prelude, .. } = &**at_rule;
 
-                        swc_css_codegen::Emit::emit(&mut gen, &prelude).unwrap();
+                        swc_css_codegen::Emit::emit(&mut codegen, &prelude).unwrap();
 
                         minified = minified.trim().to_string();
                     }
@@ -663,7 +663,7 @@ fn minify_inner(
                         Some(TagOmission::KeepHeadAndBody) => (Some(true), Some(true)),
                         None => (None, None),
                     };
-                    let mut gen = CodeGenerator::new(
+                    let mut codegen = CodeGenerator::new(
                         &mut wr,
                         CodegenConfig {
                             minify: true,
@@ -678,10 +678,10 @@ fn minify_inner(
 
                     match document_or_document_fragment {
                         DocumentOrDocumentFragment::Document(document) => {
-                            gen.emit(&document).context("failed to emit")?;
+                            codegen.emit(&document).context("failed to emit")?;
                         }
                         DocumentOrDocumentFragment::DocumentFragment(document_fragment) => {
-                            gen.emit(&document_fragment).context("failed to emit")?;
+                            codegen.emit(&document_fragment).context("failed to emit")?;
                         }
                     }
                 }

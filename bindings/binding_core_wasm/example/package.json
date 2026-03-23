@@ -4,12 +4,11 @@
     "scripts": {
         "copy-files": "copyfiles ../pkg/* ./pkg",
         "dev-server": "webpack-dev-server",
-        "serve": "run-s copy-files dev-server"
+        "serve": "bun run copy-files && bun run dev-server"
     },
     "devDependencies": {
-        "@types/bun": "^1.3.9",
+        "@types/bun": "catalog:",
         "copyfiles": "^2.4.1",
-        "npm-run-all": "^4.1.5",
         "webpack": "^5.105.3",
         "webpack-cli": "^6.0.1",
         "webpack-dev-server": "^5.2.3"

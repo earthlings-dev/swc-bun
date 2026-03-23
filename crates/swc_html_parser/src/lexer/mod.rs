@@ -969,12 +969,12 @@ where
             self.attributes_validator.clear();
 
             match &current_tag_token {
-                Token::StartTag { ref tag_name, .. } => {
+                Token::StartTag { tag_name, .. } => {
                     self.last_start_tag_name = Some(tag_name.clone());
                 }
                 Token::EndTag {
-                    ref is_self_closing,
-                    ref attributes,
+                    is_self_closing,
+                    attributes,
                     ..
                 } => {
                     if !attributes.is_empty() {

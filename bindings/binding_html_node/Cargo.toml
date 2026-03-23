@@ -38,6 +38,7 @@ swc_html = { workspace = true }
 swc_html_ast = { workspace = true, features = ["serde"] }
 swc_html_minifier = { workspace = true, features = [
   "custom-css-minifier",
+  "default-css-minifier",
 ] }
 swc_nodejs_common = { workspace = true }
 tracing = { workspace = true, features = ["release_max_level_info"] }

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "bun:test";
-import { parseSync } from "../../index.js";
+import { parseSync } from "../../src/index.ts";
 
 describe("parseSync span normalization", () => {
     it("returns 0-based spans for a single parse", () => {

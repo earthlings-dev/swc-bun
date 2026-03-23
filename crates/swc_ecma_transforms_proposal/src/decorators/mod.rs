@@ -21,7 +21,7 @@ mod legacy;
 /// ## Simple class decorator
 ///
 /// ```js
-/// 
+///
 /// @annotation
 /// class MyClass { }
 ///

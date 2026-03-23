@@ -98,7 +98,7 @@ describe("Analysis Plugins", () => {
 
                     if (shouldUsePrebuiltHost) {
                         const { experimental_analyze } = await import(
-                            "../../index.js"
+                            "../../src/index.ts"
                         );
 
                         return await experimental_analyze(code, options);

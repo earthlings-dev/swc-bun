@@ -2,6 +2,9 @@
     "name": "@swc/binding-core-wasm",
     "private": true,
     "devDependencies": {
-        "@types/bun": "^1.3.9"
+        "@types/bun": "catalog:"
+    },
+    "engines": {
+        "bun": ">=1.3.11"
     }
 }
