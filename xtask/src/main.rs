@@ -2,13 +2,14 @@ use anyhow::Result;
 use clap::{Parser, Subcommand};
 use npm::NpmCmd;
 
-use crate::{bench::BenchCmd, clean::CleanCmd, es::EsCmd, git::GitCmd};
+use crate::{bench::BenchCmd, clean::CleanCmd, es::EsCmd, git::GitCmd, sync::SyncCmd};
 
 mod bench;
 mod clean;
 mod es;
 mod git;
 mod npm;
+mod sync;
 mod util;
 
 #[derive(Debug, Parser)]
@@ -24,6 +25,7 @@ enum Cmd {
     Git(GitCmd),
     Npm(NpmCmd),
     Clean(CleanCmd),
+    Sync(SyncCmd),
 }
 
 fn main() -> Result<()> {
@@ -35,5 +37,6 @@ fn main() -> Result<()> {
         Cmd::Git(c) => c.run(),
         Cmd::Npm(c) => c.run(),
         Cmd::Clean(c) => c.run(),
+        Cmd::Sync(c) => c.run(),
     }
 }

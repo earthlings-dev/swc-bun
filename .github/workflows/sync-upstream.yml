@@ -1,0 +1,127 @@
+name: Sync Upstream
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Dry run (sync but don't create PR)"
+        type: boolean
+        default: false
+      extended_verify:
+        description: "Run extended verification (includes tests)"
+        type: boolean
+        default: false
+  schedule:
+    # Every Monday at 06:00 UTC
+    - cron: "0 6 * * 1"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      RUST_BACKTRACE: full
+      RUST_MIN_STACK: "16777216"
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure git
+        run: |
+          git config user.name "swc-bun-bot"
+          git config user.email "bot@swc-bun.dev"
+          git remote add upstream https://github.com/swc-project/swc.git || true
+
+      - name: Check for new upstream commits
+        id: check
+        run: |
+          git fetch upstream main --tags
+          BEHIND=$(git rev-list HEAD..upstream/main --count)
+          echo "behind=$BEHIND" >> "$GITHUB_OUTPUT"
+          echo "Upstream has $BEHIND new commit(s)"
+
+      - name: Skip if up to date
+        if: steps.check.outputs.behind == '0'
+        run: echo "Already up to date with upstream. Nothing to do."
+
+      - name: Install Rust toolchain
+        if: steps.check.outputs.behind != '0'
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+          targets: wasm32-wasip1, wasm32-wasip2
+
+      - name: Rust cache
+        if: steps.check.outputs.behind != '0'
+        uses: Swatinem/rust-cache@v2
+
+      - uses: oven-sh/setup-bun@v2
+        if: steps.check.outputs.behind != '0'
+        with:
+          bun-version: latest
+
+      - name: Run sync pipeline
+        if: steps.check.outputs.behind != '0'
+        run: |
+          ARGS=""
+          if [[ "${{ inputs.extended_verify }}" == "true" ]]; then
+            ARGS="$ARGS --extended-verify"
+          fi
+          bun tools/bun/sync-upstream.ts $ARGS
+
+      - name: Commit sync changes
+        if: steps.check.outputs.behind != '0'
+        run: |
+          git add -A
+          git commit -m "$(cat <<'EOF'
+          chore(workspace): sync upstream and re-apply fork patches
+
+          Merge upstream/main and re-apply fork-specific patches:
+          - Cargo.toml [patch.crates-io] for local sibling repos
+          - Edition 2024 migration (edition, resolver, unsafe patterns)
+          - @swc/* → @swc-bun/* package scope rename
+          - @swc/helpers → @swc-bun/helpers in Rust compiler output
+          - rust-toolchain.toml (stable channel)
+          - Regenerated lockfiles
+          EOF
+          )"
+
+      - name: Push and create PR
+        if: steps.check.outputs.behind != '0' && inputs.dry_run != true
+        run: |
+          BRANCH=$(git branch --show-current)
+          git push -u origin "$BRANCH"
+          BEHIND="${{ steps.check.outputs.behind }}"
+          gh pr create \
+            --title "chore: sync upstream $(date +%Y-%m-%d)" \
+            --body "$(cat <<EOF
+          ## Summary
+          - Merged **$BEHIND** new commit(s) from upstream swc-project/swc
+          - Re-applied all fork-specific patches via \`bun tools/bun/sync-upstream.ts\`
+
+          ## Patches applied
+          - \`cargo xtask sync fix-cargo-workspace\` — resolver, edition, [patch.crates-io]
+          - \`cargo xtask sync fix-edition\` — edition 2024 in all Cargo.toml + clippy --fix
+          - \`bun tools/bun/fix-package-names.ts\` — @swc/* → @swc-bun/*
+          - \`cargo xtask sync fix-rust-refs\` — @swc/helpers → @swc-bun/helpers in Rust source
+          - \`cargo xtask sync fix-toolchain\` — rust-toolchain.toml
+          - \`cargo xtask sync regenerate-lockfiles\` — Cargo.lock + bun.lock
+          - \`cargo xtask sync format-and-lint\` — cargo fmt + clippy --fix
+
+          ## Test plan
+          - [ ] CI passes (cargo check, fmt, clippy)
+          - [ ] Smoke test: \`cargo test -p swc_ecma_parser\`
+          - [ ] Verify \`@swc-bun/core\` builds: \`cd packages/core && bun run build:dev\`
+          EOF
+          )" \
+            --base main \
+            --head "$BRANCH"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
